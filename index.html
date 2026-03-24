@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Gestoría legal en España | Extranjería, sociedades y recursos – Lex Go Trámite</title>
+  <title>Abogados Extranjería España | Regularización y Papeles 2026 | Gestoría legal en España | Extranjería, sociedades y recursos – Lex Go Trámite</title>
   <link rel="canonical" href="https://lexgotramite.com/" />
 
   <!-- SEO básico -->
@@ -345,7 +345,7 @@
   <footer class="bg-slate-950 text-slate-300 py-10">
     <div class="container px-4 text-center">
       <p class="font-serif text-white text-xl sm:text-2xl font-semibold">Lex Go Trámite</p>
-      <p class="text-sm mt-2 text-slate-400">© 2025 Lex Go Trámite — Todos los derechos reservados</p>
+      <p class="text-sm mt-2 text-slate-400">© <span id="current-year"></span> Lex Go Trámite — Todos los derechos reservados</p>
       <p class="text-sm mt-1"><a href="mailto:info@lexgotramite.com" class="hover:underline">info@lexgotramite.com</a></p>
     </div>
   </footer>
@@ -360,5 +360,13 @@
       btn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
     });
   </script>
+
+<script>
+  (function () {
+    var yearEl = document.getElementById('current-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  })();
+</script>
+
 </body>
 </html>
