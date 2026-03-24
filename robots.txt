@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
 Sitemap: https://lexgotramite.com/sitemap.xml
