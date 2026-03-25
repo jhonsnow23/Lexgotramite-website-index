@@ -345,17 +345,7 @@
       <p class="mt-3 text-slate-600 text-center max-w-2xl mx-auto">Elige el día y la hora que mejor te vengan. Confirmación inmediata.</p>
 
       <div class="mt-8 max-w-3xl mx-auto rounded-2xl border border-slate-200 shadow-soft overflow-hidden">
-        <iframe
-          width="100%"
-          height="750"
-          src="https://consultalegal.zohobookings.eu/portal-embed?lang=es#/251279000000044054"
-          title="Reserva de cita - Lex Go Trámite"
-          frameborder="0"
-          allowfullscreen
-          loading="lazy"
-          style="border:0; min-height: 750px;"
-          referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+        
       </div>
 
       <p class="mt-4 text-center text-xs text-slate-500">
@@ -426,5 +416,16 @@
   })();
 </script>
 
+<script src="https://bookings.nimbuspop.com/assets/embed.js"></script>
+<div id="inline-container"></div>
+<script>
+window.onload = function() {
+    Bookings.inlineEmbed({
+        url: "https://consultalegal.zohobookings.eu/portal-embed#/251279000000227006",
+        parent: "#inline-container",
+        height: "600px"
+    });
+};
+</script>
 </body>
 </html>
