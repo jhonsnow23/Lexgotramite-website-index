@@ -385,6 +385,17 @@
           <input id="email" name="email" type="email" required autocomplete="email" class="w-full border border-slate-300 rounded-xl px-3 py-2.5 focus:ring-4 focus:ring-brand-100 focus:border-brand-700" placeholder="sofia.rosales@example.com" />
         </div>
         <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
+        
+        <div class="md:col-span-2">
+          <label class="flex items-start gap-3 text-sm text-slate-700">
+            <input type="checkbox" name="privacy_consent" required class="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-100" />
+            <span>
+              He leído y acepto la <a href="privacidad.html" class="text-brand-700 hover:underline">Política de privacidad</a> y la
+              <a href="proteccion-datos.html" class="text-brand-700 hover:underline">Política de protección de datos</a>.
+            </span>
+          </label>
+        </div>
+
         <div class="md:col-span-2 flex justify-center pt-2">
           <button type="submit" class="inline-flex items-center gap-2 rounded-xl bg-brand-700 px-6 py-3 text-white font-semibold hover:bg-brand-800 focus:outline-none focus:ring-4 focus:ring-brand-100 transition">
             Enviar solicitud
@@ -402,6 +413,17 @@
       <p class="text-sm mt-2 text-slate-400">© <span id="current-year"></span> Lex Go Trámite — Todos los derechos reservados</p>
       <p class="text-sm mt-1"><a href="mailto:info@lexgotramite.com" class="hover:underline">info@lexgotramite.com</a></p>
     </div>
+  
+      <div class="mt-4 text-sm flex flex-wrap items-center justify-center gap-3">
+        <a href="politica-ventas.html" class="hover:underline">Política de ventas y cancelación</a>
+        <span class="text-slate-500">|</span>
+        <a href="privacidad.html" class="hover:underline">Política de privacidad</a>
+        <span class="text-slate-500">|</span>
+        <a href="aviso-legal.html" class="hover:underline">Aviso legal</a>
+        <span class="text-slate-500">|</span>
+        <a href="proteccion-datos.html" class="hover:underline">Protección de datos</a>
+      </div>
+
   </footer>
 
   <!-- JS (defer) -->
@@ -423,5 +445,6 @@
 </script>
 
 
+  <script src="cookies.js"></script>
 </body>
 </html>
