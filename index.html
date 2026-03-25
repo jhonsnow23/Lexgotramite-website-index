@@ -416,16 +416,26 @@
   })();
 </script>
 
-<script src="https://bookings.nimbuspop.com/assets/embed.js"></script>
-<div id="inline-container"></div>
-<script>
-window.onload = function() {
-    Bookings.inlineEmbed({
-        url: "https://consultalegal.zohobookings.eu/portal-embed#/251279000000227006",
-        parent: "#inline-container",
-        height: "600px"
-    });
-};
-</script>
+
+<div style="text-align: center; margin: 40px 0;">
+  <a href="https://consultalegal.zohobookings.eu/portal-embed#/251279000000227006" 
+     target="_blank"
+     style="
+       display: inline-block;
+       background-color: #4338ca;
+       color: white;
+       padding: 14px 28px;
+       border-radius: 10px;
+       text-decoration: none;
+       font-weight: 600;
+       font-size: 16px;
+       transition: background-color 0.3s ease;
+     "
+     onmouseover="this.style.backgroundColor='#3730a3'"
+     onmouseout="this.style.backgroundColor='#4338ca'">
+     Reservar cita
+  </a>
+</div>
+
 </body>
 </html>
