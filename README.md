@@ -18,3 +18,8 @@ GitHub Actions publicará un artículo nuevo cada día y actualizará:
 
 ## Publicación manual
 En GitHub → Actions → `Publicar artículo SEO diario` → `Run workflow`
+
+
+## Extra
+- La home (`index.html`) se actualiza automáticamente para mostrar los últimos artículos del blog.
+- Este paquete ya incluye 4 artículos nuevos publicados para que el bloque Blog no se quede estático.

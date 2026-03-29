@@ -1,6 +1,8 @@
+
 from pathlib import Path
 import json
 import html
+import re
 from datetime import date
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -9,6 +11,7 @@ BLOG_DIR = ROOT / "blog"
 STATE_FILE = ROOT / "publish_state.json"
 SITEMAP_FILE = ROOT / "sitemap.xml"
 BLOG_INDEX_FILE = BLOG_DIR / "index.html"
+HOME_FILE = ROOT / "index.html"
 
 BLOG_DIR.mkdir(exist_ok=True)
 
@@ -21,18 +24,18 @@ def save_state(state):
     STATE_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
 
 def render_article(draft):
-    parts = []
+    sections_html = []
     for section in draft["sections"]:
         if section["type"] == "paragraph":
-            parts.append(f"""
+            sections_html.append(f"""
 <section>
   <h2 class="text-2xl font-bold text-slate-900">{html.escape(section['title'])}</h2>
   <p class="mt-3 text-slate-700">{html.escape(section['content'])}</p>
 </section>
 """)
-        else:
+        elif section["type"] == "list":
             items = "\n".join(f"<li>{html.escape(item)}</li>" for item in section["items"])
-            parts.append(f"""
+            sections_html.append(f"""
 <section>
   <h2 class="text-2xl font-bold text-slate-900">{html.escape(section['title'])}</h2>
   <ul class="mt-3 list-disc pl-6 space-y-2 text-slate-700">
@@ -61,7 +64,7 @@ def render_article(draft):
     <h1 class="mt-2 text-4xl md:text-5xl font-bold text-slate-900">{html.escape(draft['title'])}</h1>
     <p class="mt-5 text-lg text-slate-600">{html.escape(draft['intro'])}</p>
     <div class="mt-10 space-y-10">
-      {''.join(parts)}
+      {''.join(sections_html)}
     </div>
     <div class="mt-12 rounded-2xl bg-slate-50 border border-slate-200 p-6">
       <h2 class="text-2xl font-bold text-slate-900">¿Necesitas ayuda con tu caso?</h2>
@@ -77,6 +80,16 @@ def render_article(draft):
 </body>
 </html>
 """
+
+def extract_title_desc_date(article_path: Path):
+    content = article_path.read_text(encoding="utf-8")
+    title_match = re.search(r"<title>(.*?)\s*\|\s*Lex Go Trámite</title>", content, re.S)
+    desc_match = re.search(r'<meta name="description" content="(.*?)"', content, re.S)
+    date_match = re.search(r'<p class="(?:mt-6 )?text-sm text-slate-500">(.*?)</p>', content, re.S)
+    title = html.unescape(title_match.group(1).strip()) if title_match else article_path.stem.replace("-", " ").title()
+    desc = html.unescape(desc_match.group(1).strip()) if desc_match else f"Guía práctica sobre {article_path.stem.replace('-', ' ')}."
+    date_text = html.unescape(date_match.group(1).strip()) if date_match else "Extranjería • Marzo 2026"
+    return title, desc, date_text
 
 def update_sitemap(url):
     if not SITEMAP_FILE.exists():
@@ -94,21 +107,21 @@ def update_sitemap(url):
     content = content.replace("</urlset>", entry + "\n</urlset>")
     SITEMAP_FILE.write_text(content, encoding="utf-8")
 
+def list_blog_articles():
+    return sorted([p for p in BLOG_DIR.glob("*.html") if p.name != "index.html"], key=lambda p: p.name)
+
 def update_blog_index():
     cards = []
-    for article_file in sorted(BLOG_DIR.glob("*.html")):
-        if article_file.name == "index.html":
-            continue
-        name = article_file.stem.replace("-", " ")
-        title = name.title()
-        cards.append(f'''
+    for article_file in list_blog_articles():
+        title, desc, _ = extract_title_desc_date(article_file)
+        cards.append(f"""
         <article class="bg-white border border-slate-200 rounded-2xl p-6 shadow-soft">
           <h2 class="text-xl font-semibold text-slate-900">
             <a href="/blog/{article_file.name}" class="hover:text-indigo-700">{html.escape(title)}</a>
           </h2>
-          <p class="mt-3 text-slate-600">Guía práctica sobre {html.escape(name)}.</p>
+          <p class="mt-3 text-slate-600">{html.escape(desc)}</p>
         </article>
-''')
+""")
     page = f"""<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -133,7 +146,54 @@ def update_blog_index():
 """
     BLOG_INDEX_FILE.write_text(page, encoding="utf-8")
 
-def main():
+def update_home_blog_section():
+    if not HOME_FILE.exists():
+        return
+    home = HOME_FILE.read_text(encoding="utf-8")
+    latest = sorted(list_blog_articles(), key=lambda p: p.name)[-8:]
+    cards = []
+    for article_file in latest:
+        title, desc, date_text = extract_title_desc_date(article_file)
+        cards.append(f"""
+        <article class="bg-white border border-slate-200 rounded-3xl shadow-soft overflow-hidden">
+          <div class="p-6 sm:p-8">
+            <p class="text-sm text-slate-500">{html.escape(date_text)}</p>
+            <h3 class="mt-2 text-2xl font-serif font-bold text-slate-900">
+              <a href="/blog/{article_file.name}" class="hover:text-brand-700">
+                {html.escape(title)}
+              </a>
+            </h3>
+            <p class="mt-4 text-slate-600 text-base sm:text-lg">
+              {html.escape(desc)}
+            </p>
+            <div class="mt-6">
+              <a href="/blog/{article_file.name}"
+                 class="inline-flex items-center justify-center rounded-xl bg-brand-700 px-5 py-3 text-white font-semibold hover:bg-brand-800 transition">
+                Leer artículo
+              </a>
+            </div>
+          </div>
+        </article>
+""")
+    replacement = f"""<!-- Blog -->
+  <section id="blog" class="py-16 sm:py-20 bg-slate-50">
+    <div class="container px-4">
+      <div class="text-center max-w-3xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-serif font-bold text-slate-900">Blog</h2>
+        <p class="mt-3 text-slate-600 text-base sm:text-lg">
+          Guías claras sobre regularización, papeles y trámites de extranjería en España.
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-6 md:grid-cols-2">
+        {''.join(cards)}
+      </div>
+    </div>
+  </section>"""
+    home = re.sub(r'<!-- Blog -->[\s\S]*?<!-- Cita \(Zoho Bookings\) -->', replacement + "\n\n  <!-- Cita (Zoho Bookings) -->", home, count=1)
+    HOME_FILE.write_text(home, encoding="utf-8")
+
+def publish_next():
     state = load_state()
     published = set(state.get("published", []))
     drafts = sorted(DRAFTS_DIR.glob("*.json"))
@@ -148,11 +208,15 @@ def main():
     draft = json.loads(next_draft.read_text(encoding="utf-8"))
     (BLOG_DIR / f"{draft['slug']}.html").write_text(render_article(draft), encoding="utf-8")
     update_sitemap(f"https://lexgotramite.com/blog/{draft['slug']}.html")
-    update_blog_index()
     published.add(next_draft.stem)
     state["published"] = sorted(published)
     save_state(state)
     print(f"Publicado: {draft['slug']}")
+
+def main():
+    publish_next()
+    update_blog_index()
+    update_home_blog_section()
 
 if __name__ == "__main__":
     main()
