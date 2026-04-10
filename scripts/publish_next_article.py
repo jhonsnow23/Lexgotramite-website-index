@@ -146,6 +146,13 @@ def render_article(draft, published_at: str):
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://lexgotramite.com/blog/{html.escape(draft['slug'])}.html" />
   <meta property="article:published_time" content="{published_at}" />
+  <meta property="og:image" content="https://lexgotramite.com/og-image.png" />
+  <meta name="twitter:image" content="https://lexgotramite.com/og-image.png" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-white text-slate-800 font-sans antialiased">
@@ -256,6 +263,13 @@ def update_blog_index():
   <title>Blog de extranjería | Lex Go Trámite</title>
   <meta name="description" content="Guías prácticas sobre papeles en España, residencia, arraigo social, NIE y homologaciones." />
   <meta name="theme-color" content="#1e1b4b" />
+  <meta property="og:image" content="https://lexgotramite.com/og-image.png" />
+  <meta name="twitter:image" content="https://lexgotramite.com/og-image.png" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {{
