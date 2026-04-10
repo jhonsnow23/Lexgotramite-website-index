@@ -233,12 +233,14 @@ def list_blog_articles_for_display(state=None):
 
 def update_blog_index():
     state = load_state()
+    articles = list_blog_articles_for_display(state)
+    total_articles = len(articles)
     cards = []
-    for article_file in list_blog_articles_for_display(state):
+    for article_file in articles:
         title, desc, display_date, _ = extract_title_desc_date(article_file)
         date_line = f'<p class="mt-2 text-sm text-slate-500">{html.escape(display_date)}</p>' if display_date else ""
         cards.append(f"""
-        <article class="bg-white border border-slate-200 rounded-2xl p-6 shadow-soft">
+        <article class="bg-white border border-slate-200 rounded-2xl p-6 shadow-soft hover:-translate-y-0.5 transition">
           <h2 class="text-xl font-semibold text-slate-900">
             <a href="/blog/{article_file.name}" class="hover:text-indigo-700">{html.escape(title)}</a>
           </h2>
@@ -253,13 +255,30 @@ def update_blog_index():
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Blog de extranjería | Lex Go Trámite</title>
   <meta name="description" content="Guías prácticas sobre papeles en España, residencia, arraigo social, NIE y homologaciones." />
+  <meta name="theme-color" content="#1e1b4b" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {{
+      theme: {{
+        extend: {{
+          colors: {{ brand: {{ 600:'#4f46e5',700:'#4338ca',800:'#3730a3',900:'#1e1b4b' }} }},
+          boxShadow: {{ soft:'0 10px 30px rgba(15,23,42,.12)' }}
+        }}
+      }}
+    }}
+  </script>
 </head>
-<body class="bg-white text-slate-800 font-sans antialiased">
-  <main class="max-w-6xl mx-auto px-4 py-12 sm:py-16">
-    <a href="/index.html" class="text-indigo-700 hover:underline">← Volver a la página principal</a>
-    <h1 class="mt-6 text-4xl font-bold text-slate-900">Blog de extranjería</h1>
-    <p class="mt-4 text-slate-600">Contenido pensado para extranjeros que quieren vivir, trabajar o estudiar legalmente en España.</p>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+  <main class="max-w-6xl mx-auto px-4 py-10 sm:py-14">
+    <a href="/index.html" class="inline-flex items-center text-indigo-700 hover:underline">← Volver a la página principal</a>
+    <section class="mt-6 rounded-3xl bg-gradient-to-br from-slate-900 via-brand-800 to-brand-600 text-white shadow-soft overflow-hidden">
+      <div class="px-6 py-10 sm:px-10 sm:py-12">
+        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">Lex Go Trámite</p>
+        <h1 class="mt-3 text-4xl sm:text-5xl font-bold">Blog de extranjería</h1>
+        <p class="mt-4 max-w-3xl text-white/80 text-base sm:text-lg">Contenido pensado para extranjeros que quieren vivir, trabajar o estudiar legalmente en España. Aquí tienes todos los artículos publicados, ordenados de más reciente a más antiguo.</p>
+        <div class="mt-6 inline-flex items-center rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white/90 ring-1 ring-white/20">{total_articles} artículos publicados</div>
+      </div>
+    </section>
     <div class="mt-10 grid gap-6 md:grid-cols-2">
       {''.join(cards)}
     </div>
@@ -276,7 +295,9 @@ def update_home_blog_section():
         return
     home = HOME_FILE.read_text(encoding="utf-8")
     state = load_state()
-    latest = list_blog_articles_for_display(state)[:8]
+    all_articles = list_blog_articles_for_display(state)
+    latest = all_articles[:8]
+    total_articles = len(all_articles)
     cards = []
     for article_file in latest:
         title, desc, display_date, _ = extract_title_desc_date(article_file)
@@ -314,6 +335,13 @@ def update_home_blog_section():
 
       <div class="mt-10 grid gap-6 md:grid-cols-2">
         {''.join(cards)}
+      </div>
+
+      <div class="mt-10 flex justify-center">
+        <a href="/blog/" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-6 py-3 text-white font-semibold shadow-soft hover:bg-brand-700 transition">
+          Ver todos los {total_articles} artículos
+          <span aria-hidden="true">→</span>
+        </a>
       </div>
     </div>
   </section>"""
@@ -376,6 +404,7 @@ def main():
     republish_existing_articles_with_real_dates()
     update_blog_index()
     update_home_blog_section()
+
 
 if __name__ == "__main__":
     main()
