@@ -108,11 +108,32 @@ def update_sitemap(url):
     SITEMAP_FILE.write_text(content, encoding="utf-8")
 
 def list_blog_articles():
-    return sorted([p for p in BLOG_DIR.glob("*.html") if p.name != "index.html"], key=lambda p: p.name)
+    return [p for p in BLOG_DIR.glob("*.html") if p.name != "index.html"]
+
+
+def list_blog_articles_for_display(state=None):
+    articles = list_blog_articles()
+    published_order = []
+    if state is None:
+        state = load_state()
+    published_order = state.get("published", [])
+    order_map = {slug: idx for idx, slug in enumerate(published_order)}
+
+    def sort_key(path: Path):
+        slug = path.stem
+        if slug in order_map:
+            return (1, order_map[slug])
+        try:
+            return (0, path.stat().st_mtime)
+        except FileNotFoundError:
+            return (0, 0)
+
+    return sorted(articles, key=sort_key, reverse=True)
 
 def update_blog_index():
+    state = load_state()
     cards = []
-    for article_file in list_blog_articles():
+    for article_file in list_blog_articles_for_display(state):
         title, desc, _ = extract_title_desc_date(article_file)
         cards.append(f"""
         <article class="bg-white border border-slate-200 rounded-2xl p-6 shadow-soft">
@@ -150,7 +171,8 @@ def update_home_blog_section():
     if not HOME_FILE.exists():
         return
     home = HOME_FILE.read_text(encoding="utf-8")
-    latest = sorted(list_blog_articles(), key=lambda p: p.name)[-8:]
+    state = load_state()
+    latest = list_blog_articles_for_display(state)[:8]
     cards = []
     for article_file in latest:
         title, desc, date_text = extract_title_desc_date(article_file)
