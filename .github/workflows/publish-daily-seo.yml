@@ -11,6 +11,12 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
+      GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
+      GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
+      GSC_SITE_URL: ${{ secrets.GSC_SITE_URL }}
+      GSC_SITEMAP_URL: ${{ secrets.GSC_SITEMAP_URL }}
     steps:
       - name: Checkout del repo
         uses: actions/checkout@v4
@@ -24,13 +30,7 @@ jobs:
         run: python scripts/publish_next_article.py
 
       - name: Enviar sitemap a Search Console e inspeccionar la última URL
-        if: ${{ secrets.GSC_CLIENT_ID != '' && secrets.GSC_CLIENT_SECRET != '' && secrets.GSC_REFRESH_TOKEN != '' && secrets.GSC_SITE_URL != '' && secrets.GSC_SITEMAP_URL != '' }}
-        env:
-          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
-          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
-          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
-          GSC_SITE_URL: ${{ secrets.GSC_SITE_URL }}
-          GSC_SITEMAP_URL: ${{ secrets.GSC_SITEMAP_URL }}
+        if: ${{ env.GSC_CLIENT_ID != '' && env.GSC_CLIENT_SECRET != '' && env.GSC_REFRESH_TOKEN != '' && env.GSC_SITE_URL != '' && env.GSC_SITEMAP_URL != '' }}
         run: python scripts/google_search_console_notify.py
 
       - name: Commit y push si hay cambios
