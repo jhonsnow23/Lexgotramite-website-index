@@ -1,9 +1,9 @@
-
 from pathlib import Path
 import json
 import html
 import re
-from datetime import date
+from datetime import date, datetime
+from xml.etree import ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 DRAFTS_DIR = ROOT / "drafts"
@@ -15,15 +15,104 @@ HOME_FILE = ROOT / "index.html"
 
 BLOG_DIR.mkdir(exist_ok=True)
 
+SPANISH_MONTHS = {
+    1: "enero", 2: "febrero", 3: "marzo", 4: "abril", 5: "mayo", 6: "junio",
+    7: "julio", 8: "agosto", 9: "septiembre", 10: "octubre", 11: "noviembre", 12: "diciembre"
+}
+
+
+def format_date_es(iso_date: str) -> str:
+    try:
+        dt = datetime.strptime(iso_date, "%Y-%m-%d").date()
+        return f"{dt.day} {SPANISH_MONTHS[dt.month]} {dt.year}"
+    except Exception:
+        return iso_date
+
+
+def parse_display_date_to_iso(text: str):
+    if not text:
+        return None
+    text = html.unescape(text).strip()
+    m = re.search(r"(\d{4}-\d{2}-\d{2})", text)
+    if m:
+        return m.group(1)
+    return None
+
+
+def sitemap_lastmods():
+    if not SITEMAP_FILE.exists():
+        return {}
+    try:
+        root = ET.fromstring(SITEMAP_FILE.read_text(encoding="utf-8"))
+    except ET.ParseError:
+        return {}
+    ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+    lastmods = {}
+    for url in root.findall("sm:url", ns):
+        loc = url.findtext("sm:loc", default="", namespaces=ns).strip()
+        lastmod = url.findtext("sm:lastmod", default="", namespaces=ns).strip()
+        if not loc or not lastmod:
+            continue
+        slug = Path(loc).stem
+        if slug and slug != "index":
+            lastmods[slug] = lastmod
+    return lastmods
+
+
+def normalize_state(raw_state):
+    if not isinstance(raw_state, dict):
+        raw_state = {}
+
+    published_dates = raw_state.get("published_dates", {})
+    if not isinstance(published_dates, dict):
+        published_dates = {}
+
+    raw_published = raw_state.get("published", [])
+    published_order = []
+
+    if isinstance(raw_published, list):
+        for item in raw_published:
+            if isinstance(item, str):
+                published_order.append(item)
+            elif isinstance(item, dict):
+                slug = item.get("slug")
+                if slug:
+                    published_order.append(slug)
+                    if item.get("published_at"):
+                        published_dates.setdefault(slug, item["published_at"])
+
+    deduped_order = []
+    seen = set()
+    for slug in published_order:
+        if slug not in seen:
+            deduped_order.append(slug)
+            seen.add(slug)
+
+    state = {
+        "published": deduped_order,
+        "published_dates": published_dates,
+        "last_published": raw_state.get("last_published"),
+    }
+
+    sitemap_dates = sitemap_lastmods()
+    for slug in deduped_order:
+        if slug not in state["published_dates"] and slug in sitemap_dates:
+            state["published_dates"][slug] = sitemap_dates[slug]
+
+    return state
+
+
 def load_state():
     if STATE_FILE.exists():
-        return json.loads(STATE_FILE.read_text(encoding="utf-8"))
-    return {"published": []}
+        return normalize_state(json.loads(STATE_FILE.read_text(encoding="utf-8")))
+    return normalize_state({"published": []})
+
 
 def save_state(state):
     STATE_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
 
-def render_article(draft):
+
+def render_article(draft, published_at: str):
     sections_html = []
     for section in draft["sections"]:
         if section["type"] == "paragraph":
@@ -43,6 +132,7 @@ def render_article(draft):
   </ul>
 </section>
 """)
+    display_date = format_date_es(published_at)
     return f"""<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -55,12 +145,13 @@ def render_article(draft):
   <meta property="og:description" content="{html.escape(draft['description'])}" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://lexgotramite.com/blog/{html.escape(draft['slug'])}.html" />
+  <meta property="article:published_time" content="{published_at}" />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-white text-slate-800 font-sans antialiased">
   <main class="max-w-4xl mx-auto px-4 py-12 sm:py-16">
     <a href="/index.html" class="text-indigo-700 hover:underline">← Volver a la página principal</a>
-    <p class="mt-6 text-sm text-slate-500">{html.escape(draft.get('category','Extranjería'))} • {html.escape(draft.get('date', str(date.today())))}</p>
+    <p class="mt-6 text-sm text-slate-500">{html.escape(draft.get('category','Extranjería'))} • {html.escape(display_date)}</p>
     <h1 class="mt-2 text-4xl md:text-5xl font-bold text-slate-900">{html.escape(draft['title'])}</h1>
     <p class="mt-5 text-lg text-slate-600">{html.escape(draft['intro'])}</p>
     <div class="mt-10 space-y-10">
@@ -81,31 +172,40 @@ def render_article(draft):
 </html>
 """
 
+
 def extract_title_desc_date(article_path: Path):
     content = article_path.read_text(encoding="utf-8")
     title_match = re.search(r"<title>(.*?)\s*\|\s*Lex Go Trámite</title>", content, re.S)
     desc_match = re.search(r'<meta name="description" content="(.*?)"', content, re.S)
-    date_match = re.search(r'<p class="(?:mt-6 )?text-sm text-slate-500">(.*?)</p>', content, re.S)
+    date_match = re.search(r'<meta property="article:published_time" content="(.*?)"', content, re.S)
+    if not date_match:
+        date_match = re.search(r'<p class="mt-6 text-sm text-slate-500">.*?•\s*(.*?)</p>', content, re.S)
     title = html.unescape(title_match.group(1).strip()) if title_match else article_path.stem.replace("-", " ").title()
     desc = html.unescape(desc_match.group(1).strip()) if desc_match else f"Guía práctica sobre {article_path.stem.replace('-', ' ')}."
-    date_text = html.unescape(date_match.group(1).strip()) if date_match else "Extranjería • Marzo 2026"
-    return title, desc, date_text
+    raw_date = html.unescape(date_match.group(1).strip()) if date_match else ""
+    iso_date = parse_display_date_to_iso(raw_date) or raw_date
+    display_date = format_date_es(iso_date) if iso_date else ""
+    return title, desc, display_date, iso_date
 
-def update_sitemap(url):
+
+def update_sitemap(url, published_at):
     if not SITEMAP_FILE.exists():
         SITEMAP_FILE.write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>', encoding="utf-8")
     content = SITEMAP_FILE.read_text(encoding="utf-8")
-    if url in content:
-        return
+    entry_pattern = re.compile(rf"<url>\s*<loc>{re.escape(url)}</loc>[\s\S]*?</url>", re.S)
     entry = f"""
   <url>
     <loc>{url}</loc>
-    <lastmod>{date.today().isoformat()}</lastmod>
+    <lastmod>{published_at}</lastmod>
     <priority>0.8</priority>
   </url>
 """
-    content = content.replace("</urlset>", entry + "\n</urlset>")
+    if url in content:
+        content = entry_pattern.sub(entry.strip(), content)
+    else:
+        content = content.replace("</urlset>", entry + "\n</urlset>")
     SITEMAP_FILE.write_text(content, encoding="utf-8")
+
 
 def list_blog_articles():
     return [p for p in BLOG_DIR.glob("*.html") if p.name != "index.html"]
@@ -113,7 +213,6 @@ def list_blog_articles():
 
 def list_blog_articles_for_display(state=None):
     articles = list_blog_articles()
-    published_order = []
     if state is None:
         state = load_state()
     published_order = state.get("published", [])
@@ -121,25 +220,29 @@ def list_blog_articles_for_display(state=None):
 
     def sort_key(path: Path):
         slug = path.stem
+        iso_date = state.get("published_dates", {}).get(slug, "")
         if slug in order_map:
-            return (1, order_map[slug])
+            return (1, iso_date or "0000-00-00", order_map[slug])
         try:
-            return (0, path.stat().st_mtime)
+            return (0, datetime.fromtimestamp(path.stat().st_mtime).strftime("%Y-%m-%d"), 0)
         except FileNotFoundError:
-            return (0, 0)
+            return (0, "0000-00-00", 0)
 
     return sorted(articles, key=sort_key, reverse=True)
+
 
 def update_blog_index():
     state = load_state()
     cards = []
     for article_file in list_blog_articles_for_display(state):
-        title, desc, _ = extract_title_desc_date(article_file)
+        title, desc, display_date, _ = extract_title_desc_date(article_file)
+        date_line = f'<p class="mt-2 text-sm text-slate-500">{html.escape(display_date)}</p>' if display_date else ""
         cards.append(f"""
         <article class="bg-white border border-slate-200 rounded-2xl p-6 shadow-soft">
           <h2 class="text-xl font-semibold text-slate-900">
             <a href="/blog/{article_file.name}" class="hover:text-indigo-700">{html.escape(title)}</a>
           </h2>
+          {date_line}
           <p class="mt-3 text-slate-600">{html.escape(desc)}</p>
         </article>
 """)
@@ -167,6 +270,7 @@ def update_blog_index():
 """
     BLOG_INDEX_FILE.write_text(page, encoding="utf-8")
 
+
 def update_home_blog_section():
     if not HOME_FILE.exists():
         return
@@ -175,11 +279,12 @@ def update_home_blog_section():
     latest = list_blog_articles_for_display(state)[:8]
     cards = []
     for article_file in latest:
-        title, desc, date_text = extract_title_desc_date(article_file)
+        title, desc, display_date, _ = extract_title_desc_date(article_file)
+        meta_line = f"Extranjería • {display_date}" if display_date else "Extranjería"
         cards.append(f"""
         <article class="bg-white border border-slate-200 rounded-3xl shadow-soft overflow-hidden">
           <div class="p-6 sm:p-8">
-            <p class="text-sm text-slate-500">{html.escape(date_text)}</p>
+            <p class="text-sm text-slate-500">{html.escape(meta_line)}</p>
             <h3 class="mt-2 text-2xl font-serif font-bold text-slate-900">
               <a href="/blog/{article_file.name}" class="hover:text-brand-700">
                 {html.escape(title)}
@@ -215,6 +320,27 @@ def update_home_blog_section():
     home = re.sub(r'<!-- Blog -->[\s\S]*?<!-- Cita \(Zoho Bookings\) -->', replacement + "\n\n  <!-- Cita (Zoho Bookings) -->", home, count=1)
     HOME_FILE.write_text(home, encoding="utf-8")
 
+
+def republish_existing_articles_with_real_dates():
+    state = load_state()
+    changed = False
+    for article_file in list_blog_articles():
+        slug = article_file.stem
+        draft_file = DRAFTS_DIR / f"{slug}.json"
+        if not draft_file.exists():
+            continue
+        published_at = state.get("published_dates", {}).get(slug)
+        if not published_at:
+            _, _, _, extracted_iso = extract_title_desc_date(article_file)
+            published_at = extracted_iso or date.today().isoformat()
+            state.setdefault("published_dates", {})[slug] = published_at
+            changed = True
+        draft = json.loads(draft_file.read_text(encoding="utf-8"))
+        article_file.write_text(render_article(draft, published_at), encoding="utf-8")
+    if changed:
+        save_state(state)
+
+
 def publish_next():
     state = load_state()
     published = set(state.get("published", []))
@@ -226,17 +352,28 @@ def publish_next():
             break
     if next_draft is None:
         print("No hay más artículos pendientes.")
+        state["last_published"] = None
+        save_state(state)
         return
     draft = json.loads(next_draft.read_text(encoding="utf-8"))
-    (BLOG_DIR / f"{draft['slug']}.html").write_text(render_article(draft), encoding="utf-8")
-    update_sitemap(f"https://lexgotramite.com/blog/{draft['slug']}.html")
-    published.add(next_draft.stem)
-    state["published"] = sorted(published)
+    published_at = date.today().isoformat()
+    (BLOG_DIR / f"{draft['slug']}.html").write_text(render_article(draft, published_at), encoding="utf-8")
+    update_sitemap(f"https://lexgotramite.com/blog/{draft['slug']}.html", published_at)
+    state.setdefault("published_dates", {})[next_draft.stem] = published_at
+    state["published"] = [slug for slug in state.get("published", []) if slug != next_draft.stem] + [next_draft.stem]
+    state["last_published"] = {
+        "slug": draft["slug"],
+        "url": f"https://lexgotramite.com/blog/{draft['slug']}.html",
+        "published_at": published_at,
+        "title": draft.get("title", draft["slug"]),
+    }
     save_state(state)
     print(f"Publicado: {draft['slug']}")
 
+
 def main():
     publish_next()
+    republish_existing_articles_with_real_dates()
     update_blog_index()
     update_home_blog_section()
 
