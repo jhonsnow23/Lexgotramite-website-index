@@ -1,8 +1,8 @@
-name: Publicar artículo SEO diario
+name: Publicar blog automático
 
 on:
   schedule:
-    - cron: "15 8 * * *"
+    - cron: '0 8 * * *'
   workflow_dispatch:
 
 permissions:
@@ -11,32 +11,45 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+
     env:
       GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
       GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
       GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
       GSC_SITE_URL: ${{ secrets.GSC_SITE_URL }}
       GSC_SITEMAP_URL: ${{ secrets.GSC_SITEMAP_URL }}
+
     steps:
-      - name: Checkout del repo
+      - name: Clonar repositorio
         uses: actions/checkout@v4
 
       - name: Configurar Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.11'
 
-      - name: Publicar siguiente artículo y regenerar índices
+      - name: Instalar dependencias
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+
+      - name: Publicar siguiente artículo
         run: python scripts/publish_next_article.py
 
-      - name: Enviar sitemap a Search Console e inspeccionar la última URL
+      - name: Notificar Search Console e inspeccionar URL
         if: ${{ env.GSC_CLIENT_ID != '' && env.GSC_CLIENT_SECRET != '' && env.GSC_REFRESH_TOKEN != '' && env.GSC_SITE_URL != '' && env.GSC_SITEMAP_URL != '' }}
         run: python scripts/google_search_console_notify.py
 
-      - name: Commit y push si hay cambios
+      - name: Commit y push de cambios
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
-          git diff --cached --quiet || git commit -m "Publica siguiente artículo SEO"
-          git push
+
+          if git diff --cached --quiet; then
+            echo "No hay cambios para guardar"
+          else
+            git commit -m "Auto publish blog"
+            git push
+          fi
