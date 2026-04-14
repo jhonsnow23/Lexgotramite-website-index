@@ -19,7 +19,8 @@
     "nueva-ley-de-extranjeria-espana",
     "papeles-en-espana-sin-contrato",
     "papeles-espana-2026",
-    "que-es-el-arraigo-social"
+    "que-es-el-arraigo-social",
+    "que-pasa-si-estoy-irregular-en-espana"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -41,12 +42,13 @@
     "nueva-ley-de-extranjeria-espana": "2026-04-10",
     "papeles-en-espana-sin-contrato": "2026-04-11",
     "papeles-espana-2026": "2026-04-12",
-    "que-es-el-arraigo-social": "2026-04-13"
+    "que-es-el-arraigo-social": "2026-04-13",
+    "que-pasa-si-estoy-irregular-en-espana": "2026-04-14"
   },
   "last_published": {
-    "slug": "que-es-el-arraigo-social",
-    "url": "https://lexgotramite.com/blog/que-es-el-arraigo-social.html",
-    "published_at": "2026-04-13",
-    "title": "Qué es el arraigo social en España"
+    "slug": "que-pasa-si-estoy-irregular-en-espana",
+    "url": "https://lexgotramite.com/blog/que-pasa-si-estoy-irregular-en-espana.html",
+    "published_at": "2026-04-14",
+    "title": "Qué pasa si estoy irregular en España"
   }
 }
