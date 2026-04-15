@@ -386,31 +386,52 @@ def republish_existing_articles_with_real_dates():
 def publish_next():
     state = load_state()
     published = set(state.get("published", []))
-    drafts = sorted(DRAFTS_DIR.glob("*.json"))
+    queue = state.get("draft_queue", []) if isinstance(state.get("draft_queue"), list) else []
+
     next_draft = None
-    for draft_file in drafts:
-        if draft_file.stem not in published:
-            next_draft = draft_file
-            break
+    if queue:
+        while queue:
+            candidate_slug = queue[0]
+            candidate_file = DRAFTS_DIR / f"{candidate_slug}.json"
+            if candidate_slug in published:
+                queue.pop(0)
+                continue
+            if candidate_file.exists():
+                next_draft = candidate_file
+                break
+            queue.pop(0)
+        state["draft_queue"] = queue
+
+    if next_draft is None:
+        drafts = sorted(DRAFTS_DIR.glob("*.json"))
+        for draft_file in drafts:
+            if draft_file.stem not in published:
+                next_draft = draft_file
+                break
+
     if next_draft is None:
         print("No hay más artículos pendientes.")
         state["last_published"] = None
         save_state(state)
         return
+
     draft = json.loads(next_draft.read_text(encoding="utf-8"))
     published_at = date.today().isoformat()
-    (BLOG_DIR / f"{draft['slug']}.html").write_text(render_article(draft, published_at), encoding="utf-8")
-    update_sitemap(f"https://lexgotramite.com/blog/{draft['slug']}.html", published_at)
-    state.setdefault("published_dates", {})[next_draft.stem] = published_at
-    state["published"] = [slug for slug in state.get("published", []) if slug != next_draft.stem] + [next_draft.stem]
+    slug = draft["slug"]
+    (BLOG_DIR / f"{slug}.html").write_text(render_article(draft, published_at), encoding="utf-8")
+    update_sitemap(f"https://lexgotramite.com/blog/{slug}.html", published_at)
+    state.setdefault("published_dates", {})[slug] = published_at
+    state["published"] = [item for item in state.get("published", []) if item != slug] + [slug]
+    if state.get("draft_queue") and state["draft_queue"] and state["draft_queue"][0] == slug:
+        state["draft_queue"].pop(0)
     state["last_published"] = {
-        "slug": draft["slug"],
-        "url": f"https://lexgotramite.com/blog/{draft['slug']}.html",
+        "slug": slug,
+        "url": f"https://lexgotramite.com/blog/{slug}.html",
         "published_at": published_at,
-        "title": draft.get("title", draft["slug"]),
+        "title": draft.get("title", slug),
     }
     save_state(state)
-    print(f"Publicado: {draft['slug']}")
+    print(f"Publicado: {slug}")
 
 
 def main():
