@@ -88,10 +88,20 @@ def normalize_state(raw_state):
             deduped_order.append(slug)
             seen.add(slug)
 
+    raw_queue = raw_state.get("draft_queue", [])
+    draft_queue = []
+    queued_seen = set()
+    if isinstance(raw_queue, list):
+        for slug in raw_queue:
+            if isinstance(slug, str) and slug not in seen and slug not in queued_seen:
+                draft_queue.append(slug)
+                queued_seen.add(slug)
+
     state = {
         "published": deduped_order,
         "published_dates": published_dates,
         "last_published": raw_state.get("last_published"),
+        "draft_queue": draft_queue,
     }
 
     sitemap_dates = sitemap_lastmods()
@@ -359,7 +369,9 @@ def update_home_blog_section():
       </div>
     </div>
   </section>"""
-    home = re.sub(r'<!-- Blog -->[\s\S]*?<!-- Cita \(Zoho Bookings\) -->', replacement + "\n\n  <!-- Cita (Zoho Bookings) -->", home, count=1)
+    home, replacements = re.subn(r'<!-- Blog -->[\s\S]*?<!-- Cita \(Zoho Bookings\) -->', replacement + "\n\n  <!-- Cita (Zoho Bookings) -->", home, count=1)
+    if replacements != 1:
+        raise RuntimeError("No se pudo regenerar la sección de blog de la home: faltan los marcadores HTML esperados.")
     HOME_FILE.write_text(home, encoding="utf-8")
 
 
