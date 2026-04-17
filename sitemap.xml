@@ -1,182 +1,223 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://lexgotramite.com/</loc>
-    <lastmod>2026-03-24</lastmod>
-    <priority>1.0</priority>
-  </url>
-
-  <url>
-    <loc>https://lexgotramite.com/blog/regularizacion-masiva-marzo-2026.html</loc>
-    <lastmod>2026-03-24</lastmod>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://lexgotramite.com/blog/requisitos-regularizacion-espana-2026.html</loc>
-    <lastmod>2026-04-16</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://lexgotramite.com/blog/documentos-para-conseguir-papeles-espana.html</loc>
-    <lastmod>2026-03-24</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://lexgotramite.com/blog/cuanto-tarda-la-regularizacion-en-espana.html</loc>
-    <lastmod>2026-03-24</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/abogado-extranjeria-espana.html</loc>
-    <lastmod>2026-03-30</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/ayuda-papeles-espana.html</loc>
-    <lastmod>2026-03-30</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/cambios-extranjeria-2026.html</loc>
-    <lastmod>2026-03-30</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/como-demostrar-permanencia-en-espana.html</loc>
-    <lastmod>2026-03-30</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/como-empadronarse-en-espana.html</loc>
-    <lastmod>2026-03-29</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/como-regularizarse-en-espana.html</loc>
-    <lastmod>2026-03-30</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/contrato-para-arraigo-social.html</loc>
-    <lastmod>2026-03-31</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/cuanto-cuesta-la-residencia-en-espana.html</loc>
-    <lastmod>2026-04-01</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/cuanto-tarda-homologacion-titulo.html</loc>
-    <lastmod>2026-04-02</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/cuanto-tarda-la-residencia-en-espana.html</loc>
-    <lastmod>2026-04-03</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/diferencia-entre-nie-y-residencia.html</loc>
-    <lastmod>2026-04-04</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/documentos-para-residencia-en-espana.html</loc>
-    <lastmod>2026-04-05</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/gestor-extranjeria-espana.html</loc>
-    <lastmod>2026-04-06</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/homologar-titulo-en-espana.html</loc>
-    <lastmod>2026-04-07</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/informe-de-arraigo-social.html</loc>
-    <lastmod>2026-04-08</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/nie-espana-como-conseguirlo.html</loc>
-    <lastmod>2026-04-09</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/nueva-ley-de-extranjeria-espana.html</loc>
-    <lastmod>2026-04-10</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://lexgotramite.com/regularizacion-extraordinaria-abril-2026.html</loc>
-    <lastmod>2026-04-14</lastmod>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://lexgotramite.com/blog/regularizacion-extraordinaria-espana-2026.html</loc>
-    <lastmod>2026-04-15</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/como-solicitar-regularizacion-paso-a-paso.html</loc>
-    <lastmod>2026-04-15</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-
-  <url>
-    <loc>https://lexgotramite.com/blog/quien-puede-acogerse-regularizacion-espana.html</loc>
+    <loc>https://lexgotramite.com/arraigo-social-espana</loc>
     <lastmod>2026-04-17</lastmod>
     <priority>0.8</priority>
   </url>
-
+  <url>
+    <loc>https://lexgotramite.com/aviso-legal</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/abogado-extranjeria-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/ayuda-papeles-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/cambios-extranjeria-2026</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/como-conseguir-certificado-digital-regularizacion</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/como-demostrar-estancia-en-espana-regularizacion</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/como-demostrar-permanencia-en-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/como-empadronarse-en-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/como-funciona-registro-colaboradores-extranjeria</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/como-regularizarse-en-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/como-solicitar-regularizacion-paso-a-paso</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/contrato-para-arraigo-social</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/cuanto-cuesta-la-residencia-en-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/cuanto-tarda-homologacion-titulo</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/cuanto-tarda-la-regularizacion-en-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/cuanto-tarda-la-residencia-en-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/diferencia-entre-nie-y-residencia</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/documentos-para-conseguir-papeles-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/documentos-para-residencia-en-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/gestor-extranjeria-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/homologar-titulo-en-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/informe-de-arraigo-social</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/nie-espana-como-conseguirlo</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/nueva-ley-de-extranjeria-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/papeles-en-espana-sin-contrato</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/papeles-espana-2026</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/que-es-el-arraigo-social</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/que-pasa-si-estoy-irregular-en-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/quien-puede-acogerse-regularizacion-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/regularizacion-extraordinaria-espana-2026</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/regularizacion-masiva-marzo-2026</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/blog/requisitos-regularizacion-espana-2026</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/homologacion-titulos-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/mapa-web</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/nacionalidad-espanola</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/politica-ventas</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/privacidad</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/proteccion-datos</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/regularizacion-espana-2026</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/regularizacion-extraordinaria-abril-2026</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lexgotramite.com/residencia-espana</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
 </urlset>

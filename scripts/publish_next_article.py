@@ -3,7 +3,7 @@ import json
 import html
 import re
 from datetime import date, datetime
-from xml.etree import ElementTree as ET
+from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parents[1]
 DRAFTS_DIR = ROOT / "drafts"
@@ -15,10 +15,28 @@ HOME_FILE = ROOT / "index.html"
 
 BLOG_DIR.mkdir(exist_ok=True)
 
+SITE_URL = "https://lexgotramite.com"
+
 SPANISH_MONTHS = {
     1: "enero", 2: "febrero", 3: "marzo", 4: "abril", 5: "mayo", 6: "junio",
     7: "julio", 8: "agosto", 9: "septiembre", 10: "octubre", 11: "noviembre", 12: "diciembre"
 }
+
+RELATED_LINKS_HTML = """
+  <section class="mt-12 border-t border-slate-200 pt-8" aria-labelledby="seguir-explorando">
+    <h2 id="seguir-explorando" class="text-xl font-bold text-slate-900">Sigue explorando</h2>
+    <p class="mt-2 text-slate-600">Refuerza la navegación con rutas claras hacia los servicios principales, el archivo del blog y el mapa web.</p>
+    <nav class="mt-4 flex flex-wrap gap-3" aria-label="Enlaces relacionados">
+      <a href="/blog/" class="inline-flex items-center rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-indigo-300 hover:text-indigo-700">Ver todo el blog</a>
+      <a href="/mapa-web" class="inline-flex items-center rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-indigo-300 hover:text-indigo-700">Mapa web</a>
+      <a href="/regularizacion-espana-2026" class="inline-flex items-center rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-indigo-300 hover:text-indigo-700">Regularización 2026</a>
+      <a href="/residencia-espana" class="inline-flex items-center rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-indigo-300 hover:text-indigo-700">Residencia en España</a>
+      <a href="/arraigo-social-espana" class="inline-flex items-center rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-indigo-300 hover:text-indigo-700">Arraigo social</a>
+      <a href="/homologacion-titulos-espana" class="inline-flex items-center rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-indigo-300 hover:text-indigo-700">Homologación de títulos</a>
+      <a href="/nacionalidad-espanola" class="inline-flex items-center rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-indigo-300 hover:text-indigo-700">Nacionalidad española</a>
+    </nav>
+  </section>
+"""
 
 
 def format_date_es(iso_date: str) -> str:
@@ -39,24 +57,71 @@ def parse_display_date_to_iso(text: str):
     return None
 
 
-def sitemap_lastmods():
-    if not SITEMAP_FILE.exists():
-        return {}
-    try:
-        root = ET.fromstring(SITEMAP_FILE.read_text(encoding="utf-8"))
-    except ET.ParseError:
-        return {}
-    ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
-    lastmods = {}
-    for url in root.findall("sm:url", ns):
-        loc = url.findtext("sm:loc", default="", namespaces=ns).strip()
-        lastmod = url.findtext("sm:lastmod", default="", namespaces=ns).strip()
-        if not loc or not lastmod:
-            continue
-        slug = Path(loc).stem
-        if slug and slug != "index":
-            lastmods[slug] = lastmod
-    return lastmods
+def clean_site_path(path: str) -> str:
+    path = (path or "").replace("\\", "/")
+    if path in ("", "/"):
+        return "/"
+    path = re.sub(r"/+", "/", path)
+    rel = path.lstrip("/")
+    if rel == "" or rel == "index.html":
+        return "/"
+    if rel.endswith("/index.html"):
+        rel = rel[:-10]
+        return "/" + rel.rstrip("/") + "/"
+    if rel.endswith(".html"):
+        rel = rel[:-5]
+        return "/" + rel
+    return "/" + rel
+
+
+def canonical_url_from_relative(relative_path: str) -> str:
+    relative_path = relative_path.replace("\\", "/")
+    if relative_path == "index.html":
+        return f"{SITE_URL}/"
+    if relative_path == "blog/index.html":
+        return f"{SITE_URL}/blog/"
+    if relative_path.endswith("/index.html"):
+        return f"{SITE_URL}/{relative_path[:-10].strip('/')}/"
+    if relative_path.endswith(".html"):
+        return f"{SITE_URL}/{relative_path[:-5]}"
+    return f"{SITE_URL}/{relative_path.strip('/')}"
+
+
+def public_path_from_relative(relative_path: str) -> str:
+    return clean_site_path(relative_path)
+
+
+def regenerate_sitemap():
+    html_files = sorted(
+        p.relative_to(ROOT).as_posix()
+        for p in ROOT.rglob("*.html")
+    )
+
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+    ]
+
+    today = date.today().isoformat()
+
+    for rel_path in html_files:
+        if rel_path == "index.html":
+            priority = "1.0"
+        elif rel_path == "blog/index.html":
+            priority = "0.9"
+        else:
+            priority = "0.8"
+
+        lines.extend([
+            "  <url>",
+            f"    <loc>{escape(canonical_url_from_relative(rel_path))}</loc>",
+            f"    <lastmod>{today}</lastmod>",
+            f"    <priority>{priority}</priority>",
+            "  </url>",
+        ])
+
+    lines.append("</urlset>")
+    SITEMAP_FILE.write_text("\n".join(lines), encoding="utf-8")
 
 
 def normalize_state(raw_state):
@@ -97,19 +162,12 @@ def normalize_state(raw_state):
                 draft_queue.append(slug)
                 queued_seen.add(slug)
 
-    state = {
+    return {
         "published": deduped_order,
         "published_dates": published_dates,
         "last_published": raw_state.get("last_published"),
         "draft_queue": draft_queue,
     }
-
-    sitemap_dates = sitemap_lastmods()
-    for slug in deduped_order:
-        if slug not in state["published_dates"] and slug in sitemap_dates:
-            state["published_dates"][slug] = sitemap_dates[slug]
-
-    return state
 
 
 def load_state():
@@ -143,6 +201,7 @@ def render_article(draft, published_at: str):
 </section>
 """)
     display_date = format_date_es(published_at)
+    article_url = f"{SITE_URL}/blog/{html.escape(draft['slug'])}"
     return f"""<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -150,24 +209,32 @@ def render_article(draft, published_at: str):
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{html.escape(draft['title'])} | Lex Go Trámite</title>
   <meta name="description" content="{html.escape(draft['description'])}" />
-  <link rel="canonical" href="https://lexgotramite.com/blog/{html.escape(draft['slug'])}.html" />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+  <meta name="theme-color" content="#1e1b4b" />
+  <link rel="canonical" href="{article_url}" />
   <meta property="og:title" content="{html.escape(draft['title'])}" />
   <meta property="og:description" content="{html.escape(draft['description'])}" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://lexgotramite.com/blog/{html.escape(draft['slug'])}.html" />
+  <meta property="og:site_name" content="Lex Go Trámite" />
+  <meta property="og:url" content="{article_url}" />
+  <meta property="og:image" content="{SITE_URL}/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{html.escape(draft['title'])}" />
+  <meta name="twitter:description" content="{html.escape(draft['description'])}" />
+  <meta name="twitter:image" content="{SITE_URL}/og-image.png" />
   <meta property="article:published_time" content="{published_at}" />
-  <meta property="og:image" content="https://lexgotramite.com/og-image.png" />
-  <meta name="twitter:image" content="https://lexgotramite.com/og-image.png" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
+  <script type="application/ld+json">{json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":f"{SITE_URL}/"},{"@type":"ListItem","position":2,"name":"Blog","item":f"{SITE_URL}/blog/"},{"@type":"ListItem","position":3,"name":draft["title"],"item":article_url}]}, ensure_ascii=False)}</script>
+  <script type="application/ld+json">{json.dumps({"@context":"https://schema.org","@type":"Article","headline":draft["title"],"description":draft["description"],"mainEntityOfPage":article_url,"url":article_url,"datePublished":published_at,"dateModified":published_at,"image":[f"{SITE_URL}/og-image.png"],"publisher":{"@type":"Organization","name":"Lex Go Trámite","logo":{"@type":"ImageObject","url":f"{SITE_URL}/logo.png"}},"inLanguage":"es-ES"}, ensure_ascii=False)}</script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-white text-slate-800 font-sans antialiased">
   <main class="max-w-4xl mx-auto px-4 py-12 sm:py-16">
-    <a href="/index.html" class="text-indigo-700 hover:underline">← Volver a la página principal</a>
+    <a href="/" class="text-indigo-700 hover:underline">← Volver a la página principal</a>
     <p class="mt-6 text-sm text-slate-500">{html.escape(draft.get('category','Extranjería'))} • {html.escape(display_date)}</p>
     <h1 class="mt-2 text-4xl md:text-5xl font-bold text-slate-900">{html.escape(draft['title'])}</h1>
     <p class="mt-5 text-lg text-slate-600">{html.escape(draft['intro'])}</p>
@@ -178,11 +245,12 @@ def render_article(draft, published_at: str):
       <h2 class="text-2xl font-bold text-slate-900">¿Necesitas ayuda con tu caso?</h2>
       <p class="mt-3 text-slate-600">Te ayudamos a conseguir tus papeles en España, revisar tu documentación y elegir el mejor siguiente paso.</p>
       <div class="mt-5">
-        <a href="/index.html#cita" class="inline-flex items-center justify-center rounded-xl bg-indigo-700 px-5 py-3 text-white font-semibold hover:bg-indigo-800 transition">
+        <a href="/#cita" class="inline-flex items-center justify-center rounded-xl bg-indigo-700 px-5 py-3 text-white font-semibold hover:bg-indigo-800 transition">
           Reservar una cita
         </a>
       </div>
     </div>
+    {RELATED_LINKS_HTML}
   </main>
   <script src="/cookies.js"></script>
 </body>
@@ -203,25 +271,6 @@ def extract_title_desc_date(article_path: Path):
     iso_date = parse_display_date_to_iso(raw_date) or raw_date
     display_date = format_date_es(iso_date) if iso_date else ""
     return title, desc, display_date, iso_date
-
-
-def update_sitemap(url, published_at):
-    if not SITEMAP_FILE.exists():
-        SITEMAP_FILE.write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>', encoding="utf-8")
-    content = SITEMAP_FILE.read_text(encoding="utf-8")
-    entry_pattern = re.compile(rf"<url>\s*<loc>{re.escape(url)}</loc>[\s\S]*?</url>", re.S)
-    entry = f"""
-  <url>
-    <loc>{url}</loc>
-    <lastmod>{published_at}</lastmod>
-    <priority>0.8</priority>
-  </url>
-"""
-    if url in content:
-        content = entry_pattern.sub(entry.strip(), content)
-    else:
-        content = content.replace("</urlset>", entry + "\n</urlset>")
-    SITEMAP_FILE.write_text(content, encoding="utf-8")
 
 
 def list_blog_articles():
@@ -259,7 +308,7 @@ def update_blog_index():
         cards.append(f"""
         <article class="bg-white border border-slate-200 rounded-2xl p-6 shadow-soft hover:-translate-y-0.5 transition">
           <h2 class="text-xl font-semibold text-slate-900">
-            <a href="/blog/{article_file.name}" class="hover:text-indigo-700">{html.escape(title)}</a>
+            <a href="/blog/{article_file.stem}" class="hover:text-indigo-700">{html.escape(title)}</a>
           </h2>
           {date_line}
           <p class="mt-3 text-slate-600">{html.escape(desc)}</p>
@@ -272,9 +321,19 @@ def update_blog_index():
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Blog de extranjería | Lex Go Trámite</title>
   <meta name="description" content="Guías prácticas sobre papeles en España, residencia, arraigo social, NIE y homologaciones." />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+  <link rel="canonical" href="{SITE_URL}/blog/" />
+  <meta property="og:url" content="{SITE_URL}/blog/" />
+  <meta property="og:title" content="Blog de extranjería" />
+  <meta property="og:description" content="Guías prácticas sobre papeles en España, residencia, arraigo social, NIE y homologaciones." />
+  <meta property="og:site_name" content="Lex Go Trámite" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Blog de extranjería" />
+  <meta name="twitter:description" content="Guías prácticas sobre papeles en España, residencia, arraigo social, NIE y homologaciones." />
   <meta name="theme-color" content="#1e1b4b" />
-  <meta property="og:image" content="https://lexgotramite.com/og-image.png" />
-  <meta name="twitter:image" content="https://lexgotramite.com/og-image.png" />
+  <meta property="og:image" content="{SITE_URL}/og-image.png" />
+  <meta name="twitter:image" content="{SITE_URL}/og-image.png" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -294,7 +353,7 @@ def update_blog_index():
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased">
   <main class="max-w-6xl mx-auto px-4 py-10 sm:py-14">
-    <a href="/index.html" class="inline-flex items-center text-indigo-700 hover:underline">← Volver a la página principal</a>
+    <a href="/" class="inline-flex items-center text-indigo-700 hover:underline">← Volver a la página principal</a>
     <section class="mt-6 rounded-3xl bg-gradient-to-br from-slate-900 via-brand-800 to-brand-600 text-white shadow-soft overflow-hidden">
       <div class="px-6 py-10 sm:px-10 sm:py-12">
         <p class="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">Lex Go Trámite</p>
@@ -331,7 +390,7 @@ def update_home_blog_section():
           <div class="p-6 sm:p-8">
             <p class="text-sm text-slate-500">{html.escape(meta_line)}</p>
             <h3 class="mt-2 text-2xl font-serif font-bold text-slate-900">
-              <a href="/blog/{article_file.name}" class="hover:text-brand-700">
+              <a href="/blog/{article_file.stem}" class="hover:text-brand-700">
                 {html.escape(title)}
               </a>
             </h3>
@@ -339,7 +398,7 @@ def update_home_blog_section():
               {html.escape(desc)}
             </p>
             <div class="mt-6">
-              <a href="/blog/{article_file.name}"
+              <a href="/blog/{article_file.stem}"
                  class="inline-flex items-center justify-center rounded-xl bg-brand-700 px-5 py-3 text-white font-semibold hover:bg-brand-800 transition">
                 Leer artículo
               </a>
@@ -431,14 +490,13 @@ def publish_next():
     published_at = date.today().isoformat()
     slug = draft["slug"]
     (BLOG_DIR / f"{slug}.html").write_text(render_article(draft, published_at), encoding="utf-8")
-    update_sitemap(f"https://lexgotramite.com/blog/{slug}.html", published_at)
     state.setdefault("published_dates", {})[slug] = published_at
     state["published"] = [item for item in state.get("published", []) if item != slug] + [slug]
     if state.get("draft_queue") and state["draft_queue"] and state["draft_queue"][0] == slug:
         state["draft_queue"].pop(0)
     state["last_published"] = {
         "slug": slug,
-        "url": f"https://lexgotramite.com/blog/{slug}.html",
+        "url": f"{SITE_URL}/blog/{slug}",
         "published_at": published_at,
         "title": draft.get("title", slug),
     }
@@ -451,6 +509,7 @@ def main():
     republish_existing_articles_with_real_dates()
     update_blog_index()
     update_home_blog_section()
+    regenerate_sitemap()
 
 
 if __name__ == "__main__":
