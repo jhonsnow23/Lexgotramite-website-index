@@ -23,7 +23,8 @@
     "quien-puede-acogerse-regularizacion-espana",
     "fechas-clave-regularizacion-espana-2026",
     "solicitud-online-vs-presencial-regularizacion",
-    "documentos-necesitas-regularizacion-espana"
+    "documentos-necesitas-regularizacion-espana",
+    "cuanto-tarda-proceso-regularizacion-espana"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -56,16 +57,16 @@
     "quien-puede-acogerse-regularizacion-espana": "2026-04-17",
     "fechas-clave-regularizacion-espana-2026": "2026-04-18",
     "solicitud-online-vs-presencial-regularizacion": "2026-04-19",
-    "documentos-necesitas-regularizacion-espana": "2026-04-20"
+    "documentos-necesitas-regularizacion-espana": "2026-04-20",
+    "cuanto-tarda-proceso-regularizacion-espana": "2026-04-21"
   },
   "last_published": {
-    "slug": "documentos-necesitas-regularizacion-espana",
-    "url": "https://lexgotramite.com/blog/documentos-necesitas-regularizacion-espana",
-    "published_at": "2026-04-20",
-    "title": "Qué documentos necesitas"
+    "slug": "cuanto-tarda-proceso-regularizacion-espana",
+    "url": "https://lexgotramite.com/blog/cuanto-tarda-proceso-regularizacion-espana",
+    "published_at": "2026-04-21",
+    "title": "Cuánto tarda el proceso"
   },
   "draft_queue": [
-    "cuanto-tarda-proceso-regularizacion-espana",
     "que-pasa-despues-solicitar-regularizacion",
     "errores-comunes-solicitar-regularizacion",
     "como-hacer-solicitud-telematica-regularizacion",
