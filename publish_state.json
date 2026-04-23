@@ -25,7 +25,8 @@
     "solicitud-online-vs-presencial-regularizacion",
     "documentos-necesitas-regularizacion-espana",
     "cuanto-tarda-proceso-regularizacion-espana",
-    "que-pasa-despues-solicitar-regularizacion"
+    "que-pasa-despues-solicitar-regularizacion",
+    "errores-comunes-solicitar-regularizacion"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -60,16 +61,16 @@
     "solicitud-online-vs-presencial-regularizacion": "2026-04-19",
     "documentos-necesitas-regularizacion-espana": "2026-04-20",
     "cuanto-tarda-proceso-regularizacion-espana": "2026-04-21",
-    "que-pasa-despues-solicitar-regularizacion": "2026-04-22"
+    "que-pasa-despues-solicitar-regularizacion": "2026-04-22",
+    "errores-comunes-solicitar-regularizacion": "2026-04-23"
   },
   "last_published": {
-    "slug": "que-pasa-despues-solicitar-regularizacion",
-    "url": "https://lexgotramite.com/blog/que-pasa-despues-solicitar-regularizacion",
-    "published_at": "2026-04-22",
-    "title": "Qué pasa después de solicitar"
+    "slug": "errores-comunes-solicitar-regularizacion",
+    "url": "https://lexgotramite.com/blog/errores-comunes-solicitar-regularizacion",
+    "published_at": "2026-04-23",
+    "title": "Errores comunes al solicitar"
   },
   "draft_queue": [
-    "errores-comunes-solicitar-regularizacion",
     "como-hacer-solicitud-telematica-regularizacion",
     "como-pedir-cita-previa-regularizacion",
     "como-conseguir-certificado-digital-regularizacion",
