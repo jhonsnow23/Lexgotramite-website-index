@@ -28,7 +28,8 @@
     "que-pasa-despues-solicitar-regularizacion",
     "errores-comunes-solicitar-regularizacion",
     "como-hacer-solicitud-telematica-regularizacion",
-    "como-pedir-cita-previa-regularizacion"
+    "como-pedir-cita-previa-regularizacion",
+    "como-conseguir-certificado-digital-regularizacion"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -55,7 +56,7 @@
     "papeles-espana-2026": "2026-04-12",
     "requisitos-regularizacion-espana-2026": "2026-04-16",
     "que-pasa-si-estoy-irregular-en-espana": "2026-04-14",
-    "como-conseguir-certificado-digital-regularizacion": "2026-04-15",
+    "como-conseguir-certificado-digital-regularizacion": "2026-04-26",
     "que-es-el-arraigo-social": "2026-04-13",
     "como-solicitar-regularizacion-paso-a-paso": "2026-04-15",
     "quien-puede-acogerse-regularizacion-espana": "2026-04-17",
@@ -69,13 +70,12 @@
     "como-pedir-cita-previa-regularizacion": "2026-04-25"
   },
   "last_published": {
-    "slug": "como-pedir-cita-previa-regularizacion",
-    "url": "https://lexgotramite.com/blog/como-pedir-cita-previa-regularizacion",
-    "published_at": "2026-04-25",
-    "title": "Cómo pedir cita previa"
+    "slug": "como-conseguir-certificado-digital-regularizacion",
+    "url": "https://lexgotramite.com/blog/como-conseguir-certificado-digital-regularizacion",
+    "published_at": "2026-04-26",
+    "title": "Cómo conseguir certificado digital"
   },
   "draft_queue": [
-    "como-conseguir-certificado-digital-regularizacion",
     "que-hacer-si-no-tienes-papeles-regularizacion",
     "como-demostrar-estancia-en-espana-regularizacion",
     "que-pruebas-sirven-como-residencia-regularizacion",
