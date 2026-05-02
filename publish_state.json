@@ -34,7 +34,8 @@
     "como-demostrar-estancia-en-espana-regularizacion",
     "que-pruebas-sirven-como-residencia-regularizacion",
     "como-presentar-antecedentes-penales-regularizacion",
-    "que-hacer-si-falta-documentacion-regularizacion"
+    "que-hacer-si-falta-documentacion-regularizacion",
+    "como-presentar-solicitud-con-abogado-regularizacion"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -76,16 +77,16 @@
     "que-hacer-si-no-tienes-papeles-regularizacion": "2026-04-27",
     "que-pruebas-sirven-como-residencia-regularizacion": "2026-04-29",
     "como-presentar-antecedentes-penales-regularizacion": "2026-04-30",
-    "que-hacer-si-falta-documentacion-regularizacion": "2026-05-01"
+    "que-hacer-si-falta-documentacion-regularizacion": "2026-05-01",
+    "como-presentar-solicitud-con-abogado-regularizacion": "2026-05-02"
   },
   "last_published": {
-    "slug": "que-hacer-si-falta-documentacion-regularizacion",
-    "url": "https://lexgotramite.com/blog/que-hacer-si-falta-documentacion-regularizacion",
-    "published_at": "2026-05-01",
-    "title": "Qué hacer si te falta documentación"
+    "slug": "como-presentar-solicitud-con-abogado-regularizacion",
+    "url": "https://lexgotramite.com/blog/como-presentar-solicitud-con-abogado-regularizacion",
+    "published_at": "2026-05-02",
+    "title": "Cómo presentar solicitud con abogado"
   },
   "draft_queue": [
-    "como-presentar-solicitud-con-abogado-regularizacion",
     "como-funciona-registro-colaboradores-extranjeria",
     "solicitud-regularizacion-para-familias",
     "solicitud-regularizacion-para-trabajadores",
