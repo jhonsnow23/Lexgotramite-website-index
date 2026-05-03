@@ -35,7 +35,8 @@
     "que-pruebas-sirven-como-residencia-regularizacion",
     "como-presentar-antecedentes-penales-regularizacion",
     "que-hacer-si-falta-documentacion-regularizacion",
-    "como-presentar-solicitud-con-abogado-regularizacion"
+    "como-presentar-solicitud-con-abogado-regularizacion",
+    "como-funciona-registro-colaboradores-extranjeria"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -58,7 +59,7 @@
     "papeles-en-espana-sin-contrato": "2026-04-10",
     "regularizacion-extraordinaria-espana-2026": "2026-04-15",
     "como-demostrar-estancia-en-espana-regularizacion": "2026-04-28",
-    "como-funciona-registro-colaboradores-extranjeria": "2026-04-15",
+    "como-funciona-registro-colaboradores-extranjeria": "2026-05-03",
     "papeles-espana-2026": "2026-04-12",
     "requisitos-regularizacion-espana-2026": "2026-04-16",
     "que-pasa-si-estoy-irregular-en-espana": "2026-04-14",
@@ -81,13 +82,12 @@
     "como-presentar-solicitud-con-abogado-regularizacion": "2026-05-02"
   },
   "last_published": {
-    "slug": "como-presentar-solicitud-con-abogado-regularizacion",
-    "url": "https://lexgotramite.com/blog/como-presentar-solicitud-con-abogado-regularizacion",
-    "published_at": "2026-05-02",
-    "title": "Cómo presentar solicitud con abogado"
+    "slug": "como-funciona-registro-colaboradores-extranjeria",
+    "url": "https://lexgotramite.com/blog/como-funciona-registro-colaboradores-extranjeria",
+    "published_at": "2026-05-03",
+    "title": "Cómo funciona el registro de colaboradores"
   },
   "draft_queue": [
-    "como-funciona-registro-colaboradores-extranjeria",
     "solicitud-regularizacion-para-familias",
     "solicitud-regularizacion-para-trabajadores",
     "solicitud-regularizacion-personas-vulnerables",
