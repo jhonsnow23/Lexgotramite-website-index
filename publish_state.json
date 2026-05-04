@@ -36,7 +36,8 @@
     "como-presentar-antecedentes-penales-regularizacion",
     "que-hacer-si-falta-documentacion-regularizacion",
     "como-presentar-solicitud-con-abogado-regularizacion",
-    "como-funciona-registro-colaboradores-extranjeria"
+    "como-funciona-registro-colaboradores-extranjeria",
+    "solicitud-regularizacion-para-familias"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -79,16 +80,16 @@
     "que-pruebas-sirven-como-residencia-regularizacion": "2026-04-29",
     "como-presentar-antecedentes-penales-regularizacion": "2026-04-30",
     "que-hacer-si-falta-documentacion-regularizacion": "2026-05-01",
-    "como-presentar-solicitud-con-abogado-regularizacion": "2026-05-02"
+    "como-presentar-solicitud-con-abogado-regularizacion": "2026-05-02",
+    "solicitud-regularizacion-para-familias": "2026-05-04"
   },
   "last_published": {
-    "slug": "como-funciona-registro-colaboradores-extranjeria",
-    "url": "https://lexgotramite.com/blog/como-funciona-registro-colaboradores-extranjeria",
-    "published_at": "2026-05-03",
-    "title": "Cómo funciona el registro de colaboradores"
+    "slug": "solicitud-regularizacion-para-familias",
+    "url": "https://lexgotramite.com/blog/solicitud-regularizacion-para-familias",
+    "published_at": "2026-05-04",
+    "title": "Solicitud para familias"
   },
   "draft_queue": [
-    "solicitud-regularizacion-para-familias",
     "solicitud-regularizacion-para-trabajadores",
     "solicitud-regularizacion-personas-vulnerables",
     "solicitud-regularizacion-solicitantes-asilo",
