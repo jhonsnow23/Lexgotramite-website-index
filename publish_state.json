@@ -39,7 +39,8 @@
     "como-funciona-registro-colaboradores-extranjeria",
     "solicitud-regularizacion-para-familias",
     "solicitud-regularizacion-para-trabajadores",
-    "solicitud-regularizacion-personas-vulnerables"
+    "solicitud-regularizacion-personas-vulnerables",
+    "solicitud-regularizacion-solicitantes-asilo"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -85,16 +86,16 @@
     "como-presentar-solicitud-con-abogado-regularizacion": "2026-05-02",
     "solicitud-regularizacion-para-familias": "2026-05-04",
     "solicitud-regularizacion-para-trabajadores": "2026-05-05",
-    "solicitud-regularizacion-personas-vulnerables": "2026-05-06"
+    "solicitud-regularizacion-personas-vulnerables": "2026-05-06",
+    "solicitud-regularizacion-solicitantes-asilo": "2026-05-07"
   },
   "last_published": {
-    "slug": "solicitud-regularizacion-personas-vulnerables",
-    "url": "https://lexgotramite.com/blog/solicitud-regularizacion-personas-vulnerables",
-    "published_at": "2026-05-06",
-    "title": "Solicitud para personas vulnerables"
+    "slug": "solicitud-regularizacion-solicitantes-asilo",
+    "url": "https://lexgotramite.com/blog/solicitud-regularizacion-solicitantes-asilo",
+    "published_at": "2026-05-07",
+    "title": "Solicitud para solicitantes de asilo"
   },
   "draft_queue": [
-    "solicitud-regularizacion-solicitantes-asilo",
     "que-hacer-si-deniegan-regularizacion",
     "marco-legal-regularizacion-espana-2026",
     "real-decreto-regularizacion-explicado",
