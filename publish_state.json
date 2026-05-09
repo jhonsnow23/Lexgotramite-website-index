@@ -41,7 +41,8 @@
     "solicitud-regularizacion-para-trabajadores",
     "solicitud-regularizacion-personas-vulnerables",
     "solicitud-regularizacion-solicitantes-asilo",
-    "que-hacer-si-deniegan-regularizacion"
+    "que-hacer-si-deniegan-regularizacion",
+    "marco-legal-regularizacion-espana-2026"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -89,16 +90,16 @@
     "solicitud-regularizacion-para-trabajadores": "2026-05-05",
     "solicitud-regularizacion-personas-vulnerables": "2026-05-06",
     "solicitud-regularizacion-solicitantes-asilo": "2026-05-07",
-    "que-hacer-si-deniegan-regularizacion": "2026-05-08"
+    "que-hacer-si-deniegan-regularizacion": "2026-05-08",
+    "marco-legal-regularizacion-espana-2026": "2026-05-09"
   },
   "last_published": {
-    "slug": "que-hacer-si-deniegan-regularizacion",
-    "url": "https://lexgotramite.com/blog/que-hacer-si-deniegan-regularizacion",
-    "published_at": "2026-05-08",
-    "title": "Qué hacer si te deniegan"
+    "slug": "marco-legal-regularizacion-espana-2026",
+    "url": "https://lexgotramite.com/blog/marco-legal-regularizacion-espana-2026",
+    "published_at": "2026-05-09",
+    "title": "Marco legal de la regularización"
   },
   "draft_queue": [
-    "marco-legal-regularizacion-espana-2026",
     "real-decreto-regularizacion-explicado",
     "derechos-que-obtienes-regularizacion",
     "permiso-de-trabajo-como-funciona-regularizacion",
