@@ -43,7 +43,8 @@
     "solicitud-regularizacion-solicitantes-asilo",
     "que-hacer-si-deniegan-regularizacion",
     "marco-legal-regularizacion-espana-2026",
-    "real-decreto-regularizacion-explicado"
+    "real-decreto-regularizacion-explicado",
+    "derechos-que-obtienes-regularizacion"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -93,16 +94,16 @@
     "solicitud-regularizacion-solicitantes-asilo": "2026-05-07",
     "que-hacer-si-deniegan-regularizacion": "2026-05-08",
     "marco-legal-regularizacion-espana-2026": "2026-05-09",
-    "real-decreto-regularizacion-explicado": "2026-05-10"
+    "real-decreto-regularizacion-explicado": "2026-05-10",
+    "derechos-que-obtienes-regularizacion": "2026-05-11"
   },
   "last_published": {
-    "slug": "real-decreto-regularizacion-explicado",
-    "url": "https://lexgotramite.com/blog/real-decreto-regularizacion-explicado",
-    "published_at": "2026-05-10",
-    "title": "Real Decreto explicado"
+    "slug": "derechos-que-obtienes-regularizacion",
+    "url": "https://lexgotramite.com/blog/derechos-que-obtienes-regularizacion",
+    "published_at": "2026-05-11",
+    "title": "Derechos que obtienes"
   },
   "draft_queue": [
-    "derechos-que-obtienes-regularizacion",
     "permiso-de-trabajo-como-funciona-regularizacion",
     "duracion-del-permiso-regularizacion",
     "renovacion-despues-del-ano-regularizacion",
