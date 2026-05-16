@@ -48,7 +48,8 @@
     "permiso-de-trabajo-como-funciona-regularizacion",
     "duracion-del-permiso-regularizacion",
     "renovacion-despues-del-ano-regularizacion",
-    "diferencias-regularizacion-y-arraigo"
+    "diferencias-regularizacion-y-arraigo",
+    "diferencias-regularizacion-y-asilo"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -103,16 +104,16 @@
     "permiso-de-trabajo-como-funciona-regularizacion": "2026-05-12",
     "duracion-del-permiso-regularizacion": "2026-05-13",
     "renovacion-despues-del-ano-regularizacion": "2026-05-14",
-    "diferencias-regularizacion-y-arraigo": "2026-05-15"
+    "diferencias-regularizacion-y-arraigo": "2026-05-15",
+    "diferencias-regularizacion-y-asilo": "2026-05-16"
   },
   "last_published": {
-    "slug": "diferencias-regularizacion-y-arraigo",
-    "url": "https://lexgotramite.com/blog/diferencias-regularizacion-y-arraigo",
-    "published_at": "2026-05-15",
-    "title": "Diferencias con arraigo"
+    "slug": "diferencias-regularizacion-y-asilo",
+    "url": "https://lexgotramite.com/blog/diferencias-regularizacion-y-asilo",
+    "published_at": "2026-05-16",
+    "title": "Diferencias con asilo"
   },
   "draft_queue": [
-    "diferencias-regularizacion-y-asilo",
     "que-no-es-esta-regularizacion",
     "quien-no-puede-solicitar-regularizacion",
     "regularizaciones-anteriores-en-espana",
