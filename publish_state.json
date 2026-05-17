@@ -49,7 +49,8 @@
     "duracion-del-permiso-regularizacion",
     "renovacion-despues-del-ano-regularizacion",
     "diferencias-regularizacion-y-arraigo",
-    "diferencias-regularizacion-y-asilo"
+    "diferencias-regularizacion-y-asilo",
+    "que-no-es-esta-regularizacion"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -105,16 +106,16 @@
     "duracion-del-permiso-regularizacion": "2026-05-13",
     "renovacion-despues-del-ano-regularizacion": "2026-05-14",
     "diferencias-regularizacion-y-arraigo": "2026-05-15",
-    "diferencias-regularizacion-y-asilo": "2026-05-16"
+    "diferencias-regularizacion-y-asilo": "2026-05-16",
+    "que-no-es-esta-regularizacion": "2026-05-17"
   },
   "last_published": {
-    "slug": "diferencias-regularizacion-y-asilo",
-    "url": "https://lexgotramite.com/blog/diferencias-regularizacion-y-asilo",
-    "published_at": "2026-05-16",
-    "title": "Diferencias con asilo"
+    "slug": "que-no-es-esta-regularizacion",
+    "url": "https://lexgotramite.com/blog/que-no-es-esta-regularizacion",
+    "published_at": "2026-05-17",
+    "title": "Qué NO es esta regularización"
   },
   "draft_queue": [
-    "que-no-es-esta-regularizacion",
     "quien-no-puede-solicitar-regularizacion",
     "regularizaciones-anteriores-en-espana",
     "impacto-economico-regularizacion-espana",
