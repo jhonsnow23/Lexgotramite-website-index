@@ -52,7 +52,8 @@
     "diferencias-regularizacion-y-asilo",
     "que-no-es-esta-regularizacion",
     "quien-no-puede-solicitar-regularizacion",
-    "regularizaciones-anteriores-en-espana"
+    "regularizaciones-anteriores-en-espana",
+    "impacto-economico-regularizacion-espana"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -111,16 +112,16 @@
     "diferencias-regularizacion-y-asilo": "2026-05-16",
     "que-no-es-esta-regularizacion": "2026-05-17",
     "quien-no-puede-solicitar-regularizacion": "2026-05-18",
-    "regularizaciones-anteriores-en-espana": "2026-05-19"
+    "regularizaciones-anteriores-en-espana": "2026-05-19",
+    "impacto-economico-regularizacion-espana": "2026-05-20"
   },
   "last_published": {
-    "slug": "regularizaciones-anteriores-en-espana",
-    "url": "https://lexgotramite.com/blog/regularizaciones-anteriores-en-espana",
-    "published_at": "2026-05-19",
-    "title": "Regularizaciones anteriores en España"
+    "slug": "impacto-economico-regularizacion-espana",
+    "url": "https://lexgotramite.com/blog/impacto-economico-regularizacion-espana",
+    "published_at": "2026-05-20",
+    "title": "Impacto económico"
   },
   "draft_queue": [
-    "impacto-economico-regularizacion-espana",
     "impacto-social-regularizacion-espana",
     "opinion-legal-experta-regularizacion",
     "riesgos-del-proceso-regularizacion",
