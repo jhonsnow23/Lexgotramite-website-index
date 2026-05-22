@@ -54,7 +54,8 @@
     "quien-no-puede-solicitar-regularizacion",
     "regularizaciones-anteriores-en-espana",
     "impacto-economico-regularizacion-espana",
-    "impacto-social-regularizacion-espana"
+    "impacto-social-regularizacion-espana",
+    "opinion-legal-experta-regularizacion"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -115,16 +116,16 @@
     "quien-no-puede-solicitar-regularizacion": "2026-05-18",
     "regularizaciones-anteriores-en-espana": "2026-05-19",
     "impacto-economico-regularizacion-espana": "2026-05-20",
-    "impacto-social-regularizacion-espana": "2026-05-21"
+    "impacto-social-regularizacion-espana": "2026-05-21",
+    "opinion-legal-experta-regularizacion": "2026-05-22"
   },
   "last_published": {
-    "slug": "impacto-social-regularizacion-espana",
-    "url": "https://lexgotramite.com/blog/impacto-social-regularizacion-espana",
-    "published_at": "2026-05-21",
-    "title": "Impacto social"
+    "slug": "opinion-legal-experta-regularizacion",
+    "url": "https://lexgotramite.com/blog/opinion-legal-experta-regularizacion",
+    "published_at": "2026-05-22",
+    "title": "Opinión legal experta"
   },
   "draft_queue": [
-    "opinion-legal-experta-regularizacion",
     "riesgos-del-proceso-regularizacion",
     "regularizacion-espana-sin-contrato",
     "regularizacion-con-hijos",
