@@ -55,7 +55,8 @@
     "regularizaciones-anteriores-en-espana",
     "impacto-economico-regularizacion-espana",
     "impacto-social-regularizacion-espana",
-    "opinion-legal-experta-regularizacion"
+    "opinion-legal-experta-regularizacion",
+    "riesgos-del-proceso-regularizacion"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -117,16 +118,16 @@
     "regularizaciones-anteriores-en-espana": "2026-05-19",
     "impacto-economico-regularizacion-espana": "2026-05-20",
     "impacto-social-regularizacion-espana": "2026-05-21",
-    "opinion-legal-experta-regularizacion": "2026-05-22"
+    "opinion-legal-experta-regularizacion": "2026-05-22",
+    "riesgos-del-proceso-regularizacion": "2026-05-23"
   },
   "last_published": {
-    "slug": "opinion-legal-experta-regularizacion",
-    "url": "https://lexgotramite.com/blog/opinion-legal-experta-regularizacion",
-    "published_at": "2026-05-22",
-    "title": "Opinión legal experta"
+    "slug": "riesgos-del-proceso-regularizacion",
+    "url": "https://lexgotramite.com/blog/riesgos-del-proceso-regularizacion",
+    "published_at": "2026-05-23",
+    "title": "Riesgos del proceso"
   },
   "draft_queue": [
-    "riesgos-del-proceso-regularizacion",
     "regularizacion-espana-sin-contrato",
     "regularizacion-con-hijos",
     "regularizacion-sin-papeles",
