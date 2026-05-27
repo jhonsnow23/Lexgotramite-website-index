@@ -58,7 +58,8 @@
     "opinion-legal-experta-regularizacion",
     "riesgos-del-proceso-regularizacion",
     "regularizacion-espana-sin-contrato",
-    "regularizacion-con-hijos"
+    "regularizacion-con-hijos",
+    "regularizacion-sin-papeles"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -123,16 +124,16 @@
     "opinion-legal-experta-regularizacion": "2026-05-22",
     "riesgos-del-proceso-regularizacion": "2026-05-23",
     "regularizacion-espana-sin-contrato": "2026-05-24",
-    "regularizacion-con-hijos": "2026-05-25"
+    "regularizacion-con-hijos": "2026-05-25",
+    "regularizacion-sin-papeles": "2026-05-27"
   },
   "last_published": {
-    "slug": "regularizacion-con-hijos",
-    "url": "https://lexgotramite.com/blog/regularizacion-con-hijos",
-    "published_at": "2026-05-25",
-    "title": "Regularización con hijos"
+    "slug": "regularizacion-sin-papeles",
+    "url": "https://lexgotramite.com/blog/regularizacion-sin-papeles",
+    "published_at": "2026-05-27",
+    "title": "Regularización sin papeles"
   },
   "draft_queue": [
-    "regularizacion-sin-papeles",
     "regularizacion-con-pasaporte-caducado",
     "regularizacion-con-antecedentes",
     "regularizacion-sin-empadronamiento",
