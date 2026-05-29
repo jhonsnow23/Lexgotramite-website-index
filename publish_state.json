@@ -60,7 +60,8 @@
     "regularizacion-espana-sin-contrato",
     "regularizacion-con-hijos",
     "regularizacion-sin-papeles",
-    "regularizacion-con-pasaporte-caducado"
+    "regularizacion-con-pasaporte-caducado",
+    "regularizacion-con-antecedentes"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -127,16 +128,16 @@
     "regularizacion-espana-sin-contrato": "2026-05-24",
     "regularizacion-con-hijos": "2026-05-25",
     "regularizacion-sin-papeles": "2026-05-27",
-    "regularizacion-con-pasaporte-caducado": "2026-05-28"
+    "regularizacion-con-pasaporte-caducado": "2026-05-28",
+    "regularizacion-con-antecedentes": "2026-05-29"
   },
   "last_published": {
-    "slug": "regularizacion-con-pasaporte-caducado",
-    "url": "https://lexgotramite.com/blog/regularizacion-con-pasaporte-caducado",
-    "published_at": "2026-05-28",
-    "title": "Regularización con pasaporte caducado"
+    "slug": "regularizacion-con-antecedentes",
+    "url": "https://lexgotramite.com/blog/regularizacion-con-antecedentes",
+    "published_at": "2026-05-29",
+    "title": "Regularización con antecedentes"
   },
   "draft_queue": [
-    "regularizacion-con-antecedentes",
     "regularizacion-sin-empadronamiento",
     "regularizacion-trabajando-en-negro",
     "regularizacion-con-pareja",
