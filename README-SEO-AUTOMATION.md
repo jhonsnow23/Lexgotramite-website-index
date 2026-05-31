@@ -1,47 +1,161 @@
-# Automatización de publicación SEO con GitHub
-
-## Qué hace
-Publica automáticamente 1 artículo al día desde `drafts/` hacia `blog/` usando GitHub Actions.
-
-## Qué actualiza en cada ejecución
-- `/blog/*.html`
-- `/blog/index.html`
-- `/index.html` (bloque del blog en portada)
-- `sitemap.xml`
-- `publish_state.json`
-- `search_console_last_inspection.json` (solo si configuras Search Console)
-
-## Cómo activarlo
-1. Sube todo al repositorio.
-2. En GitHub ve a **Settings → Actions → General**.
-3. Activa **Read and write permissions**.
-4. Ve a **Actions** y ejecuta `Publicar artículo SEO diario` manualmente la primera vez.
-
-## Qué corrige esta versión
-- La portada ya no ordena por nombre de archivo: muestra los artículos por **fecha real de publicación**.
-- Cada tarjeta del blog en la home muestra la **fecha de publicación correcta**.
-- Cada artículo guarda su fecha con `article:published_time` para que no se mezclen fechas falsas o repetidas.
-
-## Automatización con Google Search Console
-Esta automatización **no fuerza el indexado** de posts normales. Lo que sí hace es:
-- enviar/actualizar el sitemap en Search Console,
-- inspeccionar la última URL publicada,
-- guardar la respuesta en `search_console_last_inspection.json`.
-
-### Secrets que debes crear en GitHub
-En **Settings → Secrets and variables → Actions**, añade:
-- `GSC_CLIENT_ID`
-- `GSC_CLIENT_SECRET`
-- `GSC_REFRESH_TOKEN`
-- `GSC_SITE_URL`
-- `GSC_SITEMAP_URL`
-
-### Valores esperados
-- `GSC_SITE_URL`: la propiedad exacta de Search Console. Ejemplos:
-  - `sc-domain:lexgotramite.com`
-  - `https://lexgotramite.com/`
-- `GSC_SITEMAP_URL`:
-  - `https://lexgotramite.com/sitemap.xml`
-
-## Advertencia importante
-Si no configuras esos secrets, la publicación seguirá funcionando igual. Solo se saltará el paso de Search Console.
+{
+  "published": [
+    "abogado-extranjeria-espana",
+    "ayuda-papeles-espana",
+    "cambios-extranjeria-2026",
+    "como-demostrar-permanencia-en-espana",
+    "como-empadronarse-en-espana",
+    "como-regularizarse-en-espana",
+    "contrato-para-arraigo-social",
+    "cuanto-cuesta-la-residencia-en-espana",
+    "cuanto-tarda-homologacion-titulo",
+    "cuanto-tarda-la-residencia-en-espana",
+    "diferencia-entre-nie-y-residencia",
+    "documentos-para-residencia-en-espana",
+    "gestor-extranjeria-espana",
+    "homologar-titulo-en-espana",
+    "informe-de-arraigo-social",
+    "nie-espana-como-conseguirlo",
+    "nueva-ley-de-extranjeria-espana",
+    "regularizacion-extraordinaria-espana-2026",
+    "como-solicitar-regularizacion-paso-a-paso",
+    "requisitos-regularizacion-espana-2026",
+    "quien-puede-acogerse-regularizacion-espana",
+    "fechas-clave-regularizacion-espana-2026",
+    "solicitud-online-vs-presencial-regularizacion",
+    "documentos-necesitas-regularizacion-espana",
+    "cuanto-tarda-proceso-regularizacion-espana",
+    "que-pasa-despues-solicitar-regularizacion",
+    "errores-comunes-solicitar-regularizacion",
+    "como-hacer-solicitud-telematica-regularizacion",
+    "como-pedir-cita-previa-regularizacion",
+    "como-conseguir-certificado-digital-regularizacion",
+    "que-hacer-si-no-tienes-papeles-regularizacion",
+    "como-demostrar-estancia-en-espana-regularizacion",
+    "que-pruebas-sirven-como-residencia-regularizacion",
+    "como-presentar-antecedentes-penales-regularizacion",
+    "que-hacer-si-falta-documentacion-regularizacion",
+    "como-presentar-solicitud-con-abogado-regularizacion",
+    "como-funciona-registro-colaboradores-extranjeria",
+    "solicitud-regularizacion-para-familias",
+    "solicitud-regularizacion-para-trabajadores",
+    "solicitud-regularizacion-personas-vulnerables",
+    "solicitud-regularizacion-solicitantes-asilo",
+    "que-hacer-si-deniegan-regularizacion",
+    "marco-legal-regularizacion-espana-2026",
+    "real-decreto-regularizacion-explicado",
+    "derechos-que-obtienes-regularizacion",
+    "permiso-de-trabajo-como-funciona-regularizacion",
+    "duracion-del-permiso-regularizacion",
+    "renovacion-despues-del-ano-regularizacion",
+    "diferencias-regularizacion-y-arraigo",
+    "diferencias-regularizacion-y-asilo",
+    "que-no-es-esta-regularizacion",
+    "quien-no-puede-solicitar-regularizacion",
+    "regularizaciones-anteriores-en-espana",
+    "impacto-economico-regularizacion-espana",
+    "impacto-social-regularizacion-espana",
+    "opinion-legal-experta-regularizacion",
+    "riesgos-del-proceso-regularizacion",
+    "regularizacion-espana-sin-contrato",
+    "regularizacion-con-hijos",
+    "regularizacion-sin-papeles",
+    "regularizacion-con-pasaporte-caducado",
+    "regularizacion-con-antecedentes",
+    "regularizacion-sin-empadronamiento",
+    "regularizacion-trabajando-en-negro",
+    "razones-humanitarias-proteccion-internacional-2026"
+  ],
+  "published_dates": {
+    "abogado-extranjeria-espana": "2026-03-30",
+    "ayuda-papeles-espana": "2026-03-30",
+    "cambios-extranjeria-2026": "2026-03-30",
+    "como-demostrar-permanencia-en-espana": "2026-03-30",
+    "como-empadronarse-en-espana": "2026-03-29",
+    "como-regularizarse-en-espana": "2026-03-30",
+    "contrato-para-arraigo-social": "2026-03-31",
+    "cuanto-cuesta-la-residencia-en-espana": "2026-04-01",
+    "cuanto-tarda-homologacion-titulo": "2026-04-02",
+    "cuanto-tarda-la-residencia-en-espana": "2026-04-03",
+    "diferencia-entre-nie-y-residencia": "2026-04-04",
+    "documentos-para-residencia-en-espana": "2026-04-05",
+    "gestor-extranjeria-espana": "2026-04-06",
+    "homologar-titulo-en-espana": "2026-04-07",
+    "informe-de-arraigo-social": "2026-04-08",
+    "nie-espana-como-conseguirlo": "2026-04-09",
+    "nueva-ley-de-extranjeria-espana": "2026-04-10",
+    "papeles-en-espana-sin-contrato": "2026-04-10",
+    "regularizacion-extraordinaria-espana-2026": "2026-04-15",
+    "como-demostrar-estancia-en-espana-regularizacion": "2026-04-28",
+    "como-funciona-registro-colaboradores-extranjeria": "2026-05-03",
+    "papeles-espana-2026": "2026-04-12",
+    "requisitos-regularizacion-espana-2026": "2026-04-16",
+    "que-pasa-si-estoy-irregular-en-espana": "2026-04-14",
+    "como-conseguir-certificado-digital-regularizacion": "2026-04-26",
+    "que-es-el-arraigo-social": "2026-04-13",
+    "como-solicitar-regularizacion-paso-a-paso": "2026-04-15",
+    "quien-puede-acogerse-regularizacion-espana": "2026-04-17",
+    "fechas-clave-regularizacion-espana-2026": "2026-04-18",
+    "solicitud-online-vs-presencial-regularizacion": "2026-04-19",
+    "documentos-necesitas-regularizacion-espana": "2026-04-20",
+    "cuanto-tarda-proceso-regularizacion-espana": "2026-04-21",
+    "que-pasa-despues-solicitar-regularizacion": "2026-04-22",
+    "errores-comunes-solicitar-regularizacion": "2026-04-23",
+    "como-hacer-solicitud-telematica-regularizacion": "2026-04-24",
+    "como-pedir-cita-previa-regularizacion": "2026-04-25",
+    "que-hacer-si-no-tienes-papeles-regularizacion": "2026-04-27",
+    "que-pruebas-sirven-como-residencia-regularizacion": "2026-04-29",
+    "como-presentar-antecedentes-penales-regularizacion": "2026-04-30",
+    "que-hacer-si-falta-documentacion-regularizacion": "2026-05-01",
+    "como-presentar-solicitud-con-abogado-regularizacion": "2026-05-02",
+    "solicitud-regularizacion-para-familias": "2026-05-04",
+    "solicitud-regularizacion-para-trabajadores": "2026-05-05",
+    "solicitud-regularizacion-personas-vulnerables": "2026-05-06",
+    "solicitud-regularizacion-solicitantes-asilo": "2026-05-07",
+    "que-hacer-si-deniegan-regularizacion": "2026-05-08",
+    "marco-legal-regularizacion-espana-2026": "2026-05-09",
+    "real-decreto-regularizacion-explicado": "2026-05-10",
+    "derechos-que-obtienes-regularizacion": "2026-05-11",
+    "permiso-de-trabajo-como-funciona-regularizacion": "2026-05-12",
+    "duracion-del-permiso-regularizacion": "2026-05-13",
+    "renovacion-despues-del-ano-regularizacion": "2026-05-14",
+    "diferencias-regularizacion-y-arraigo": "2026-05-15",
+    "diferencias-regularizacion-y-asilo": "2026-05-16",
+    "que-no-es-esta-regularizacion": "2026-05-17",
+    "quien-no-puede-solicitar-regularizacion": "2026-05-18",
+    "regularizaciones-anteriores-en-espana": "2026-05-19",
+    "impacto-economico-regularizacion-espana": "2026-05-20",
+    "impacto-social-regularizacion-espana": "2026-05-21",
+    "opinion-legal-experta-regularizacion": "2026-05-22",
+    "riesgos-del-proceso-regularizacion": "2026-05-23",
+    "regularizacion-espana-sin-contrato": "2026-05-24",
+    "regularizacion-con-hijos": "2026-05-25",
+    "regularizacion-sin-papeles": "2026-05-27",
+    "regularizacion-con-pasaporte-caducado": "2026-05-28",
+    "regularizacion-con-antecedentes": "2026-05-29",
+    "regularizacion-sin-empadronamiento": "2026-05-30",
+    "regularizacion-trabajando-en-negro": "2026-05-31",
+    "razones-humanitarias-proteccion-internacional-2026": "2026-05-31"
+  },
+  "last_published": {
+    "slug": "razones-humanitarias-proteccion-internacional-2026",
+    "url": "https://lexgotramite.com/blog/razones-humanitarias-proteccion-internacional-2026",
+    "published_at": "2026-05-31",
+    "title": "Razones humanitarias y protección internacional: qué cambia en junio de 2026"
+  },
+  "draft_queue": [
+    "regularizacion-con-pareja",
+    "regularizacion-para-estudiantes",
+    "regularizacion-con-nie-caducado",
+    "regularizacion-sin-abogado",
+    "regularizacion-gratis",
+    "regularizacion-con-cita-previa",
+    "regularizacion-urgente",
+    "regularizacion-antes-del-30-de-junio",
+    "te-ayudamos-con-tu-regularizacion",
+    "cuanto-cuesta-hacer-la-regularizacion",
+    "por-que-necesitas-asesoramiento-regularizacion",
+    "evita-errores-en-tu-solicitud-regularizacion",
+    "solicita-ayuda-ahora-regularizacion"
+  ]
+}
