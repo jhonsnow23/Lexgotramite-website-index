@@ -64,7 +64,8 @@
     "regularizacion-con-antecedentes",
     "regularizacion-sin-empadronamiento",
     "regularizacion-trabajando-en-negro",
-    "regularizacion-con-pareja"
+    "regularizacion-con-pareja",
+    "regularizacion-para-estudiantes"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -135,16 +136,16 @@
     "regularizacion-con-antecedentes": "2026-05-29",
     "regularizacion-sin-empadronamiento": "2026-05-30",
     "regularizacion-trabajando-en-negro": "2026-05-31",
-    "regularizacion-con-pareja": "2026-06-01"
+    "regularizacion-con-pareja": "2026-06-01",
+    "regularizacion-para-estudiantes": "2026-06-02"
   },
   "last_published": {
-    "slug": "regularizacion-con-pareja",
-    "url": "https://lexgotramite.com/blog/regularizacion-con-pareja",
-    "published_at": "2026-06-01",
-    "title": "Regularización con pareja"
+    "slug": "regularizacion-para-estudiantes",
+    "url": "https://lexgotramite.com/blog/regularizacion-para-estudiantes",
+    "published_at": "2026-06-02",
+    "title": "Regularización para estudiantes"
   },
   "draft_queue": [
-    "regularizacion-para-estudiantes",
     "regularizacion-con-nie-caducado",
     "regularizacion-sin-abogado",
     "regularizacion-gratis",
