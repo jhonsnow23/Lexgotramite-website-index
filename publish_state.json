@@ -65,7 +65,8 @@
     "regularizacion-sin-empadronamiento",
     "regularizacion-trabajando-en-negro",
     "regularizacion-con-pareja",
-    "regularizacion-para-estudiantes"
+    "regularizacion-para-estudiantes",
+    "regularizacion-con-nie-caducado"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -137,16 +138,16 @@
     "regularizacion-sin-empadronamiento": "2026-05-30",
     "regularizacion-trabajando-en-negro": "2026-05-31",
     "regularizacion-con-pareja": "2026-06-01",
-    "regularizacion-para-estudiantes": "2026-06-02"
+    "regularizacion-para-estudiantes": "2026-06-02",
+    "regularizacion-con-nie-caducado": "2026-06-03"
   },
   "last_published": {
-    "slug": "regularizacion-para-estudiantes",
-    "url": "https://lexgotramite.com/blog/regularizacion-para-estudiantes",
-    "published_at": "2026-06-02",
-    "title": "Regularización para estudiantes"
+    "slug": "regularizacion-con-nie-caducado",
+    "url": "https://lexgotramite.com/blog/regularizacion-con-nie-caducado",
+    "published_at": "2026-06-03",
+    "title": "Regularización con NIE caducado"
   },
   "draft_queue": [
-    "regularizacion-con-nie-caducado",
     "regularizacion-sin-abogado",
     "regularizacion-gratis",
     "regularizacion-con-cita-previa",
