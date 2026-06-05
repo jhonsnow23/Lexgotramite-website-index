@@ -67,7 +67,8 @@
     "regularizacion-con-pareja",
     "regularizacion-para-estudiantes",
     "regularizacion-con-nie-caducado",
-    "regularizacion-sin-abogado"
+    "regularizacion-sin-abogado",
+    "regularizacion-gratis"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -141,16 +142,16 @@
     "regularizacion-con-pareja": "2026-06-01",
     "regularizacion-para-estudiantes": "2026-06-02",
     "regularizacion-con-nie-caducado": "2026-06-03",
-    "regularizacion-sin-abogado": "2026-06-04"
+    "regularizacion-sin-abogado": "2026-06-04",
+    "regularizacion-gratis": "2026-06-05"
   },
   "last_published": {
-    "slug": "regularizacion-sin-abogado",
-    "url": "https://lexgotramite.com/blog/regularizacion-sin-abogado",
-    "published_at": "2026-06-04",
-    "title": "Regularización sin abogado"
+    "slug": "regularizacion-gratis",
+    "url": "https://lexgotramite.com/blog/regularizacion-gratis",
+    "published_at": "2026-06-05",
+    "title": "Regularización gratis"
   },
   "draft_queue": [
-    "regularizacion-gratis",
     "regularizacion-con-cita-previa",
     "regularizacion-urgente",
     "regularizacion-antes-del-30-de-junio",
