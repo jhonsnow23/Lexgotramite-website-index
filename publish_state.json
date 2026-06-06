@@ -68,7 +68,8 @@
     "regularizacion-para-estudiantes",
     "regularizacion-con-nie-caducado",
     "regularizacion-sin-abogado",
-    "regularizacion-gratis"
+    "regularizacion-gratis",
+    "regularizacion-con-cita-previa"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -143,16 +144,16 @@
     "regularizacion-para-estudiantes": "2026-06-02",
     "regularizacion-con-nie-caducado": "2026-06-03",
     "regularizacion-sin-abogado": "2026-06-04",
-    "regularizacion-gratis": "2026-06-05"
+    "regularizacion-gratis": "2026-06-05",
+    "regularizacion-con-cita-previa": "2026-06-06"
   },
   "last_published": {
-    "slug": "regularizacion-gratis",
-    "url": "https://lexgotramite.com/blog/regularizacion-gratis",
-    "published_at": "2026-06-05",
-    "title": "Regularización gratis"
+    "slug": "regularizacion-con-cita-previa",
+    "url": "https://lexgotramite.com/blog/regularizacion-con-cita-previa",
+    "published_at": "2026-06-06",
+    "title": "Regularización con cita previa"
   },
   "draft_queue": [
-    "regularizacion-con-cita-previa",
     "regularizacion-urgente",
     "regularizacion-antes-del-30-de-junio",
     "te-ayudamos-con-tu-regularizacion",
