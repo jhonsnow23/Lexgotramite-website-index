@@ -69,7 +69,8 @@
     "regularizacion-con-nie-caducado",
     "regularizacion-sin-abogado",
     "regularizacion-gratis",
-    "regularizacion-con-cita-previa"
+    "regularizacion-con-cita-previa",
+    "regularizacion-urgente"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -145,16 +146,16 @@
     "regularizacion-con-nie-caducado": "2026-06-03",
     "regularizacion-sin-abogado": "2026-06-04",
     "regularizacion-gratis": "2026-06-05",
-    "regularizacion-con-cita-previa": "2026-06-06"
+    "regularizacion-con-cita-previa": "2026-06-06",
+    "regularizacion-urgente": "2026-06-07"
   },
   "last_published": {
-    "slug": "regularizacion-con-cita-previa",
-    "url": "https://lexgotramite.com/blog/regularizacion-con-cita-previa",
-    "published_at": "2026-06-06",
-    "title": "Regularización con cita previa"
+    "slug": "regularizacion-urgente",
+    "url": "https://lexgotramite.com/blog/regularizacion-urgente",
+    "published_at": "2026-06-07",
+    "title": "Regularización urgente"
   },
   "draft_queue": [
-    "regularizacion-urgente",
     "regularizacion-antes-del-30-de-junio",
     "te-ayudamos-con-tu-regularizacion",
     "cuanto-cuesta-hacer-la-regularizacion",
