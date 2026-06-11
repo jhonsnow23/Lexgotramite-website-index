@@ -73,7 +73,8 @@
     "regularizacion-urgente",
     "regularizacion-antes-del-30-de-junio",
     "te-ayudamos-con-tu-regularizacion",
-    "cuanto-cuesta-hacer-la-regularizacion"
+    "cuanto-cuesta-hacer-la-regularizacion",
+    "por-que-necesitas-asesoramiento-regularizacion"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -153,16 +154,16 @@
     "regularizacion-urgente": "2026-06-07",
     "regularizacion-antes-del-30-de-junio": "2026-06-08",
     "te-ayudamos-con-tu-regularizacion": "2026-06-09",
-    "cuanto-cuesta-hacer-la-regularizacion": "2026-06-10"
+    "cuanto-cuesta-hacer-la-regularizacion": "2026-06-10",
+    "por-que-necesitas-asesoramiento-regularizacion": "2026-06-11"
   },
   "last_published": {
-    "slug": "cuanto-cuesta-hacer-la-regularizacion",
-    "url": "https://lexgotramite.com/blog/cuanto-cuesta-hacer-la-regularizacion",
-    "published_at": "2026-06-10",
-    "title": "Cuánto cuesta hacer la regularización"
+    "slug": "por-que-necesitas-asesoramiento-regularizacion",
+    "url": "https://lexgotramite.com/blog/por-que-necesitas-asesoramiento-regularizacion",
+    "published_at": "2026-06-11",
+    "title": "Por qué necesitas asesoramiento"
   },
   "draft_queue": [
-    "por-que-necesitas-asesoramiento-regularizacion",
     "evita-errores-en-tu-solicitud-regularizacion",
     "solicita-ayuda-ahora-regularizacion"
   ]
