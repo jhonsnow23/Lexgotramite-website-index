@@ -75,7 +75,8 @@
     "te-ayudamos-con-tu-regularizacion",
     "cuanto-cuesta-hacer-la-regularizacion",
     "por-que-necesitas-asesoramiento-regularizacion",
-    "evita-errores-en-tu-solicitud-regularizacion"
+    "evita-errores-en-tu-solicitud-regularizacion",
+    "solicita-ayuda-ahora-regularizacion"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -157,15 +158,14 @@
     "te-ayudamos-con-tu-regularizacion": "2026-06-09",
     "cuanto-cuesta-hacer-la-regularizacion": "2026-06-10",
     "por-que-necesitas-asesoramiento-regularizacion": "2026-06-11",
-    "evita-errores-en-tu-solicitud-regularizacion": "2026-06-12"
+    "evita-errores-en-tu-solicitud-regularizacion": "2026-06-12",
+    "solicita-ayuda-ahora-regularizacion": "2026-06-13"
   },
   "last_published": {
-    "slug": "evita-errores-en-tu-solicitud-regularizacion",
-    "url": "https://lexgotramite.com/blog/evita-errores-en-tu-solicitud-regularizacion",
-    "published_at": "2026-06-12",
-    "title": "Evita errores en tu solicitud"
+    "slug": "solicita-ayuda-ahora-regularizacion",
+    "url": "https://lexgotramite.com/blog/solicita-ayuda-ahora-regularizacion",
+    "published_at": "2026-06-13",
+    "title": "Solicita ayuda ahora (CTA fuerte)"
   },
-  "draft_queue": [
-    "solicita-ayuda-ahora-regularizacion"
-  ]
+  "draft_queue": []
 }
