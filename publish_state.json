@@ -78,7 +78,8 @@
     "evita-errores-en-tu-solicitud-regularizacion",
     "solicita-ayuda-ahora-regularizacion",
     "papeles-en-espana-sin-contrato",
-    "papeles-espana-2026"
+    "papeles-espana-2026",
+    "que-es-el-arraigo-social"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -106,7 +107,7 @@
     "requisitos-regularizacion-espana-2026": "2026-04-16",
     "que-pasa-si-estoy-irregular-en-espana": "2026-04-14",
     "como-conseguir-certificado-digital-regularizacion": "2026-04-26",
-    "que-es-el-arraigo-social": "2026-04-13",
+    "que-es-el-arraigo-social": "2026-06-16",
     "como-solicitar-regularizacion-paso-a-paso": "2026-04-15",
     "quien-puede-acogerse-regularizacion-espana": "2026-04-17",
     "fechas-clave-regularizacion-espana-2026": "2026-04-18",
@@ -164,10 +165,10 @@
     "solicita-ayuda-ahora-regularizacion": "2026-06-13"
   },
   "last_published": {
-    "slug": "papeles-espana-2026",
-    "url": "https://lexgotramite.com/blog/papeles-espana-2026",
-    "published_at": "2026-06-15",
-    "title": "Papeles en España 2026: qué debes preparar"
+    "slug": "que-es-el-arraigo-social",
+    "url": "https://lexgotramite.com/blog/que-es-el-arraigo-social",
+    "published_at": "2026-06-16",
+    "title": "Qué es el arraigo social en España"
   },
   "draft_queue": []
 }
