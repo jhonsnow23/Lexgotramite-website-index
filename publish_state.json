@@ -79,7 +79,8 @@
     "solicita-ayuda-ahora-regularizacion",
     "papeles-en-espana-sin-contrato",
     "papeles-espana-2026",
-    "que-es-el-arraigo-social"
+    "que-es-el-arraigo-social",
+    "que-pasa-si-estoy-irregular-en-espana"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -105,7 +106,7 @@
     "como-funciona-registro-colaboradores-extranjeria": "2026-05-03",
     "papeles-espana-2026": "2026-06-15",
     "requisitos-regularizacion-espana-2026": "2026-04-16",
-    "que-pasa-si-estoy-irregular-en-espana": "2026-04-14",
+    "que-pasa-si-estoy-irregular-en-espana": "2026-06-17",
     "como-conseguir-certificado-digital-regularizacion": "2026-04-26",
     "que-es-el-arraigo-social": "2026-06-16",
     "como-solicitar-regularizacion-paso-a-paso": "2026-04-15",
@@ -165,10 +166,10 @@
     "solicita-ayuda-ahora-regularizacion": "2026-06-13"
   },
   "last_published": {
-    "slug": "que-es-el-arraigo-social",
-    "url": "https://lexgotramite.com/blog/que-es-el-arraigo-social",
-    "published_at": "2026-06-16",
-    "title": "Qué es el arraigo social en España"
+    "slug": "que-pasa-si-estoy-irregular-en-espana",
+    "url": "https://lexgotramite.com/blog/que-pasa-si-estoy-irregular-en-espana",
+    "published_at": "2026-06-17",
+    "title": "Qué pasa si estoy irregular en España"
   },
   "draft_queue": []
 }
