@@ -83,7 +83,8 @@
     "que-pasa-si-estoy-irregular-en-espana",
     "regularizacion-espana-2026-requisitos",
     "renovar-residencia-espana",
-    "requisitos-arraigo-social-espana"
+    "requisitos-arraigo-social-espana",
+    "requisitos-homologacion-espana"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -169,13 +170,14 @@
     "solicita-ayuda-ahora-regularizacion": "2026-06-13",
     "regularizacion-espana-2026-requisitos": "2026-06-18",
     "renovar-residencia-espana": "2026-06-19",
-    "requisitos-arraigo-social-espana": "2026-06-20"
+    "requisitos-arraigo-social-espana": "2026-06-20",
+    "requisitos-homologacion-espana": "2026-06-21"
   },
   "last_published": {
-    "slug": "requisitos-arraigo-social-espana",
-    "url": "https://lexgotramite.com/blog/requisitos-arraigo-social-espana",
-    "published_at": "2026-06-20",
-    "title": "Requisitos del arraigo social en España"
+    "slug": "requisitos-homologacion-espana",
+    "url": "https://lexgotramite.com/blog/requisitos-homologacion-espana",
+    "published_at": "2026-06-21",
+    "title": "Requisitos para homologación en España"
   },
   "draft_queue": []
 }
