@@ -84,7 +84,8 @@
     "regularizacion-espana-2026-requisitos",
     "renovar-residencia-espana",
     "requisitos-arraigo-social-espana",
-    "requisitos-homologacion-espana"
+    "requisitos-homologacion-espana",
+    "residencia-por-estudios-espana"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -171,13 +172,14 @@
     "regularizacion-espana-2026-requisitos": "2026-06-18",
     "renovar-residencia-espana": "2026-06-19",
     "requisitos-arraigo-social-espana": "2026-06-20",
-    "requisitos-homologacion-espana": "2026-06-21"
+    "requisitos-homologacion-espana": "2026-06-21",
+    "residencia-por-estudios-espana": "2026-06-22"
   },
   "last_published": {
-    "slug": "requisitos-homologacion-espana",
-    "url": "https://lexgotramite.com/blog/requisitos-homologacion-espana",
-    "published_at": "2026-06-21",
-    "title": "Requisitos para homologación en España"
+    "slug": "residencia-por-estudios-espana",
+    "url": "https://lexgotramite.com/blog/residencia-por-estudios-espana",
+    "published_at": "2026-06-22",
+    "title": "Residencia por estudios en España: cómo funciona"
   },
   "draft_queue": []
 }
