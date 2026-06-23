@@ -85,7 +85,8 @@
     "renovar-residencia-espana",
     "requisitos-arraigo-social-espana",
     "requisitos-homologacion-espana",
-    "residencia-por-estudios-espana"
+    "residencia-por-estudios-espana",
+    "tipos-de-residencia-en-espana"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -173,13 +174,14 @@
     "renovar-residencia-espana": "2026-06-19",
     "requisitos-arraigo-social-espana": "2026-06-20",
     "requisitos-homologacion-espana": "2026-06-21",
-    "residencia-por-estudios-espana": "2026-06-22"
+    "residencia-por-estudios-espana": "2026-06-22",
+    "tipos-de-residencia-en-espana": "2026-06-23"
   },
   "last_published": {
-    "slug": "residencia-por-estudios-espana",
-    "url": "https://lexgotramite.com/blog/residencia-por-estudios-espana",
-    "published_at": "2026-06-22",
-    "title": "Residencia por estudios en España: cómo funciona"
+    "slug": "tipos-de-residencia-en-espana",
+    "url": "https://lexgotramite.com/blog/tipos-de-residencia-en-espana",
+    "published_at": "2026-06-23",
+    "title": "Tipos de residencia en España: cuál te corresponde"
   },
   "draft_queue": []
 }
