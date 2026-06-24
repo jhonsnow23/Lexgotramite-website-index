@@ -86,7 +86,8 @@
     "requisitos-arraigo-social-espana",
     "requisitos-homologacion-espana",
     "residencia-por-estudios-espana",
-    "tipos-de-residencia-en-espana"
+    "tipos-de-residencia-en-espana",
+    "trabajar-en-espana-extranjero-requisitos"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -175,13 +176,14 @@
     "requisitos-arraigo-social-espana": "2026-06-20",
     "requisitos-homologacion-espana": "2026-06-21",
     "residencia-por-estudios-espana": "2026-06-22",
-    "tipos-de-residencia-en-espana": "2026-06-23"
+    "tipos-de-residencia-en-espana": "2026-06-23",
+    "trabajar-en-espana-extranjero-requisitos": "2026-06-24"
   },
   "last_published": {
-    "slug": "tipos-de-residencia-en-espana",
-    "url": "https://lexgotramite.com/blog/tipos-de-residencia-en-espana",
-    "published_at": "2026-06-23",
-    "title": "Tipos de residencia en España: cuál te corresponde"
+    "slug": "trabajar-en-espana-extranjero-requisitos",
+    "url": "https://lexgotramite.com/blog/trabajar-en-espana-extranjero-requisitos",
+    "published_at": "2026-06-24",
+    "title": "Trabajar en España siendo extranjero: requisitos básicos"
   },
   "draft_queue": []
 }
