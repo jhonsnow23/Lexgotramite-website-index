@@ -87,7 +87,8 @@
     "requisitos-homologacion-espana",
     "residencia-por-estudios-espana",
     "tipos-de-residencia-en-espana",
-    "trabajar-en-espana-extranjero-requisitos"
+    "trabajar-en-espana-extranjero-requisitos",
+    "traer-familia-a-espana-requisitos"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -177,13 +178,14 @@
     "requisitos-homologacion-espana": "2026-06-21",
     "residencia-por-estudios-espana": "2026-06-22",
     "tipos-de-residencia-en-espana": "2026-06-23",
-    "trabajar-en-espana-extranjero-requisitos": "2026-06-24"
+    "trabajar-en-espana-extranjero-requisitos": "2026-06-24",
+    "traer-familia-a-espana-requisitos": "2026-06-25"
   },
   "last_published": {
-    "slug": "trabajar-en-espana-extranjero-requisitos",
-    "url": "https://lexgotramite.com/blog/trabajar-en-espana-extranjero-requisitos",
-    "published_at": "2026-06-24",
-    "title": "Trabajar en España siendo extranjero: requisitos básicos"
+    "slug": "traer-familia-a-espana-requisitos",
+    "url": "https://lexgotramite.com/blog/traer-familia-a-espana-requisitos",
+    "published_at": "2026-06-25",
+    "title": "Traer a tu familia a España: requisitos y documentos"
   },
   "draft_queue": []
 }
