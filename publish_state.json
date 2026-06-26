@@ -88,7 +88,8 @@
     "residencia-por-estudios-espana",
     "tipos-de-residencia-en-espana",
     "trabajar-en-espana-extranjero-requisitos",
-    "traer-familia-a-espana-requisitos"
+    "traer-familia-a-espana-requisitos",
+    "vivir-en-espana-sin-papeles"
   ],
   "published_dates": {
     "abogado-extranjeria-espana": "2026-03-30",
@@ -179,13 +180,14 @@
     "residencia-por-estudios-espana": "2026-06-22",
     "tipos-de-residencia-en-espana": "2026-06-23",
     "trabajar-en-espana-extranjero-requisitos": "2026-06-24",
-    "traer-familia-a-espana-requisitos": "2026-06-25"
+    "traer-familia-a-espana-requisitos": "2026-06-25",
+    "vivir-en-espana-sin-papeles": "2026-06-26"
   },
   "last_published": {
-    "slug": "traer-familia-a-espana-requisitos",
-    "url": "https://lexgotramite.com/blog/traer-familia-a-espana-requisitos",
-    "published_at": "2026-06-25",
-    "title": "Traer a tu familia a España: requisitos y documentos"
+    "slug": "vivir-en-espana-sin-papeles",
+    "url": "https://lexgotramite.com/blog/vivir-en-espana-sin-papeles",
+    "published_at": "2026-06-26",
+    "title": "Vivir en España sin papeles: riesgos y opciones"
   },
   "draft_queue": []
 }
