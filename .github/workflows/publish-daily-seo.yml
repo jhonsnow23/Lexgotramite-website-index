@@ -5,6 +5,10 @@ on:
     - cron: "15 8 * * *"
   workflow_dispatch:
 
+concurrency:
+  group: lexgotramite-publish
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -26,12 +30,18 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Validar enlaces antes de publicar
+        run: python scripts/check_links.py
+
       - name: Publicar siguiente artículo y regenerar índices
         run: python scripts/publish_next_article.py
 
       - name: Enviar sitemap a Search Console e inspeccionar la última URL
         if: ${{ env.GSC_CLIENT_ID != '' && env.GSC_CLIENT_SECRET != '' && env.GSC_REFRESH_TOKEN != '' && env.GSC_SITE_URL != '' && env.GSC_SITEMAP_URL != '' }}
         run: python scripts/google_search_console_notify.py
+
+      - name: Validar enlaces después de publicar
+        run: python scripts/check_links.py
 
       - name: Commit y push si hay cambios
         run: |

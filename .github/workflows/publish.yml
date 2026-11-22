@@ -1,9 +1,12 @@
 name: Publicar blog automático
 
 on:
-  schedule:
-    - cron: '0 8 * * *'
+  # Manual-only compatibility workflow; daily schedule is owned by publish-daily-seo.yml.
   workflow_dispatch:
+
+concurrency:
+  group: lexgotramite-publish
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -34,12 +37,18 @@ jobs:
             pip install -r requirements.txt
           fi
 
+      - name: Validar enlaces antes de publicar
+        run: python scripts/check_links.py
+
       - name: Publicar siguiente artículo
         run: python scripts/publish_next_article.py
 
       - name: Notificar Search Console e inspeccionar URL
         if: ${{ env.GSC_CLIENT_ID != '' && env.GSC_CLIENT_SECRET != '' && env.GSC_REFRESH_TOKEN != '' && env.GSC_SITE_URL != '' && env.GSC_SITEMAP_URL != '' }}
         run: python scripts/google_search_console_notify.py
+
+      - name: Validar enlaces después de publicar
+        run: python scripts/check_links.py
 
       - name: Commit y push de cambios
         run: |
