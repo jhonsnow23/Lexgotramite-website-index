@@ -34,11 +34,17 @@ jobs:
             exit 0
           fi
           python scripts/seo_intelligence.py
+      - name: Generate supervised editorial drafts (no publishing)
+        run: |
+          test -s reports/seo_intelligence.json || { echo 'SEO report missing; cannot create proposals'; exit 1; }
+          python scripts/seo_content_v3.py
       - name: Save report as workflow artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: lexgotramite-seo-report
-          path: reports/seo_intelligence.*
+          path: |
+            reports/seo_intelligence.*
+            reports/editorial_v3/**
           if-no-files-found: ignore
           retention-days: 30
