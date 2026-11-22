@@ -33,7 +33,7 @@ SOURCES = {
     'long_term_residence': [('BOE-A-2024-24099', BOE_LEGAL)],
     'nationality': [('BOE-A-1889-4763', BOE_NATIONALITY)],
 }
-SYSTEM = '''Eres redactor jurídico cuidadoso en España. Crea un artículo útil, original y completo en español europeo, EXCLUSIVAMENTE con la evidencia oficial incluida. Nunca inventes plazos, derechos, condiciones, resoluciones ni citas. Si el material no fundamenta un extremo, omite la afirmación y añade una cuestión pendiente. Debes producir SOLO un objeto JSON válido, sin markdown. Campos exactos: title (texto), meta_description (texto), introduction (2 párrafos, texto), sections (array de objetos con heading y paragraphs, array de textos), faqs (array de objetos question y answer), claims (array de objetos con claim, source_id, evidence_excerpt: cita LITERAL exacta del fragmento suministrado), unresolved_questions (array de textos). Cada afirmación jurídica concreta en los párrafos o FAQ debe tener su equivalente en claims y una cita literal del texto oficial suministrado. Nunca atribuyas revisión profesional. No sugieras que se ha publicado ni está legalmente validado.'''
+SYSTEM = '''Eres redactor jurídico cuidadoso en España. Crea un artículo útil, original y completo en español europeo, EXCLUSIVAMENTE con la evidencia oficial incluida. Nunca inventes plazos, derechos, condiciones, resoluciones ni citas. Si el material no fundamenta un extremo, omite la afirmación y añade una cuestión pendiente. Debes producir SOLO un objeto JSON válido, sin markdown. Campos exactos: title (texto), meta_description (texto), introduction (un único texto con 2 párrafos separados por doble salto de línea; nunca una lista), sections (array de objetos con heading y paragraphs, array de textos), faqs (array de objetos question y answer), claims (array de objetos con claim, source_id, evidence_excerpt: cita LITERAL exacta del fragmento suministrado), unresolved_questions (array de textos). Cada afirmación jurídica concreta en los párrafos o FAQ debe tener su equivalente en claims y una cita literal CONTIGUA EXACTA del texto oficial suministrado, sin acortar, parafrasear o unir palabras. Evita afirmaciones generales basadas en normas sobre supuestos específicos. Restringe el alcance del artículo a los tipos de autorización cubiertos claramente por la evidencia; si faltan disposiciones que son necesarias para una respuesta correcta, anótalo en unresolved_questions. Nunca atribuyas revisión profesional. No sugieras que se ha publicado ni está legalmente validado.'''
 
 class Plain(HTMLParser):
     def __init__(self):
@@ -47,6 +47,13 @@ class Plain(HTMLParser):
         if not self.skip:self.lines.append(data)
 
 def normalize(s): return ' '.join(str(s).split()).casefold()
+
+def introductory_paragraphs(value):
+    if isinstance(value, str):
+        return [p.strip() for p in value.split('\n\n') if p.strip()]
+    if isinstance(value, list) and all(isinstance(p, str) for p in value):
+        return [p.strip() for p in value if p.strip()]
+    return []
 
 def fetch_official(url, timeout=18, opener=None):
     if not is_official(url):raise ValueError('URL does not belong to an approved official host')
@@ -97,8 +104,10 @@ def openai_generate(proposal,sources,model='gpt-4.1-mini',endpoint='https://api.
 
 def validate_draft(draft,sources):
     errors=[]
-    for fld in ['title','meta_description','introduction']:
+    for fld in ['title','meta_description']:
         if not isinstance(draft.get(fld),str) or len(draft[fld].strip())<25:errors.append('Incomplete '+fld)
+    intro=introductory_paragraphs(draft.get('introduction'))
+    if not intro or sum(len(p) for p in intro)<70:errors.append('Incomplete introduction')
     sections=draft.get('sections',[])
     if not isinstance(sections,list) or len(sections)<3:errors.append('Fewer than three substantive sections')
     for s in sections if isinstance(sections,list) else []:
@@ -107,12 +116,12 @@ def validate_draft(draft,sources):
     if not isinstance(claims,list) or not claims:errors.append('No claim evidence');claims=[]
     lookup={s['id']:s for s in sources};valid=0
     for i,c in enumerate(claims):
-        if not isinstance(c,dict):errors.append(f'Malformed claim {i}');continue
+        if not isinstance(c,dict):errors.append(f'Malformed claim {i+1}');continue
         src=lookup.get(c.get('source_id'))
         quote=c.get('evidence_excerpt','')
-        if not src:errors.append(f'Claim {i}: unknown source id');continue
-        if len(normalize(quote))<45 or normalize(quote) not in normalize(src['extract']):errors.append(f'Claim {i}: evidence is not an exact retrieved excerpt');continue
-        if len(normalize(c.get('claim','')))<15:errors.append(f'Claim {i}: empty claim');continue
+        if not src:errors.append(f'Claim {i+1}: unknown source id');continue
+        if len(normalize(quote))<45 or normalize(quote) not in normalize(src['extract']):errors.append(f'Claim {i+1}: evidence is not an exact retrieved excerpt');continue
+        if len(normalize(c.get('claim','')))<15:errors.append(f'Claim {i+1}: empty claim');continue
         valid+=1
     if draft.get('unresolved_questions'):errors.append('Outstanding legal research questions')
     text=json.dumps(draft,ensure_ascii=False)
@@ -128,7 +137,7 @@ def render(draft,sources,decision):
         if isinstance(s,dict):sections.append('<h2>'+esc(s.get('heading',''))+'</h2>'+''.join('<p>'+esc(p)+'</p>' for p in s.get('paragraphs',[])))
     faqs=''.join('<h3>'+esc(q.get('question',''))+'</h3><p>'+esc(q.get('answer',''))+'</p>' for q in draft.get('faqs',[]) if isinstance(q,dict))
     cites=''.join('<li>'+esc(s['id'])+': <a href="'+esc(s['url'])+'" rel="noopener noreferrer">'+esc(s['url'])+'</a> (consultado: '+esc(s['fetched_at'][:10])+')</li>' for s in sources)
-    return '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NO PUBLICAR — '+title+'</title><meta name="description" content="'+esc(draft.get('meta_description',''))+'"></head><body><main><p><strong>BORRADOR AUTOMÁTICO — REVISIÓN JURÍDICA PENDIENTE — PROHIBIDA LA PUBLICACIÓN</strong></p><h1>'+title+'</h1><p>'+esc(draft.get('introduction',''))+'</p>'+''.join(sections)+'<h2>Preguntas frecuentes</h2>'+faqs+'<h2>Fuentes oficiales y normativa consultada</h2><ul>'+cites+'</ul><p>Contenido informativo sujeto a revisión; no constituye asesoramiento individualizado.</p></main></body></html>'
+    return '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NO PUBLICAR — '+title+'</title><meta name="description" content="'+esc(draft.get('meta_description',''))+'"></head><body><main><p><strong>BORRADOR AUTOMÁTICO — REVISIÓN JURÍDICA PENDIENTE — PROHIBIDA LA PUBLICACIÓN</strong></p><h1>'+title+'</h1>'+''.join('<p>'+esc(p)+'</p>' for p in introductory_paragraphs(draft.get('introduction')))+''.join(sections)+'<h2>Preguntas frecuentes</h2>'+faqs+'<h2>Fuentes oficiales y normativa consultada</h2><ul>'+cites+'</ul><p>Contenido informativo sujeto a revisión; no constituye asesoramiento individualizado.</p></main></body></html>'
 
 def run(args):
     output=Path(args.output).resolve();output.mkdir(parents=True,exist_ok=True)
@@ -154,6 +163,8 @@ def run(args):
         decision=validate_draft(draft,sources)
         (output/'article.preview.html').write_text(render(draft,sources,decision),encoding='utf8')
         status.update({'result':'draft_generated' if decision['schema_and_evidence_checks_passed'] else 'draft_failed_checks','validation':decision})
+        if not decision['schema_and_evidence_checks_passed']:
+            status['reasons'].extend(decision['errors'])
     except Exception as e:
         status['reasons'].append(str(e)[:350])
     (output/'decision.json').write_text(json.dumps(status,ensure_ascii=False,indent=2),encoding='utf8')
