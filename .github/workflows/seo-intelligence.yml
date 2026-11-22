@@ -1,0 +1,44 @@
+name: SEO intelligence (read only)
+
+on:
+  schedule:
+    - cron: '40 9 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lexgotramite-seo-intelligence
+  cancel-in-progress: false
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Analyze Search Console (read only)
+        env:
+          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
+          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
+          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
+          GSC_SITE_URL: ${{ secrets.GSC_SITE_URL }}
+        run: |
+          if [ -z "$GSC_CLIENT_ID" ] || [ -z "$GSC_CLIENT_SECRET" ] || [ -z "$GSC_REFRESH_TOKEN" ] || [ -z "$GSC_SITE_URL" ]; then
+            echo 'Search Console credentials not configured; no live report generated.'
+            exit 0
+          fi
+          python scripts/seo_intelligence.py
+      - name: Save report as workflow artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexgotramite-seo-report
+          path: reports/seo_intelligence.*
+          if-no-files-found: ignore
+          retention-days: 30
