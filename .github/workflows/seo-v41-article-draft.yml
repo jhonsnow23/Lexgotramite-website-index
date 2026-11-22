@@ -1,0 +1,43 @@
+name: SEO v4.1 - full legal article candidate (no publication)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: lexgo-seo-v41-draft
+  cancel-in-progress: false
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run fail-closed unit tests
+        run: python -m unittest discover -s tests -p 'test_seo_v41.py' -v
+      - name: Refresh Google Search Console recommendations
+        env:
+          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
+          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
+          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
+          GSC_SITE_URL: ${{ secrets.GSC_SITE_URL }}
+        run: |
+          python scripts/seo_intelligence.py
+          python scripts/seo_content_v3.py
+      - name: Generate full grounded article draft
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python scripts/seo_v41.py
+      - name: Upload evidence and article preview even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexgotramite-v41-draft-and-evidence
+          path: |
+            reports/seo_intelligence.json
+            reports/editorial_v3/proposals.json
+            reports/seo_v41/**
+          if-no-files-found: warn
+          retention-days: 30
