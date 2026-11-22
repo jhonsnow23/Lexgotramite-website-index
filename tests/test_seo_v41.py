@@ -59,4 +59,23 @@ class Tests(unittest.TestCase):
     ret=mod.run(Namespace(proposals=str(root/'p.json'),output=str(root/'out'),model='gpt-4.1-mini'))
    self.assertEqual(ret,1)
    self.assertFalse(json.loads((root/'out'/'decision.json').read_text())['publication_allowed'])
+ def test_intro_list_paragraphs_render_correctly(self):
+  a={**ARTICLE,'introduction':['Primer párrafo explicativo suficientemente detallado sobre el trámite.', 'Segundo párrafo explicativo igualmente detallado sobre requisitos.']}
+  result=mod.validate_draft(a,[SOURCE])
+  self.assertNotIn('Incomplete introduction',result['errors'])
+  markup=mod.render(a,[SOURCE],{})
+  self.assertIn('<p>Primer párrafo',markup)
+  self.assertIn('<p>Segundo párrafo',markup)
+  self.assertNotIn('&amp;#x27;',markup)
+ def test_failed_validation_reports_reasons(self):
+  p={'version':3,'proposals':[{'cluster_id':'residence_renewal','action':'improve_existing_page','proposed_title':'Renovar residencia'}]}
+  bad={**ARTICLE,'unresolved_questions':['Falta investigar un supuesto']}
+  with tempfile.TemporaryDirectory() as d:
+   root=Path(d);(root/'p.json').write_text(json.dumps(p),encoding='utf8')
+   from argparse import Namespace
+   mockfetch={'url':SOURCE['url'],'text':SOURCE['extract'],'fetched_at':SOURCE['fetched_at'],'sha256':'abc'}
+   with patch.object(mod,'fetch_official',return_value=mockfetch),patch.object(mod,'openai_generate',return_value=bad):
+    ret=mod.run(Namespace(proposals=str(root/'p.json'),output=str(root/'out'),model='gpt-4.1-mini'))
+   self.assertEqual(ret,1)
+   self.assertIn('Outstanding legal research questions',json.loads((root/'out'/'decision.json').read_text())['reasons'])
 if __name__=='__main__':unittest.main()
