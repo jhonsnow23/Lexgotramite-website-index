@@ -94,11 +94,6 @@ def index_map(root):
         title=_caption(n)
         if not bid or not re.fullmatch(r'[A-Za-z0-9_-]{1,90}',bid):continue
         bm=BLOCK_ID.fullmatch(bid)
-        if bm:
-            key=(int(bm.group(1)),(bm.group(2) or '').lower())
-            if key in index_ids and index_ids[key]!=bid:
-                raise BOEError('AMBIGUOUS_INDEX',f'Conflicting article block candidates for {key}')
-            index_ids[key]=bid
         header=_number_of(title)
         if not header:
             # Some BOE index records embed labels one extra level down.
@@ -106,17 +101,28 @@ def index_map(root):
                 if tag(c) in ('texto','rotulo','epigrafe','epígrafe','nombre','caption'):
                     header=_number_of(txt(c))
                     if header:break
-        if header:candidates.append((header,bid,title))
+        if header:
+            # A caption identifies an article more strongly than its opaque block ID.
+            # Old BOE indices may reuse aNN identifiers for different structures.
+            candidates.append((header,bid,title))
+        elif bm:
+            # Use the actual observed index identifier only as an unconfirmed
+            # fallback. The fetched provision heading must still match.
+            key=(int(bm.group(1)),(bm.group(2) or '').lower())
+            if key in index_ids and index_ids[key]!=bid:
+                # Ambiguous weak candidates must not block unrelated articles.
+                index_ids[key]=None
+            elif key not in index_ids:
+                index_ids[key]=bid
     for key,bid,title in candidates:
         if key in result and result[key]!=bid:
             raise BOEError('AMBIGUOUS_INDEX',f'Conflicting block IDs for Artículo {key[0]}')
         result[key]=bid
     for key,bid in index_ids.items():
-        if key in result and result[key]!=bid:
-            raise BOEError('AMBIGUOUS_INDEX',f'Index title conflicts with candidate block ID for {key}')
-        # This is only a candidate observed in the actual index.
-        # retrieve() independently checks the returned article heading.
-        result.setdefault(key,bid)
+        # Explicit caption matches take priority over weaker aNN guesses.
+        # Conflicting or unknown guesses are excluded. We never invent IDs.
+        if bid is not None:
+            result.setdefault(key,bid)
     return result
 
 
