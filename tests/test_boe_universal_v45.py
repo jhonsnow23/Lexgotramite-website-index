@@ -102,3 +102,20 @@ class LiveCivilCodeIndexRegressionTests(unittest.TestCase):
   result=m.retrieve('BOE-A-1889-4763',[22],opener=valid)
   self.assertEqual(result['provisions'][0]['block_id'],'art22')
   self.assertEqual(result['provisions'][0]['legal_status'],'UNVERIFIED')
+
+
+class ScopedIndexConflictRegressionTests(unittest.TestCase):
+ def test_unrelated_a9_conflict_does_not_break_nationality(self):
+  # Previously a9 with title Art 8 conflicted with art9 title Art 9.
+  # A problem about Art 9 must not abort retrieval of Arts 21-23.
+  xml=b'<r><bloque id="a9" titulo="Art 8"/><bloque id="art9" titulo="Art 9"/><bloque id="art21" titulo="Art 21"/><bloque id="art22" titulo="Art 22"/><bloque id="art23" titulo="Art 23"/></r>'
+  mp=m.index_map(ET.fromstring(xml))
+  self.assertEqual([mp[(n,'')] for n in (21,22,23)],['art21','art22','art23'])
+  self.assertEqual(mp[(9,'')],'art9')
+ def test_ambiguous_explicit_article_still_fails_closed(self):
+  xml=b'<r><bloque id="art22" titulo="Art 22"/><bloque id="other22" titulo="Articulo 22"/></r>'
+  with self.assertRaisesRegex(m.BOEError,'AMBIGUOUS_INDEX'):
+   m.index_map(ET.fromstring(xml))
+ def test_observed_block_not_guess_for_different_caption(self):
+  xml=b'<r><bloque id="a21" titulo="Art 9"/><bloque id="art21" titulo="Art 21"/></r>'
+  self.assertEqual(m.index_map(ET.fromstring(xml))[(21,'')],'art21')
