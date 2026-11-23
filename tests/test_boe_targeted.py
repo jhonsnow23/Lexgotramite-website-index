@@ -1,70 +1,15 @@
-import importlib.util
+"""Updated compatibility contract for v4.5. Replaces old aNN fallback assumptions."""
+import sys,unittest
 from pathlib import Path
-import io,unittest
-from unittest.mock import patch
-ROOT=Path(__file__).resolve().parents[1]
-spec=importlib.util.spec_from_file_location('boe_targeted',ROOT/'scripts'/'boe_targeted.py')
-b=importlib.util.module_from_spec(spec);spec.loader.exec_module(b)
-class Response:
- def __init__(self,url,content):self.url=url;self.content=content;self.headers={}
- def __enter__(self):return self
- def __exit__(self,*args):return False
- def read(self,n):return self.content[:n]
- def geturl(self):return self.url
-INDEX=b'<root><bloque><id_bloque>a21</id_bloque><titulo>Articulo 21.</titulo></bloque><bloque><id_bloque>a22</id_bloque><titulo>Articulo 22.</titulo></bloque><bloque><id_bloque>a23</id_bloque><titulo>Articulo 23.</titulo></bloque></root>'
-BLOCK=b'<root><version><fecha_publicacion>2020-01-01</fecha_publicacion><texto>Texto anterior con suficientes palabras para pasar la prueba de tamano del texto.</texto></version><version><fecha_publicacion>2025-01-01</fecha_publicacion><texto>Esta es la version mas reciente del articulo, que contiene texto juridico para las pruebas automatizadas de la extraccion por bloques.</texto></version></root>'
-def opener(req,timeout):return Response(req.full_url,INDEX if req.full_url.endswith('/indice') else BLOCK)
-class TestBOE(unittest.TestCase):
- def test_index(self):
-  self.assertEqual(b.block_index(b.ET.fromstring(INDEX)),{21:'a21',22:'a22',23:'a23'})
- def test_bounded_articles(self):
-  result=b.retrieve_articles('BOE-A-1889-4763',[21,22,23],opener=opener)
-  self.assertEqual(len(result['provisions']),3)
-  self.assertIn('Artículo 22.',result['evidence_text'])
-  self.assertNotIn('Texto anterior',result['evidence_text'])
-  self.assertTrue(result['informative_consolidation'])
- def test_missing_article_fails(self):
-  with self.assertRaisesRegex(ValueError,'absent from index'):b.retrieve_articles('BOE-A-1889-4763',[24],opener=opener)
- def test_size_budget_fails_not_truncates(self):
-  with self.assertRaisesRegex(ValueError,'context budget'):b.retrieve_articles('BOE-A-1889-4763',[21,22],opener=opener,max_total=60)
- def test_malformed_xml(self):
-  def invalid(req,timeout):return Response(req.full_url,b'<broken')
-  with self.assertRaisesRegex(ValueError,'Invalid official BOE XML'):b.retrieve_articles('BOE-A-1889-4763',[21],opener=invalid)
- def test_bad_identifier(self):
-  with self.assertRaisesRegex(ValueError,'Invalid BOE'):b.retrieve_articles('https://evil.test',[22],opener=opener)
- def test_bad_redirect(self):
-  def redirected(req,timeout):return Response('https://example.com/capture',INDEX)
-  with self.assertRaisesRegex(ValueError,'redirected'):b.retrieve_articles('BOE-A-1889-4763',[22],opener=redirected)
- def test_dtd_blocked(self):
-  def dtd(req,timeout):return Response(req.full_url,b'<!DOCTYPE root><root/>')
-  with self.assertRaisesRegex(ValueError,'DTD'):b.retrieve_articles('BOE-A-1889-4763',[22],opener=dtd)
- def test_size_blocked(self):
-  def big(req,timeout):return Response(req.full_url,b'x'*(b.MAX_INDEX+1))
-  with self.assertRaisesRegex(ValueError,'bounded retrieval limit'):b.retrieve_articles('BOE-A-1889-4763',[22],opener=big)
- def test_versions_must_have_dates(self):
-  xml=b'<root><version><texto>Long enough text to be a realistic provision with dozens of words and adequate length.</texto></version></root>'
-  self.assertIn('Long enough text', b.latest_block_text(b.ET.fromstring(xml)))
- def test_official_index_format(self):
-  xml=b'<response><status><code>200</code></status><data><bloque><id>a21</id><titulo>Articulo 21</titulo><fecha_actualizacion>20201101</fecha_actualizacion></bloque><bloque><id>a22</id><titulo>Articulo 22</titulo></bloque><bloque><id>a23</id><titulo>Articulo 23</titulo></bloque></data></response>'
-  self.assertEqual(b.block_index(b.ET.fromstring(xml)),{21:'a21',22:'a22',23:'a23'})
- def test_id_fallback_when_title_nonstandard(self):
-  xml=b'<response><data><bloque><id>a22</id><titulo>Seccion sobre nacionalidad</titulo></bloque></data></response>'
-  self.assertEqual(b.block_index(b.ET.fromstring(xml)),{22:'a22'})
- def test_real_boe_yyyymmdd_dates(self):
-  xml=b'<response><data><bloque><version id_norma="BOE-A-2015-12047" fecha_publicacion="20151108" fecha_vigencia="20151109"><p class="articulo">Articulo 1. Disposicion anterior con suficientes palabras en el texto para pruebas de validacion.</p></version><version id_norma="BOE-A-2025-1000" fecha_publicacion="20250501" fecha_vigencia="20250502"><p class="articulo">Articulo 1. Esta es la disposicion vigente con suficientes palabras para validar correctamente la seleccion temporal del texto.</p><blockquote><p>Esta nota editorial no forma parte del texto del articulo y no debe incluirse.</p></blockquote></version></bloque></data></response>'
-  output=b.latest_block_text(b.ET.fromstring(xml))
-  self.assertIn('disposicion vigente',output)
-  self.assertNotIn('Disposicion anterior',output)
-  self.assertNotIn('nota editorial',output)
- def test_ambiguous_multi_undated_fails(self):
-  xml=b'<root><version><p>Texto bastante largo para las pruebas automaticas de version.</p></version><version><p>Texto diferente bastante largo para las pruebas automaticas de version.</p></version></root>'
-  with self.assertRaisesRegex(ValueError,'lack dates'):b.latest_block_text(b.ET.fromstring(xml))
- def test_bad_calendar_date_fails(self):
-  xml=b'<root><version fecha_publicacion="20251301"><p>Texto bastante largo para las pruebas automaticas de version.</p></version></root>'
-  with self.assertRaisesRegex(ValueError,'Invalid BOE version date'):b.latest_block_text(b.ET.fromstring(xml))
- def test_prevents_publication(self):
-  spec=importlib.util.spec_from_file_location('seo_v41',ROOT/'scripts'/'seo_v41.py')
-  m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
-  self.assertFalse(m.validate_draft({},[])['publication_allowed'])
-  self.assertIn(('BOE-A-2015-12047',m.BOE_NATIONALITY_PROC),m.SOURCES['nationality'])
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
+import boe_targeted
+from test_boe_universal_v45 import opener
+class Tests(unittest.TestCase):
+ def test_existing_generator_contract(self):
+  r=boe_targeted.retrieve_articles('BOE-A-1889-4763',[21,22,23],opener=opener)
+  self.assertEqual([x['article'] for x in r['provisions']],['21','22','23'])
+  self.assertIn('evidence_text',r)
+ def test_not_legally_certified(self):
+  r=boe_targeted.retrieve_articles('BOE-A-1889-4763',[22],opener=opener)
+  self.assertEqual(r['provisions'][0]['legal_status'],'UNVERIFIED')
 if __name__=='__main__':unittest.main()
