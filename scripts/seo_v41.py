@@ -5,6 +5,7 @@ Fail closed: never writes public pages or publication state. Legal accuracy need
 independent substantive review; exact quotes alone cannot prove legal applicability.
 """
 import argparse
+import unicodedata
 import datetime as dt
 import hashlib
 import html
@@ -82,6 +83,100 @@ def source_excerpt(text, needles, limit=11000):
         if total>limit*.75:break
     return '\n\n'.join(pieces)
 
+def fold_ascii(value):
+    return ''.join(ch for ch in unicodedata.normalize('NFKD', normalize(value)) if not unicodedata.combining(ch))
+
+
+def extract_article_numbers(questions):
+    """Identify expressly requested legal articles; do not guess unspecified provisions."""
+    numbers=[]
+    for question in questions:
+        for m in re.finditer(r'\bart[ií]culos?\s+([\d][\d\s,.;y()a-d-]*)', str(question), re.I):
+            for n in re.findall(r'(?<![\d.])\b\d{1,3}\b', m.group(1)):
+                if n not in numbers:
+                    numbers.append(n)
+    return numbers[:12]
+
+
+def targeted_evidence(full_text, questions, *, limit=13500):
+    """Extract contiguous passages anchored at exact article headings and keyword matches.
+
+    Unnumbered questions are never considered answered solely by a keyword match.
+    """
+    lines=[line.strip() for line in full_text.splitlines() if line.strip()]
+    articles=extract_article_numbers(questions)
+    selected=[]; seen=set(); size=0
+    def add(start, window):
+        nonlocal size
+        excerpt='\n'.join(lines[start:min(len(lines),start+window)])
+        if start in seen or size+len(excerpt)>limit:return
+        seen.add(start);selected.append(excerpt);size+=len(excerpt)
+    for number in articles:
+        pattern=re.compile(r'^Art[ií]culo\s+'+re.escape(number)+r'\s*[.º:]\s*',re.I)
+        for i,line in enumerate(lines):
+            if pattern.search(line):
+                add(i,12)
+                break
+    keywords=['temporada','circunstancias excepcionales','autorizacion de residencia temporal','arraigo','renovacion']
+    for q in questions:
+        text=fold_ascii(q)
+        for keyword in keywords:
+            if fold_ascii(keyword) not in text:continue
+            for i,line in enumerate(lines):
+                if fold_ascii(keyword) in fold_ascii(line) and len(line)>35:
+                    add(max(0,i-2),7)
+                    break
+    return '\n\n'.join(selected)
+
+
+def complete_research(draft, sources, full_texts, proposal, *, model, max_revisions=2,
+                      generator=None):
+    """Bounded evidence expansion followed by revision; fail closed if unresolved."""
+    generator=generator or openai_generate
+    audit=[]
+    for attempt in range(1,max_revisions+1):
+        questions=draft.get('unresolved_questions',[])
+        if not isinstance(questions,list) or not questions:break
+        additional=[]
+        for source in sources:
+            raw=full_texts.get(source['id'],'')
+            extra=targeted_evidence(raw,questions)
+            if extra:
+                # Preserve original excerpts; new verbatim passages remain attributable.
+                existing=source['extract']
+                if extra not in existing:
+                    source['extract']=existing+'\n\n'+extra
+                    additional.append({'source_id':source['id'],'added_characters':len(extra)})
+        record={'attempt':attempt,'questions_before':questions,'evidence_expansion':additional}
+        if not additional:
+            record['result']='No additional relevant official passages; stopped safely'
+            audit.append(record);break
+        try:
+            revision_request=dict(proposal)
+            revision_request['proposed_title']=proposal.get('proposed_title','')
+            # These fields travel as topic research instructions to the existing generator.
+            revision_request['sections_to_research']=[
+                'REVISION OF EXISTING ARTICLE: '+json.dumps(draft,ensure_ascii=False),
+                'UNRESOLVED QUESTIONS: '+json.dumps(questions,ensure_ascii=False),
+                'Use newly provided official evidence to address questions only when sufficient; otherwise keep them unresolved. '+
+                'Retain accurate sections; remove unsupported claims and return the COMPLETE REVISED JSON. '+
+                'Do not claim resolved merely because a passage mentions a subject.'
+            ]
+            revised=generator(revision_request,sources,model=model)
+            if not isinstance(revised,dict):raise ValueError('Revised article is not a JSON object')
+            draft=revised
+            record['remaining_questions']=draft.get('unresolved_questions',[])
+            record['validation_errors']=validate_draft(draft,sources)['errors']
+            record['result']='Revised draft generated'
+        except (ValueError,KeyError,TypeError,RuntimeError,urllib.error.URLError) as exc:
+            record['result']='Revision failed: '+type(exc).__name__
+            audit.append(record)
+            break
+        audit.append(record)
+        if not draft.get('unresolved_questions'):break
+    return draft,audit
+
+
 def select_proposal(data):
     if data.get('version')!=3 or not isinstance(data.get('proposals'),list):raise ValueError('Expected v3 proposals JSON')
     for p in data['proposals']:
@@ -146,7 +241,7 @@ def run(args):
         proposals=json.loads(Path(args.proposals).read_text(encoding='utf8'))
         proposal=select_proposal(proposals)
         status['topic']=proposal.get('proposed_title')
-        sources=[];failures=[]
+        sources=[];failures=[];full_texts={}
         needles=['renovacion','residencia','autorizacion','requisitos','prorroga'] if proposal.get('cluster_id')=='residence_renewal' else ['residencia','autorizacion','requisitos','extranjeria']
         for sid,url in SOURCES[proposal['cluster_id']]:
             try:
@@ -154,15 +249,25 @@ def run(args):
                 excerpt=source_excerpt(r['text'],needles)
                 if len(excerpt)<1200:raise ValueError('Not enough relevant legal material')
                 sources.append({'id':sid,'url':r['url'],'fetched_at':r['fetched_at'],'sha256':r['sha256'],'extract':excerpt})
+                full_texts[sid]=r['text']
             except (ValueError,urllib.error.URLError,TimeoutError) as e:
                 failures.append({'url':url,'error':str(e)[:200]})
         (output/'source_retrieval.json').write_text(json.dumps({'sources':[{'id':s['id'],'url':s['url'],'sha256':s['sha256'],'fetched_at':s['fetched_at'],'extract':s['extract']} for s in sources], 'failures':failures},ensure_ascii=False,indent=2),encoding='utf8')
         if failures or not sources:raise RuntimeError('Official evidence retrieval incomplete; article generation blocked')
         draft=openai_generate(proposal,sources,model=args.model)
+        initial_validation=validate_draft(draft,sources)
+        (output/'initial_validation.json').write_text(json.dumps(initial_validation,ensure_ascii=False,indent=2),encoding='utf8')
+        if draft.get('unresolved_questions'):
+            draft,research_audit=complete_research(draft,sources,full_texts,proposal,model=args.model)
+        else:
+            research_audit=[]
+        (output/'research_audit.json').write_text(json.dumps(research_audit,ensure_ascii=False,indent=2),encoding='utf8')
+        # Keep the exact evidence actually supplied to the revision in the artifact.
+        (output/'source_retrieval.json').write_text(json.dumps({'sources':sources,'failures':failures},ensure_ascii=False,indent=2),encoding='utf8')
         (output/'article.json').write_text(json.dumps(draft,ensure_ascii=False,indent=2),encoding='utf8')
         decision=validate_draft(draft,sources)
         (output/'article.preview.html').write_text(render(draft,sources,decision),encoding='utf8')
-        status.update({'result':'draft_generated' if decision['schema_and_evidence_checks_passed'] else 'draft_failed_checks','validation':decision})
+        status.update({'version':'4.3','result':'draft_generated' if decision['schema_and_evidence_checks_passed'] else 'draft_failed_checks','validation':decision, 'research_attempts':len(research_audit)})
         if not decision['schema_and_evidence_checks_passed']:
             status['reasons'].extend(decision['errors'])
     except Exception as e:
@@ -173,5 +278,5 @@ def run(args):
     return 0 if status['result']=='draft_generated' else 1
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--proposals',default='reports/seo_v42/selected_v41_proposal.json');p.add_argument('--output',default='reports/seo_v41');p.add_argument('--model',default='gpt-4.1-mini');return run(p.parse_args())
+    p=argparse.ArgumentParser();p.add_argument('--proposals',default='reports/editorial_v3/proposals.json');p.add_argument('--output',default='reports/seo_v41');p.add_argument('--model',default='gpt-4.1-mini');return run(p.parse_args())
 if __name__=='__main__':sys.exit(main())
