@@ -43,7 +43,25 @@ class TestBOE(unittest.TestCase):
   with self.assertRaisesRegex(ValueError,'bounded retrieval limit'):b.retrieve_articles('BOE-A-1889-4763',[22],opener=big)
  def test_versions_must_have_dates(self):
   xml=b'<root><version><texto>Long enough text to be a realistic provision with dozens of words and adequate length.</texto></version></root>'
-  with self.assertRaisesRegex(ValueError,'date missing'):b.latest_block_text(b.ET.fromstring(xml))
+  self.assertIn('Long enough text', b.latest_block_text(b.ET.fromstring(xml)))
+ def test_official_index_format(self):
+  xml=b'<response><status><code>200</code></status><data><bloque><id>a21</id><titulo>Articulo 21</titulo><fecha_actualizacion>20201101</fecha_actualizacion></bloque><bloque><id>a22</id><titulo>Articulo 22</titulo></bloque><bloque><id>a23</id><titulo>Articulo 23</titulo></bloque></data></response>'
+  self.assertEqual(b.block_index(b.ET.fromstring(xml)),{21:'a21',22:'a22',23:'a23'})
+ def test_id_fallback_when_title_nonstandard(self):
+  xml=b'<response><data><bloque><id>a22</id><titulo>Seccion sobre nacionalidad</titulo></bloque></data></response>'
+  self.assertEqual(b.block_index(b.ET.fromstring(xml)),{22:'a22'})
+ def test_real_boe_yyyymmdd_dates(self):
+  xml=b'<response><data><bloque><version id_norma="BOE-A-2015-12047" fecha_publicacion="20151108" fecha_vigencia="20151109"><p class="articulo">Articulo 1. Disposicion anterior con suficientes palabras en el texto para pruebas de validacion.</p></version><version id_norma="BOE-A-2025-1000" fecha_publicacion="20250501" fecha_vigencia="20250502"><p class="articulo">Articulo 1. Esta es la disposicion vigente con suficientes palabras para validar correctamente la seleccion temporal del texto.</p><blockquote><p>Esta nota editorial no forma parte del texto del articulo y no debe incluirse.</p></blockquote></version></bloque></data></response>'
+  output=b.latest_block_text(b.ET.fromstring(xml))
+  self.assertIn('disposicion vigente',output)
+  self.assertNotIn('Disposicion anterior',output)
+  self.assertNotIn('nota editorial',output)
+ def test_ambiguous_multi_undated_fails(self):
+  xml=b'<root><version><p>Texto bastante largo para las pruebas automaticas de version.</p></version><version><p>Texto diferente bastante largo para las pruebas automaticas de version.</p></version></root>'
+  with self.assertRaisesRegex(ValueError,'lack dates'):b.latest_block_text(b.ET.fromstring(xml))
+ def test_bad_calendar_date_fails(self):
+  xml=b'<root><version fecha_publicacion="20251301"><p>Texto bastante largo para las pruebas automaticas de version.</p></version></root>'
+  with self.assertRaisesRegex(ValueError,'Invalid BOE version date'):b.latest_block_text(b.ET.fromstring(xml))
  def test_prevents_publication(self):
   spec=importlib.util.spec_from_file_location('seo_v41',ROOT/'scripts'/'seo_v41.py')
   m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
