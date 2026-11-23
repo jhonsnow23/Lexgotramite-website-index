@@ -21,6 +21,11 @@ except ImportError:
     from scripts.legal_relevance_v50 import group_of, questions, discover, coverage, metadata_duplicate, provision_relevance
 
 try:
+    from official_sources_v50 import retrieve_for_topic as retrieve_official
+except ImportError:
+    from scripts.official_sources_v50 import retrieve_for_topic as retrieve_official
+
+try:
     from boe_universal_v45 import retrieve, BOEError
 except ImportError:
     from scripts.boe_universal_v45 import retrieve, BOEError
@@ -81,7 +86,7 @@ def records_from_boe(result):
                        'retrieved_at':item['retrieved_at'],'version_date':item.get('version_date'),
                        'version_status':item.get('version_status','VERSION_UNCERTAIN'),
                        'legal_status':item.get('legal_status','UNVERIFIED'),
-                       'text':item['text'],'sha256':hashlib.sha256(item['text'].encode()).hexdigest()})
+                       'authority':'boe','document_title':item['source_id'], 'text':item['text'],'sha256':hashlib.sha256(item['text'].encode()).hexdigest()})
     return output
 
 
@@ -101,7 +106,7 @@ def plan(proposal):
             'publication_allowed':False}
 
 
-def retrieve_evidence(research_plan,retrieval=retrieve,*,discovery=discover,return_diagnostics=False):
+def retrieve_evidence(research_plan,retrieval=retrieve,*,discovery=discover,return_diagnostics=False,include_official=False,official_retrieval=None):
     """Bounded official candidate retrieval; reject unrelated full text before drafting.
 
     A retrieval warning does not create legal evidence; the independent research-
@@ -160,7 +165,12 @@ def retrieve_evidence(research_plan,retrieval=retrieve,*,discovery=discover,retu
             errors.append({'category':item.get('failure_code','BOE_INDEX_ERROR'),
                            'details':item.get('detail','BOE index request failed'),
                            'document':item.get('document')})
-    if return_diagnostics:return evidence,errors,{'index':diagnostics,'provision_attempts':attempts,
+    official_attempts=[]
+    if include_official:
+        extra,extra_errors,official_attempts=(official_retrieval or retrieve_official)(research_plan['topic'], research_plan['group'])
+        evidence.extend(extra)
+        errors.extend(extra_errors)
+    if return_diagnostics:return evidence,errors,{'official_source_attempts':official_attempts,'index':diagnostics,'provision_attempts':attempts,
                  'retrieved_candidates':len(attempts),'accepted_evidence':len(evidence),
                  'full_text_probes_attempted':sum(t.get('discovery_method')=='STRATIFIED_FULL_TEXT_PROBE' for t in attempts),
                  'discovery_exhaustive':all(not r.get('uninspected_index_articles') for r in diagnostics)}
@@ -255,7 +265,7 @@ def render(article,evidence,validation):
     faqs=''.join('<h3>'+esc(q.get('question',''))+'</h3><p>'+esc(q.get('answer',''))+'</p>' for q in article.get('faqs',[]) if isinstance(q,dict))
     # Evidence lookup owned by Python, not model-generated citations.
     trace=''.join('<li>'+esc(c.get('claim',''))+' — '+', '.join(esc(ref) for ref in c.get('evidence_ids',[]))+'</li>' for c in article.get('claims',[]) if isinstance(c,dict))
-    refs=''.join('<li>BOE '+esc(r['source_id'])+', artículo '+esc(r['article'])+' — <a href="'+esc(r['official_url'])+'">Fuente oficial</a> (consultado '+esc(r['retrieved_at'][:10])+')</li>' for r in evidence)
+    refs=''.join('<li>'+esc(r.get('document_title') or r['source_id'])+((', artículo '+esc(r['article'])) if r.get('article') else '')+' — <a href="'+esc(r['official_url'])+'">Fuente oficial</a> (consultado '+esc(r['retrieved_at'][:10])+')</li>' for r in evidence)
     return '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BORRADOR — '+title+'</title><meta name="description" content="'+esc(article.get('meta_description',''))+'"></head><body><main><strong>BORRADOR — NO PUBLICAR. Verificación jurídica independiente pendiente.</strong><h1>'+title+'</h1><p>'+esc(article.get('introduction',''))+'</p>'+sections+'<section><h2>Preguntas frecuentes</h2>'+faqs+'</section><section><h2>Trazabilidad de afirmaciones (revisión pendiente)</h2><ul>'+trace+'</ul></section><section><h2>Fuentes oficiales y normativa consultada</h2><ul>'+refs+'</ul></section><p>Información general, sujeta a revisión y a las circunstancias individuales.</p></main></body></html>'
 
 
@@ -291,7 +301,7 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
             status['result']='BLOCKED_INSUFFICIENT_EVIDENCE'
             status['errors']=['No applicable research template for this topic']
             return 2
-        evidence,failed,discovery_diagnostics=retrieve_evidence(research_plan,retrieval=retrieval,return_diagnostics=True)
+        evidence,failed,discovery_diagnostics=retrieve_evidence(research_plan,retrieval=retrieval,return_diagnostics=True,include_official=(retrieval is retrieve))
         save('evidence.json',evidence);save('retrieval_errors.json',failed)
         save('discovery_diagnostics.json',discovery_diagnostics)
         if failed or not evidence:
