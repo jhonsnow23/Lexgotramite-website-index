@@ -20,6 +20,11 @@ MAX_INDEX=4_000_000
 MAX_BLOCK=800_000
 MAX_ARTICLES=12
 MAX_CONTEXT=40_000
+# Narrow, explicit support for older Civil Code headings written as words.
+SPELLED = {'veintiuno':21,'veintiún':21,'veintiun':21,'veintidós':22,'veintidos':22,'veintitrés':23,'veintitres':23}
+WORD_HEADING=re.compile(r'\bArt(?:[íi]culo|\.)\s+([A-Za-záéíóúüñ]+)\b',re.I)
+BLOCK_ID=re.compile(r'a(\d{1,4})(bis|ter|quater)?\Z',re.I)
+
 
 class BOEError(RuntimeError):
     def __init__(self,code,detail,*,url=''):
@@ -70,7 +75,10 @@ def _caption(n):
 
 def _number_of(s):
     m=HEADING.search(s or '')
-    return (int(m.group(1)),(m.group(2) or '').lower()) if m else None
+    if m:return (int(m.group(1)),(m.group(2) or '').lower())
+    w=WORD_HEADING.search(s or '')
+    if w and w.group(1).lower() in SPELLED:return (SPELLED[w.group(1).lower()],'')
+    return None
 
 def index_map(root):
     """Extract article=>block IDs from leaf-like index records.
@@ -78,13 +86,19 @@ def index_map(root):
     Never derive the number from a generic aNN ID alone: it may be an unrelated
     structure and earlier attempts trusted that guess. Header must identify it.
     """
-    result={}; candidates=[]
+    result={}; candidates=[]; index_ids={}
     for n in root.iter():
         if tag(n) not in ('bloque','item','elemento','entrada','registro','precepto','articulo','artículo'):
             continue
         bid=_identifier(n)
         title=_caption(n)
         if not bid or not re.fullmatch(r'[A-Za-z0-9_-]{1,90}',bid):continue
+        bm=BLOCK_ID.fullmatch(bid)
+        if bm:
+            key=(int(bm.group(1)),(bm.group(2) or '').lower())
+            if key in index_ids and index_ids[key]!=bid:
+                raise BOEError('AMBIGUOUS_INDEX',f'Conflicting article block candidates for {key}')
+            index_ids[key]=bid
         header=_number_of(title)
         if not header:
             # Some BOE index records embed labels one extra level down.
@@ -97,6 +111,12 @@ def index_map(root):
         if key in result and result[key]!=bid:
             raise BOEError('AMBIGUOUS_INDEX',f'Conflicting block IDs for Artículo {key[0]}')
         result[key]=bid
+    for key,bid in index_ids.items():
+        if key in result and result[key]!=bid:
+            raise BOEError('AMBIGUOUS_INDEX',f'Index title conflicts with candidate block ID for {key}')
+        # This is only a candidate observed in the actual index.
+        # retrieve() independently checks the returned article heading.
+        result.setdefault(key,bid)
     return result
 
 
@@ -198,7 +218,12 @@ def probe(doc_id,*,opener=urllib.request.urlopen):
         counts={}
         for e in root.iter():counts[tag(e)]=counts.get(tag(e),0)+1
         matches=index_map(root)
-        return {'document':doc_id,'url':url,'root':tag(root),'element_counts':dict(sorted(counts.items(),key=lambda x:-x[1])[:25]),'recognized_article_count':len(matches),'example_article_numbers':[f'{n}{s}' for n,s in list(matches)[:15]],'index_sha256':hash_,'diagnosis':'OK' if matches else 'INDEX_STRUCTURE_UNRECOGNIZED'}
+        examples=[]
+        for node in root.iter():
+            if tag(node)=='bloque' and len(examples)<8:
+                bid=_identifier(node)
+                if bid:examples.append({'id':bid[:35],'title':_caption(node)[:110]})
+        return {'index_title_examples':examples,'requested_candidates':{str(n):matches.get((n,'')) for n in (21,22,23)},'document':doc_id,'url':url,'root':tag(root),'element_counts':dict(sorted(counts.items(),key=lambda x:-x[1])[:25]),'recognized_article_count':len(matches),'example_article_numbers':[f'{n}{s}' for n,s in list(matches)[:15]],'index_sha256':hash_,'diagnosis':'OK' if matches else 'INDEX_STRUCTURE_UNRECOGNIZED'}
     except BOEError as e:return {'document':doc_id,'url':url,'diagnosis':e.code,'message':str(e)[:220]}
 
 if __name__=='__main__':
