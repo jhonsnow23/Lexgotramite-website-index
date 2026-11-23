@@ -1,0 +1,11 @@
+{
+  "source": "https://lexgotramite.com/ (service descriptions checked 2026-11-23)",
+  "note": "These categories are based on the site's advertised services. Review before expanding the catalog.",
+  "services": [
+    {"id":"residence", "name":"Residencia y renovaciones", "description":"Gestión y orientación de autorizaciones de residencia y permisos", "audience":"Extranjeros que necesitan obtener o mantener residencia", "procedures":["residencia", "renovación", "larga duración", "estudios"], "intents":["residence_renewal","residency_options","long_term_residence","residency_other"], "landing_page":"https://lexgotramite.com/residencia-espana", "priority":1, "offered":true},
+    {"id":"regularization", "name":"Regularización y arraigo", "description":"Orientación y tramitación de regularización y arraigo", "audience":"Extranjeros que buscan regularizar su situación en España", "procedures":["regularización", "arraigo"], "intents":["regularization_processing","regularization_other"], "landing_page":"https://lexgotramite.com/regularizacion-espana-2026", "priority":1, "offered":true},
+    {"id":"nationality", "name":"Nacionalidad española", "description":"Orientación y gestión de solicitudes de nacionalidad española", "audience":"Personas que desean obtener la nacionalidad española", "procedures":["nacionalidad por residencia", "documentación de nacionalidad"], "intents":["nationality_requirements","nationality_documents"], "landing_page":"https://lexgotramite.com/nacionalidad-espanola", "priority":1, "offered":true},
+    {"id":"family", "name":"Reagrupación familiar", "description":"Trámites para traer familiares a España", "audience":"Residentes que desean reagrupar a su familia", "procedures":["reagrupación familiar"], "intents":[], "landing_page":"https://lexgotramite.com/", "priority":2, "offered":true},
+    {"id":"qualification", "name":"Homologación de títulos", "description":"Gestión de homologaciones y documentación", "audience":"Profesionales extranjeros con titulaciones", "procedures":["homologación de títulos"], "intents":[], "landing_page":"https://lexgotramite.com/homologacion-titulos-espana", "priority":2, "offered":true}
+  ]
+}
