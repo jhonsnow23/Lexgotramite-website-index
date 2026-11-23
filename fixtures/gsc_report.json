@@ -1,0 +1,1258 @@
+{
+  "version": 2,
+  "metadata": {
+    "source": "google_search_console_api",
+    "verified_google_data": true,
+    "site": "sc-domain:example.test",
+    "retrieved_at": "2026-11-22",
+    "data_end_date": "2026-11-19",
+    "fixture": "SYNTHETIC FAKE DATA FOR UNIT TESTS - NEVER FOR CONTENT PLANNING"
+  },
+  "windows": {
+    "7": [
+      {
+        "id": "residence_renewal",
+        "title": "Renovación de residencia",
+        "topic": "post_regularization",
+        "impressions": 10,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 22,
+        "query_count": 10,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 21.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 2",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 24.5,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 3",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 40.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 4",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 1.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 5",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 46.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 6",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 1.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 7",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 71.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 8",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 30.0,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "blog/renovar-residencia-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 12
+          }
+        ],
+        "recommended_action": "improve_existing_page",
+        "priority_score": 73.6,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      },
+      {
+        "id": "residency_options",
+        "title": "Tipos y requisitos de residencia legal",
+        "topic": "post_regularization",
+        "impressions": 14,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 26,
+        "query_count": 4,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 81.6,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 2",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 38.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 3",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 69.2,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 4",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 40.0,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "blog/tipos-de-residencia-en-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 32
+          },
+          {
+            "path": "drafts/tipos-de-residencia-en-espana.json",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": true
+          }
+        ],
+        "recommended_action": "improve_existing_page",
+        "priority_score": 67.0,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      },
+      {
+        "id": "long_term_residence",
+        "title": "Residencia de larga duración y tarjeta",
+        "topic": "post_regularization",
+        "impressions": 18,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 30,
+        "query_count": 2,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE long_term_residence QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 66.5,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE long_term_residence QUERY 2",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 4.0,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "blog/renovar-residencia-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 3
+          }
+        ],
+        "recommended_action": "monitor_existing_page",
+        "priority_score": 53.9,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      }
+    ],
+    "28": [
+      {
+        "id": "residence_renewal",
+        "title": "Renovación de residencia",
+        "topic": "post_regularization",
+        "impressions": 10,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 22,
+        "query_count": 24,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 40.6,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 2",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 49.7,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 3",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 57.1,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 4",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 59.8,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 5",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 50.2,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 6",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 27.8,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 7",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 36.2,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 8",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 38.3,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "blog/renovar-residencia-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 81
+          }
+        ],
+        "recommended_action": "improve_existing_page",
+        "priority_score": 88,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      },
+      {
+        "id": "residency_options",
+        "title": "Tipos y requisitos de residencia legal",
+        "topic": "post_regularization",
+        "impressions": 14,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 26,
+        "query_count": 6,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 80.8,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 2",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 71.3,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 3",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 38.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 4",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 93.5,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 5",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 40.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 6",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 76.0,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "blog/tipos-de-residencia-en-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 131
+          },
+          {
+            "path": "index.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 2
+          },
+          {
+            "path": "drafts/tipos-de-residencia-en-espana.json",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": true
+          }
+        ],
+        "recommended_action": "improve_existing_page",
+        "priority_score": 72,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      },
+      {
+        "id": "regularization_processing",
+        "title": "Regularización: plazos y estado del expediente",
+        "topic": "post_regularization",
+        "impressions": 18,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 30,
+        "query_count": 1,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE regularization_processing QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 7.6,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "blog/cuanto-tarda-la-regularizacion-en-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 5
+          },
+          {
+            "path": "blog/cuanto-tarda-proceso-regularizacion-espana.html",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": false
+          },
+          {
+            "path": "cuanto-tarda-la-regularizacion-en-espana.html",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": false
+          },
+          {
+            "path": "cuanto-tarda-proceso-regularizacion-espana.html",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": false
+          },
+          {
+            "path": "drafts/cuanto-tarda-proceso-regularizacion-espana.json",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": true
+          }
+        ],
+        "recommended_action": "improve_existing_page",
+        "priority_score": 71.9,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      },
+      {
+        "id": "long_term_residence",
+        "title": "Residencia de larga duración y tarjeta",
+        "topic": "post_regularization",
+        "impressions": 22,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 34,
+        "query_count": 3,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE long_term_residence QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 61.8,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE long_term_residence QUERY 2",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 4.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE long_term_residence QUERY 3",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 40.0,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "blog/renovar-residencia-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 6
+          }
+        ],
+        "recommended_action": "improve_existing_page",
+        "priority_score": 59.5,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      },
+      {
+        "id": "nationality_requirements",
+        "title": "Nacionalidad española por residencia: requisitos",
+        "topic": "nationality",
+        "impressions": 26,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 38,
+        "query_count": 1,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE nationality_requirements QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 77.3,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "nacionalidad-espanola.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 3
+          }
+        ],
+        "recommended_action": "monitor_existing_page",
+        "priority_score": 53.9,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      },
+      {
+        "id": "regularization_other",
+        "title": "Regularización: otras preguntas",
+        "topic": "post_regularization",
+        "impressions": 30,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 42,
+        "query_count": 2,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE regularization_other QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 63.5,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE regularization_other QUERY 2",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 30.0,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "mapa-web.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 2
+          },
+          {
+            "path": "blog/cuanto-tarda-la-regularizacion-en-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 1
+          }
+        ],
+        "recommended_action": "monitor_existing_page",
+        "priority_score": 53.9,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      },
+      {
+        "id": "residency_other",
+        "title": "Residencia: otras preguntas",
+        "topic": "post_regularization",
+        "impressions": 34,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 46,
+        "query_count": 1,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE residency_other QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 50.0,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "blog/residencia-por-estudios-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 1
+          }
+        ],
+        "recommended_action": "monitor_existing_page",
+        "priority_score": 46.9,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      },
+      {
+        "id": "nationality_documents",
+        "title": "Nacionalidad por residencia: documentos",
+        "topic": "nationality",
+        "impressions": 38,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 50,
+        "query_count": 1,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE nationality_documents QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 70.0,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "nacionalidad-espanola.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 1
+          },
+          {
+            "path": "blog/documentos-para-residencia-en-espana.html",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": false
+          },
+          {
+            "path": "documentos-para-residencia-en-espana.html",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": false
+          },
+          {
+            "path": "drafts/documentos-para-residencia-en-espana.json",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": true
+          }
+        ],
+        "recommended_action": "monitor_existing_page",
+        "priority_score": 38.9,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      }
+    ],
+    "90": [
+      {
+        "id": "regularization_processing",
+        "title": "Regularización: plazos y estado del expediente",
+        "topic": "post_regularization",
+        "impressions": 10,
+        "clicks": 0,
+        "ctr": 0.0061,
+        "average_position": 22,
+        "query_count": 10,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE regularization_processing QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 5.8,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE regularization_processing QUERY 2",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 9.4,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE regularization_processing QUERY 3",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 8.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE regularization_processing QUERY 4",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 10.5,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE regularization_processing QUERY 5",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 8.4,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE regularization_processing QUERY 6",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 6.1,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE regularization_processing QUERY 7",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 19.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE regularization_processing QUERY 8",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 10.0,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "blog/cuanto-tarda-la-regularizacion-en-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 163
+          },
+          {
+            "path": "blog/cuanto-tarda-proceso-regularizacion-espana.html",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": false
+          },
+          {
+            "path": "cuanto-tarda-la-regularizacion-en-espana.html",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": false
+          },
+          {
+            "path": "cuanto-tarda-proceso-regularizacion-espana.html",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": false
+          },
+          {
+            "path": "drafts/cuanto-tarda-proceso-regularizacion-espana.json",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": true
+          }
+        ],
+        "recommended_action": "improve_existing_page",
+        "priority_score": 94,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      },
+      {
+        "id": "residence_renewal",
+        "title": "Renovación de residencia",
+        "topic": "post_regularization",
+        "impressions": 14,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 26,
+        "query_count": 46,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 39.7,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 2",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 50.8,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 3",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 32.2,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 4",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 43.2,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 5",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 47.7,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 6",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 29.4,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 7",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 36.9,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residence_renewal QUERY 8",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 40.8,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "blog/renovar-residencia-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 317
+          }
+        ],
+        "recommended_action": "improve_existing_page",
+        "priority_score": 88,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      },
+      {
+        "id": "long_term_residence",
+        "title": "Residencia de larga duración y tarjeta",
+        "topic": "post_regularization",
+        "impressions": 18,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 30,
+        "query_count": 14,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE long_term_residence QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 60.2,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE long_term_residence QUERY 2",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 64.6,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE long_term_residence QUERY 3",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 47.5,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE long_term_residence QUERY 4",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 61.8,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE long_term_residence QUERY 5",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 43.2,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE long_term_residence QUERY 6",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 42.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE long_term_residence QUERY 7",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 38.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE long_term_residence QUERY 8",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 53.0,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "blog/renovar-residencia-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 34
+          },
+          {
+            "path": "blog/documentos-para-residencia-en-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 3
+          },
+          {
+            "path": "blog/tipos-de-residencia-en-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 2
+          },
+          {
+            "path": "residencia-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 1
+          }
+        ],
+        "recommended_action": "improve_existing_page",
+        "priority_score": 77.1,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      },
+      {
+        "id": "residency_other",
+        "title": "Residencia: otras preguntas",
+        "topic": "post_regularization",
+        "impressions": 22,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 34,
+        "query_count": 13,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE residency_other QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 40.8,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_other QUERY 2",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 34.5,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_other QUERY 3",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 30.2,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_other QUERY 4",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 46.5,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_other QUERY 5",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 38.5,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_other QUERY 6",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 41.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_other QUERY 7",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 43.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_other QUERY 8",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 58.0,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "blog/documentos-para-residencia-en-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 11
+          },
+          {
+            "path": "blog/tipos-de-residencia-en-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 9
+          },
+          {
+            "path": "arraigo-social-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 2
+          },
+          {
+            "path": "blog/residencia-por-estudios-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 2
+          }
+        ],
+        "recommended_action": "improve_existing_page",
+        "priority_score": 72.6,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      },
+      {
+        "id": "residency_options",
+        "title": "Tipos y requisitos de residencia legal",
+        "topic": "post_regularization",
+        "impressions": 26,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 38,
+        "query_count": 16,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 76.9,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 2",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 57.3,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 3",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 71.2,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 4",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 39.3,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 5",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 45.8,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 6",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 74.2,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 7",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 43.4,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE residency_options QUERY 8",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 87.0,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "blog/tipos-de-residencia-en-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 418
+          },
+          {
+            "path": "index.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 3
+          },
+          {
+            "path": "blog/documentos-para-residencia-en-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 2
+          },
+          {
+            "path": "drafts/tipos-de-residencia-en-espana.json",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": true
+          }
+        ],
+        "recommended_action": "improve_existing_page",
+        "priority_score": 72,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      },
+      {
+        "id": "nationality_requirements",
+        "title": "Nacionalidad española por residencia: requisitos",
+        "topic": "nationality",
+        "impressions": 30,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 42,
+        "query_count": 4,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE nationality_requirements QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 77.3,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE nationality_requirements QUERY 2",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 77.3,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE nationality_requirements QUERY 3",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 15.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE nationality_requirements QUERY 4",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 77.0,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "blog/tipos-de-residencia-en-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 4
+          },
+          {
+            "path": "nacionalidad-espanola.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 3
+          },
+          {
+            "path": "index.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 1
+          }
+        ],
+        "recommended_action": "improve_existing_page",
+        "priority_score": 62.0,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      },
+      {
+        "id": "regularization_other",
+        "title": "Regularización: otras preguntas",
+        "topic": "post_regularization",
+        "impressions": 34,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 46,
+        "query_count": 3,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE regularization_other QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 63.5,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE regularization_other QUERY 2",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 30.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE regularization_other QUERY 3",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 5.0,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "blog/cuanto-tarda-la-regularizacion-en-espana.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 2
+          },
+          {
+            "path": "mapa-web.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 2
+          }
+        ],
+        "recommended_action": "monitor_existing_page",
+        "priority_score": 56.1,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      },
+      {
+        "id": "nationality_documents",
+        "title": "Nacionalidad por residencia: documentos",
+        "topic": "nationality",
+        "impressions": 38,
+        "clicks": 0,
+        "ctr": 0.0,
+        "average_position": 50,
+        "query_count": 6,
+        "representative_queries": [
+          {
+            "query": "SYNTHETIC EXAMPLE nationality_documents QUERY 1",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 76.2,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE nationality_documents QUERY 2",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 51.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE nationality_documents QUERY 3",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 77.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE nationality_documents QUERY 4",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 79.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE nationality_documents QUERY 5",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 79.0,
+            "landing_pages": []
+          },
+          {
+            "query": "SYNTHETIC EXAMPLE nationality_documents QUERY 6",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 82.0,
+            "landing_pages": []
+          }
+        ],
+        "existing_content_evidence": [
+          {
+            "path": "nacionalidad-espanola.html",
+            "reason": "observed_search_console_landing_page",
+            "impressions": 10
+          },
+          {
+            "path": "blog/documentos-para-residencia-en-espana.html",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": false
+          },
+          {
+            "path": "documentos-para-residencia-en-espana.html",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": false
+          },
+          {
+            "path": "drafts/documentos-para-residencia-en-espana.json",
+            "reason": "slug_similarity_only_manual_review",
+            "draft": true
+          }
+        ],
+        "recommended_action": "improve_existing_page",
+        "priority_score": 56.0,
+        "legal_review_required": true,
+        "verification_status": "NOT_VERIFIED",
+        "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+      }
+    ]
+  },
+  "excluded_queries": {},
+  "editorial_calendar": [],
+  "safety": "READ ONLY: no drafts, HTML, publishing state or sitemap are edited."
+}
