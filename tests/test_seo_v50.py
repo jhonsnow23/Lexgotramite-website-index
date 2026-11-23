@@ -60,6 +60,16 @@ class TestV50(unittest.TestCase):
         self.assertEqual(x['recommended_action'],'MONITOR')
         self.assertFalse(x['research_registry_available'])
 
+    def test_existing_article_metadata_blocks_new_draft(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder=Path(tmp)/'blog';folder.mkdir()
+            old=folder/'tipos-de-residencia-en-espana.html'
+            old.write_text('UNTRUSTED OLD BLOG CONTENT MUST NOT ENTER THE MODEL',encoding='utf-8')
+            rows,winner,_=mod.choose(self.report,self.catalog,tmp,[],date(2026,11,23))
+            matching=next(r for r in rows if r['cluster_id']=='residency_options')
+            self.assertEqual(matching['recommended_action'],'SKIP')
+            self.assertIn('metadata-only',matching['selection_reason'])
+
     def test_no_key_still_local_mode(self):
         self.assertEqual(mod.load_history(token='',repository='')[0],[])
 
