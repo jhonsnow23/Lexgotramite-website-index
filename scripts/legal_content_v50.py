@@ -61,13 +61,33 @@ Cada afirmación jurídica material debe aparecer en claims y citar IDs existent
 plazos, requisitos, asesoramiento individualizado ni acreditaciones profesionales. Explica supuestos, excepciones
  y condiciones; si faltan fuentes que resultan esenciales registra preguntas pendientes. Mínimo 3 secciones
 sustantivas cuando la evidencia lo permita. No copies literalmente testimonios o normas extensas.
-Nunca afirmes que la revisión jurídica ha concluido o que el artículo está publicado.'''
+Nunca afirmes que la revisión jurídica ha concluido o que el artículo está publicado.
+Para una consulta sobre residencia permanente o larga duración, distingue la
+concesión inicial de la autorización de larga duración nacional de la renovación
+física de su TIE, y de larga duración-UE y residencia de familiares de ciudadanos
+UE cuando el alcance de la consulta lo requiera.
+No atribuyas a la renovación física de TIE requisitos exclusivos de obtención
+inicial (cinco años de residencia previa o antecedentes penales, por ejemplo).
+No transfieras resolución, silencio, plazos ni canal de presentación de concesión
+de autorización al trámite de expedición o renovación de TIE sin evidencia específica.
+No añadas preguntas hipotéticas genéricas como pendientes si no son esenciales
+para explicar el trámite delimitado y no hay evidencia de que se apliquen.'''
 SYSTEM_REVIEW = '''Eres un evaluador crítico y separado del redactor. Comprueba si cada afirmación jurídica
 queda plenamente respaldada por los pasajes oficiales incluidos, considerando excepciones, ámbito, fecha y
 condiciones. No supongas que una cita coincidente demuestra aplicabilidad. Devuelve SOLO JSON con
 assessment (lista de {claim_index, status, reason}), con status estrictamente SUPPORTED,
 PARTIALLY_SUPPORTED, CONTRADICTED, INSUFFICIENT_EVIDENCE, NEEDS_INTERPRETATION.
 Si no puedes demostrar apoyo completo, NO uses SUPPORTED. Señala lagunas de cobertura en gaps (lista texto).
+Evalúa además afirmaciones jurídicas de TODO el artículo, incluyendo secciones,
+introducción y FAQ, no únicamente las afirmaciones enumeradas en claims.
+Si hay afirmaciones materiales sin claim equivalente o erróneamente aplicadas,
+inclúyelas en gaps aunque todos los claims sean SUPPORTED.
+Distingue concesión inicial de autorización de larga duración de renovación
+física de TIE; confundir sus requisitos es una laguna material.
+No supongas que un plazo de resolución, silencio administrativo o vía de
+presentación para conceder una autorización corresponde a renovar su TIE.
+No exijas respuesta a escenarios hipotéticos ajenos al alcance delimitado,
+pero mantén bloqueadas las dudas materiales sobre el procedimiento descrito.
 Tu evaluación no constituye certificación jurídica independiente.'''
 
 
@@ -200,6 +220,36 @@ def article_request(research_plan,evidence,model='gpt-4.1-mini',client=None,prev
     return call_model(messages,model=model,client=client)
 
 
+def renewal_scope_warnings(article, plan_obj):
+    """Flag potential initial-authorization versus TIE-renewal conflation.
+
+    This is a conservative review gate, never a legal certification.
+    """
+    import unicodedata
+    def normal(value):
+        value=unicodedata.normalize('NFKD',str(value).lower())
+        return ''.join(c for c in value if not unicodedata.combining(c))
+    topic=normal(plan_obj.get('topic',''))
+    if plan_obj.get('group')!='renewal' or not any(x in topic for x in ('permanente','larga duracion')):
+        return []
+    problems=[]
+    for i,section in enumerate(article.get('sections') or []):
+        if not isinstance(section,dict):continue
+        heading=normal(section.get('heading',''))
+        if not any(x in heading for x in ('requisit','document')):continue
+        for paragraph in section.get('paragraphs',[]):
+            t=normal(paragraph)
+            initial_five_years=(('cinco anos' in t or '5 anos' in t) and
+               ('residencia legal' in t or 'residencia continuada' in t))
+            initial_background=('antecedentes penales' in t and 'renov' in t)
+            clearly_separated=any(x in t for x in ('concesion inicial',
+                 'obtencion inicial','solicitud inicial','no es un requisito de renovacion',
+                 'no se exige para renovar'))
+            if (initial_five_years or initial_background) and not clearly_separated:
+                problems.append(f'Section {i+1}: potential initial-authorization requirements conflated with TIE renewal')
+    return list(dict.fromkeys(problems))
+
+
 def verify_integrity(article,evidence,plan_obj):
     errors=[];ids={r['evidence_id']:r for r in evidence};claims=article.get('claims')
     if not isinstance(claims,list) or not claims:errors.append('No legal claims')
@@ -221,6 +271,7 @@ def verify_integrity(article,evidence,plan_obj):
         if not isinstance(article.get(k),str) or len(article[k].strip())<35:errors.append(f'Incomplete {k}')
     if not isinstance(article.get('unresolved_questions'),list):errors.append('Missing unresolved question list')
     elif article['unresolved_questions']:errors.append('Unresolved legal questions')
+    errors.extend(renewal_scope_warnings(article,plan_obj))
     blob=json.dumps(article,ensure_ascii=False)
     if re.search(r'\[PENDIENTE\]|TODO:|lorem ipsum',blob,re.I):errors.append('Placeholder detected')
     if any(x.get('version_status')=='VERSION_UNCERTAIN' for x in evidence):
