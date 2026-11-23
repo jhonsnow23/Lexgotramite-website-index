@@ -14,6 +14,8 @@ from pathlib import Path
 import re
 import unicodedata
 import urllib.request
+import urllib.parse
+import urllib.error
 import zipfile
 from io import BytesIO
 from difflib import SequenceMatcher
@@ -190,9 +192,26 @@ def load_prior_artifact():
     token=os.getenv('GH_HISTORY_TOKEN','')
     if not repo or not token or not re.fullmatch(r'[\w.-]+/[\w.-]+',repo):return [],'No GitHub artifact credentials; manual/test mode'
     headers={'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json','User-Agent':'lexgo-v42'}
+
+    # GitHub's artifact endpoint redirects to a time-limited download URL on
+    # another host. Do not forward GitHub authorization to that host: besides
+    # leaking credentials, it can cause the signed URL to reject the request.
+    class SafeArtifactRedirect(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self, req, fp, code, msg, hdrs, newurl):
+            redirected = super().redirect_request(req, fp, code, msg, hdrs, newurl)
+            if redirected is not None:
+                old_host = urllib.parse.urlparse(req.full_url).hostname
+                new_host = urllib.parse.urlparse(newurl).hostname
+                if old_host != new_host:
+                    for key in list(redirected.headers):
+                        if key.lower() in ('authorization', 'cookie', 'proxy-authorization'):
+                            del redirected.headers[key]
+            return redirected
+
+    opener = urllib.request.build_opener(SafeArtifactRedirect())
     def get(url):
         req=urllib.request.Request(url,headers=headers)
-        with urllib.request.urlopen(req,timeout=25) as r:return r.read()
+        with opener.open(req,timeout=25) as r:return r.read()
     try:
         url=f'https://api.github.com/repos/{repo}/actions/artifacts?name=lexgo-v42-results&per_page=100'
         artifacts=json.loads(get(url)).get('artifacts',[])
@@ -220,7 +239,7 @@ def load_prior_artifact():
         return [],'No prior history artifact found' 
     except Exception as e:
         # Fail closed rather than lose cooldown protection when scheduled.
-        raise RuntimeError('Cannot retrieve prior history safely: '+type(e).__name__) from e
+        raise RuntimeError('Cannot retrieve prior history safely: '+type(e).__name__ + (f' (HTTP {e.code})' if isinstance(e, urllib.error.HTTPError) else '') + '. Topic cooldown remains protected; check GitHub Actions artifact access and workflow permissions.') from e
 
 
 def main(argv=None):
