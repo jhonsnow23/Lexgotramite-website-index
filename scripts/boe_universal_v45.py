@@ -15,7 +15,7 @@ from pathlib import Path
 
 BASE='https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/'
 DOC=re.compile(r'BOE-A-\d{4}-\d+\Z')
-HEADING=re.compile(r'\bArt(?:[íi]culo|\.)\s*(\d{1,4})(?:\s*(bis|ter|qu[aá]ter))?\b',re.I)
+HEADING=re.compile(r'\bArt(?:[íi]culo|\.)?\s*(\d{1,4})(?:\s*(bis|ter|qu[aá]ter))?\b',re.I)
 MAX_INDEX=4_000_000
 MAX_BLOCK=800_000
 MAX_ARTICLES=12
