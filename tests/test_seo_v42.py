@@ -69,8 +69,41 @@ class TestDemandSelection(unittest.TestCase):
         # Never replaces a required artifact history with an empty record on API failures.
         import unittest.mock as mock
         with mock.patch.dict('os.environ',{'GITHUB_REPOSITORY':'owner/repo','GH_HISTORY_TOKEN':'fake'}):
-            with mock.patch('urllib.request.urlopen',side_effect=TimeoutError()):
+            with mock.patch('urllib.request.OpenerDirector.open',side_effect=TimeoutError()):
                 with self.assertRaises(RuntimeError):mod.load_prior_artifact()
+    def test_cross_host_artifact_redirect_drops_auth(self):
+        # Exercise the actual redirect handler installed by load_prior_artifact.
+        import unittest.mock as mock
+        import urllib.request
+        import urllib.error
+        import io
+
+        class FakeResponse:
+            def __init__(self, data): self.data=data
+            def __enter__(self): return self
+            def __exit__(self, *args): return False
+            def read(self): return self.data
+        seen=[]
+        def mocked_open(opener, req, timeout=25):
+            seen.append(req)
+            if req.full_url.startswith('https://api.github.com/'):
+                if req.full_url.endswith('/actions/artifacts?name=lexgo-v42-results&per_page=100'):
+                    payload={'artifacts':[{'archive_download_url':'https://api.github.com/archive', 'created_at':'2026-11-22T00:00:00Z','expired':False}]}
+                    return FakeResponse(json.dumps(payload).encode())
+                # Simulate API redirect to GitHub's signed artifact storage.
+                redirect = next(h for h in opener.handlers if isinstance(h, urllib.request.HTTPRedirectHandler))
+                storage=redirect.redirect_request(req,None,302,'Found',{},'https://objects.githubusercontent.com/temporary-artifact.zip?sig=fake')
+                seen.append(storage)
+                raise urllib.error.HTTPError(req.full_url,401,'Simulated signed URL expiry',{},None)
+            raise AssertionError('Unexpected URL')
+        with mock.patch.dict('os.environ',{'GITHUB_REPOSITORY':'owner/repo','GH_HISTORY_TOKEN':'fake'}):
+            with mock.patch('urllib.request.OpenerDirector.open',mocked_open):
+                with self.assertRaisesRegex(RuntimeError,'HTTPError'):
+                    mod.load_prior_artifact()
+        self.assertGreaterEqual(len(seen),3)
+        self.assertIn('Authorization',seen[-2].headers)
+        self.assertNotIn('Authorization',seen[-1].headers)
+
     def test_score_breakdown_consistent(self):
         with tempfile.TemporaryDirectory() as temp:
             rows=mod.rank(self.report,self.catalog,temp,[],date(2026,11,23))
