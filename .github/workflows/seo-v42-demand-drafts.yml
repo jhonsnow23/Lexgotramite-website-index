@@ -26,6 +26,7 @@ jobs:
         run: |
           python -m unittest discover -s tests -p 'test_seo_v42.py' -v
           python -m unittest discover -s tests -p 'test_seo_v41.py' -v
+          python -m unittest discover -s tests -p 'test_seo_v43.py' -v
       - name: Refresh actual Google Search Console data
         env:
           GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
