@@ -173,5 +173,5 @@ def run(args):
     return 0 if status['result']=='draft_generated' else 1
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--proposals',default='reports/editorial_v3/proposals.json');p.add_argument('--output',default='reports/seo_v41');p.add_argument('--model',default='gpt-4.1-mini');return run(p.parse_args())
+    p=argparse.ArgumentParser();p.add_argument('--proposals',default='reports/seo_v42/selected_v41_proposal.json');p.add_argument('--output',default='reports/seo_v41');p.add_argument('--model',default='gpt-4.1-mini');return run(p.parse_args())
 if __name__=='__main__':sys.exit(main())
