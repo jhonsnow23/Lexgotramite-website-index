@@ -1,4 +1,5 @@
 import importlib.util
+import copy
 import json
 from datetime import date
 from pathlib import Path
@@ -65,10 +66,62 @@ class TestV50(unittest.TestCase):
             folder=Path(tmp)/'blog';folder.mkdir()
             old=folder/'tipos-de-residencia-en-espana.html'
             old.write_text('UNTRUSTED OLD BLOG CONTENT MUST NOT ENTER THE MODEL',encoding='utf-8')
-            rows,winner,_=mod.choose(self.report,self.catalog,tmp,[],date(2026,11,23))
+            # Explicitly model a same-intent REAL query; the general test
+            # fixture otherwise has synthetic, unrelated query text.
+            report=copy.deepcopy(self.report)
+            for cluster in report['windows']['28']:
+                if cluster['id']=='residency_options':
+                    cluster['representative_queries']=[{'query':'tipos de residencia en España','impressions':14}]
+            rows,winner,_=mod.choose(report,self.catalog,tmp,[],date(2026,11,23))
             matching=next(r for r in rows if r['cluster_id']=='residency_options')
             self.assertEqual(matching['recommended_action'],'SKIP')
             self.assertIn('metadata-only',matching['selection_reason'])
+
+    def test_metadata_only_does_not_read_blog_body(self):
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory() as tmp:
+            folder=Path(tmp)/'blog';folder.mkdir()
+            (folder/'renovar-residencia-espana.html').write_text('SENSITIVE BLOG BODY')
+            original=Path.read_text
+            def deny_html(path,*args,**kwargs):
+                if path.suffix=='.html':
+                    raise AssertionError('Tried to read existing blog content')
+                return original(path,*args,**kwargs)
+            with patch.object(Path,'read_text',deny_html):
+                rows,winner,_=mod.choose(self.report,self.catalog,tmp,[],date(2026,11,23))
+                self.assertEqual(len(rows),8)
+
+    def test_distinct_specific_query_not_blocked_by_generic_blog(self):
+        topic={'proposed_title':'Renovación de residencia permanente: requisitos',
+               'primary_query':'renovación residencia permanente'}
+        duplicate,reason,path=mod.classify_duplicate(topic,['blog/renovar-residencia-espana.html'])
+        self.assertFalse(duplicate)
+        self.assertTrue(path.startswith('blog/'))
+
+    def test_same_query_as_blog_is_duplicate(self):
+        topic={'proposed_title':'Renovar residencia en España',
+               'primary_query':'renovar residencia España'}
+        duplicate,_,_=mod.classify_duplicate(topic,['blog/renovar-residencia-espana.html'])
+        self.assertTrue(duplicate)
+
+    def test_service_landing_url_does_not_auto_block(self):
+        topic={'proposed_title':'Documentos para solicitar nacionalidad por residencia',
+               'primary_query':'documentación nacionalidad española'}
+        duplicate,_,_=mod.classify_duplicate(topic,['nacionalidad-espanola.html'])
+        self.assertFalse(duplicate)
+
+    def test_same_url_different_cluster_does_not_impose_backoff(self):
+        hist=[{'cluster_id':'nationality_requirements','existing_page':'nacionalidad-espanola.html',
+               'date':'2026-11-23','status':'DRAFT_FAILED'}]
+        item={'cluster_id':'nationality_documents','existing_pages':['nacionalidad-espanola.html']}
+        self.assertIsNone(mod.topic_blocker(item,hist,date(2026,11,23)))
+
+    def test_distinct_new_proposal_cannot_rewrite_old_page(self):
+        topic={'cluster_id':'nationality_documents','proposed_title':'Documentos de nacionalidad',
+               'supporting_queries':['documentos nacionalidad'],'impressions_28d':4,'impressions_90d':48}
+        _,proposal=mod.supports_research(topic)
+        self.assertEqual(proposal['proposals'][0]['action'],'create_article')
+        self.assertNotIn('existing_pages',proposal['proposals'][0])
 
     def test_no_key_still_local_mode(self):
         self.assertEqual(mod.load_history(token='',repository='')[0],[])
