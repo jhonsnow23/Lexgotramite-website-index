@@ -1,72 +1,16 @@
-name: SEO v4.2 - Google-demand article drafts (no publication)
+name: 'ARCHIVED — SEO v4.2 legacy draft workflow (do not run)'
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '15 10 * * 1,3,5'
 
 permissions:
   contents: read
-  actions: read
-
-concurrency:
-  group: lexgo-v42-topic-selection
-  cancel-in-progress: false
 
 jobs:
-  editorial:
+  archived:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Unit tests for ranking, cooldown, and compatibility
-        run: |
-          python -m unittest discover -s tests -p 'test_seo_v42.py' -v
-          python -m unittest discover -s tests -p 'test_seo_v41.py' -v
-          python -m unittest discover -s tests -p 'test_seo_v43.py' -v
-          python -m unittest discover -s tests -p 'test_legal_content_v46.py' -v
-      - name: Refresh actual Google Search Console data
-        env:
-          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
-          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
-          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
-          GSC_SITE_URL: ${{ secrets.GSC_SITE_URL }}
-        run: |
-          set -e
-          : "${GSC_CLIENT_ID:?Missing GSC_CLIENT_ID}"
-          : "${GSC_CLIENT_SECRET:?Missing GSC_CLIENT_SECRET}"
-          : "${GSC_REFRESH_TOKEN:?Missing GSC_REFRESH_TOKEN}"
-          : "${GSC_SITE_URL:?Missing GSC_SITE_URL}"
-          python scripts/seo_intelligence.py
-          test -s reports/seo_intelligence.json
-      - name: Select relevant topic and create editorial calendar
-        env:
-          GH_HISTORY_TOKEN: ${{ github.token }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-        run: |
-          python scripts/seo_v42.py --require-history
-      - name: Generate v4.6 evidence-ID article candidate (no publication)
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: |
-          if [ -s reports/seo_v42/selected_v41_proposal.json ]; then
-            : "${OPENAI_API_KEY:?Missing OPENAI_API_KEY}"
-            python scripts/legal_content_v46.py --proposals reports/seo_v42/selected_v41_proposal.json --output reports/seo_v46
-          else
-            echo 'No eligible topic: no draft produced, which is safer than repeating a topic.'
-          fi
-      - name: Upload editorial calendar, selection history and article preview
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: lexgo-v42-results
-          path: |
-            reports/seo_intelligence.json
-            reports/seo_v42/**
-            reports/seo_v41/**
-            reports/seo_v46/**
-          if-no-files-found: warn
-          retention-days: 90
+      - run: |
+          echo 'This v4.2 entry point is retired.'
+          echo 'Use Lex Go Trámite SEO Engine v5.0 — Draft & Evidence (NO PUBLICATION).'
+          echo 'No research, AI or publication is performed here.'

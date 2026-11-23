@@ -1,0 +1,119 @@
+name: 'Lex Go Trámite SEO Engine v5.0 — Draft & Evidence (NO PUBLICATION)'
+
+on:
+  workflow_dispatch:
+    inputs:
+      retry_failed_topic:
+        description: 'Manually retry a draft attempted today (never bypass legal checks)'
+        type: boolean
+        default: true
+        required: false
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: lexgo-seo-engine-v50
+  cancel-in-progress: false
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out exact selected commit
+        uses: actions/checkout@v4
+      - name: Python environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate v5 and upstream components
+        run: |
+          python -m unittest discover -s tests -p 'test_seo_v50.py' -v
+          python -m unittest discover -s tests -p 'test_seo_v42.py' -v
+          python -m unittest discover -s tests -p 'test_legal_content_v46.py' -v
+          python -m unittest discover -s tests -p 'test_boe_universal_v45.py' -v
+      - name: Refresh REAL Google Search Console data
+        env:
+          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
+          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
+          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
+          GSC_SITE_URL: ${{ secrets.GSC_SITE_URL }}
+        run: |
+          set -eu
+          : "${GSC_CLIENT_ID:?Missing GSC_CLIENT_ID}"
+          : "${GSC_CLIENT_SECRET:?Missing GSC_CLIENT_SECRET}"
+          : "${GSC_REFRESH_TOKEN:?Missing GSC_REFRESH_TOKEN}"
+          : "${GSC_SITE_URL:?Missing GSC_SITE_URL}"
+          python scripts/seo_intelligence.py
+          test -s reports/seo_intelligence.json
+      - name: Select topic using real demand and outcome history
+        env:
+          GH_HISTORY_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          MANUAL_RETRY: ${{ inputs.retry_failed_topic }}
+        shell: bash
+        run: |
+          set -eu
+          ARGS=()
+          if [ "$MANUAL_RETRY" = 'true' ]; then ARGS+=(--retry-failed); fi
+          python scripts/seo_v50.py select --require-history "${ARGS[@]}"
+      - name: Generate evidence-linked legal draft
+        id: draft
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        shell: bash
+        run: |
+          if [ ! -s reports/seo_v50/selected_proposal.json ]; then
+            echo 'No eligible research-backed topic. No AI call and no publication.'
+            echo 'exit_code=0' >> "$GITHUB_OUTPUT"
+          else
+            if [ -z "$OPENAI_API_KEY" ]; then
+              echo 'OpenAI credential missing: no draft generated.'
+              echo 'exit_code=4' >> "$GITHUB_OUTPUT"
+            else
+              set +e
+              python scripts/legal_content_v46.py --proposals reports/seo_v50/selected_proposal.json --output reports/seo_v50/article
+              CODE=$?
+              set -e
+              echo "exit_code=$CODE" >> "$GITHUB_OUTPUT"
+              echo "Generator exit status: $CODE (0=review ready, 2=blocked retrieval, 3=blocked validation, 4=error)"
+            fi
+          fi
+      - name: Record ACTUAL draft outcome (not a publication)
+        if: always() && hashFiles('reports/seo_v50/selection.json') != ''
+        run: python scripts/seo_v50.py finalize
+      - name: Upload all diagnostic artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexgo-v50-results
+          path: |
+            reports/seo_intelligence.json
+            reports/seo_v50/**
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Explain outcome
+        if: always()
+        shell: bash
+        run: |
+          if [ -f reports/seo_v50/run_summary.json ]; then
+            cat reports/seo_v50/run_summary.json
+          else
+            echo 'Preflight or selection failed; review the previous steps.'
+            exit 1
+          fi
+          if [ -f reports/seo_v50/article/decision.json ]; then
+            if python -c "import json; from pathlib import Path; d=json.loads(Path('reports/seo_v50/article/decision.json').read_text()); exit(1 if d.get('result')=='ERROR' else 0)"; then
+              echo 'Expected legal-validation blocks are reported, not misrepresented as publication.'
+            else
+              echo 'Infrastructure or AI request error: check the article decision artifact.'
+              exit 1
+            fi
+          fi
+          if [ -f reports/seo_v50/selected_proposal.json ] && [ ! -f reports/seo_v50/article/decision.json ]; then
+            echo 'An eligible topic was selected but no generator decision was produced.'
+            exit 1
+          fi
+          echo 'No publishing permissions exist in this workflow.'
