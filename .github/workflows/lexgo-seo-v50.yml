@@ -34,6 +34,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_seo_v42.py' -v
           python -m unittest discover -s tests -p 'test_legal_content_v46.py' -v
           python -m unittest discover -s tests -p 'test_boe_universal_v45.py' -v
+          python -m unittest discover -s tests -p 'test_legal_relevance_v50.py' -v
       - name: Refresh REAL Google Search Console data
         env:
           GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
@@ -74,7 +75,7 @@ jobs:
               echo 'exit_code=4' >> "$GITHUB_OUTPUT"
             else
               set +e
-              python scripts/legal_content_v46.py --proposals reports/seo_v50/selected_proposal.json --output reports/seo_v50/article
+              python scripts/legal_content_v50.py --proposals reports/seo_v50/selected_proposal.json --output reports/seo_v50/article
               CODE=$?
               set -e
               echo "exit_code=$CODE" >> "$GITHUB_OUTPUT"
