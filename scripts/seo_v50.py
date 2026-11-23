@@ -6,6 +6,7 @@ selections, so unsuccessful drafts never create 60-day publication cooldowns.
 """
 import argparse
 from datetime import date, datetime, timedelta, timezone
+import unicodedata
 from io import BytesIO
 import json
 import os
@@ -47,8 +48,10 @@ def topic_blocker(item,history,today,*,ignore_attempt_backoff=False):
         age=recent_event(e,today)
         if age is None:continue
         same_cluster=e.get('cluster_id')==item['cluster_id']
-        same_page=bool(e.get('existing_page') and e['existing_page'] in item.get('existing_pages',[]))
-        if not (same_cluster or same_page):continue
+        # Search Console associated URLs are NOT article identities. Different
+        # intent clusters often share the same service landing page. Never
+        # conflate them when computing publication or failed-attempt cooldowns.
+        if not same_cluster:continue
         status=e.get('status') or 'DRAFT_ATTEMPTED' # migrate v4.2 ambiguous selection-only history safely
         if status in PUBLISHED and age<60 and not e.get('material_legal_change_verified',False):
             return 'Published-page cooldown (60 days)'
@@ -57,11 +60,79 @@ def topic_blocker(item,history,today,*,ignore_attempt_backoff=False):
     return None
 
 
+# Only URL paths and their slugs are inspected. Never open HTML bodies.
+META_STOP={'de','del','en','la','las','el','los','un','una','y','por','para',
+           'como','que','segun','espana','espanola','espanol','tramites',
+           'requisitos','guia','solicitud','verificar','oficial','adecuada'}
+META_EQUIV={'renovar':'renov','renovacion':'renov','renovaciones':'renov',
+            'documentos':'document','documentacion':'document',
+            'tipos':'tipo','autorizaciones':'autorizacion'}
+
+def slug_words(value):
+    norm=''.join(c for c in unicodedata.normalize('NFKD',str(value).lower())
+                 if not unicodedata.combining(c))
+    words=re.findall(r'[a-z0-9]+',norm)
+    return {META_EQUIV.get(w,w) for w in words if len(w)>2 and w not in META_STOP}
+
+
+def proposed_slug(title):
+    text=''.join(c for c in unicodedata.normalize('NFKD',title.lower())
+                 if not unicodedata.combining(c))
+    return '-'.join(re.findall(r'[a-z0-9]+',text))
+
+
+def metadata_inventory(root):
+    """Enumerate paths only; never load a current or old blog's content."""
+    base=Path(root)
+    candidates=list(base.glob('blog/*.html'))+list(base.glob('*.html'))
+    return sorted({p.relative_to(base).as_posix() for p in candidates if p.is_file()})
+
+
+def classify_duplicate(item,existing_urls):
+    """Distinguish same search intent from mere Google page association.
+
+    This is a conservative metadata classifier, not semantic page analysis.
+    Strong overlap with an existing blog slug blocks a draft. A broad service
+    landing page does not automatically block a specific informational query.
+    """
+    topic=slug_words(item['proposed_title'])
+    query=slug_words(item.get('primary_query',''))
+    slug=proposed_slug(item['proposed_title'])
+    prospective='blog/'+slug+'.html'
+    if prospective in existing_urls:
+        return True,'Exact proposed URL already exists',prospective
+    # All site blog slugs can signal duplicate intents, not only the URL that
+    # Search Console happened to associate with a query.
+    for path in existing_urls:
+        if not path.startswith('blog/') or not path.endswith('.html'):
+            continue
+        other=slug_words(Path(path).stem)
+        if not other:continue
+        common=len(topic & other)
+        # A query-specific qualifying focus absent from a generic blog slug
+        # (e.g. 'permanente' versus generic 'renovar residencia') may be a
+        # separate article, even when Search Console attributed the query there.
+        novelty=query-other-{'legal','general','actual','nuevo','nueva','informacion','espana'}
+        if novelty:
+            continue
+        if path in item.get('existing_pages',[]) and len(query)<=2 and query and query & other and len(query & other)>=len(query)-1:
+            return True,'Broad query overlaps existing blog topic; distinct focus not proven',path
+        if common>=2 and common/max(len(other),1)>=0.8 and common/max(len(topic),1)>=0.45:
+            return True,'Existing blog slug targets substantially the same intent',path
+        # Catch direct query/slug equivalence when the suggested title adds SEO wording.
+        qcommon=len(query & other)
+        if qcommon>=2 and qcommon/max(len(query),1)>=0.8 and qcommon/max(len(other),1)>=0.8:
+            return True,'Existing blog slug matches the Google query intent',path
+    return False,'Distinct informational intent; Google associated URL is not a duplicate',prospective
+
+
 def supports_research(item):
     # This is a source REGISTRY coverage check, NOT proof of legal applicability.
     p={'proposals':[{'cluster_id': item['cluster_id'], 'origin_cluster_id':item['cluster_id'],
         'proposed_title':item['proposed_title'], 'action':'create_article',
-        'queries':item['supporting_queries'], 'search_demand_evidence':{'impressions_28d':item['impressions_28d'], 'impressions_90d':item['impressions_90d']}}]}
+        'queries':item['supporting_queries'], 'search_demand_evidence':{
+            'impressions_28d':item['impressions_28d'],
+            'impressions_90d':item['impressions_90d']}}]}
     return generator.plan(p)['source_registry_complete'],p
 
 
@@ -70,6 +141,7 @@ def choose(report,catalog,website,history,today,*,retry_failed=False):
     # v4.1 coverage gate or the selection-only 60-day history logic.
     ranked=baseline.rank(report,catalog,website,[],today)
     result=[];winner=None;proposal=None
+    inventory=metadata_inventory(website)
     for item in ranked:
         row=dict(item)
         row.pop('v41_evidence_coverage_candidate',None)
@@ -77,21 +149,38 @@ def choose(report,catalog,website,history,today,*,retry_failed=False):
         row['score_breakdown']['cooldown_penalty']=0
         row['score']=sum(v for k,v in row['score_breakdown'].items() if k!='cooldown_penalty')
         row['cooldown_active']=False
+        # Align the draft question with observed demand. A prewritten generic
+        # title must not silently change the question that Google users asked.
+        demand_words=slug_words(row.get('primary_query',''))
+        title_words=slug_words(row.get('proposed_title',''))
+        if demand_words and len(demand_words & title_words)/len(demand_words)<0.65:
+            row['original_suggested_title']=row['proposed_title']
+            row['proposed_title']=row['primary_query'].strip().capitalize()+': información y trámites oficiales'
+            row['title_adjusted_to_query']=True
+        else:
+            row['title_adjusted_to_query']=False
         row['research_registry_available'],candidate=supports_research(row)
+        duplicate,dup_reason,proposed_path=classify_duplicate(row,inventory)
+        row['duplicate_metadata_detected']=duplicate
+        row['duplicate_metadata_reason']=dup_reason
+        row['proposed_new_path']=proposed_path
         block=topic_blocker(row,history,today,ignore_attempt_backoff=retry_failed)
         if block:
             row['recommended_action']='MONITOR';row['selection_reason']=block
-        elif row['existing_pages']:
-            row['recommended_action']='SKIP';row['selection_reason']='Existing URL/title targets this intent; metadata-only exclusion, no blog body read'
+        elif duplicate:
+            row['recommended_action']='SKIP';row['selection_reason']=dup_reason+' (metadata-only; no blog body read)'
         elif not row['research_registry_available']:
             row['recommended_action']='MONITOR';row['selection_reason']='Source registry needs expansion; no unsupported legal guesswork'
         elif row['impressions_28d']<3 and row['impressions_90d']<30:
             row['recommended_action']='MONITOR';row['selection_reason']='Insufficient observed demand for an automatic draft'
         else:
-            row['recommended_action']='IMPROVE_EXISTING_ARTICLE' if row['existing_pages'] else 'CREATE_NEW_ARTICLE'
-            row['selection_reason']='Verified GSC demand, offered service, research starting points configured'
+            row['recommended_action']='CREATE_NEW_ARTICLE'
+            row['selection_reason']='Distinct intent, measured GSC demand; official-source research still required'
             if winner is None:
                 winner=row;proposal=candidate
+                # Only safe create-new proposal reaches the generator. Associated
+                # URLs remain in diagnostic rows, never as rewrite instructions.
+                proposal['proposals'][0]['proposed_path']=proposed_path
         result.append(row)
     return result,winner,proposal
 
@@ -188,7 +277,7 @@ def finalize(args):
         elif result=='BLOCKED_VALIDATION':status='BLOCKED_VALIDATION'
         else:status='DRAFT_FAILED'
         history.append({'date':date.today().isoformat(),'selected_on':date.today().isoformat(),
-            'cluster_id':selected['cluster_id'],'existing_page':selected['existing_pages'][0] if selected['existing_pages'] else None,
+            'cluster_id':selected['cluster_id'],'existing_page':None,
             'status':status,'published':False,'publication_allowed':False,'generator_result':result})
     save(out/'history.json',{'version':VERSION,'events':history[-200:]})
     save(out/'run_summary.json',{'version':VERSION,'selected_cluster':selected['cluster_id'] if selected else None,
