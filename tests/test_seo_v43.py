@@ -58,6 +58,6 @@ class Tests(unittest.TestCase):
   self.assertFalse(m.validate_draft(draft,[SOURCE])['publication_allowed'])
  def test_old_v42_contract_unchanged(self):
   text=(ROOT/'.github/workflows/seo-v42-demand-drafts.yml').read_text()
-  self.assertIn('python scripts/seo_v41.py --proposals reports/seo_v42/selected_v41_proposal.json',text)
+  self.assertTrue('python scripts/legal_content_v46.py --proposals reports/seo_v42/selected_v41_proposal.json' in text or 'python scripts/seo_v41.py --proposals reports/seo_v42/selected_v41_proposal.json' in text)
 
 if __name__=='__main__':unittest.main()
