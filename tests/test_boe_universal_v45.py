@@ -54,3 +54,32 @@ class Tests(unittest.TestCase):
   r=m.retrieve('BOE-A-1889-4763',[22],opener=opener);self.assertEqual(r['provisions'][0]['legal_status'],'UNVERIFIED')
 
 if __name__=='__main__':unittest.main()
+
+class CivilCodeRegressionTests(unittest.TestCase):
+ def test_spelled_article_headings(self):
+  for label,expected in [('Artículo veintiuno.',21),('Art. veintidós.',22),('Artículo veintitrés.',23)]:
+   self.assertEqual(m._number_of(label),(expected,''))
+ def test_real_index_ids_with_nonstandard_titles(self):
+  xml=b'<response><data><bloque><id>a21</id><titulo>Veintiuno.</titulo></bloque><bloque><id>a22</id><titulo>Veintidos.</titulo></bloque><bloque><id>a23</id><titulo>Veintitres.</titulo></bloque></data></response>'
+  mp=m.index_map(ET.fromstring(xml))
+  self.assertEqual([mp[(x,'')] for x in (21,22,23)],['a21','a22','a23'])
+ def test_index_candidates_must_be_verified_against_retrieved_heading(self):
+  idx=b'<response><data><bloque><id>a21</id><titulo>Veintiuno.</titulo></bloque></data></response>'
+  def own(req,timeout):
+   payload=idx if req.full_url.endswith('/indice') else b'<response><data><bloque><version fecha_vigencia="20250101"><p>Art\xc3\xadculo veintiuno. Condiciones oficiales de nacionalidad acreditadas por esta disposici\xc3\xb3n.</p><p>La parte restante del art\xc3\xadculo contiene los detalles pertinentes de su contenido.</p></version></bloque></data></response>'
+   return Response(req.full_url,payload)
+  result=m.retrieve('BOE-A-1889-4763',[21],opener=own)
+  self.assertEqual(result['provisions'][0]['article'],'21')
+  self.assertEqual(result['provisions'][0]['legal_status'],'UNVERIFIED')
+ def test_wrong_block_with_real_index_id_rejected(self):
+  idx=b'<response><data><bloque><id>a22</id><titulo>Veintidos.</titulo></bloque></data></response>'
+  def own(req,timeout):
+   payload=idx if req.full_url.endswith('/indice') else b'<response><data><bloque><version fecha_vigencia="20250101"><p>Art\xc3\xadculo 23. Esta referencia es incorrecta pero tiene longitud suficiente para validar.</p></version></bloque></data></response>'
+   return Response(req.full_url,payload)
+  with self.assertRaisesRegex(m.BOEError,'WRONG_ARTICLE'):
+   m.retrieve('BOE-A-1889-4763',[22],opener=own)
+ def test_nonexistent_block_never_invented(self):
+  idx=b'<response><data><bloque><id>a21</id><titulo>Veintiuno.</titulo></bloque></data></response>'
+  def own(req,timeout):return Response(req.full_url,idx)
+  with self.assertRaisesRegex(m.BOEError,'ARTICLE_NOT_IN_INDEX'):
+   m.retrieve('BOE-A-1889-4763',[22],opener=own)
