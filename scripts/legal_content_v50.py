@@ -269,13 +269,55 @@ def render(article,evidence,validation):
     return '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BORRADOR — '+title+'</title><meta name="description" content="'+esc(article.get('meta_description',''))+'"></head><body><main><strong>BORRADOR — NO PUBLICAR. Verificación jurídica independiente pendiente.</strong><h1>'+title+'</h1><p>'+esc(article.get('introduction',''))+'</p>'+sections+'<section><h2>Preguntas frecuentes</h2>'+faqs+'</section><section><h2>Trazabilidad de afirmaciones (revisión pendiente)</h2><ul>'+trace+'</ul></section><section><h2>Fuentes oficiales y normativa consultada</h2><ul>'+refs+'</ul></section><p>Información general, sujeta a revisión y a las circunstancias individuales.</p></main></body></html>'
 
 
+def focused_evidence_for_topic(research_plan, evidence):
+    """Prefer procedure-specific evidence before independent readiness review.
+
+    For a *national long-term residence card* renewal, unrelated renewal
+    provisions cannot establish the card's requirements or filing window.
+    This is an evidence-selection guard, NOT a claim of legal verification.
+    Other topics retain the ordinary research evidence and approval gates.
+    """
+    from unicodedata import normalize as unicode_normalize
+    import re as _re
+
+    topic = ''.join(c for c in unicode_normalize('NFKD', str(research_plan.get('topic', '')).lower())
+                    if not __import__('unicodedata').combining(c))
+    is_long_term = research_plan.get('group') == 'renewal' and (
+        'permanente' in topic or 'larga duracion' in topic)
+    if not is_long_term:
+        return list(evidence), []
+
+    selected, excluded = [], []
+    for row in evidence:
+        authority = row.get('authority', '')
+        article = str(row.get('article') or '')
+        url = str(row.get('official_url', '')).lower()
+        title = str(row.get('document_title', '')).lower()
+        text = str(row.get('text', '')).lower()
+        include = (
+            (authority == 'boe' and row.get('source_id') == 'BOE-A-2024-24099'
+             and article in ('185', '209'))
+            or (authority == 'migraciones' and
+                ('larga-duracion' in url or 'larga duración' in title))
+            or (authority == 'policia' and
+                ('largaduracion' in url or 'larga duración' in title))
+        )
+        if include:
+            selected.append(row)
+        else:
+            excluded.append({'evidence_id': row.get('evidence_id'),
+                             'authority': authority, 'article': article,
+                             'reason': 'NOT_TARGET_PROCEDURE_EVIDENCE'})
+    return selected, excluded
+
+
 def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None):
     if not evidence:return coverage(research_plan['research_questions'],evidence)
     prompt=('Review each question strictly against supplied official evidence. '
        'Return JSON object with `questions` array of objects id,status,evidence_ids,reason. '
        'Only ANSWERED_WITH_EVIDENCE if evidence fully answers the question with exceptions; '
        'otherwise use PARTIALLY_ANSWERED, NOT_ANSWERED, or REQUIRES_LEGAL_INTERPRETATION. '
-       'Never invent an evidence_id. This is a research-readiness assessment, not a legal certification.')
+       'Judge the requested procedure, not nearby but legally different renewals. ''For permanent/long-term residence, distinguish renewal of the physical TIE ''from renewal of an underlying authorization. Cite Article 185 and procedural ''guidance when relevant; do not transfer requirements from unrelated procedures. ''Never invent an evidence_id. This is a research-readiness assessment, not a legal certification.')
     result=call_model([{'role':'system','content':prompt},
        {'role':'user','content':json.dumps({'topic':research_plan['topic'],
            'questions':research_plan['research_questions'],'evidence':evidence},ensure_ascii=False)}],
@@ -313,6 +355,11 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
             status['errors']=['No applicable research template for this topic']
             return 2
         evidence,failed,discovery_diagnostics=retrieve_evidence(research_plan,retrieval=retrieval,return_diagnostics=True,include_official=(retrieval is retrieve))
+        # Preserve the raw crawl in diagnostics, but do not offer unrelated
+        # renewal provisions as evidence for the long-term TIE procedure.
+        evidence, excluded_for_topic = focused_evidence_for_topic(research_plan, evidence)
+        save('evidence_focus.json', {'selected_evidence_ids': [e['evidence_id'] for e in evidence],
+             'excluded': excluded_for_topic, 'note': 'Selection does not certify legal applicability'})
         save('evidence.json',evidence);save('retrieval_errors.json',failed)
         save('discovery_diagnostics.json',discovery_diagnostics)
         blocking_errors, source_warnings = partition_retrieval_errors(failed)
