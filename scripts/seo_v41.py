@@ -26,13 +26,18 @@ except ImportError:
 
 BOE_LEGAL = 'https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099'
 BOE_NATIONALITY = 'https://www.boe.es/buscar/act.php?id=BOE-A-1889-4763'
+BOE_NATIONALITY_PROC = 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-12047'
+try:
+    from boe_targeted import retrieve_articles
+except ImportError:
+    from scripts.boe_targeted import retrieve_articles
 SOURCES = {
     'residence_renewal': [('BOE-A-2024-24099', BOE_LEGAL)],
     'legal_residence': [('BOE-A-2024-24099', BOE_LEGAL)],
     'residency_options': [('BOE-A-2024-24099', BOE_LEGAL)],
     'regularization_processing': [], # A broad RD cannot establish specific 2026 processing rules
     'long_term_residence': [('BOE-A-2024-24099', BOE_LEGAL)],
-    'nationality': [('BOE-A-1889-4763', BOE_NATIONALITY)],
+    'nationality': [('BOE-A-1889-4763', BOE_NATIONALITY), ('BOE-A-2015-12047', BOE_NATIONALITY_PROC)],
 }
 SYSTEM = '''Eres redactor jurídico cuidadoso en España. Crea un artículo útil, original y completo en español europeo, EXCLUSIVAMENTE con la evidencia oficial incluida. Nunca inventes plazos, derechos, condiciones, resoluciones ni citas. Si el material no fundamenta un extremo, omite la afirmación y añade una cuestión pendiente. Debes producir SOLO un objeto JSON válido, sin markdown. Campos exactos: title (texto), meta_description (texto), introduction (un único texto con 2 párrafos separados por doble salto de línea; nunca una lista), sections (array de objetos con heading y paragraphs, array de textos), faqs (array de objetos question y answer), claims (array de objetos con claim, source_id, evidence_excerpt: cita LITERAL exacta del fragmento suministrado), unresolved_questions (array de textos). Cada afirmación jurídica concreta en los párrafos o FAQ debe tener su equivalente en claims y una cita literal CONTIGUA EXACTA del texto oficial suministrado, sin acortar, parafrasear o unir palabras. Evita afirmaciones generales basadas en normas sobre supuestos específicos. Restringe el alcance del artículo a los tipos de autorización cubiertos claramente por la evidencia; si faltan disposiciones que son necesarias para una respuesta correcta, anótalo en unresolved_questions. Nunca atribuyas revisión profesional. No sugieras que se ha publicado ni está legalmente validado.'''
 
@@ -245,10 +250,19 @@ def run(args):
         needles=['renovacion','residencia','autorizacion','requisitos','prorroga'] if proposal.get('cluster_id')=='residence_renewal' else ['residencia','autorizacion','requisitos','extranjeria']
         for sid,url in SOURCES[proposal['cluster_id']]:
             try:
-                r=fetch_official(url)
-                excerpt=source_excerpt(r['text'],needles)
-                if len(excerpt)<1200:raise ValueError('Not enough relevant legal material')
-                sources.append({'id':sid,'url':r['url'],'fetched_at':r['fetched_at'],'sha256':r['sha256'],'extract':excerpt})
+                if proposal.get('cluster_id')=='nationality' and sid in ('BOE-A-1889-4763','BOE-A-2015-12047'):
+                    # BOE open-data index + individual blocks: never download the entire Civil Code.
+                    selected=[21,22,23] if sid=='BOE-A-1889-4763' else [1,2,3]
+                    result=retrieve_articles(sid,selected)
+                    excerpt=result['evidence_text']
+                    r={'url':result['official_url'],'text':excerpt,
+                       'fetched_at':result['provisions'][0]['retrieved_at'],
+                       'sha256':hashlib.sha256(excerpt.encode('utf-8')).hexdigest(), 'provisions':result['provisions']}
+                else:
+                    r=fetch_official(url)
+                    excerpt=source_excerpt(r['text'],needles)
+                if len(excerpt)<300:raise ValueError('Not enough relevant legal material')
+                sources.append({'id':sid,'url':r['url'],'fetched_at':r['fetched_at'],'sha256':r['sha256'],'extract':excerpt, **({'provisions':r['provisions']} if 'provisions' in r else {})})
                 full_texts[sid]=r['text']
             except (ValueError,urllib.error.URLError,TimeoutError) as e:
                 failures.append({'url':url,'error':str(e)[:200]})
