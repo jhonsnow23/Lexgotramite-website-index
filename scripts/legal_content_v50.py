@@ -85,7 +85,18 @@ Para renovación física de TIE de larga duración nacional:
   requisitos adicionales. Incluye solo vacíos materiales que impidan dar
   una instrucción imprescindible para el trámite que estás describiendo.
 - Las dudas materiales que persistan sí deben permanecer en unresolved_questions;
-  nunca las ocultes ni las contestes inventando datos.'''
+  nunca las ocultes ni las contestes inventando datos.
+- No conviertas «no encontramos evidencia de canal telemático» en una afirmación
+  jurídica sobre su inexistencia. Un buscador incompleto NO prueba que no exista.
+  Describe solamente los canales acreditados, sin afirmar exclusividad, ni
+  añadas una FAQ o claim sobre ausencia de canal telemático si no es esencial.
+- No enumeres preguntas pendientes sobre trámites secundarios o posibles vías
+  alternativas cuando el procedimiento descrito ya tiene una vía confirmada.
+  Si una duda impide completar el trámite descrito con seguridad, sí es material.
+- No digas en FAQ que la autorización de larga duración nacional «se renueva
+  mediante otro procedimiento» por contraste con la TIE: evita presuponer una
+  renovación periódica de una autorización indefinida. Explica solo la
+  diferencia entre la autorización y la documentación física.'''
 
 SYSTEM_REVIEW = '''Eres un evaluador crítico y separado del redactor. Comprueba si cada afirmación jurídica
 queda plenamente respaldada por los pasajes oficiales incluidos, considerando excepciones, ámbito, fecha y
@@ -109,6 +120,18 @@ Si se afirma que la solicitud es obligatoriamente presencial, comprueba que
 la evidencia trate precisamente de la renovación de la TIE física y no de
 la solicitud o renovación de una autorización de residencia distinta.
 No marques como SUPPORTED una vía exclusiva sin prueba para el trámite exacto.
+Devuelve gaps SOLO para fallos materiales verificables: error de procedimiento,
+afirmación no sustentada o información imprescindible para realizar el trámite
+que falta en el artículo. Explica por qué impiden una guía fiable.
+No incluyas en gaps mera ausencia de plazos de resolución, silencio, detalles
+biométricos o canales alternativos que el artículo no afirma y que no son
+imprescindibles para explicar la vía oficial acreditada. Puedes registrar
+mejoras editoriales no bloqueantes en editorial_notes, separadas de gaps.
+No uses la falta de prueba de una vía telemática como prueba de su inexistencia.
+Si el propio artículo proclama que no existe o incluye una pregunta material
+pendiente sobre canales, evalúa la afirmación y mantenla bloqueada hasta su
+corrección o verificación. Tampoco pases por alto FAQ que sugieran que una
+residencia indefinida debe renovarse periódicamente.
 Tu evaluación no constituye certificación jurídica independiente.'''
 
 
@@ -278,6 +301,14 @@ def renewal_scope_warnings(article, plan_obj):
                  'no se exige para renovar'))
             if (initial_five_years or initial_background) and not clearly_separated:
                 problems.append(f'Section {i+1}: potential initial-authorization requirements conflated with TIE renewal')
+    # FAQs are published assertions too, not merely supporting copy.
+    for i, faq in enumerate(article.get('faqs') or []):
+        if not isinstance(faq, dict):
+            continue
+        answer = normal(faq.get('answer', ''))
+        if ('autorizacion' in answer and 'se renueva mediante' in answer
+                and ('larga duracion' in answer or 'autorizacion de residencia' in answer)):
+            problems.append(f'FAQ {i+1}: potential periodic renewal claim for indefinite long-term authorization')
     return list(dict.fromkeys(problems))
 
 
