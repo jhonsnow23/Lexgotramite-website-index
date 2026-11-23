@@ -118,7 +118,23 @@ Para renovación física de TIE de larga duración nacional:
   menores, pérdida, robo o deterioro, salvo que sean esenciales para el
   procedimiento concreto y se haya demostrado esa necesidad.
 - Si una incertidumbre afecta a una instrucción imprescindible, consérvala
-  expresamente como cuestión pendiente y no publiques el borrador.'''
+  expresamente como cuestión pendiente y no publiques el borrador.
+- En este tema, si hay un canal presencial oficial confirmado y descrito sin
+  exclusividad, la mera posibilidad de canales telemáticos distintos NO es una
+  pregunta esencial sin resolver. No añadas una pregunta para probar negativas.
+- No crees unresolved_questions sobre cómo actuar en supuestos excepcionales
+  (imposibilidad de comparecer, representación, discapacidad) que el artículo
+  no cubre ni afirma poder resolver. Son temas para otra investigación.
+- No conviertas el silencio de las fuentes sobre otros requisitos en una
+  afirmación de ausencia de requisitos. Limítate a enumerar los documentos
+  efectivamente respaldados y distingue los requisitos de concesión inicial.
+- Cuando existe evidencia para describir el trámite ordinario, usa
+  unresolved_questions: [] salvo que identifiques un impedimento jurídico
+  MATERIAL, concreto y relacionado con una instrucción del artículo. No
+  elimines dudas materiales reales para lograr la aprobación.
+- No transformes recomendaciones editoriales o preguntas exploratorias del
+  revisor en asuntos legales pendientes; corrige errores de alcance o
+  elimina afirmaciones no soportadas y somete el nuevo borrador a revisión.'''
 
 SYSTEM_REVIEW = '''Eres un evaluador crítico y separado del redactor. Comprueba si cada afirmación jurídica
 queda plenamente respaldada por los pasajes oficiales incluidos, considerando excepciones, ámbito, fecha y
@@ -159,6 +175,16 @@ Si el propio artículo proclama que no existe o incluye una pregunta material
 pendiente sobre canales, evalúa la afirmación y mantenla bloqueada hasta su
 corrección o verificación. Tampoco pases por alto FAQ que sugieran que una
 residencia indefinida debe renovarse periódicamente.
+Para esta renovación física, si el artículo describe correctamente la vía
+presencial que está documentada y NO afirma exclusividad, no exijas que
+pruebe que otros canales no existen. Tampoco conviertas casos excepcionales
+no abordados (por ejemplo, imposibilidad de comparecer) en gaps materiales,
+a menos que una afirmación del artículo resulte falsa o impracticable por ello.
+No interpretes «la fuente no enumera otra condición» como prueba de que no
+existen otras condiciones: revisa solo lo afirmado y respaldado.
+Distingue: gaps = deficiencias materiales concretas del artículo;
+editorial_notes = información útil para ampliar el artículo futuro.
+No apruebes afirmaciones falsas, contradictorias o carentes de evidencia.
 Tu evaluación no constituye certificación jurídica independiente.'''
 
 
@@ -296,6 +322,16 @@ def call_model(messages,*,model='gpt-4.1-mini',client=None):
 def article_request(research_plan,evidence,model='gpt-4.1-mini',client=None,previous=None,findings=None):
     data={'plan':research_plan,'evidence':evidence,'previous_draft':previous,
           'problems_to_correct':findings,'instructions':'Cite evidence_id only; never invent sources.'}
+    if findings and isinstance(previous,dict):
+        # Make the correction target concrete. This does not clear or downgrade
+        # the unresolved list: the next model output is validated from scratch.
+        data['revision_requirements'] = {
+            'critical': 'Correct or remove unsupported statements; never invent supporting sources.',
+            'unresolved_questions_to_resolve_or_justify': previous.get('unresolved_questions',[]),
+            'rule': 'Do not carry forward optional exploratory questions. Keep only concrete, material unresolved legal issues that prevent safely describing the requested ordinary procedure.',
+            'review_gaps': (findings.get('review') or {}).get('gaps',[]),
+            'do_not_claim': 'Exclusively presencial, no online option exists, or no additional legal requirements exist, unless exact evidence proves it.',
+        }
     messages=[{'role':'system','content':SYSTEM_WRITER},
               {'role':'user','content':json.dumps(data,ensure_ascii=False)}]
     return call_model(messages,model=model,client=client)
