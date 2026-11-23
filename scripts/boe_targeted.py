@@ -59,46 +59,99 @@ def fetch_xml(url, max_bytes, *, opener=urlopen):
     try: return ET.fromstring(b), sha256(b).hexdigest()
     except ET.ParseError as err: raise ValueError('Invalid official BOE XML') from err
 
+def article_from_id(identifier):
+    """BOE block identifiers such as a21, accepted only for precept blocks."""
+    m = re.fullmatch(r'a([1-9]\d{0,2})', identifier, re.I)
+    return int(m.group(1)) if m else None
+
 def block_index(root):
-    """Accept BOE index block identifiers and descriptive titles, no fuzzy article guessing."""
-    matches={}
+    """Read BOE index XML. Prefer the printed article title, then standard aNN IDs.
+
+    The official index uses <bloque><id>a22</id><titulo>Artículo 22</titulo>.
+    Some consolidated indexes differ in formatting or punctuation.
+    """
+    matches = {}
     for node in root.iter():
-        if lname(node.tag) not in ('bloque','item','elemento'): continue
-        ident=value(node,('id_bloque','id'))
-        title=value(node,('titulo','titulo_bloque','descripcion','nombre'))
-        if not title:
-            title=' '.join((node.text or '', ' '.join((e.text or '') for e in node if lname(e.tag) in ('titulo','cabecera'))))
-        m=re.search(r'\bArt[ií]culo\s+(\d{1,3})(?!\d)',clean_text(title),re.I)
-        if m and ident and re.fullmatch(r'[A-Za-z0-9_-]{1,100}',ident):
-            matches.setdefault(int(m.group(1)),ident)
+        if lname(node.tag) not in ('bloque', 'item', 'elemento'):
+            continue
+        ident = value(node, ('id_bloque', 'id'))
+        if not ident or not re.fullmatch(r'[A-Za-z0-9_-]{1,100}', ident):
+            continue
+        title = value(node, ('titulo', 'titulo_bloque', 'descripcion', 'nombre'))
+        m = ARTICLE_RE.search(clean_text(title))
+        by_title = int(m.group(1)) if m else None
+        by_id = article_from_id(ident)
+        if by_title is not None and by_id is not None and by_title != by_id:
+            raise ValueError('BOE index article title/id conflict')
+        number = by_title if by_title is not None else by_id
+        if number is None:
+            continue
+        if number in matches and matches[number] != ident:
+            raise ValueError('Ambiguous BOE article identifiers')
+        matches[number] = ident
     return matches
 
+def parse_version_date(value):
+    """BOE API dates are YYYYMMDD; accept ISO solely for legacy fixtures."""
+    s = str(value or '').strip()
+    if not s:
+        return None
+    if re.fullmatch(r'\d{8}', s):
+        fmt = '%Y%m%d'
+    elif re.fullmatch(r'\d{4}-\d{2}-\d{2}', s):
+        fmt = '%Y-%m-%d'
+    else:
+        raise ValueError('Malformed BOE version date')
+    try:
+        return datetime.strptime(s, fmt).date()
+    except ValueError as err:
+        raise ValueError('Invalid BOE version date') from err
+
+def _visible_text(version):
+    """Extract official provision text, not footnotes or editorial annotations."""
+    ignored = {'blockquote', 'script', 'style', 'img'}
+    parts = []
+    def walk(n, in_ignored=False):
+        if in_ignored or lname(n.tag) in ignored:
+            return
+        # In BOE XML, legal text is generally direct HTML <p> and <table> descendants.
+        if lname(n.tag) in ('p', 'table', 'texto', 'contenido', 'parrafo'):
+            if not any(lname(a.tag) in ignored for a in n.iter() if a is not n):
+                t = clean_text(' '.join(n.itertext()))
+                if t and t not in parts: parts.append(t)
+            return
+        if n.text and n.text.strip() and lname(n.tag) not in ('version', 'bloque'):
+            t = clean_text(n.text)
+            if t: parts.append(t)
+        for child in n:
+            walk(child)
+    walk(version)
+    return '\n'.join(parts).strip()
+
 def latest_block_text(root):
-    """Choose latest dated version, if API supplies versions; reject ambiguous duplicates."""
-    versions=elements(root,'version')
+    """Select the latest safely identifiable BOE version.
+
+    BOE fecha_publicacion / fecha_vigencia attributes are optional. A single
+    undated version can be read but its effective status is NOT verified.
+    Multiple versions with missing dates are ambiguous and must fail closed.
+    """
+    versions = elements(root, 'version')
     if versions:
         dated=[]
         for node in versions:
-            d=value(node,('fecha_publicacion','fecha_vigencia','fecha'))
-            if not re.fullmatch(r'\d{4}-\d{2}-\d{2}',d):
-                raise ValueError('BOE version date missing: cannot select latest safely')
-            dated.append((d,node))
-        dated.sort(key=lambda x:x[0])
-        if len(dated)>1 and dated[-1][0]==dated[-2][0]:
-            raise ValueError('Ambiguous current BOE block version')
-        root=dated[-1][1]
-    # prefer the actual legal text node, excluding annotations and metadata
-    candidates=[]
-    for tag in ('texto','contenido','parrafo'):
-        candidates=elements(root,tag)
-        if candidates: break
-    nodes=candidates if candidates else [root]
-    texts=[]
-    for node in nodes:
-        raw=' '.join(node.itertext())
-        if raw.strip(): texts.append(clean_text(raw))
-    result='\n'.join(dict.fromkeys(texts))
-    if len(result)<55: raise ValueError('Empty or insufficient BOE legal block')
+            pub = parse_version_date(value(node, ('fecha_publicacion',)))
+            vig = parse_version_date(value(node, ('fecha_vigencia',)))
+            dated.append((vig or pub, pub, node))
+        if len(dated) > 1 and any(row[0] is None for row in dated):
+            raise ValueError('BOE versions lack dates: cannot determine latest safely')
+        if len(dated) > 1:
+            dated.sort(key=lambda x:(x[0], x[1] or x[0]))
+            if dated[-1][:2] == dated[-2][:2]:
+                raise ValueError('Ambiguous current BOE block version')
+        root = dated[-1][2]
+    result = _visible_text(root)
+    if len(result) < 55:
+        raise ValueError('Empty or insufficient BOE legal block')
     return result
 
 def retrieve_articles(doc_id, numbers, *, opener=urlopen, max_total=MAX_TOTAL):
