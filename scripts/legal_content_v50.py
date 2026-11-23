@@ -90,6 +90,17 @@ Para renovación física de TIE de larga duración nacional:
   jurídica sobre su inexistencia. Un buscador incompleto NO prueba que no exista.
   Describe solamente los canales acreditados, sin afirmar exclusividad, ni
   añadas una FAQ o claim sobre ausencia de canal telemático si no es esencial.
+- Si la Policía acredita una oficina o comisaría para la renovación física,
+  expresa la vía confirmada en términos positivos: «Según la información
+  oficial de la Policía, este trámite puede realizarse en ...»; no afirmes
+  «debe presentarse» salvo que el precepto aplicable exija esa vía.
+- Nunca incluyas en secciones, FAQ ni claims frases de ausencia de prueba
+  como «no consta evidencia específica de canales telemáticos»,
+  «no se excluye su existencia» o «no hay evidencia de presentación online».
+  Esas son limitaciones de la investigación, no hechos jurídicos útiles
+  para el ciudadano. Si la exclusividad del canal es verdaderamente
+  esencial para ejecutar el trámite y sigue sin resolverse, deja la duda
+  en unresolved_questions y bloquea el borrador.
 - No enumeres preguntas pendientes sobre trámites secundarios o posibles vías
   alternativas cuando el procedimiento descrito ya tiene una vía confirmada.
   Si una duda impide completar el trámite descrito con seguridad, sí es material.
@@ -138,6 +149,11 @@ No incluyas en gaps mera ausencia de plazos de resolución, silencio, detalles
 biométricos o canales alternativos que el artículo no afirma y que no son
 imprescindibles para explicar la vía oficial acreditada. Puedes registrar
 mejoras editoriales no bloqueantes en editorial_notes, separadas de gaps.
+Distingue entre «existe una vía acreditada» y «esa vía es obligatoria o
+exclusiva». La primera puede estar plenamente apoyada por instrucciones
+oficiales específicas; la segunda exige respaldo normativo para el mismo
+trámite. Evalúa solamente lo que el artículo afirma, no la posibilidad
+abstracta de vías alternativas que el texto no menciona.
 No uses la falta de prueba de una vía telemática como prueba de su inexistencia.
 Si el propio artículo proclama que no existe o incluye una pregunta material
 pendiente sobre canales, evalúa la afirmación y mantenla bloqueada hasta su
@@ -332,6 +348,8 @@ def renewal_scope_warnings(article, plan_obj):
             problems.append(f'{location}: potential renewal claim for indefinite long-term authorization')
         # Absolute channel statements require special evidence; flag for review,
         # rather than silently changing the article or dropping a claim.
+        if re.search(r'(?:no consta|no hay|no se ha encontrado).{0,65}(?:evidencia|prueba|informaci[oó]n).{0,65}(?:telem[aá]tic|online|electr[oó]nic)|(?:telem[aá]tic|online).{0,65}(?:no se excluye|no consta)',t):
+            problems.append(f'{location}: speculative lack-of-online-evidence claim belongs in research diagnostics, not article')
         if re.search(r'(?:solicitud|renovacion).{0,55}(?:debe presentarse personalmente|obligatoriamente presencial|exclusivamente presencial)',t):
             problems.append(f'{location}: absolute in-person submission statement requires procedure-specific proof')
     # FAQs are published assertions too, not merely supporting copy.
