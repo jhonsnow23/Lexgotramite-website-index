@@ -1,0 +1,79 @@
+name: SEO v4.5 - live BOE legal retrieval and article dry run
+on:
+  workflow_dispatch:
+    inputs:
+      generate_article:
+        description: 'Also run the existing v4.4 OpenAI nationality draft generator'
+        type: boolean
+        default: true
+permissions:
+  contents: read
+concurrency:
+  group: lexgo-v45-boe-validation
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: New v4.5 tests
+        run: |
+          python -m unittest discover -s tests -p 'test_boe_universal_v45.py' -v
+          python -m unittest discover -s tests -p 'test_legal_evidence_audit_v45.py' -v
+      - name: Existing v4.1 through v4.3 tests
+        run: |
+          python -m unittest discover -s tests -p 'test_seo_v41.py' -v
+          python -m unittest discover -s tests -p 'test_seo_v42.py' -v
+          python -m unittest discover -s tests -p 'test_seo_v43.py' -v
+      - name: Actual BOE API integration test
+        id: live
+        continue-on-error: true
+        run: python scripts/boe_v45_integration.py
+      - name: Prepare isolated nationality draft proposal
+        if: ${{ inputs.generate_article }}
+        run: |
+          mkdir -p reports/seo_v45
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          doc={"version":3,"proposals":[{"cluster_id":"nationality","action":"improve_existing_page","proposed_title":"Nacionalidad española por residencia: requisitos y procedimiento oficial","queries":["nacionalidad española por residencia requisitos"],"sections_to_research":["Requisitos y plazos respaldados por artículos oficiales","Procedimiento y documentación con fuentes oficiales"]}]}
+          Path('reports/seo_v45/proposals.json').write_text(json.dumps(doc,ensure_ascii=False,indent=2))
+          PY
+      - name: Generate article with current existing generator (no publication)
+        id: draft
+        if: ${{ inputs.generate_article && steps.live.outcome == 'success' }}
+        continue-on-error: true
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          : "${OPENAI_API_KEY:?Missing OPENAI_API_KEY}"
+          python scripts/seo_v41.py --proposals reports/seo_v45/proposals.json --output reports/seo_v45/draft
+      - name: Upload all evidence even when blocked
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexgotramite-v45-legal-research-results
+          path: |
+            reports/boe_v45/**
+            reports/seo_v45/**
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Mark missing live verification as failure
+        if: always()
+        env:
+          LIVE_OUTCOME: ${{ steps.live.outcome }}
+          DRAFT_OUTCOME: ${{ steps.draft.outcome }}
+          DO_DRAFT: ${{ inputs.generate_article }}
+        run: |
+          if [ "$LIVE_OUTCOME" != 'success' ]; then
+            echo 'Live BOE integration failed or was inconclusive. Inspect the artifact.'
+            exit 1
+          fi
+          if [ "$DO_DRAFT" = 'true' ] && [ "$DRAFT_OUTCOME" != 'success' ]; then
+            echo 'Article draft did not pass. Inspect the artifact. No publication happened.'
+            exit 1
+          fi
