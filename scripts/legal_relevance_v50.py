@@ -212,7 +212,18 @@ def provision_relevance(group,topic,text,question_list):
     return {'relevant':True,'reason':'LEXICAL_CANDIDATE_REQUIRES_SEMANTIC_REVIEW',
             'matched_questions':question_hits,'subject_matches':sorted(matched)}
 
-def _stratified_full_text_probes(rows, limit=48):
+def _topic_priority_articles(group, topic):
+    """Known research entry points, NOT claims that a provision applies.
+
+    These must still pass full-text relevance and independent legal review.
+    """
+    normalized = normalize(topic)
+    if group == 'renewal' and ('permanente' in normalized or 'larga duracion' in normalized):
+        return ('185', '209')
+    return ()
+
+
+def _stratified_full_text_probes(rows, limit=48, priority_articles=()):
     """Bounded, reproducible fallback when BOE only labels headings Artículo N.
 
     This deliberately *does not* treat sampled articles as relevant evidence.
@@ -223,11 +234,25 @@ def _stratified_full_text_probes(rows, limit=48):
         return []
     if len(rows) <= limit:
         return list(rows)
-    # Cover the entire document, rather than blindly choosing articles 1..48.
-    # Equidistant positions include the final articles, which often contain
-    # documentation, card renewal or procedural rules.
-    positions = sorted({round(i*(len(rows)-1)/(limit-1)) for i in range(limit)})
-    return [rows[i] for i in positions]
+    # Protect a small number of known topic-research entry points from being
+    # skipped by generic-heading sampling. Match only IDs present in the
+    # actual official index, so no article or block ID is invented.
+    priority = []
+    for number in priority_articles:
+        match = next((row for row in rows if row[0] == number), None)
+        if match is not None and match not in priority:
+            priority.append(match)
+    remaining = limit - len(priority)
+    if remaining <= 0:
+        return priority[:limit]
+    # Sample the remainder across the full legislation, not just its start.
+    pool = [row for row in rows if row not in priority]
+    if remaining == 1:
+        positions = [len(pool)//2]
+    else:
+        positions = sorted({round(i*(len(pool)-1)/(remaining-1)) for i in range(remaining)})
+    return sorted(priority + [pool[i] for i in positions],
+                  key=lambda row: rows.index(row))
 
 
 def discover(group,topic,*,index_fetch=api_get,max_per_source=12,full_text_probe_limit=48):
@@ -269,7 +294,8 @@ def discover(group,topic,*,index_fetch=api_get,max_per_source=12,full_text_probe
                 # headings provides no meaningful lexical candidates. Fetch
                 # a bounded, document-wide sample for *full-text* filtering.
                 # Do not claim exhaustive discovery or automatic sufficiency.
-                probes=_stratified_full_text_probes(rows,full_text_probe_limit)
+                probes=_stratified_full_text_probes(rows,full_text_probe_limit,
+                    _topic_priority_articles(group,topic))
                 candidates=[{'source_id':doc,'article':num,'block_id':bid,
                      'title':title,'section_context':context,'score':0.0,
                      'question_scores':{},'concept_scores':{},

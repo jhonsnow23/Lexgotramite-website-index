@@ -284,6 +284,17 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
     return coverage(research_plan['research_questions'],evidence,semantic_judgments=judgments)
 
 
+def partition_retrieval_errors(errors):
+    """Optional official-page outages cannot by themselves certify research failure.
+
+    Keep all other errors blocking. Readiness still requires independent
+    evidence-based answers for every essential question before drafting.
+    """
+    warnings = [e for e in errors if e.get('category') == 'OFFICIAL_SOURCE_RETRIEVAL_ERROR']
+    blocking = [e for e in errors if e.get('category') != 'OFFICIAL_SOURCE_RETRIEVAL_ERROR']
+    return blocking, warnings
+
+
 def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve,client=None,max_revisions=2):
     out=Path(output_path);out.mkdir(parents=True,exist_ok=True)
     status={'version':'5.0','publication_allowed':False,'result':'BLOCKED','errors':[],
@@ -304,10 +315,12 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
         evidence,failed,discovery_diagnostics=retrieve_evidence(research_plan,retrieval=retrieval,return_diagnostics=True,include_official=(retrieval is retrieve))
         save('evidence.json',evidence);save('retrieval_errors.json',failed)
         save('discovery_diagnostics.json',discovery_diagnostics)
-        if failed or not evidence:
-            status['errors']=['Evidence retrieval incomplete']+[x.get('details',x.get('detail','')) for x in failed]
+        blocking_errors, source_warnings = partition_retrieval_errors(failed)
+        save('retrieval_warnings.json', source_warnings)
+        if blocking_errors or not evidence:
+            status['errors']=['Evidence retrieval incomplete']+[x.get('details',x.get('detail','')) for x in blocking_errors or failed]
             status['result']='BLOCKED_INSUFFICIENT_EVIDENCE'
-            status['failure_codes']=[x.get('category') for x in failed]
+            status['failure_codes']=[x.get('category') for x in blocking_errors or failed]
             return 2
         covered,ready=research_readiness(research_plan,evidence,model=model,client=client)
         save('research_coverage.json',{'questions':covered,'ready':ready,
