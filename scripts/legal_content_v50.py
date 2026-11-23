@@ -93,10 +93,21 @@ Para renovación física de TIE de larga duración nacional:
 - No enumeres preguntas pendientes sobre trámites secundarios o posibles vías
   alternativas cuando el procedimiento descrito ya tiene una vía confirmada.
   Si una duda impide completar el trámite descrito con seguridad, sí es material.
-- No digas en FAQ que la autorización de larga duración nacional «se renueva
-  mediante otro procedimiento» por contraste con la TIE: evita presuponer una
-  renovación periódica de una autorización indefinida. Explica solo la
-  diferencia entre la autorización y la documentación física.'''
+- No digas EN NINGUNA PARTE (introducción, secciones, FAQ o claims) que la
+  autorización de larga duración nacional indefinida «se renueva», «puede
+  renovarse mediante procedimientos específicos» o necesita renovación
+  periódica de una autorización indefinida. La renovación aquí descrita
+  es del documento físico: no presumas la renovación de esa autorización indefinida.
+- No afirmes «la solicitud debe presentarse personalmente en cualquier
+  oficina» de modo universal si las fuentes solo acreditan una vía presencial.
+  Explica la vía presencial acreditada sin negar posibles modalidades
+  alternativas y sin prometer que cualquier oficina tramita ese supuesto.
+- No incluyas en las FAQ preguntas sobre un canal telemático no acreditado,
+  ni añadas como unresolved_questions supuestos de expedición inicial,
+  menores, pérdida, robo o deterioro, salvo que sean esenciales para el
+  procedimiento concreto y se haya demostrado esa necesidad.
+- Si una incertidumbre afecta a una instrucción imprescindible, consérvala
+  expresamente como cuestión pendiente y no publiques el borrador.'''
 
 SYSTEM_REVIEW = '''Eres un evaluador crítico y separado del redactor. Comprueba si cada afirmación jurídica
 queda plenamente respaldada por los pasajes oficiales incluidos, considerando excepciones, ámbito, fecha y
@@ -301,6 +312,28 @@ def renewal_scope_warnings(article, plan_obj):
                  'no se exige para renovar'))
             if (initial_five_years or initial_background) and not clearly_separated:
                 problems.append(f'Section {i+1}: potential initial-authorization requirements conflated with TIE renewal')
+    # Detect misleading affirmative assertions in any published article text,
+    # not only in FAQ answers or claim metadata. This does not certify the law.
+    texts=[('Introduction',article.get('introduction',''))]
+    texts += [(f'Section {i+1}',p) for i,sec in enumerate(article.get('sections') or [])
+              if isinstance(sec,dict) for p in sec.get('paragraphs',[]) if isinstance(p,str)]
+    texts += [(f'FAQ {i+1}',faq.get('answer','')) for i,faq in enumerate(article.get('faqs') or [])
+              if isinstance(faq,dict)]
+    for i,claim in enumerate(article.get('claims') or []):
+        if isinstance(claim,dict):texts.append((f'Claim {i+1}',claim.get('claim','')))
+    for location,passage in texts:
+        t=normal(passage)
+        # Avoid matching explicit statements that the authorization is NOT renewed.
+        misleading_auth=(re.search(r'autorizacion de residencia(?: de larga duracion(?: nacional)?)?.{0,55}(?:puede renovarse|se renueva mediante|debe renovarse)',t)
+                         or re.search(r'renovacion (?:periodica )?de la autorizacion de residencia de larga duracion',t))
+        negated=any(x in t for x in ('no se renueva','no necesita renovacion',
+               'no implica renovacion','no implica la renovacion','no equivale a renovar','no debe renovarse'))
+        if misleading_auth and not negated:
+            problems.append(f'{location}: potential renewal claim for indefinite long-term authorization')
+        # Absolute channel statements require special evidence; flag for review,
+        # rather than silently changing the article or dropping a claim.
+        if re.search(r'(?:solicitud|renovacion).{0,55}(?:debe presentarse personalmente|obligatoriamente presencial|exclusivamente presencial)',t):
+            problems.append(f'{location}: absolute in-person submission statement requires procedure-specific proof')
     # FAQs are published assertions too, not merely supporting copy.
     for i, faq in enumerate(article.get('faqs') or []):
         if not isinstance(faq, dict):
