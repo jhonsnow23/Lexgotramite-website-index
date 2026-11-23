@@ -27,6 +27,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_seo_v42.py' -v
           python -m unittest discover -s tests -p 'test_seo_v41.py' -v
           python -m unittest discover -s tests -p 'test_seo_v43.py' -v
+          python -m unittest discover -s tests -p 'test_legal_content_v46.py' -v
       - name: Refresh actual Google Search Console data
         env:
           GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
@@ -47,13 +48,13 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           python scripts/seo_v42.py --require-history
-      - name: Generate source-grounded article candidate (no publication)
+      - name: Generate v4.6 evidence-ID article candidate (no publication)
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           if [ -s reports/seo_v42/selected_v41_proposal.json ]; then
             : "${OPENAI_API_KEY:?Missing OPENAI_API_KEY}"
-            python scripts/seo_v41.py --proposals reports/seo_v42/selected_v41_proposal.json
+            python scripts/legal_content_v46.py --proposals reports/seo_v42/selected_v41_proposal.json --output reports/seo_v46
           else
             echo 'No eligible topic: no draft produced, which is safer than repeating a topic.'
           fi
@@ -66,5 +67,6 @@ jobs:
             reports/seo_intelligence.json
             reports/seo_v42/**
             reports/seo_v41/**
+            reports/seo_v46/**
           if-no-files-found: warn
           retention-days: 90
