@@ -1,0 +1,53 @@
+name: SEO v4.4 - Nationality BOE article dry run (no publication)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: lexgotramite-v44-nationality-dry-run
+  cancel-in-progress: false
+jobs:
+  nationality-dry-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Unit tests - source retrieval and existing v4.1 through v4.3
+        run: |
+          python -m unittest discover -s tests -p 'test_boe_targeted.py' -v
+          python -m unittest discover -s tests -p 'test_seo_v41.py' -v
+          python -m unittest discover -s tests -p 'test_seo_v42.py' -v
+          python -m unittest discover -s tests -p 'test_seo_v43.py' -v
+      - name: Prepare isolated nationality test proposal
+        run: |
+          mkdir -p reports/seo_v44
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          proposal = {
+            "version": 3,
+            "proposals": [{
+              "cluster_id": "nationality",
+              "action": "improve_existing_page",
+              "proposed_title": "Nacionalidad española por residencia: requisitos y procedimiento oficial",
+              "queries": ["nacionalidad española por residencia requisitos"],
+              "sections_to_research": ["Requisitos y plazos cuando la evidencia oficial sea suficiente", "Procedimiento oficial y documentación acreditada por normativa"]
+            }]
+          }
+          Path('reports/seo_v44/proposals.json').write_text(json.dumps(proposal, ensure_ascii=False, indent=2), encoding='utf-8')
+          PY
+      - name: Generate complete draft from targeted BOE provisions (never publish)
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python scripts/seo_v41.py --proposals reports/seo_v44/proposals.json --output reports/seo_v44/draft
+      - name: Upload draft and evidence even if blocked
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexgotramite-v44-nationality-evidence
+          path: reports/seo_v44/
+          if-no-files-found: warn
+          retention-days: 30
