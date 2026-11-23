@@ -35,6 +35,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_legal_content_v46.py' -v
           python -m unittest discover -s tests -p 'test_boe_universal_v45.py' -v
           python -m unittest discover -s tests -p 'test_legal_relevance_v50.py' -v
+          python -m unittest discover -s tests -p 'test_official_sources_v50.py' -v
       - name: Refresh REAL Google Search Console data
         env:
           GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
