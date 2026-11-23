@@ -22,6 +22,15 @@ class LegalRelevanceTests(unittest.TestCase):
  def test_conflicting_heading_block_mapping_rejected(self):
   root=ET.fromstring('<indice><bloque id="a22" titulo="Art 22"/><bloque id="another22" titulo="Art 22"/></indice>')
   self.assertEqual(mod.parse_index_titles(root),[])
+ def test_index_endpoint_matches_working_v45_boe_retriever(self):
+  observed=[]
+  root=ET.fromstring('<indice><bloque id="a22" titulo="Art 22 Residencia temporal"/></indice>')
+  def index_fetch(url):
+   observed.append(url)
+   return root,'hash'
+  mod.discover('residence','Tipos de residencia',index_fetch=index_fetch)
+  self.assertEqual(observed, [mod.BASE+'BOE-A-2024-24099/texto/indice'])
+
  def test_no_positional_fallback(self):
   root=ET.fromstring('<indice><bloque id="art1" titulo="Art 1 Entrada por puestos fronterizos"/><bloque id="art2" titulo="Art 2 Pasaporte"/></indice>')
   results,_=mod.discover('residence','Tipos de residencia',index_fetch=lambda url:(root,'hash'))
