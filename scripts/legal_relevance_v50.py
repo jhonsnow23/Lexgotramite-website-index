@@ -212,7 +212,25 @@ def provision_relevance(group,topic,text,question_list):
     return {'relevant':True,'reason':'LEXICAL_CANDIDATE_REQUIRES_SEMANTIC_REVIEW',
             'matched_questions':question_hits,'subject_matches':sorted(matched)}
 
-def discover(group,topic,*,index_fetch=api_get,max_per_source=12):
+def _stratified_full_text_probes(rows, limit=48):
+    """Bounded, reproducible fallback when BOE only labels headings Artículo N.
+
+    This deliberately *does not* treat sampled articles as relevant evidence.
+    Every sampled article must pass full-text checks after official retrieval.
+    The diagnostic must disclose that some provisions were not inspected.
+    """
+    if limit <= 0 or not rows:
+        return []
+    if len(rows) <= limit:
+        return list(rows)
+    # Cover the entire document, rather than blindly choosing articles 1..48.
+    # Equidistant positions include the final articles, which often contain
+    # documentation, card renewal or procedural rules.
+    positions = sorted({round(i*(len(rows)-1)/(limit-1)) for i in range(limit)})
+    return [rows[i] for i in positions]
+
+
+def discover(group,topic,*,index_fetch=api_get,max_per_source=12,full_text_probe_limit=48):
     """Parse actual BOE indexes and rank by subject, not article ordinal position."""
     found=[];diagnostics=[]
     qs=questions(group)
@@ -220,6 +238,8 @@ def discover(group,topic,*,index_fetch=api_get,max_per_source=12):
         endpoint=BASE+doc+'/texto/indice'
         report={'document':doc,'index_url':endpoint,'index_nodes':0,'index_articles':0,
                 'qualified_candidates':0,'candidates_selected':0,'failure_code':None,
+                'discovery_mode':'INDEX_HEADING_RANKING','full_text_probe_count':0,
+                'uninspected_index_articles':0,
                 'sample_index_headings':[],'rejected_sample':[]}
         try:
             root,_=index_fetch(endpoint)
@@ -244,8 +264,25 @@ def discover(group,topic,*,index_fetch=api_get,max_per_source=12):
             candidates.sort(key=lambda x:(-x['score'],int(re.match(r'\d+',x['article']).group(0))))
             report['qualified_candidates']=len(candidates)
             report['candidates_selected']=min(max_per_source,len(candidates))
-            if not candidates:report['failure_code']='NO_RELEVANT_CANDIDATES'
-            found.extend(candidates[:max_per_source]);diagnostics.append(report)
+            if not candidates and len(rows) >= 12 and full_text_probe_limit > 0:
+                # A parsed index consisting solely of generic 'Artículo N'
+                # headings provides no meaningful lexical candidates. Fetch
+                # a bounded, document-wide sample for *full-text* filtering.
+                # Do not claim exhaustive discovery or automatic sufficiency.
+                probes=_stratified_full_text_probes(rows,full_text_probe_limit)
+                candidates=[{'source_id':doc,'article':num,'block_id':bid,
+                     'title':title,'section_context':context,'score':0.0,
+                     'question_scores':{},'concept_scores':{},
+                     'discovery_method':'STRATIFIED_FULL_TEXT_PROBE'}
+                     for num,bid,title,context in probes]
+                report['discovery_mode']='BOUNDED_FULL_TEXT_PROBE'
+                report['full_text_probe_count']=len(probes)
+                report['uninspected_index_articles']=max(0,len(rows)-len(probes))
+                report['failure_code']='INDEX_HEADINGS_UNINFORMATIVE'
+                report['candidates_selected']=len(candidates)
+            elif not candidates:
+                report['failure_code']='NO_RELEVANT_CANDIDATES'
+            found.extend(candidates if report['discovery_mode']=='BOUNDED_FULL_TEXT_PROBE' else candidates[:max_per_source]);diagnostics.append(report)
         except Exception as e:
             report['failure_code']='BOE_INDEX_ERROR'
             report['error']=type(e).__name__

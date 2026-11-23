@@ -189,13 +189,28 @@ def heading_matches(text,article):
     return False
 
 
-def retrieve(doc_id, articles, *, opener=urllib.request.urlopen, as_of=None, max_context=MAX_CONTEXT):
+def retrieve(doc_id, articles, *, opener=urllib.request.urlopen, as_of=None, max_context=MAX_CONTEXT, verified_index_mapping=None):
     if not DOC.fullmatch(str(doc_id)):raise BOEError('INVALID_DOCUMENT','Invalid document identifier')
     if not articles or len(articles)>MAX_ARTICLES or any(not str(a).isdigit() or not 1<=int(a)<=9999 for a in articles):
         raise BOEError('INVALID_SELECTION','Invalid article numbers')
     selected=list(dict.fromkeys(int(a) for a in articles)); index_url=f'{BASE}{doc_id}/texto/indice'
-    root,index_sha=api_get(index_url,opener=opener)
-    mapping=index_map(root)
+    if verified_index_mapping is None:
+        root,index_sha=api_get(index_url,opener=opener)
+        mapping=index_map(root)
+    else:
+        # Optimization for legal-relevance discovery: it already fetched the
+        # official index and extracted real observed IDs. Never infer IDs.
+        # Bound this shortcut to the exact requested articles and valid IDs.
+        if not isinstance(verified_index_mapping,dict) or any(
+            key not in verified_index_mapping or
+            not isinstance(verified_index_mapping[key],str) or
+            not re.fullmatch(r'[A-Za-z0-9_-]{1,90}',verified_index_mapping[key])
+            for key in ((n,'') for n in selected)
+        ):
+            raise BOEError('INVALID_INDEX_MAPPING','Expected observed BOE block IDs for all requested articles')
+        mapping=verified_index_mapping
+        index_sha='REUSED_OFFICIAL_INDEX_MAPPING'
+
     missing=[n for n in selected if (n,'') not in mapping]
     # No guessed aNN ID fallback. Instead report actual index structure.
     if missing:

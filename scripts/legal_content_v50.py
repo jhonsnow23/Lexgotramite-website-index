@@ -116,9 +116,16 @@ def retrieve_evidence(research_plan,retrieval=retrieve,*,discovery=discover,retu
         trial={'document':c['source_id'],'article':c['article'],
                'heading':c.get('title',''), 'index_score':c.get('score',0),
                'index_question_scores':c.get('question_scores',{}),
-               'stage':'FULL_TEXT_RETRIEVAL'}
+               'stage':'FULL_TEXT_RETRIEVAL',
+               'discovery_method':c.get('discovery_method','INDEX_HEADING_RANKING')}
         try:
-            response=retrieval(c['source_id'],[c['article']])
+            if retrieval is retrieve and c.get('block_id') and str(c.get('article','')).isdigit():
+                # Reuse the official index mapping discovered immediately before
+                # retrieval: avoids downloading the same ~265-item index 48x.
+                response=retrieval(c['source_id'],[c['article']],
+                    verified_index_mapping={(int(c['article']),''):c['block_id']})
+            else:
+                response=retrieval(c['source_id'],[c['article']])
             rows=records_from_boe(response)
             if not rows or str(rows[0]['article'])!=str(c['article']):
                 raise ValueError('Requested article identity mismatch')
@@ -147,14 +154,16 @@ def retrieve_evidence(research_plan,retrieval=retrieve,*,discovery=discover,retu
               'details':'Index could not yield topic-relevant provision candidates; see discovery_diagnostics.json'})
     elif not evidence:
         errors.append({'category':'RELEVANCE_FILTER_REJECTED_ALL',
-              'details':'No retrieved provision satisfied the full-text subject guard; see discovery_diagnostics.json'})
+              'details':'No retrieved provision satisfied the full-text subject guard; see discovery_diagnostics.json. A bounded probe cannot prove no relevant law exists.'})
     for item in diagnostics:
         if item.get('error') or item.get('failure_code')=='BOE_INDEX_ERROR':
             errors.append({'category':item.get('failure_code','BOE_INDEX_ERROR'),
                            'details':item.get('detail','BOE index request failed'),
                            'document':item.get('document')})
     if return_diagnostics:return evidence,errors,{'index':diagnostics,'provision_attempts':attempts,
-                 'retrieved_candidates':len(attempts),'accepted_evidence':len(evidence)}
+                 'retrieved_candidates':len(attempts),'accepted_evidence':len(evidence),
+                 'full_text_probes_attempted':sum(t.get('discovery_method')=='STRATIFIED_FULL_TEXT_PROBE' for t in attempts),
+                 'discovery_exhaustive':all(not r.get('uninspected_index_articles') for r in diagnostics)}
     return evidence,errors
 
 def call_model(messages,*,model='gpt-4.1-mini',client=None):
