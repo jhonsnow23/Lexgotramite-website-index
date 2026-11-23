@@ -18,10 +18,10 @@ import zipfile
 
 try:
     import seo_v42 as baseline
-    import legal_content_v46 as generator
+    import legal_content_v50 as generator
 except ImportError:
     from scripts import seo_v42 as baseline
-    from scripts import legal_content_v46 as generator
+    from scripts import legal_content_v50 as generator
 
 VERSION='5.0.0'
 ARTIFACT='lexgo-v50-results'
@@ -60,7 +60,7 @@ def topic_blocker(item,history,today,*,ignore_attempt_backoff=False):
 def supports_research(item):
     # This is a source REGISTRY coverage check, NOT proof of legal applicability.
     p={'proposals':[{'cluster_id': item['cluster_id'], 'origin_cluster_id':item['cluster_id'],
-        'proposed_title':item['proposed_title'], 'action':'improve_existing_page' if item.get('existing_pages') else 'create_article',
+        'proposed_title':item['proposed_title'], 'action':'create_article',
         'queries':item['supporting_queries'], 'search_demand_evidence':{'impressions_28d':item['impressions_28d'], 'impressions_90d':item['impressions_90d']}}]}
     return generator.plan(p)['source_registry_complete'],p
 
@@ -81,6 +81,8 @@ def choose(report,catalog,website,history,today,*,retry_failed=False):
         block=topic_blocker(row,history,today,ignore_attempt_backoff=retry_failed)
         if block:
             row['recommended_action']='MONITOR';row['selection_reason']=block
+        elif row['existing_pages']:
+            row['recommended_action']='SKIP';row['selection_reason']='Existing URL/title targets this intent; metadata-only exclusion, no blog body read'
         elif not row['research_registry_available']:
             row['recommended_action']='MONITOR';row['selection_reason']='Source registry needs expansion; no unsupported legal guesswork'
         elif row['impressions_28d']<3 and row['impressions_90d']<30:
@@ -181,7 +183,8 @@ def finalize(args):
             result=decision.get('result','ERROR')
         except (FileNotFoundError,ValueError):result='ERROR'
         if result=='REVIEW_READY':status='REVIEW_READY'
-        elif result=='BLOCKED_RETRIEVAL':status='BLOCKED_RETRIEVAL'
+        elif result in ('BLOCKED_RETRIEVAL','BLOCKED_INSUFFICIENT_EVIDENCE','BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE'):status='BLOCKED_RETRIEVAL'
+        elif result=='SKIPPED_DUPLICATE_TOPIC':status='DRAFT_FAILED'
         elif result=='BLOCKED_VALIDATION':status='BLOCKED_VALIDATION'
         else:status='DRAFT_FAILED'
         history.append({'date':date.today().isoformat(),'selected_on':date.today().isoformat(),
