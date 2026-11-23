@@ -139,7 +139,7 @@ def discover(group,topic,*,index_fetch=api_get,max_per_source=8):
     found=[];diagnostics=[]
     qs=questions(group)
     for doc in SOURCE_CANDIDATES.get(group,[]):
-        endpoint=BASE+doc+'/indice'
+        endpoint=BASE+doc+'/texto/indice'
         try:
             root,_=index_fetch(endpoint)
             rows=contextual_index(root)
