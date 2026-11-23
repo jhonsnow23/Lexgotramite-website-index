@@ -83,3 +83,22 @@ class CivilCodeRegressionTests(unittest.TestCase):
   def own(req,timeout):return Response(req.full_url,idx)
   with self.assertRaisesRegex(m.BOEError,'ARTICLE_NOT_IN_INDEX'):
    m.retrieve('BOE-A-1889-4763',[22],opener=own)
+
+
+class LiveCivilCodeIndexRegressionTests(unittest.TestCase):
+ def test_actual_boe_heading_style(self):
+  # Real BOE Civil Code index returned {"id":"art2","title":"Art 2"}.
+  for caption,num in [('Art 1',1),('Art 2',2),('Art 21',21),('Art 22',22),('Art 23',23),('Art. 22',22),('Artículo 22.',22)]:
+   self.assertEqual(m._number_of(caption),(num,''))
+ def test_actual_boe_index_ids(self):
+  xml=b'<response><data><bloque><id>art21</id><titulo>Art 21</titulo></bloque><bloque><id>art22</id><titulo>Art 22</titulo></bloque><bloque><id>art23</id><titulo>Art 23</titulo></bloque></data></response>'
+  mp=m.index_map(ET.fromstring(xml))
+  self.assertEqual([mp[(n,'')] for n in (21,22,23)],['art21','art22','art23'])
+ def test_actual_style_retrieval_still_requires_matching_block_content(self):
+  idx=b'<response><data><bloque><id>art22</id><titulo>Art 22</titulo></bloque></data></response>'
+  def valid(req,timeout):
+   payload=idx if req.full_url.endswith('/indice') else b'<response><data><bloque><version fecha_vigencia="20250101"><p>Art 22. La informacion oficial completa debe corresponder al precepto solicitado.</p><p>Contenido complementario para garantizar el volumen minimo de evidencia.</p></version></bloque></data></response>'
+   return Response(req.full_url,payload)
+  result=m.retrieve('BOE-A-1889-4763',[22],opener=valid)
+  self.assertEqual(result['provisions'][0]['block_id'],'art22')
+  self.assertEqual(result['provisions'][0]['legal_status'],'UNVERIFIED')
