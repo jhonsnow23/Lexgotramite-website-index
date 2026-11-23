@@ -7,11 +7,12 @@ from dataclasses import dataclass
 import re
 import unicodedata
 from collections import defaultdict
+from itertools import islice
 
 try:
-    from boe_universal_v45 import BASE, api_get, _identifier, _caption, tag, retrieve, BOEError
+    from boe_universal_v45 import BASE, api_get, _identifier, _caption, tag, txt, _number_of, retrieve, BOEError
 except ImportError:
-    from scripts.boe_universal_v45 import BASE, api_get, _identifier, _caption, tag, retrieve, BOEError
+    from scripts.boe_universal_v45 import BASE, api_get, _identifier, _caption, tag, txt, _number_of, retrieve, BOEError
 
 # Documents are discovery candidates, not universal legal authorities.
 SOURCE_CANDIDATES = {
@@ -70,89 +71,186 @@ def group_of(cluster,topic):
 def questions(group):
     return [{'id':a,'question':b,'query':c,'status':'NOT_ANSWERED','evidence_ids':[]} for a,b,c in QUESTION_SEEDS.get(group,[])]
 
+# Query expansion is a discovery aid, never a statement of legal equivalence.
+# Each cluster is deliberately distinct: TIE renewal != renewal of status.
+CONCEPT_GROUPS = {
+ 'renewal': {
+  'long_term_status': ('larga duracion', 'residencia larga duracion', 'permanente', 'autorizacion'),
+  'identity_card': ('tarjeta identidad extranjero', 'tie', 'documentacion extranjero', 'tarjeta', 'renovacion tarjeta'),
+  'procedure': ('renovacion', 'vigencia', 'solicitud', 'procedimiento', 'documentacion', 'expedicion'),
+ },
+ 'residence': {
+  'categories': ('residencia temporal','residencia larga duracion','autorizacion residencia', 'circunstancias excepcionales'),
+  'requirements': ('requisitos','concesion','trabajo','reagrupacion familiar'),
+ },
+ 'nationality': {
+  'nationality': ('nacionalidad','naturalizacion','adquisicion','residencia'),
+  'procedure': ('solicitud','expediente','procedimiento','requisitos'),
+ },
+ 'arraigo': {
+  'arraigo': ('arraigo','circunstancias excepcionales','sociolaboral','socioformativo','social'),
+  'procedure': ('solicitud','requisitos','autorizacion','residencia'),
+ },
+ 'family': {
+  'family': ('reagrupacion familiar','familiares','familiar','residencia'),
+  'procedure': ('requisitos','solicitud','documentacion'),
+ },
+}
+
 def score_title(title,query):
+    """Conservative lexical discovery score; never certifies claim relevance."""
     a=tokens(title);b=tokens(query)
     if not a or not b:return 0
-    matches=len(a & b)
-    # A generic index heading such as 'Articulo 2' is not evidence of relevance.
-    return matches/len(b) if matches>=1 else 0
+    return len(a & b)/len(b)
+
+def _label(n):
+    """Read actual BOE index records, including nested title/epigraph elements."""
+    caption=_caption(n)
+    if caption:return caption
+    for child in n:
+        if tag(child) in ('titulo','título','rotulo','rótulo','epigrafe','epígrafe','nombre','caption','texto'):
+            content=txt(child)
+            if content:return content
+    return ''
+
+def _index_items(root):
+    valid={'bloque','item','elemento','entrada','registro','precepto','articulo','artículo'}
+    for n in root.iter():
+        if tag(n) in valid:
+            bid=_identifier(n)
+            if bid and re.fullmatch(r'[A-Za-z0-9_-]{1,90}',bid):
+                yield n,bid,_label(n)
 
 def parse_index_titles(root):
-    """Use verified label and block-ID pairing from the actual BOE index.
-    No assumption that article number equals block ID.
-    """
-    out={}
-    for n in root.iter():
-        if tag(n) not in ('bloque','item','elemento','entrada','registro','precepto','articulo','artículo'):continue
-        bid=_identifier(n);caption=_caption(n)
-        if not bid or not caption:continue
-        match=re.search(r'\bArt(?:[íi]culo|\.)?\s+(\d{1,4})(?:\s*(bis|ter|qu[aá]ter))?\b',caption,re.I)
-        if not match:continue
-        num=(int(match.group(1)),(match.group(2) or '').lower())
-        if not re.fullmatch(r'[A-Za-z0-9_-]{1,90}',bid):continue
-        key=(num[0],num[1]);pair=(bid,caption)
-        if key in out and out[key]!=pair:
-            # Ambiguous mapping: omit this particular article rather than guess.
-            out[key]=None
-        elif key not in out:out[key]=pair
-    return [(str(k[0])+(k[1] or ''),v[0],v[1]) for k,v in out.items() if v is not None]
+    """Explicit heading identifies article. No guessed mapping from opaque IDs."""
+    out={}; conflicts=set()
+    for n,bid,label in _index_items(root):
+        article=_number_of(label)
+        if not article:
+            for child in n:
+                if tag(child) in ('texto','rotulo','rótulo','epigrafe','epígrafe','nombre','caption','titulo','título'):
+                    article=_number_of(txt(child))
+                    if article:break
+        if not article:continue
+        key=(int(article[0]),article[1])
+        pair=(bid,label)
+        if key in out and out[key][0]!=bid:conflicts.add(key)
+        else:out[key]=pair
+    return [(str(k[0])+(k[1] or ''),v[0],v[1]) for k,v in out.items() if k not in conflicts]
 
 def contextual_index(root):
-    """Pair article entries with official preceding index section headings.
+    """Retrieve article headings plus ordered parent headings from BOE index metadata.
 
-    A section heading is a search hint only. It is NOT claim evidence, and every
-    retrieved block still requires independent relevance and legal review.
+    Context is for finding candidates only: the source provision text must be checked.
     """
     articles=parse_index_titles(root)
-    known={(num,bid):title for num,bid,title in articles}
-    contexts={};headings=[]
-    section_names={'libro','titulo','título','capitulo','capítulo','seccion','sección','subseccion','subsección','parte'}
-    for n in root.iter():
-        if tag(n) not in ('bloque','item','elemento','entrada','registro','precepto','articulo','artículo'):
-            continue
-        bid=_identifier(n);title=_caption(n)
-        if not title or not bid:continue
+    allowed={(n,b) for n,b,_ in articles}
+    contexts={};heads=[]
+    order=('parte','libro','titulo','capitulo','seccion','subseccion')
+    for _,bid,title in _index_items(root):
         lowered=normalize(title)
-        if (re.match(r'^(libro|titulo|capitulo|seccion|subseccion|parte)\s+',lowered)
-                and 'art ' not in lowered[:8]):
-            level=next((x for x in ('libro','titulo','capitulo','seccion','subseccion','parte') if lowered.startswith(x+' ')),None)
-            order=['parte','libro','titulo','capitulo','seccion','subseccion']
-            idx=order.index(level) if level in order else len(order)-1
-            headings=[(i,h) for i,h in headings if i<idx]
-            headings.append((idx,title))
+        match=re.match(r'^(parte|libro|titulo|capitulo|seccion|subseccion)\b',lowered)
+        if match:
+            level=order.index(match.group(1))
+            heads=[(l,h) for l,h in heads if l<level]+[(level,title)]
             continue
-        number_match=re.search(r'\bArt(?:[íi]culo|\.)?\s+(\d{1,4})(?:\s*(bis|ter|qu[aá]ter))?\b',title,re.I)
-        if number_match:
-            number=number_match.group(1)+(number_match.group(2) or '').lower()
-            if (number,bid) in known:
-                contexts[(number,bid)]=' '.join(h for _,h in headings)
+        heading=_number_of(title)
+        if heading:
+            number=str(heading[0])+(heading[1] or '')
+            if (number,bid) in allowed:
+                contexts[(number,bid)]=' '.join(h for _,h in heads)
     return [(num,bid,title,contexts.get((num,bid),'')) for num,bid,title in articles]
 
+def _discovery_query(group,topic,q):
+    concepts=CONCEPT_GROUPS.get(group,{})
+    # Include query-specific concepts without falsely treating them as equivalent.
+    terms=[topic,q['query']]
+    terms.extend(phrase for phrases in concepts.values() for phrase in phrases)
+    return ' '.join(terms)
 
-def discover(group,topic,*,index_fetch=api_get,max_per_source=8):
-    """Discover candidate articles using *real* index headings, never by ordinal position.
+def _candidate_score(group,topic,title,context,qs):
+    concepts=CONCEPT_GROUPS.get(group,{})
+    content=title+' '+context
+    scores={q['id']:score_title(content,q['query']+' '+topic) for q in qs}
+    semantic_hints={label: max((score_title(content,phrase) for phrase in phrases),default=0)
+                    for label,phrases in concepts.items()}
+    # Require a specific subject hit. General words such as "residencia" alone
+    # must not cause a border-crossing article to qualify.
+    content_tokens=tokens(content)
+    topic_tokens=tokens(topic)
+    direct=len(content_tokens & topic_tokens)
+    weighted=max(scores.values(),default=0)
+    strong=max(semantic_hints.values(),default=0)
+    if not direct and strong<0.5:return 0,scores,semantic_hints
+    return round(max(weighted,strong)*0.8+min(direct,3)*0.08,4),scores,semantic_hints
 
-    Return candidate source/article pairs with per-question heading relevance.
-    Short generic article headings may not reveal the provision subject: in that
-    case return no evidence and fail closed rather than picking articles 1-2.
+def provision_relevance(group,topic,text,question_list):
+    """Deterministic subject guard for retrieved full text.
+
+    This is a minimum exclusion check; it is not a complete semantic or legal review.
     """
+    words=tokens(text)
+    if not words:return {'relevant':False,'reason':'EMPTY_PROVISION','matched_questions':[]}
+    question_hits=[q['id'] for q in question_list if len(words & tokens(q['query']))>=2]
+    specific={
+       'renewal':{'renovacion','tarjeta','vigencia','larga','duracion','identidad','expedicion'},
+       'residence':{'residencia','autorizacion','duracion','temporal','trabajo','arraigo'},
+       'nationality':{'nacionalidad','adquisicion','residencia'},
+       'arraigo':{'arraigo','excepcionales','residencia'},
+       'family':{'reagrupacion','familiar','familiares'},
+    }.get(group,set())
+    matched=words & specific
+    if group=='renewal' and not (words & {'renovacion','vigencia','expedicion','renovar'} or {'tarjeta','identidad'} <= words):
+        return {'relevant':False,'reason':'NO_RENEWAL_OR_CARD_PROCEDURE','matched_questions':question_hits}
+    if group=='residence' and not (words & {'temporal','duracion','autorizacion','excepcionales','reagrupacion'}):
+        return {'relevant':False,'reason':'NO_RESIDENCE_AUTHORIZATION_SUBJECT','matched_questions':question_hits}
+    # Border procedures are not adequate evidence of residence categories or renewal.
+    if group in ('residence','renewal') and not matched:
+        return {'relevant':False,'reason':'UNRELATED_LEGAL_SUBJECT','matched_questions':question_hits}
+    if not matched or not question_hits:
+        return {'relevant':False,'reason':'NO_RESEARCH_QUESTION_LINK','matched_questions':question_hits}
+    return {'relevant':True,'reason':'LEXICAL_CANDIDATE_REQUIRES_SEMANTIC_REVIEW',
+            'matched_questions':question_hits,'subject_matches':sorted(matched)}
+
+def discover(group,topic,*,index_fetch=api_get,max_per_source=12):
+    """Parse actual BOE indexes and rank by subject, not article ordinal position."""
     found=[];diagnostics=[]
     qs=questions(group)
     for doc in SOURCE_CANDIDATES.get(group,[]):
         endpoint=BASE+doc+'/texto/indice'
+        report={'document':doc,'index_url':endpoint,'index_nodes':0,'index_articles':0,
+                'qualified_candidates':0,'candidates_selected':0,'failure_code':None,
+                'sample_index_headings':[],'rejected_sample':[]}
         try:
             root,_=index_fetch(endpoint)
+            items=list(_index_items(root))
+            report['index_nodes']=len(items)
             rows=contextual_index(root)
+            report['index_articles']=len(rows)
+            report['sample_index_headings']=[title[:120] for _,_,title,_ in rows[:5]]
+            if not rows:
+                report['failure_code']='BOE_INDEX_PARSING_FAILURE'
+                diagnostics.append(report);continue
             candidates=[]
             for number,bid,title,context in rows:
-                relevance={q['id']:score_title(title+' '+context,q['query']+' '+topic) for q in qs}
-                value=max(relevance.values(),default=0)
-                if value>0:candidates.append({'source_id':doc,'article':number,'block_id':bid,'title':title,'section_context':context,'score':value,'question_scores':relevance})
-            candidates.sort(key=lambda x:(-x['score'],x['article']))
-            found.extend(candidates[:max_per_source])
-            diagnostics.append({'document':doc,'index_articles':len(rows),'qualified_candidates':len(candidates)})
+                value,scores,hints=_candidate_score(group,topic,title,context,qs)
+                if value>0:
+                    candidates.append({'source_id':doc,'article':number,'block_id':bid,
+                        'title':title,'section_context':context,'score':value,
+                        'question_scores':scores,'concept_scores':hints})
+                elif len(report['rejected_sample'])<8:
+                    report['rejected_sample'].append({'article':number,'heading':title[:120],
+                        'reason':'NO_LEXICAL_OR_CONCEPT_MATCH'})
+            candidates.sort(key=lambda x:(-x['score'],int(re.match(r'\d+',x['article']).group(0))))
+            report['qualified_candidates']=len(candidates)
+            report['candidates_selected']=min(max_per_source,len(candidates))
+            if not candidates:report['failure_code']='NO_RELEVANT_CANDIDATES'
+            found.extend(candidates[:max_per_source]);diagnostics.append(report)
         except Exception as e:
-            diagnostics.append({'document':doc,'error':type(e).__name__,'detail':str(e)[:180]})
+            report['failure_code']='BOE_INDEX_ERROR'
+            report['error']=type(e).__name__
+            report['detail']=str(e)[:300]
+            diagnostics.append(report)
     return found,diagnostics
 
 def coverage(questions_list,evidence,*,semantic_judgments=None):

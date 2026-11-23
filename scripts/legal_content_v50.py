@@ -16,9 +16,9 @@ import sys
 import urllib.request
 
 try:
-    from legal_relevance_v50 import group_of, questions, discover, coverage, metadata_duplicate
+    from legal_relevance_v50 import group_of, questions, discover, coverage, metadata_duplicate, provision_relevance
 except ImportError:
-    from scripts.legal_relevance_v50 import group_of, questions, discover, coverage, metadata_duplicate
+    from scripts.legal_relevance_v50 import group_of, questions, discover, coverage, metadata_duplicate, provision_relevance
 
 try:
     from boe_universal_v45 import retrieve, BOEError
@@ -101,26 +101,61 @@ def plan(proposal):
             'publication_allowed':False}
 
 
-def retrieve_evidence(research_plan,retrieval=retrieve,*,discovery=discover):
+def retrieve_evidence(research_plan,retrieval=retrieve,*,discovery=discover,return_diagnostics=False):
+    """Bounded official candidate retrieval; reject unrelated full text before drafting.
+
+    A retrieval warning does not create legal evidence; the independent research-
+    readiness gate still decides whether every essential question has support.
+    """
     candidates,diagnostics=discovery(research_plan['group'],research_plan['topic'])
-    evidence=[];errors=[]
+    evidence=[];errors=[];attempts=[];seen=set()
     for c in candidates:
+        key=(c['source_id'],c['article'])
+        if key in seen:continue
+        seen.add(key)
+        trial={'document':c['source_id'],'article':c['article'],
+               'heading':c.get('title',''), 'index_score':c.get('score',0),
+               'index_question_scores':c.get('question_scores',{}),
+               'stage':'FULL_TEXT_RETRIEVAL'}
         try:
             response=retrieval(c['source_id'],[c['article']])
             rows=records_from_boe(response)
-            if not rows or rows[0]['article']!=c['article']:
+            if not rows or str(rows[0]['article'])!=str(c['article']):
                 raise ValueError('Requested article identity mismatch')
             for rec in rows:
-                rec['research_relevance']={'index_heading':c['title'],'question_scores':c['question_scores']}
-            evidence.extend(rows)
+                guard=provision_relevance(research_plan['group'],research_plan['topic'],
+                       rec['text'],research_plan['research_questions'])
+                trial['full_text_relevance']=guard
+                if not guard['relevant']:
+                    trial['stage']='REJECTED_FULL_TEXT';continue
+                rec['research_relevance']={'index_heading':c.get('title',''),
+                  'question_scores':c.get('question_scores',{}),
+                  'subject_matches':guard.get('subject_matches',[]),
+                  'semantic_verification_required':True}
+                evidence.append(rec);trial['stage']='EVIDENCE_CANDIDATE'
         except Exception as ex:
+            trial['stage']='RETRIEVAL_ERROR'
+            trial['error_code']=getattr(ex,'code',type(ex).__name__)
+            trial['detail']=str(ex)[:250]
             errors.append({'document':c['source_id'],'article':c['article'],
-                'category':type(ex).__name__,'details':str(ex)[:200]})
-    if not candidates:errors.append({'category':'NO_RELEVANT_LEGAL_PROVISIONS',
-        'details':'No official index headings supported the research query; refusing positional articles'})
-    errors.extend(x for x in diagnostics if 'error' in x)
+                 'category':trial['error_code'],'details':trial['detail']})
+        attempts.append(trial)
+    if not candidates:
+        codes=[x.get('failure_code') for x in diagnostics if x.get('failure_code')]
+        code='BOE_INDEX_PARSING_FAILURE' if 'BOE_INDEX_PARSING_FAILURE' in codes else 'NO_RELEVANT_CANDIDATES'
+        errors.append({'category':code,
+              'details':'Index could not yield topic-relevant provision candidates; see discovery_diagnostics.json'})
+    elif not evidence:
+        errors.append({'category':'RELEVANCE_FILTER_REJECTED_ALL',
+              'details':'No retrieved provision satisfied the full-text subject guard; see discovery_diagnostics.json'})
+    for item in diagnostics:
+        if item.get('error') or item.get('failure_code')=='BOE_INDEX_ERROR':
+            errors.append({'category':item.get('failure_code','BOE_INDEX_ERROR'),
+                           'details':item.get('detail','BOE index request failed'),
+                           'document':item.get('document')})
+    if return_diagnostics:return evidence,errors,{'index':diagnostics,'provision_attempts':attempts,
+                 'retrieved_candidates':len(attempts),'accepted_evidence':len(evidence)}
     return evidence,errors
-
 
 def call_model(messages,*,model='gpt-4.1-mini',client=None):
     key=os.environ.get('OPENAI_API_KEY')
@@ -232,7 +267,7 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
 
 def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve,client=None,max_revisions=2):
     out=Path(output_path);out.mkdir(parents=True,exist_ok=True)
-    status={'version':'4.6','publication_allowed':False,'result':'BLOCKED','errors':[],
+    status={'version':'5.0','publication_allowed':False,'result':'BLOCKED','errors':[],
             'independent_legal_accuracy_verified':False,'live_release_enabled':False}
     def save(name,obj):
         (out/name).write_text(json.dumps(obj,indent=2,ensure_ascii=False),encoding='utf-8')
@@ -247,11 +282,13 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
             status['result']='BLOCKED_INSUFFICIENT_EVIDENCE'
             status['errors']=['No applicable research template for this topic']
             return 2
-        evidence,failed=retrieve_evidence(research_plan,retrieval=retrieval)
+        evidence,failed,discovery_diagnostics=retrieve_evidence(research_plan,retrieval=retrieval,return_diagnostics=True)
         save('evidence.json',evidence);save('retrieval_errors.json',failed)
+        save('discovery_diagnostics.json',discovery_diagnostics)
         if failed or not evidence:
             status['errors']=['Evidence retrieval incomplete']+[x.get('details',x.get('detail','')) for x in failed]
             status['result']='BLOCKED_INSUFFICIENT_EVIDENCE'
+            status['failure_codes']=[x.get('category') for x in failed]
             return 2
         covered,ready=research_readiness(research_plan,evidence,model=model,client=client)
         save('research_coverage.json',{'questions':covered,'ready':ready,
