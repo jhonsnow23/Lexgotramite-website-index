@@ -71,7 +71,22 @@ inicial (cinco años de residencia previa o antecedentes penales, por ejemplo).
 No transfieras resolución, silencio, plazos ni canal de presentación de concesión
 de autorización al trámite de expedición o renovación de TIE sin evidencia específica.
 No añadas preguntas hipotéticas genéricas como pendientes si no son esenciales
-para explicar el trámite delimitado y no hay evidencia de que se apliquen.'''
+para explicar el trámite delimitado y no hay evidencia de que se apliquen.
+Para renovación física de TIE de larga duración nacional:
+- Deja claro desde la introducción que renovar la tarjeta NO equivale a
+  renovar una autorización de residencia de larga duración ya concedida.
+- No uses expresiones como «renovar la autorización para mantener el permiso».
+- No afirmes que la presentación es exclusivamente presencial cuando las
+  fuentes describan posibles canales distintos o trámites distintos.
+  Si no consta el canal exacto de renovación de TIE, explica solamente las
+  vías acreditadas para ese trámite y no traslades MERCURIO de la concesión inicial.
+- No incluyas preguntas no respondidas en unresolved_questions simplemente
+  porque las fuentes no mencionen plazos de resolución, casos hipotéticos o
+  requisitos adicionales. Incluye solo vacíos materiales que impidan dar
+  una instrucción imprescindible para el trámite que estás describiendo.
+- Las dudas materiales que persistan sí deben permanecer en unresolved_questions;
+  nunca las ocultes ni las contestes inventando datos.'''
+
 SYSTEM_REVIEW = '''Eres un evaluador crítico y separado del redactor. Comprueba si cada afirmación jurídica
 queda plenamente respaldada por los pasajes oficiales incluidos, considerando excepciones, ámbito, fecha y
 condiciones. No supongas que una cita coincidente demuestra aplicabilidad. Devuelve SOLO JSON con
@@ -88,6 +103,12 @@ No supongas que un plazo de resolución, silencio administrativo o vía de
 presentación para conceder una autorización corresponde a renovar su TIE.
 No exijas respuesta a escenarios hipotéticos ajenos al alcance delimitado,
 pero mantén bloqueadas las dudas materiales sobre el procedimiento descrito.
+No confundas ausencia de evidencia sobre un plazo de resolución no anunciado
+con un error jurídico del artículo si el artículo no afirma dicho plazo.
+Si se afirma que la solicitud es obligatoriamente presencial, comprueba que
+la evidencia trate precisamente de la renovación de la TIE física y no de
+la solicitud o renovación de una autorización de residencia distinta.
+No marques como SUPPORTED una vía exclusiva sin prueba para el trámite exacto.
 Tu evaluación no constituye certificación jurídica independiente.'''
 
 
@@ -116,11 +137,21 @@ def plan(proposal):
     topic=p.get('proposed_title','').strip()
     if not topic:raise ValueError('Proposal missing topic')
     group=group_of(cid,topic)
+    research_questions=questions(group)
+    normalized=''.join(c for c in __import__('unicodedata').normalize('NFKD',topic.lower())
+                       if not __import__('unicodedata').combining(c))
+    if group=='renewal' and any(x in normalized for x in ('permanente','larga duracion')):
+        # Research the physical document separately from the existing status.
+        research_questions=[
+            {'id':'scope','question':'Diferenciar renovación física de TIE de larga duración nacional de concesión o renovación de autorización y de otros regímenes','query':'TIE larga duración nacional renovación tarjeta autorización'},
+            {'id':'requirements','question':'Qué documentos y condiciones corresponden específicamente a renovar la TIE física','query':'renovación TIE larga duración documentos artículo 185'},
+            {'id':'steps','question':'Qué plazos y canales de presentación están confirmados para la renovación física de la TIE','query':'renovación TIE larga duración plazos presentación policía'},
+        ]
     return {'topic':topic,'cluster_id':cid,'group':group,
             'queries':p.get('queries',[])[:12],
             'search_demand':p.get('search_demand_evidence',{}),
-            'research_questions':questions(group),
-            'source_registry_complete':bool(questions(group)),
+            'research_questions':research_questions,
+            'source_registry_complete':bool(research_questions),
             'existing_page_action':p.get('action'),
             'duplicate_metadata':metadata_duplicate(p),
             'publication_allowed':False}
