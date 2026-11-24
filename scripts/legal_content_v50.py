@@ -555,11 +555,35 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
        'Only ANSWERED_WITH_EVIDENCE if evidence fully answers the question with exceptions; '
        'otherwise use PARTIALLY_ANSWERED, NOT_ANSWERED, or REQUIRES_LEGAL_INTERPRETATION. '
        'For extraordinary regularisation 2026, distinguish INITIAL eligibility for arraigo from POST-GRANT modification/prórroga; initial filing deadlines and eligibility are NOT a verified continuation route. Explicitly classify scope/requirements/steps as PARTIALLY_ANSWERED when the source only describes the initial application. ''Articles 74, 80, 84, and 86 are CONTEXT referenced by Article 191 for different modification paths; never combine them as universal requirements or infer which path applies without applicant facts. For a GENERAL explanatory article, evaluate whether the evidence explains the branching decision and which facts require individual assessment; do not demand a universal checklist that no single applicant would use. However, any procedure, document, exclusive filing channel, exception, deadline or effect actually asserted in the proposed explanation must be supported by specific evidence. If a material step needed to explain the claimed route is unverified, mark PARTIALLY_ANSWERED or REQUIRES_LEGAL_INTERPRETATION; never assume it. ''For permanent/long-term residence, distinguish renewal of the physical TIE ''from renewal of an underlying authorization. Cite Article 185 and procedural ''guidance when relevant; do not transfer requirements from unrelated procedures. ''Never invent an evidence_id. This is a research-readiness assessment, not a legal certification.')
+    # Research references are deliberately short and assigned by Python. Long
+    # hashes are easy for an LLM to extend or mistype; never accept a fabricated
+    # identifier as evidence. These aliases are ONLY for the readiness exchange;
+    # stored evidence and downstream article citations keep their canonical IDs.
+    aliases = {f'R{i:03d}': row['evidence_id'] for i, row in enumerate(evidence, 1)}
+    prompt_evidence = []
+    for alias, row in zip(aliases, evidence):
+        compact = dict(row)
+        compact['evidence_id'] = alias
+        prompt_evidence.append(compact)
+    prompt += (' Cite only the exact short evidence_id values supplied in evidence '
+               '(for example R001). Never lengthen, guess or concatenate IDs. '
+               'For each question, provide evidence_ids as a JSON list; an '
+               'unsupported question must not be labelled ANSWERED_WITH_EVIDENCE.')
     result=call_model([{'role':'system','content':prompt},
-       {'role':'user','content':json.dumps({'topic':research_plan['topic'],
-           'questions':research_plan['research_questions'],'evidence':evidence},ensure_ascii=False)}],
-       model=model,client=client)
-    judgments={q['id']:q for q in result.get('questions',[]) if isinstance(q,dict) and q.get('id')}
+        {'role':'user','content':json.dumps({'topic':research_plan['topic'],
+            'questions':research_plan['research_questions'],
+            'evidence':prompt_evidence},ensure_ascii=False)}],
+        model=model,client=client)
+    judgments={}
+    for item in result.get('questions',[]):
+        if not isinstance(item,dict) or not item.get('id'):
+            continue
+        refs=item.get('evidence_ids',[])
+        if not isinstance(refs,list):
+            refs=[]
+        # No prefix/substring matching: a made-up reference is never valid.
+        resolved=[aliases[r] for r in refs if isinstance(r,str) and r in aliases]
+        judgments[item['id']]={**item,'evidence_ids':list(dict.fromkeys(resolved))}
     return coverage(research_plan['research_questions'],evidence,semantic_judgments=judgments)
 
 
