@@ -29,53 +29,56 @@ class TestV50(unittest.TestCase):
         self.assertNotEqual(match['recommended_action'],'MONITOR')
 
     def test_publication_has_60_day_cooldown(self):
-        ev={'cluster_id':'residency_options','selected_on':'2026-11-15','status':'PUBLISHED'}
-        rows,_,_=self.rows([ev]);match=next(x for x in rows if x['cluster_id']=='residency_options')
-        self.assertEqual(match['recommended_action'],'MONITOR')
+        ev={'cluster_id':'cuenta_ajena','selected_on':'2026-11-15','status':'PUBLISHED'}
+        item={'cluster_id':'cuenta_ajena'}
+        self.assertIn('cooldown',mod.topic_blocker(item,[ev],date(2026,11,23)).lower())
 
     def test_legacy_ambiguous_history_short_backoff(self):
-        ev={'cluster_id':'residency_options','selected_on':'2026-11-23'}
-        rows,_,_=self.rows([ev]);match=next(x for x in rows if x['cluster_id']=='residency_options')
-        self.assertEqual(match['recommended_action'],'MONITOR')
-        rows2,_,_=self.rows([ev],retry_failed=True)
-        self.assertNotEqual(next(x for x in rows2 if x['cluster_id']=='residency_options')['recommended_action'],'MONITOR')
+        ev={'cluster_id':'cuenta_ajena','selected_on':'2026-11-23'}
+        item={'cluster_id':'cuenta_ajena'}
+        self.assertIsNotNone(mod.topic_blocker(item,[ev],date(2026,11,23)))
+        self.assertIsNone(mod.topic_blocker(item,[ev],date(2026,11,23),ignore_attempt_backoff=True))
 
     def test_manual_retry_does_not_override_published(self):
-        ev={'cluster_id':'residency_options','selected_on':'2026-11-23','status':'PUBLISHED'}
-        rows,_,_=self.rows([ev],retry_failed=True)
-        self.assertEqual(next(x for x in rows if x['cluster_id']=='residency_options')['recommended_action'],'MONITOR')
+        ev={'cluster_id':'no_lucrativa','selected_on':'2026-11-23','status':'PUBLISHED'}
+        item={'cluster_id':'no_lucrativa'}
+        self.assertIsNotNone(mod.topic_blocker(item,[ev],date(2026,11,23),ignore_attempt_backoff=True))
 
     def test_search_console_measured_demand(self):
         rows,selected,proposal=self.rows()
         self.assertEqual(len(rows),8)
-        self.assertIn(selected['cluster_id'], {x['cluster_id'] for x in rows})
-        self.assertEqual(proposal['proposals'][0]['origin_cluster_id'],selected['cluster_id'])
+        self.assertTrue(all(isinstance(x['impressions_28d'],int) for x in rows))
+        self.assertTrue(all('score_breakdown' in x for x in rows))
+        # This fixture uses synthetic unrelated GSC queries; do not select
+        # an ineligible cluster just to make a historical test pass.
+        self.assertIsNone(selected)
+        self.assertIsNone(proposal)
+        self.assertTrue(all(x['recommended_action']=='SKIP' for x in rows))
 
     def test_no_unverified_keyword_volume(self):
         rows,_,_=self.rows()
         self.assertTrue(all('impressions_28d' in x and 'score_breakdown' in x for x in rows))
 
     def test_unsupported_registry_does_not_generate(self):
-        rows,_,_=self.rows()
+        rows,selected,proposal=self.rows()
         x=next(x for x in rows if x['cluster_id']=='regularization_processing')
-        self.assertEqual(x['recommended_action'],'MONITOR')
+        self.assertEqual(x['recommended_action'],'SKIP')
         self.assertFalse(x['research_registry_available'])
+        self.assertTrue(x['commercial_classification']['excluded'])
+        self.assertIsNone(selected)
+        self.assertIsNone(proposal)
 
     def test_existing_article_metadata_blocks_new_draft(self):
         with tempfile.TemporaryDirectory() as tmp:
             folder=Path(tmp)/'blog';folder.mkdir()
-            old=folder/'tipos-de-residencia-en-espana.html'
+            old=folder/'renovacion-residencia-temporal-no-lucrativa.html'
             old.write_text('UNTRUSTED OLD BLOG CONTENT MUST NOT ENTER THE MODEL',encoding='utf-8')
-            # Explicitly model a same-intent REAL query; the general test
-            # fixture otherwise has synthetic, unrelated query text.
-            report=copy.deepcopy(self.report)
-            for cluster in report['windows']['28']:
-                if cluster['id']=='residency_options':
-                    cluster['representative_queries']=[{'query':'tipos de residencia en España','impressions':14}]
-            rows,winner,_=mod.choose(report,self.catalog,tmp,[],date(2026,11,23))
-            matching=next(r for r in rows if r['cluster_id']=='residency_options')
-            self.assertEqual(matching['recommended_action'],'SKIP')
-            self.assertIn('metadata-only',matching['selection_reason'])
+            topic={'proposed_title':'Renovación de residencia temporal no lucrativa',
+                   'primary_query':'renovacion residencia temporal no lucrativa'}
+            duplicate,reason,path=mod.classify_duplicate(topic,mod.metadata_inventory(tmp))
+            self.assertTrue(duplicate)
+            self.assertIn('blog slug',reason)
+            self.assertEqual(path,'blog/renovacion-residencia-temporal-no-lucrativa.html')
 
     def test_metadata_only_does_not_read_blog_body(self):
         from unittest.mock import patch
@@ -117,11 +120,17 @@ class TestV50(unittest.TestCase):
         self.assertIsNone(mod.topic_blocker(item,hist,date(2026,11,23)))
 
     def test_distinct_new_proposal_cannot_rewrite_old_page(self):
-        topic={'cluster_id':'nationality_documents','proposed_title':'Documentos de nacionalidad',
-               'supporting_queries':['documentos nacionalidad'],'impressions_28d':4,'impressions_90d':48}
-        _,proposal=mod.supports_research(topic)
+        topic={'cluster_id':'cuenta_ajena','proposed_title':'Renovación de residencia y trabajo por cuenta ajena',
+               'supporting_queries':['renovar permiso cuenta ajena'],'impressions_28d':4,'impressions_90d':48}
+        available,proposal=mod.supports_research(topic)
+        self.assertTrue(available)
         self.assertEqual(proposal['proposals'][0]['action'],'create_article')
         self.assertNotIn('existing_pages',proposal['proposals'][0])
+        # Out-of-scope legacy nationality proposals must be rejected.
+        old=dict(topic,cluster_id='nationality_documents',proposed_title='Documentos de nacionalidad',
+                 supporting_queries=['documentos nacionalidad'])
+        with self.assertRaisesRegex(ValueError,'OUT_OF_SCOPE_TOPIC'):
+            mod.supports_research(old)
 
     def test_no_key_still_local_mode(self):
         self.assertEqual(mod.load_history(token='',repository='')[0],[])
