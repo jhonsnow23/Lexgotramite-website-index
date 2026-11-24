@@ -6,6 +6,7 @@ remain blocked rather than relying on a search-engine snippet or an old blog.
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from hashlib import sha256
+from io import BytesIO
 from urllib.parse import urlparse, urlunparse
 from urllib.request import Request, build_opener, HTTPRedirectHandler
 import re
@@ -13,7 +14,7 @@ import ssl
 
 HOSTS = frozenset({
     'www.boe.es', 'boe.es',
-    'www.inclusion.gob.es', 'sede.administracionespublicas.gob.es',
+    'www.inclusion.gob.es', 'inclusion.gob.es', 'sede.administracionespublicas.gob.es',
     'sede.policia.gob.es', 'www.mjusticia.gob.es', 'sede.mjusticia.gob.es',
 })
 
@@ -40,8 +41,12 @@ SOURCES = {
  'regularizacion_2026': [
   ('boe','Real Decreto 316/2026 — texto oficial publicado',
    'https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-8284'),
-  ('migraciones','Migraciones: regularización extraordinaria',
-   'https://www.inclusion.gob.es/web/migraciones/residencia'),
+  ('migraciones','Ministerio: preguntas sobre modificación o prórroga tras la regularización',
+   'https://inclusion.gob.es/documents/20121/7817425/Preguntas%20y%20respuestas%2021072026.pdf/95dc64f0-7af9-a350-fc0e-b598dc0b9694?version=1.0'),
+  ('migraciones','Ministerio: 100 preguntas técnicas de regularización',
+   'https://inclusion.gob.es/documents/20121/7817425/100%20Preguntas%20t%C3%A9cnicas%20sobre%20regularizaci%C3%B3n.pdf/45bc4075-03f8-d568-6f19-440de6e701b7?download=true&version=1.0'),
+  ('migraciones','Hoja 28 Ter — arraigo extraordinario',
+   'https://www.inclusion.gob.es/web/migraciones/w/28-ter.-autorizacion-de-residencia-por-circunstancias-excepcionales-por-razon-de-arraigo-extraordinario'),
  ],
  'arraigo_temporal': [
   ('migraciones','Hoja 29 — arraigo sociolaboral',
@@ -159,32 +164,86 @@ def excerpt_for_legal_publication(body, limit=18000):
     return '\n[...]\n'.join(chunks) if chunks else body[:limit]
 
 
+def is_pdf_url(url):
+    """Government document endpoints may end with an opaque UUID after .pdf."""
+    return '.pdf' in urlparse(url).path.lower()
+
+
+def extract_pdf_text(payload):
+    """Parse a bounded official PDF, never OCR or trust its text as instructions."""
+    from pypdf import PdfReader
+    reader = PdfReader(BytesIO(payload), strict=False)
+    if reader.is_encrypted:
+        raise ValueError('Encrypted official PDF')
+    if len(reader.pages) > 80:
+        raise ValueError('Official PDF too many pages')
+    parts = []
+    for page in reader.pages:
+        parts.append(page.extract_text() or '')
+        if sum(map(len, parts)) > 250_000:
+            raise ValueError('Official PDF extracted text too large')
+    return '\n'.join(parts)
+
+
+def excerpt_for_procedure_guidance(body, limit=18000):
+    """Preserve modification/prórroga guidance, not the initial application FAQ."""
+    patterns = (r'modificaci[oó]n o pr[oó]rroga de autorizaciones',
+                r'no es renovable', r'no se puede renovar',
+                r'art[ií]culo 191', r'excepcionalmente',
+                r'cuando finalice', r'al finalizar la vigencia')
+    windows = []
+    for pattern in patterns:
+        for match in list(re.finditer(pattern, body, re.I))[:8]:
+            start = max(0, match.start() - 400)
+            stop = min(len(body), match.end() + 1600)
+            if not any(start >= a and stop <= b for a, b in windows):
+                windows.append((start, stop))
+    chunks = []
+    size = 0
+    for start, stop in windows:
+        chunk = body[start:stop][:limit - size]
+        if chunk:
+            chunks.append(chunk)
+            size += len(chunk)
+        if size >= limit:
+            break
+    return '\n[...]\n'.join(chunks) if chunks else body[:limit]
+
+
 def retrieve_one(authority,title,url,*,fetch=None):
     if not allowed(url): raise ValueError('Non-allowlisted official URL')
+    pdf = is_pdf_url(url)
     if fetch is None:
         opener=build_opener(SafeRedirect())
         def fetch(endpoint):
             req=Request(endpoint,headers={'User-Agent':'LexGoTramite-v50/official-research',
-                'Accept':'text/html','Accept-Language':'es'})
-            with opener.open(req,timeout=15) as response:
-                if not allowed(response.url):raise ValueError('Final URL outside allowlist')
-                ctype=response.headers.get('Content-Type','')
-                if 'text/html' not in ctype:raise ValueError('Unexpected content type')
-                payload=response.read(750_001)
-                if len(payload)>750_000:raise ValueError('Official page exceeds maximum size')
+                'Accept':'application/pdf' if pdf else 'text/html','Accept-Language':'es'})
+            with opener.open(req,timeout=20) as response:
+                if not allowed(response.url): raise ValueError('Final URL outside allowlist')
+                ctype=response.headers.get('Content-Type','').lower()
+                expected='application/pdf' if pdf else 'text/html'
+                if expected not in ctype: raise ValueError('Unexpected official content type: '+ctype[:80])
+                max_bytes = 3_000_000 if pdf else 750_000
+                payload=response.read(max_bytes+1)
+                if len(payload)>max_bytes: raise ValueError('Official document exceeds maximum size')
+                if pdf: return payload
                 charset=response.headers.get_content_charset() or 'utf-8'
                 return payload.decode(charset,errors='replace')
-    html=fetch(url)
-    if not isinstance(html,str):raise ValueError('Fetched content is not decoded HTML')
-    parser=OfficialHTML();parser.feed(html)
-    body=parser.content()
+    raw=fetch(url)
+    if pdf:
+        if not isinstance(raw, bytes) or not raw.startswith(b'%PDF'):
+            raise ValueError('Expected PDF bytes from official document')
+        body=extract_pdf_text(raw)
+        excerpt=excerpt_for_procedure_guidance(body)
+    else:
+        if not isinstance(raw,str):raise ValueError('Fetched content is not decoded HTML')
+        parser=OfficialHTML();parser.feed(raw)
+        body=parser.content()
+        excerpt=excerpt_for_legal_publication(body) if authority=='boe' else body[:18000]
     if len(body)<150:raise ValueError('Official source had insufficient extracted text')
-    # This excerpt is a retrieval candidate, not proof of procedure or applicability.
-    # Important: the whole source has a content fingerprint even when excerpt bounded.
     digest=sha256(body.encode('utf-8')).hexdigest()
     stamp=datetime.now(timezone.utc).isoformat()
     legal_publication = authority == 'boe'
-    excerpt = excerpt_for_legal_publication(body) if legal_publication else body[:18000]
     return {'evidence_id':'EV_'+digest[:20].upper(), 'source_id':authority,
       'authority':authority,'document_title':title,'article':None,
       'official_url':url,'api_url':None,'retrieved_at':stamp,
