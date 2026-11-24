@@ -142,12 +142,41 @@ class OfficialHTML(HTMLParser):
         return s
 
 
+def extract_rd316_continuity_provisions(body, limit=18000):
+    """Extract both operative paragraph-10 sections, never preamble matches."""
+    anchors = (
+        (r'(?<!\d)10\.\s+La autorizaci[oó]n concedida tendr[aá] una vigencia',
+         r'(?<!\w)Doce\.\s+Se a[nñ]ade'),
+        (r'(?<!\d)10\.\s+La autorizaci[oó]n de residencia temporal por '
+         r'circunstancias excepcionales por raz[oó]n de arraigo extraordinario',
+         r'(?<!\w)Trece\.\s+'),
+    )
+    sections = []
+    for start_pattern, end_pattern in anchors:
+        starts = list(re.finditer(start_pattern, body, flags=re.I))
+        if not starts:
+            return None
+        start = starts[-1].start()
+        ending = re.search(end_pattern, body[start:], flags=re.I)
+        end = start + ending.start() if ending else min(len(body), start + 7000)
+        segment = body[start:min(end, start + 7000)].strip()
+        if not segment:
+            return None
+        sections.append(segment)
+    joined = '\n[...]\n'.join(sections)
+    # Do not silently clip operative regulations: fall back to existing extractor.
+    return joined if len(joined) <= limit else None
+
+
 def excerpt_for_legal_publication(body, limit=18000):
     """Retain the actual official legal passages relevant to regularisation.
 
     Fixed-size prefix truncation often loses the later additional provisions.
     Returned excerpts remain UNVERIFIED and require claim-level review.
     """
+    operative = extract_rd316_continuity_provisions(body, limit=limit)
+    if operative is not None:
+        return operative
     needles = (r'disposici[oó]n adicional vig[eé]sima',
                r'disposici[oó]n adicional vig[eé]sima primera',
                r'art[ií]culo 191', r'pr[oó]rroga', r'modificaci[oó]n',
