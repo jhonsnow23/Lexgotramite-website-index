@@ -546,7 +546,12 @@ def focused_evidence_for_topic(research_plan, evidence):
 def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None):
     if not evidence:return coverage(research_plan['research_questions'],evidence)
     prompt=('Review each question strictly against supplied official evidence. '
-       'Return JSON object with `questions` array of objects id,status,evidence_ids,reason. '
+       'Return JSON object with `questions` array of objects id,status,evidence_ids,reason,missing_facts. '
+       'For PARTIALLY_ANSWERED, NOT_ANSWERED or REQUIRES_LEGAL_INTERPRETATION, '
+       'identify the specific missing legal facts or unresolved conflicts in missing_facts. '
+       'Start reason with the missing fact, then distinguish the supporting evidence '
+       'from the material detail not yet established. Do not list speculative missing '
+       'facts outside the question or demand applicant details for a general guide. '
        'Only ANSWERED_WITH_EVIDENCE if evidence fully answers the question with exceptions; '
        'otherwise use PARTIALLY_ANSWERED, NOT_ANSWERED, or REQUIRES_LEGAL_INTERPRETATION. '
        'For extraordinary regularisation 2026, distinguish INITIAL eligibility for arraigo from POST-GRANT modification/prórroga; initial filing deadlines and eligibility are NOT a verified continuation route. Explicitly classify scope/requirements/steps as PARTIALLY_ANSWERED when the source only describes the initial application. ''Articles 74, 80, 84, and 86 are CONTEXT referenced by Article 191 for different modification paths; never combine them as universal requirements or infer which path applies without applicant facts. For a GENERAL explanatory article, evaluate whether the evidence explains the branching decision and which facts require individual assessment; do not demand a universal checklist that no single applicant would use. However, any procedure, document, exclusive filing channel, exception, deadline or effect actually asserted in the proposed explanation must be supported by specific evidence. If a material step needed to explain the claimed route is unverified, mark PARTIALLY_ANSWERED or REQUIRES_LEGAL_INTERPRETATION; never assume it. ''For permanent/long-term residence, distinguish renewal of the physical TIE ''from renewal of an underlying authorization. Cite Article 185 and procedural ''guidance when relevant; do not transfer requirements from unrelated procedures. ''Never invent an evidence_id. This is a research-readiness assessment, not a legal certification.')

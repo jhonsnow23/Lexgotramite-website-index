@@ -220,11 +220,6 @@ def _topic_priority_articles(group, topic):
     normalized = normalize(topic)
     if group == 'renewal' and ('permanente' in normalized or 'larga duracion' in normalized):
         return ('185', '209')
-    # Regularización 2026: locate the modification framework in the
-    # consolidated RD 1155/2024. RD 316/2026 itself must be fetched from
-    # the official BOE publication, not this consolidated-only API.
-    if group == 'arraigo' and 'regularizacion' in normalized and '2026' in normalized:
-        return ('191',)
     return ()
 
 
@@ -265,8 +260,8 @@ def discover(group,topic,*,index_fetch=api_get,max_per_source=12,full_text_probe
     found=[];diagnostics=[]
     qs=questions(group)
     docs=list(SOURCE_CANDIDATES.get(group,[]))
-    # Only consolidated-law identifiers belong here. The BOE publication of
-    # RD 316/2026 has no consolidated index at this API endpoint.
+    if group=='arraigo' and 'regularizacion' in normalize(topic) and ('2026' in normalize(topic) or 'extraordinaria' in normalize(topic)):
+        docs.append('BOE-A-2026-8284')
     for doc in docs:
         endpoint=BASE+doc+'/texto/indice'
         report={'document':doc,'index_url':endpoint,'index_nodes':0,'index_articles':0,
@@ -338,7 +333,15 @@ def coverage(questions_list,evidence,*,semantic_judgments=None):
         if status not in ('ANSWERED_WITH_EVIDENCE','PARTIALLY_ANSWERED','NOT_ANSWERED','REQUIRES_LEGAL_INTERPRETATION','SOURCE_UNAVAILABLE'):
             status='NOT_ANSWERED'
         if status=='ANSWERED_WITH_EVIDENCE' and not ids:status='NOT_ANSWERED'
-        result.append({**q,'status':status,'evidence_ids':ids,'reason':str(j.get('reason',''))[:400]})
+        # Diagnostics do not change whether a question is supported.
+        missing = j.get('missing_facts', [])
+        if not isinstance(missing, list):
+            missing = []
+        missing = [str(item)[:600] for item in missing
+                   if isinstance(item, str) and item.strip()][:12]
+        result.append({**q, 'status':status, 'evidence_ids':ids,
+                       'reason':str(j.get('reason',''))[:4000],
+                       'missing_facts': missing})
     return result,all(x['status']=='ANSWERED_WITH_EVIDENCE' for x in result) and bool(result)
 
 def metadata_duplicate(proposal):
