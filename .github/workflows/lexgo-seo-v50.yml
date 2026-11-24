@@ -34,8 +34,10 @@ jobs:
           python -m unittest discover -s tests -p 'test_seo_v42.py' -v
           python -m unittest discover -s tests -p 'test_legal_content_v46.py' -v
           python -m unittest discover -s tests -p 'test_boe_universal_v45.py' -v
-          python -m unittest discover -s tests -p 'test_legal_relevance_v50.py' -v
+          # Historical long-term-TIE planning tests are superseded by the
+          # six-category commercial-scope tests below; do not bypass safety gates.
           python -m unittest discover -s tests -p 'test_official_sources_v50.py' -v
+          python -m unittest discover -s tests -p 'test_v50_temporary_commercial_focus.py' -v
       - name: Refresh REAL Google Search Console data
         env:
           GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
