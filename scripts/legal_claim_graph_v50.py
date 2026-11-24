@@ -102,25 +102,40 @@ def build_source_claims(evidence, dossier, questions):
             needles={'scope':('modificaci','prórroga','prorrog'),
                      'requirements':('requisitos','acredita','inscri','modificaci'),
                      'steps':('solicitud','presenta','plazo','procedimiento')}.get(qid,())
-            match=next((s for s in _sentences(row.get('text'))
-                        if any(n in s.lower() for n in needles)),None)
-            if not match or match not in row.get('text',''):continue
-            key=(qid,eid,match)
-            if key in used:continue
-            used.add(key)
-            cid='CL_'+sha256(('|'.join(key)).encode()).hexdigest()[:20].upper()
-            claim_rows.append({'claim_id':cid,'claim_text':match,'claim_kind':'EXACT_SOURCE_EXCERPT',
-                'question_id':qid,'evidence_ids':[eid],
-                'procedure_routes':_passage_routes(match, role['destination_authorization']),
-                'verification_status':'TEXTUAL_PROVENANCE_VERIFIED_LEGAL_APPLICABILITY_PENDING',
-                'support_type':'UNVERIFIED','applicability_conditions':role['applicability_conditions'],
-                'source_passage':{'evidence_id':eid,'exact_text':match,
-                    'sha256':sha256(match.encode()).hexdigest(),
-                    'provision':row.get('provision') or row.get('article')},
-                'limitations':['Source-exact excerpt does not establish that the quoted rule applies to every case']})
-            links.append({'claim_id':cid,'evidence_id':eid,'question_id':qid,
-                          'textual_match_verified':True,'legal_support_verified':False})
-            role['supported_claims'].append(cid)
+            candidates = [s for s in _sentences(row.get('text'))
+                          if any(n in s.casefold() for n in needles)]
+            # A single first-match can hide the operative exceptional-extension
+            # rule behind an earlier modification sentence in the same BOE source.
+            # Preserve at most one distinct passage for each independently
+            # described route; never elevate source text to legal verification.
+            selected = []
+            seen_routes = set()
+            for passage in candidates:
+                routes = _passage_routes(passage, role['destination_authorization'])
+                route_key = tuple(routes)
+                if not routes or route_key in seen_routes:
+                    continue
+                if passage not in row.get('text', ''):
+                    continue
+                selected.append((passage, routes))
+                seen_routes.add(route_key)
+            for match, routes in selected:
+                key=(qid,eid,match)
+                if key in used:continue
+                used.add(key)
+                cid='CL_'+sha256(('|'.join(key)).encode()).hexdigest()[:20].upper()
+                claim_rows.append({'claim_id':cid,'claim_text':match,'claim_kind':'EXACT_SOURCE_EXCERPT',
+                    'question_id':qid,'evidence_ids':[eid],
+                    'procedure_routes':routes,
+                    'verification_status':'TEXTUAL_PROVENANCE_VERIFIED_LEGAL_APPLICABILITY_PENDING',
+                    'support_type':'UNVERIFIED','applicability_conditions':role['applicability_conditions'],
+                    'source_passage':{'evidence_id':eid,'exact_text':match,
+                        'sha256':sha256(match.encode()).hexdigest(),
+                        'provision':row.get('provision') or row.get('article')},
+                    'limitations':['Source-exact excerpt does not establish that the quoted rule applies to every case']})
+                links.append({'claim_id':cid,'evidence_id':eid,'question_id':qid,
+                              'textual_match_verified':True,'legal_support_verified':False})
+                role['supported_claims'].append(cid)
     for annotation in dossier['applicability_evidence']:
         if annotation['supported_claims']:
             annotation['verification_status']='TEXTUAL_PROVENANCE_VERIFIED_APPLICABILITY_PENDING'
