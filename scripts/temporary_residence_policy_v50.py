@@ -31,23 +31,6 @@ def classify(topic, queries=(), cluster=''):
     forbidden=('larga duracion','residencia permanente','tarjeta permanente','nacionalidad',
       'toma huellas','cita huellas','duplicado tie','robo tie','perdida tie',
       'renovacion nie','expedicion tie','tarjeta identidad extranjero')
-    # A query about applying for the extraordinary regularisation is NOT a
-    # request to continue an authorization already granted. Never reframe it.
-    initial_processing = (
-        'regularizacion' in title and
-        any(term in title for term in (
-            'cuanto tarda', 'cuanto tiempo tarda', 'tiempo de tramitacion',
-            'estado expediente', 'estado de solicitud', 'consultar expediente',
-            'cuando sale', 'cuando me aprueban', 'como solicitar',
-            'solicitar regularizacion', 'requisitos para solicitar',
-        )) and
-        not any(term in title for term in (
-            'despues de obtener', 'tras obtener', 'autorizacion concedida',
-            'permiso concedido', 'cuando vence', 'tras la regularizacion',
-        ))
-    )
-    if initial_processing:
-        result['exclusion_reason']='INITIAL_REGULARIZATION_PROCESSING_NOT_TEMPORARY_RENEWAL';return result
     if any(x in text for x in forbidden):
         result['exclusion_reason']='EXCLUDED_PERMANENT_CARD_OR_OTHER_PROCEDURE';return result
     if re.search(r'\b(tie|nie)\b',text) and not any(x in text for x in ('autorizacion temporal','cuenta ajena','arraigo','regularizacion','menor no nacido')):
@@ -86,6 +69,21 @@ def classify(topic, queries=(), cluster=''):
 
 
 def research_questions(category):
+    # A general post-regularisation explainer is not an individual application.
+    # Evaluate the decision tree and its conditions, not an imaginary universal
+    # document checklist spanning all possible modifications under Article 191.
+    if category == 'regularizacion_2026':
+        return [
+            {'id':'scope',
+             'question':'Qué opciones generales de continuidad prevé la normativa para quien YA tiene la autorización extraordinaria de 2026, distinguiendo modificación del artículo 191, prórroga excepcional y supuestos a los que se aplican',
+             'query':'autorización extraordinaria 2026 ya concedida modificación artículo 191 prórroga excepcional'},
+            {'id':'requirements',
+             'question':'Qué condiciones determinan la vía de modificación por cuenta ajena o propia según el artículo 191, y qué condiciones oficiales habilitan la prórroga excepcional; diferenciar reglas de cada vía sin inventar una lista universal de documentos',
+             'query':'regularización extraordinaria continuidad artículo 191 requisitos según vía modificación prórroga excepcional'},
+            {'id':'steps',
+             'question':'Qué plazos y efectos de la continuidad tras la autorización extraordinaria de 2026 están expresamente documentados, y qué pasos de presentación están acreditados; identificar como NO VERIFICADOS los canales o documentos no descritos',
+             'query':'regularización extraordinaria 2026 modificación prórroga plazo presentar procedimiento artículo 191'},
+        ]
     name={
       'regularizacion_2026':'continuidad de la autorización extraordinaria de 2026: modificación del artículo 191 o posible prórroga',
       'arraigo':'continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias',

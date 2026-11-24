@@ -68,7 +68,10 @@ Primero identifica si el trámite vigente es RENOVACIÓN, MODIFICACIÓN o PRÓRR
 su equivalencia por las palabras del usuario. Para regularización de 2026 comprueba las
 disposiciones adicionales vigésima y vigesimoprimera y el artículo 191 cuando procedan.
 No generalices un régimen de arraigo a otro, ni traslades requisitos de autorización inicial a
-renovación, modificación o prórroga. Distingue las reglas transitorias cuando corresponda.
+renovación, modificación o prórroga. Para una guía GENERAL de continuidad de la
+regularización, explica las ramas de decisión y cuándo es necesaria revisión
+individual; no prometas un listado completo de requisitos/documentos para
+ambas ramas, ni presentes una guía general como instrucciones personalizadas. Distingue las reglas transitorias cuando corresponda.
 Escribe español de España útil para potenciales clientes, con CTA natural para Lex Go Trámite,
 pero no prometas aprobaciones ni servicios no demostrados.
 
@@ -541,7 +544,7 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
        'Return JSON object with `questions` array of objects id,status,evidence_ids,reason. '
        'Only ANSWERED_WITH_EVIDENCE if evidence fully answers the question with exceptions; '
        'otherwise use PARTIALLY_ANSWERED, NOT_ANSWERED, or REQUIRES_LEGAL_INTERPRETATION. '
-       'For extraordinary regularisation 2026, distinguish INITIAL eligibility for arraigo from POST-GRANT modification/prórroga; initial filing deadlines and eligibility are NOT a verified continuation route. Explicitly classify scope/requirements/steps as PARTIALLY_ANSWERED when the source only describes the initial application. ''Articles 74, 80, 84, and 86, when provided, are CONTEXT referenced by Article 191 for different modification paths; never combine them as universal requirements or infer which path applies without applicant facts. Continue marking a question PARTIALLY_ANSWERED when essential category-specific documentation, exceptions, or submission details remain unverified. ''For permanent/long-term residence, distinguish renewal of the physical TIE ''from renewal of an underlying authorization. Cite Article 185 and procedural ''guidance when relevant; do not transfer requirements from unrelated procedures. ''Never invent an evidence_id. This is a research-readiness assessment, not a legal certification.')
+       'For extraordinary regularisation 2026, distinguish INITIAL eligibility for arraigo from POST-GRANT modification/prórroga; initial filing deadlines and eligibility are NOT a verified continuation route. Explicitly classify scope/requirements/steps as PARTIALLY_ANSWERED when the source only describes the initial application. ''Articles 74, 80, 84, and 86 are CONTEXT referenced by Article 191 for different modification paths; never combine them as universal requirements or infer which path applies without applicant facts. For a GENERAL explanatory article, evaluate whether the evidence explains the branching decision and which facts require individual assessment; do not demand a universal checklist that no single applicant would use. However, any procedure, document, exclusive filing channel, exception, deadline or effect actually asserted in the proposed explanation must be supported by specific evidence. If a material step needed to explain the claimed route is unverified, mark PARTIALLY_ANSWERED or REQUIRES_LEGAL_INTERPRETATION; never assume it. ''For permanent/long-term residence, distinguish renewal of the physical TIE ''from renewal of an underlying authorization. Cite Article 185 and procedural ''guidance when relevant; do not transfer requirements from unrelated procedures. ''Never invent an evidence_id. This is a research-readiness assessment, not a legal certification.')
     result=call_model([{'role':'system','content':prompt},
        {'role':'user','content':json.dumps({'topic':research_plan['topic'],
            'questions':research_plan['research_questions'],'evidence':evidence},ensure_ascii=False)}],
