@@ -185,6 +185,35 @@ def extract_pdf_text(payload):
     return '\n'.join(parts)
 
 
+def normalize_letter_spaced_pdf_text(body):
+    """Undo PDF glyph spacing without rewriting ordinary prose or legal content.
+
+    Some official PDFs extract each letter separately (``m o d i f i c a``),
+    while word gaps are two or more spaces. This is a presentation-only
+    transformation; the normalized evidence remains marked unverified.
+    """
+    # Only activate for documents with pervasive individual-character spacing.
+    runs = re.findall(r'(?<!\S)(?:[^\W\d_][ \t]){3,}[^\W\d_](?!\S)', body, flags=re.UNICODE)
+    if len(runs) < 15:
+        return body
+    def fix_line(line):
+        chunks = re.split(r'([ \t]{2,})', line)
+        for i, chunk in enumerate(chunks):
+            if re.fullmatch(r'[^\W\d_](?:[ \t][^\W\d_])+', chunk, flags=re.UNICODE):
+                chunks[i] = re.sub(r'[ \t]', '', chunk)
+            elif re.fullmatch(r'[0-9](?:[ \t][0-9])+', chunk):
+                chunks[i] = re.sub(r'[ \t]', '', chunk)
+            elif re.fullmatch(r'[0-9][ \t]+\.', chunk):
+                chunks[i] = re.sub(r'[ \t]+', '', chunk)
+        joined = ''.join(chunks)
+        joined = re.sub(r'(?<!\w)(?:[^\W\d_][ \t]){2,}[^\W\d_](?!\w)',
+                        lambda m: re.sub(r'[ \t]', '', m.group()), joined, flags=re.UNICODE)
+        joined = re.sub(r'(?<!\d)[0-9](?:[ \t][0-9])+(?!\d)',
+                        lambda m: re.sub(r'[ \t]', '', m.group()), joined)
+        return re.sub(r'[ \t]{2,}', ' ', joined)
+    return '\n'.join(fix_line(line) for line in body.split('\n'))
+
+
 def excerpt_for_procedure_guidance(body, limit=18000):
     """Select post-grant continuity passages, including letter-spaced PDF text.
 
@@ -260,7 +289,8 @@ def retrieve_one(authority,title,url,*,fetch=None):
     if pdf:
         if not isinstance(raw, bytes) or not raw.startswith(b'%PDF'):
             raise ValueError('Expected PDF bytes from official document')
-        body=extract_pdf_text(raw)
+        raw_pdf_text=extract_pdf_text(raw)
+        body=normalize_letter_spaced_pdf_text(raw_pdf_text)
         excerpt=excerpt_for_procedure_guidance(body)
     else:
         if not isinstance(raw,str):raise ValueError('Fetched content is not decoded HTML')
