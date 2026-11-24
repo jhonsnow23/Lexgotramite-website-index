@@ -426,6 +426,34 @@ def focused_evidence_for_topic(research_plan, evidence):
                     if not __import__('unicodedata').combining(c))
     is_long_term = research_plan.get('group') == 'renewal' and (
         'permanente' in topic or 'larga duracion' in topic)
+    category = research_plan.get('commercial_classification', {}).get('business_category')
+    if category == 'regularizacion_2026':
+        # Restrict the primary readiness dossier to sources directly concerning
+        # post-grant continuity. General renewal provisions and initial arraigo
+        # application instructions can introduce legally misleading context.
+        selected, excluded = [], []
+        for row in evidence:
+            article = str(row.get('article') or '')
+            source_id = str(row.get('source_id') or '')
+            url = str(row.get('official_url') or '').lower()
+            title = str(row.get('document_title') or '').lower()
+            include = (
+                (source_id == 'BOE-A-2024-24099' and article == '191')
+                or (source_id == 'boe' and 'boe-a-2026-8284' in url)
+                or (source_id == 'migraciones' and (
+                    'preguntas' in title and 'regularizaci' in title
+                    or 'preguntas' in url and url.endswith('.pdf')
+                    or 'preguntas' in url and '.pdf/' in url
+                ))
+            )
+            if include:
+                selected.append(row)
+            else:
+                excluded.append({'evidence_id': row.get('evidence_id'),
+                                 'authority': row.get('authority'),
+                                 'article': article,
+                                 'reason': 'NOT_POST_GRANT_CONTINUITY_EVIDENCE'})
+        return selected, excluded
     if not is_long_term:
         return list(evidence), []
 

@@ -215,14 +215,48 @@ def normalize_letter_spaced_pdf_text(body):
 
 
 def excerpt_for_procedure_guidance(body, limit=18000):
-    """Select post-grant continuity passages, including letter-spaced PDF text.
+    """Prioritize actual post-grant FAQ answers over a PDF table of contents.
 
-    PDFs from the ministry can spell text as 'm o d i f i c a c i ó n'.
-    Search a whitespace-normalized parallel view while preserving original text
-    and source offsets. Never reinterpret source text as certified legal facts.
+    Ministry PDFs may mention questions 39-43 in the index and repeat them
+    later with the answers. Select the final occurrence of the numbered
+    *question* and retain its answer until the following question. Extracted
+    text is still unverified: this is an evidence discovery step only.
     """
-    compact = []
-    offsets = []
+    def numbered_questions(text):
+        # Anchors require a question mark, so page numbers or section lists
+        # without actual questions do not masquerade as answer locations.
+        return list(re.finditer(r'(?m)^\s*(\d{1,3})\s*\.\s*¿', text))
+
+    questions = numbered_questions(body)
+    anchors = {}
+    for i, match in enumerate(questions):
+        number = int(match.group(1))
+        if number not in (39, 40, 41, 42, 43, 48, 49):
+            continue
+        end = questions[i + 1].start() if i + 1 < len(questions) else min(len(body), match.start() + 5000)
+        section = body[match.start():end]
+        # A TOC line has a question title, but not its explanatory answer.
+        # Prefer the latest substantial occurrence, even if the TOC includes
+        # extra page-number annotations.
+        if len(section.strip()) >= 35:
+            anchors[number] = section[:3600]
+
+    if anchors:
+        selected = []
+        remaining = limit
+        for number in (39, 40, 41, 42, 43, 48, 49):
+            section = anchors.get(number)
+            if not section or remaining <= 0:
+                continue
+            selected.append(section[:remaining])
+            remaining -= len(selected[-1])
+        if selected:
+            return '\n[...]\n'.join(selected)[:limit]
+
+    # Other government PDFs may not use the numbered-FAQ format. Retain the
+    # previous search, but prioritize the *last* instances of each phrase:
+    # they are more likely to describe the answer rather than the TOC.
+    compact, offsets = [], []
     for i, char in enumerate(body):
         if not char.isspace():
             compact.append(char.lower())
@@ -231,40 +265,40 @@ def excerpt_for_procedure_guidance(body, limit=18000):
     needles = (
         'modificaciónoprórroga', 'modificacionoprorroga',
         'modificacióndelaautorización', 'modificaciondelaautorizacion',
-        'autoritzacióndelaresidencia',
         'artículo191', 'articulo191', 'norenovable', 'nosepuederenovar',
         'finalicelavigencia', 'expiracióndelaautorización',
     )
-    matches = []
+    positions = set()
     for needle in needles:
         start = 0
-        while len(matches) < 45:
+        while True:
             idx = searchable.find(needle, start)
-            if idx < 0: break
-            matches.append((idx, offsets[idx]))
+            if idx < 0:
+                break
+            positions.add(offsets[idx])
             start = idx + len(needle)
-    matches.sort(key=lambda pair: pair[0])
-    # Do not fall back to the first 18k of a document concerning initial filing:
-    # that would falsely imply sufficient evidence for a post-grant procedure.
-    if not matches:
+    if not positions:
         return body[:min(limit, 1200)]
+    # Discard the beginning when a longer document has matching later prose.
+    priority = sorted(positions, reverse=True)
     windows = []
-    for _, pos in matches:
-        lo, hi = max(0, pos-500), min(len(body), pos+2200)
-        if windows and lo <= windows[-1][1]:
-            windows[-1] = (windows[-1][0], max(hi, windows[-1][1]))
-        else:
-            windows.append((lo, hi))
+    for pos in priority:
+        lo, hi = max(0, pos - 350), min(len(body), pos + 2400)
+        if any(lo >= old_lo and hi <= old_hi for old_lo, old_hi in windows):
+            continue
+        windows.append((lo, hi))
+        if len(windows) >= 8:
+            break
+    windows.sort()
     excerpts = []
     remaining = limit
     for lo, hi in windows:
-        segment = body[lo:hi][:remaining]
-        if segment:
-            excerpts.append(segment)
-            remaining -= len(segment)
-        if remaining <= 0: break
-    return '\n[...]\n'.join(excerpts)
-
+        if remaining <= 0:
+            break
+        section = body[lo:hi][:remaining]
+        excerpts.append(section)
+        remaining -= len(section)
+    return '\n[...]\n'.join(excerpts)[:limit]
 
 def retrieve_one(authority,title,url,*,fetch=None):
     if not allowed(url): raise ValueError('Non-allowlisted official URL')
