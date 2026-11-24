@@ -152,6 +152,49 @@ def plan(proposal):
             'publication_allowed':False}
 
 
+def retrieve_referenced_modification_requirements(evidence, retrieval=retrieve):
+    """Retrieve provisions explicitly referenced by Art. 191 for legal review.
+
+    These provisions are CONTEXT for different modification branches, not proof
+    that all of their requirements apply to a particular applicant. An outage
+    is diagnostic and does not create fabricated legal evidence.
+    """
+    references=('74','80','84','86')
+    source='BOE-A-2024-24099'
+    existing={(str(x.get('source_id')),str(x.get('article'))) for x in evidence}
+    added, warnings, attempts=[],[],[]
+    for article in references:
+        if (source,article) in existing:
+            continue
+        attempt={'document':source,'article':article,'role':'ARTICLE_191_CROSS_REFERENCE',
+                 'status':'NOT_RETRIEVED'}
+        try:
+            response=retrieval(source,[article])
+            rows=records_from_boe(response)
+            for row in rows:
+                if str(row.get('article'))!=article or row.get('source_id')!=source:
+                    continue
+                row['research_relevance']={
+                    'reason':'EXPLICIT_CROSS_REFERENCE_IN_ARTICLE_191',
+                    'semantic_verification_required':True,
+                    'context_only':True,
+                    'not_automatically_applicable':True,
+                }
+                added.append(row)
+                attempt['status']='RETRIEVED_UNVERIFIED'
+                break
+            if attempt['status']!='RETRIEVED_UNVERIFIED':
+                raise ValueError('Referenced article identity mismatch')
+        except Exception as exc:
+            attempt['status']='RETRIEVAL_ERROR'
+            attempt['error_code']=getattr(exc,'code',type(exc).__name__)
+            warnings.append({'category':'OFFICIAL_SOURCE_RETRIEVAL_ERROR',
+                'document':source,'article':article,
+                'details':'Article 191 cross-reference: '+str(exc)[:180]})
+        attempts.append(attempt)
+    return added,warnings,attempts
+
+
 def retrieve_evidence(research_plan,retrieval=retrieve,*,discovery=discover,return_diagnostics=False,include_official=False,official_retrieval=None):
     """Bounded official candidate retrieval; reject unrelated full text before drafting.
 
@@ -216,7 +259,18 @@ def retrieve_evidence(research_plan,retrieval=retrieve,*,discovery=discover,retu
         extra,extra_errors,official_attempts=(official_retrieval or retrieve_official)(research_plan['topic'], research_plan['group'])
         evidence.extend(extra)
         errors.extend(extra_errors)
-    if return_diagnostics:return evidence,errors,{'official_source_attempts':official_attempts,'index':diagnostics,'provision_attempts':attempts,
+    cross_reference_attempts=[]
+    category=research_plan.get('commercial_classification',{}).get('business_category')
+    has_191=any(x.get('source_id')=='BOE-A-2024-24099' and
+                str(x.get('article'))=='191' for x in evidence)
+    # Only follow explicit legal cross-references for post-grant regularisation.
+    # Do not broaden other categories or allow these clauses to certify readiness.
+    if category=='regularizacion_2026' and has_191 and include_official:
+        extra,ref_warnings,cross_reference_attempts=retrieve_referenced_modification_requirements(
+            evidence,retrieval=retrieval)
+        evidence.extend(extra)
+        errors.extend(ref_warnings)
+    if return_diagnostics:return evidence,errors,{'cross_reference_attempts':cross_reference_attempts,'official_source_attempts':official_attempts,'index':diagnostics,'provision_attempts':attempts,
                  'retrieved_candidates':len(attempts),'accepted_evidence':len(evidence),
                  'full_text_probes_attempted':sum(t.get('discovery_method')=='STRATIFIED_FULL_TEXT_PROBE' for t in attempts),
                  'discovery_exhaustive':all(not r.get('uninspected_index_articles') for r in diagnostics)}
@@ -438,7 +492,7 @@ def focused_evidence_for_topic(research_plan, evidence):
             url = str(row.get('official_url') or '').lower()
             title = str(row.get('document_title') or '').lower()
             include = (
-                (source_id == 'BOE-A-2024-24099' and article == '191')
+                (source_id == 'BOE-A-2024-24099' and article in ('191','74','80','84','86'))
                 or (source_id == 'boe' and 'boe-a-2026-8284' in url)
                 or (source_id == 'migraciones' and (
                     'preguntas' in title and 'regularizaci' in title
@@ -487,7 +541,7 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
        'Return JSON object with `questions` array of objects id,status,evidence_ids,reason. '
        'Only ANSWERED_WITH_EVIDENCE if evidence fully answers the question with exceptions; '
        'otherwise use PARTIALLY_ANSWERED, NOT_ANSWERED, or REQUIRES_LEGAL_INTERPRETATION. '
-       'For extraordinary regularisation 2026, distinguish INITIAL eligibility for arraigo from POST-GRANT modification/prórroga; initial filing deadlines and eligibility are NOT a verified continuation route. Explicitly classify scope/requirements/steps as PARTIALLY_ANSWERED when the source only describes the initial application. ''For permanent/long-term residence, distinguish renewal of the physical TIE ''from renewal of an underlying authorization. Cite Article 185 and procedural ''guidance when relevant; do not transfer requirements from unrelated procedures. ''Never invent an evidence_id. This is a research-readiness assessment, not a legal certification.')
+       'For extraordinary regularisation 2026, distinguish INITIAL eligibility for arraigo from POST-GRANT modification/prórroga; initial filing deadlines and eligibility are NOT a verified continuation route. Explicitly classify scope/requirements/steps as PARTIALLY_ANSWERED when the source only describes the initial application. ''Articles 74, 80, 84, and 86, when provided, are CONTEXT referenced by Article 191 for different modification paths; never combine them as universal requirements or infer which path applies without applicant facts. Continue marking a question PARTIALLY_ANSWERED when essential category-specific documentation, exceptions, or submission details remain unverified. ''For permanent/long-term residence, distinguish renewal of the physical TIE ''from renewal of an underlying authorization. Cite Article 185 and procedural ''guidance when relevant; do not transfer requirements from unrelated procedures. ''Never invent an evidence_id. This is a research-readiness assessment, not a legal certification.')
     result=call_model([{'role':'system','content':prompt},
        {'role':'user','content':json.dumps({'topic':research_plan['topic'],
            'questions':research_plan['research_questions'],'evidence':evidence},ensure_ascii=False)}],
