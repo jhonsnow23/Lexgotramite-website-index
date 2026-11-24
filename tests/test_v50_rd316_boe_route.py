@@ -15,7 +15,7 @@ class TestRD316Routing(unittest.TestCase):
             called.append(url)
             raise RuntimeError('fixture: cannot fetch')
         _, diagnostics=relevance.discover('arraigo','Cómo continuar la residencia tras la regularización extraordinaria de 2026',index_fetch=fake_index)
-        self.assertEqual(len(called),1)
+        self.assertEqual(len(called),1, 'Amending decree must never be requested through the consolidated index API')
         self.assertIn('BOE-A-2024-24099',called[0])
         self.assertNotIn('BOE-A-2026-8284',called[0])
         self.assertEqual(len(diagnostics),1)
