@@ -31,6 +31,11 @@ except ImportError:
     from scripts.official_sources_v50 import retrieve_for_topic as retrieve_official
 
 try:
+    from legal_applicability_v50 import build_dossier, question_matrix, scope_conflicts, audit_declared_claims
+except ImportError:
+    from scripts.legal_applicability_v50 import build_dossier, question_matrix, scope_conflicts, audit_declared_claims
+
+try:
     from boe_universal_v45 import retrieve, BOEError
 except ImportError:
     from scripts.boe_universal_v45 import retrieve, BOEError
@@ -146,6 +151,8 @@ def plan(proposal):
     group='renewal' if classification['business_category'] not in ('arraigo','regularizacion_2026') else 'arraigo'
     research_questions=temporary_questions(classification['business_category'])
     return {'topic':topic,'cluster_id':cid,'group':group,'commercial_classification':classification,
+            'legal_regime':('REGULARIZACION_EXTRAORDINARIA_2026' if classification['business_category']=='regularizacion_2026' else classification['business_category'].upper()),
+            'discovery_group_legacy':group,
             'queries':p.get('queries',[])[:12],
             'search_demand':p.get('search_demand_evidence',{}),
             'research_questions':research_questions,
@@ -295,9 +302,9 @@ def call_model(messages,*,model='gpt-4.1-mini',client=None):
     return json.loads(content) if isinstance(content,str) else content
 
 
-def article_request(research_plan,evidence,model='gpt-4.1-mini',client=None,previous=None,findings=None):
+def article_request(research_plan,evidence,model='gpt-4.1-mini',client=None,previous=None,findings=None,dossier=None):
     data={'plan':research_plan,'evidence':evidence,'previous_draft':previous,
-          'problems_to_correct':findings,'instructions':'Cite exact evidence_id values only from the provided evidence array; never invent sources or append hashes. For regularizacion_2026, distinguish initial extraordinary arraigo application from post-grant modification/prórroga.'}
+          'problems_to_correct':findings,'legal_applicability_dossier':dossier,'instructions':'Cite exact evidence_id values only from the provided evidence array; never invent sources or append hashes. For regularizacion_2026, distinguish initial extraordinary arraigo application from post-grant modification/prórroga.'}
     if findings and isinstance(previous,dict):
         # Make the correction target concrete. This does not clear or downgrade
         # the unresolved list: the next model output is validated from scratch.
@@ -430,7 +437,7 @@ def verify_integrity(article,evidence,plan_obj):
     return errors
 
 
-def semantic_review(article,evidence,model='gpt-4.1-mini',client=None):
+def semantic_review(article,evidence,model='gpt-4.1-mini',client=None,dossier=None):
     claims=article.get('claims',[])
     ids={r['evidence_id']:r for r in evidence}
     annotated=[]
@@ -438,7 +445,7 @@ def semantic_review(article,evidence,model='gpt-4.1-mini',client=None):
         annotated.append({'claim_index':i,'claim':c.get('claim',''),
             'evidence':[ids[x] for x in c.get('evidence_ids',[]) if x in ids]})
     resp=call_model([{'role':'system','content':SYSTEM_REVIEW},
-                     {'role':'user','content':json.dumps({'claims':annotated,'article':article,'all_official_evidence':evidence},ensure_ascii=False)}],model=model,client=client)
+                     {'role':'user','content':json.dumps({'claims':annotated,'article':article,'all_official_evidence':evidence,'legal_applicability_dossier':dossier},ensure_ascii=False)}],model=model,client=client)
     assessments=resp.get('assessment',[])
     problems=[]
     if not isinstance(assessments,list) or len(assessments)!=len(claims):
@@ -547,7 +554,7 @@ def focused_evidence_for_topic(research_plan, evidence):
     return selected, excluded
 
 
-def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None):
+def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None,dossier=None):
     if not evidence:return coverage(research_plan['research_questions'],evidence)
     prompt=('Review each question strictly against supplied official evidence. '
        'Return JSON object with `questions` array of objects id,status,evidence_ids,reason,missing_facts. '
@@ -576,7 +583,7 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
     result=call_model([{'role':'system','content':prompt},
         {'role':'user','content':json.dumps({'topic':research_plan['topic'],
             'questions':research_plan['research_questions'],
-            'evidence':prompt_evidence},ensure_ascii=False)}],
+            'evidence':prompt_evidence,'legal_applicability_dossier':dossier},ensure_ascii=False)}],
         model=model,client=client)
     judgments={}
     for item in result.get('questions',[]):
@@ -634,8 +641,15 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
             status['result']='BLOCKED_INSUFFICIENT_EVIDENCE'
             status['failure_codes']=[x.get('category') for x in blocking_errors or failed]
             return 2
-        covered,ready=research_readiness(research_plan,evidence,model=model,client=client)
+        dossier=build_dossier(research_plan,evidence)
+        save('legal_applicability.json',dossier)
+        covered,ready=research_readiness(research_plan,evidence,model=model,client=client,dossier=dossier)
+        matrix=question_matrix(research_plan,evidence,covered,dossier)
+        save('claim_evidence_matrix.json',matrix)
+        if scope_conflicts(matrix):
+            ready=False
         save('research_coverage.json',{'questions':covered,'ready':ready,
+             'applicability_conflicts':scope_conflicts(matrix),
              'publication_allowed':False})
         if not ready:
             status['result']='BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE'
@@ -645,9 +659,12 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
         for attempt in range(max_revisions+1):
             previous=draft
             draft=article_request(research_plan,evidence,model=model,client=client,previous=previous,
-                    findings=audit[-1] if audit else None)
+                    findings=audit[-1] if audit else None,dossier=dossier)
             integrity=verify_integrity(draft,evidence,research_plan)
-            review,review_errors=semantic_review(draft,evidence,model=model,client=client) if not any('unknown evidence ID' in x for x in integrity) else ({'assessment':[]},['Invalid citations'])
+            claim_matrix,claim_errors=audit_declared_claims(draft,dossier)
+            integrity.extend(claim_errors)
+            save('article_claim_applicability.json',claim_matrix)
+            review,review_errors=semantic_review(draft,evidence,model=model,client=client,dossier=dossier) if not any('unknown evidence ID' in x for x in integrity) else ({'assessment':[]},['Invalid citations'])
             issues=integrity+review_errors
             audit.append({'attempt':attempt+1,'integrity_errors':integrity,'review':review,'blocking_errors':issues})
             if not issues:break
