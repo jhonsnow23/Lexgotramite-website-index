@@ -9,7 +9,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
 from temporary_residence_policy_v50 import classify,SEEDS,research_questions
 from legal_content_v50 import plan
-from official_sources_v50 import candidates, retrieve_for_topic
+from official_sources_v50 import candidates, retrieve_for_topic, is_pdf_url
 
 class TestTemporaryFocus(unittest.TestCase):
     def test_six_different_legal_intents_have_research_plans(self):
@@ -46,7 +46,10 @@ class TestTemporaryFocus(unittest.TestCase):
         for category in SEEDS:
             with self.subTest(category=category):
                 topic=SEEDS[category]['proposed_title']
-                records,errors,attempts=retrieve_for_topic(topic,'renewal',fetch=lambda url: official_html)
+                def fake_fetch(url):
+                    return b'%PDF-fixture' if is_pdf_url(url) else official_html
+                with patch('official_sources_v50.extract_pdf_text', return_value=('Modificación o prórroga de autorizaciones. '*40)):
+                    records,errors,attempts=retrieve_for_topic(topic,'renewal',fetch=fake_fetch)
                 self.assertTrue(records)
                 self.assertTrue(all(r['legal_status'] in ('PROCEDURAL_GUIDANCE_UNVERIFIED', 'OFFICIAL_LEGAL_TEXT_UNVERIFIED') for r in records))
                 self.assertTrue(all(r['research_relevance']['semantic_verification_required'] for r in records))
