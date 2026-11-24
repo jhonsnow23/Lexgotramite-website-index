@@ -175,39 +175,66 @@ def extract_pdf_text(payload):
     reader = PdfReader(BytesIO(payload), strict=False)
     if reader.is_encrypted:
         raise ValueError('Encrypted official PDF')
-    if len(reader.pages) > 80:
+    if len(reader.pages) > 160:
         raise ValueError('Official PDF too many pages')
     parts = []
     for page in reader.pages:
         parts.append(page.extract_text() or '')
-        if sum(map(len, parts)) > 250_000:
+        if sum(map(len, parts)) > 650_000:
             raise ValueError('Official PDF extracted text too large')
     return '\n'.join(parts)
 
 
 def excerpt_for_procedure_guidance(body, limit=18000):
-    """Preserve modification/prórroga guidance, not the initial application FAQ."""
-    patterns = (r'modificaci[oó]n o pr[oó]rroga de autorizaciones',
-                r'no es renovable', r'no se puede renovar',
-                r'art[ií]culo 191', r'excepcionalmente',
-                r'cuando finalice', r'al finalizar la vigencia')
+    """Select post-grant continuity passages, including letter-spaced PDF text.
+
+    PDFs from the ministry can spell text as 'm o d i f i c a c i ó n'.
+    Search a whitespace-normalized parallel view while preserving original text
+    and source offsets. Never reinterpret source text as certified legal facts.
+    """
+    compact = []
+    offsets = []
+    for i, char in enumerate(body):
+        if not char.isspace():
+            compact.append(char.lower())
+            offsets.append(i)
+    searchable = ''.join(compact)
+    needles = (
+        'modificaciónoprórroga', 'modificacionoprorroga',
+        'modificacióndelaautorización', 'modificaciondelaautorizacion',
+        'autoritzacióndelaresidencia',
+        'artículo191', 'articulo191', 'norenovable', 'nosepuederenovar',
+        'finalicelavigencia', 'expiracióndelaautorización',
+    )
+    matches = []
+    for needle in needles:
+        start = 0
+        while len(matches) < 45:
+            idx = searchable.find(needle, start)
+            if idx < 0: break
+            matches.append((idx, offsets[idx]))
+            start = idx + len(needle)
+    matches.sort(key=lambda pair: pair[0])
+    # Do not fall back to the first 18k of a document concerning initial filing:
+    # that would falsely imply sufficient evidence for a post-grant procedure.
+    if not matches:
+        return body[:min(limit, 1200)]
     windows = []
-    for pattern in patterns:
-        for match in list(re.finditer(pattern, body, re.I))[:8]:
-            start = max(0, match.start() - 400)
-            stop = min(len(body), match.end() + 1600)
-            if not any(start >= a and stop <= b for a, b in windows):
-                windows.append((start, stop))
-    chunks = []
-    size = 0
-    for start, stop in windows:
-        chunk = body[start:stop][:limit - size]
-        if chunk:
-            chunks.append(chunk)
-            size += len(chunk)
-        if size >= limit:
-            break
-    return '\n[...]\n'.join(chunks) if chunks else body[:limit]
+    for _, pos in matches:
+        lo, hi = max(0, pos-500), min(len(body), pos+2200)
+        if windows and lo <= windows[-1][1]:
+            windows[-1] = (windows[-1][0], max(hi, windows[-1][1]))
+        else:
+            windows.append((lo, hi))
+    excerpts = []
+    remaining = limit
+    for lo, hi in windows:
+        segment = body[lo:hi][:remaining]
+        if segment:
+            excerpts.append(segment)
+            remaining -= len(segment)
+        if remaining <= 0: break
+    return '\n[...]\n'.join(excerpts)
 
 
 def retrieve_one(authority,title,url,*,fetch=None):
@@ -223,7 +250,7 @@ def retrieve_one(authority,title,url,*,fetch=None):
                 ctype=response.headers.get('Content-Type','').lower()
                 expected='application/pdf' if pdf else 'text/html'
                 if expected not in ctype: raise ValueError('Unexpected official content type: '+ctype[:80])
-                max_bytes = 3_000_000 if pdf else 750_000
+                max_bytes = 15_000_000 if pdf else 750_000
                 payload=response.read(max_bytes+1)
                 if len(payload)>max_bytes: raise ValueError('Official document exceeds maximum size')
                 if pdf: return payload

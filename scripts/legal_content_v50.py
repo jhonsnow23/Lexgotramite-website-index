@@ -72,6 +72,19 @@ renovación, modificación o prórroga. Distingue las reglas transitorias cuando
 Escribe español de España útil para potenciales clientes, con CTA natural para Lex Go Trámite,
 pero no prometas aprobaciones ni servicios no demostrados.
 
+ATENCIÓN CRÍTICA PARA REGULARIZACIÓN EXTRAORDINARIA 2026: las disposiciones
+adicionales que regulan el ACCESO INICIAL a la autorización no son por sí mismas
+una vía para renovar esa misma autorización tras su concesión. Si el lector ya
+es titular, investiga exclusivamente qué ocurre AL VENCIMIENTO y cuál es el
+procedimiento posterior aplicable. No presentes requisitos iniciales (entrada
+antes de 2026, permanencia previa, antecedentes para solicitar el arraigo
+extraordinario, fecha límite de solicitud inicial) como requisitos de una
+modificación o prórroga posterior. Usa la guía ministerial específica de
+modificación o prórroga y la norma aplicable. Cuando no exista evidencia
+suficiente, declara la duda material y bloquea el borrador.
+La lista cerrada de IDs válidos es exactamente la de los registros de evidencia
+recibidos: copia IDs completos sin añadirles hashes, prefijos ni sufijos.
+
 Usa SOLO evidencia oficial proporcionada; un registro de fuente recuperada NO certifica su
 aplicabilidad jurídica. No inventes tasas, plazos, requisitos ni vías de presentación; no
 extraigas conclusiones negativas a partir del silencio de las fuentes.
@@ -91,7 +104,7 @@ CONTRADICTED, INSUFFICIENT_EVIDENCE, NEEDS_INTERPRETATION.
 Revisa ABSOLUTAMENTE TODO el texto: introducción, secciones, FAQ, título y claims.
 Compara con la evidencia oficial suministrada, competencia, fecha y procedimiento aplicable.
 Cualquier afirmación legal material sin claim o sin evidencia específica es un gap bloqueante.
-Especialmente revisa la diferencia entre RENOVACIÓN, MODIFICACIÓN y PRÓRROGA, así como
+Especialmente revisa si un texto sobre el acceso INICIAL a la regularización se está usando falsamente como instrucción para CONTINUAR una autorización ya concedida. Revisa la diferencia entre RENOVACIÓN, MODIFICACIÓN y PRÓRROGA, así como
 regímenes transitorios y requisitos de concesión inicial frente a continuidad.
 Una fuente recuperada sin vigencia verificada o un enlace de un trámite distinto no certifica
 la afirmación. No marques SUPPORTED si faltan excepciones necesarias.
@@ -227,12 +240,12 @@ def call_model(messages,*,model='gpt-4.1-mini',client=None):
 
 def article_request(research_plan,evidence,model='gpt-4.1-mini',client=None,previous=None,findings=None):
     data={'plan':research_plan,'evidence':evidence,'previous_draft':previous,
-          'problems_to_correct':findings,'instructions':'Cite evidence_id only; never invent sources.'}
+          'problems_to_correct':findings,'instructions':'Cite exact evidence_id values only from the provided evidence array; never invent sources or append hashes. For regularizacion_2026, distinguish initial extraordinary arraigo application from post-grant modification/prórroga.'}
     if findings and isinstance(previous,dict):
         # Make the correction target concrete. This does not clear or downgrade
         # the unresolved list: the next model output is validated from scratch.
         data['revision_requirements'] = {
-            'critical': 'Correct or remove unsupported statements; never invent supporting sources.',
+            'critical': 'Correct or remove unsupported statements; never invent supporting sources. Repair every unknown evidence ID using ONLY exact IDs present in the current evidence list; do not assign an arbitrary matching ID.',
             'unresolved_questions_to_resolve_or_justify': previous.get('unresolved_questions',[]),
             'rule': 'Do not carry forward optional exploratory questions. Keep only concrete, material unresolved legal issues that prevent safely describing the requested ordinary procedure.',
             'review_gaps': (findings.get('review') or {}).get('gaps',[]),
@@ -326,6 +339,21 @@ def verify_integrity(article,evidence,plan_obj):
         if not isinstance(article.get(k),str) or len(article[k].strip())<35:errors.append(f'Incomplete {k}')
     if not isinstance(article.get('unresolved_questions'),list):errors.append('Missing unresolved question list')
     elif article['unresolved_questions']:errors.append('Unresolved legal questions')
+    # Deterministic scope guard: an initial extraordinary-regularisation application
+    # must never be offered as a continuation path to existing authorization holders.
+    commercial = plan_obj.get('commercial_classification') or {}
+    if commercial.get('business_category') == 'regularizacion_2026':
+        text_to_check = ' '.join(
+            [str(article.get('introduction',''))] +
+            [str(p) for sec in article.get('sections',[]) if isinstance(sec,dict)
+             for p in sec.get('paragraphs',[]) if isinstance(p,str)] +
+            [str(faq.get('answer','')) for faq in article.get('faqs',[])
+             if isinstance(faq,dict)]
+        ).lower()
+        if re.search(r'(?:para\s+(?:continuar|mantener|prorrogar)\s+(?:su|la)\s+residencia|continuidad\s+(?:de\s+)?(?:su|la)\s+autorizaci[oó]n).{0,180}(?:solicitar|solicitud|acceder\s+a)\s+(?:una?\s+)?(?:autorizaci[oó]n\s+)?(?:de\s+)?arraigo\s+extraordinario', text_to_check, re.I | re.S):
+            errors.append('Confused initial extraordinary-regularisation application with post-grant continuity')
+        if re.search(r'(?:para\s+solicitar\s+la\s+continuidad|para\s+continuar\s+(?:su|la)\s+residencia).{0,240}(?:antes\s+del\s+1\s+de\s+enero\s+de\s+2026|30\s+de\s+junio\s+de\s+2026|cinco\s+meses\s+de\s+permanencia)', text_to_check, re.I | re.S):
+            errors.append('Initial-application eligibility or deadline misapplied to post-grant continuity')
     errors.extend(renewal_scope_warnings(article,plan_obj))
     commercial=plan_obj.get('commercial_classification') or {}
     if commercial and not commercial.get('excluded'):
@@ -431,7 +459,7 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
        'Return JSON object with `questions` array of objects id,status,evidence_ids,reason. '
        'Only ANSWERED_WITH_EVIDENCE if evidence fully answers the question with exceptions; '
        'otherwise use PARTIALLY_ANSWERED, NOT_ANSWERED, or REQUIRES_LEGAL_INTERPRETATION. '
-       'Judge the requested procedure, not nearby but legally different renewals. ''For permanent/long-term residence, distinguish renewal of the physical TIE ''from renewal of an underlying authorization. Cite Article 185 and procedural ''guidance when relevant; do not transfer requirements from unrelated procedures. ''Never invent an evidence_id. This is a research-readiness assessment, not a legal certification.')
+       'For extraordinary regularisation 2026, distinguish INITIAL eligibility for arraigo from POST-GRANT modification/prórroga; initial filing deadlines and eligibility are NOT a verified continuation route. Explicitly classify scope/requirements/steps as PARTIALLY_ANSWERED when the source only describes the initial application. ''For permanent/long-term residence, distinguish renewal of the physical TIE ''from renewal of an underlying authorization. Cite Article 185 and procedural ''guidance when relevant; do not transfer requirements from unrelated procedures. ''Never invent an evidence_id. This is a research-readiness assessment, not a legal certification.')
     result=call_model([{'role':'system','content':prompt},
        {'role':'user','content':json.dumps({'topic':research_plan['topic'],
            'questions':research_plan['research_questions'],'evidence':evidence},ensure_ascii=False)}],
