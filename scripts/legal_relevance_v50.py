@@ -220,6 +220,16 @@ def _topic_priority_articles(group, topic):
     normalized = normalize(topic)
     if group == 'renewal' and ('permanente' in normalized or 'larga duracion' in normalized):
         return ('185', '209')
+    # Post-grant continuity after the 2026 extraordinary regularisation explicitly
+    # depends on Article 191. The BOE consolidated index sometimes supplies only
+    # generic labels ("Artículo N"): stratified sampling can miss Article 191.
+    # Prioritise its *observed index entry* for full-text verification; never
+    # invent a block ID, bypass relevance checks or infer legal sufficiency.
+    if (group == 'arraigo' and '2026' in normalized and
+            ('regularizacion extraordinaria' in normalized or
+             'autorizacion extraordinaria' in normalized) and
+            any(word in normalized for word in ('continu', 'modific', 'prorrog'))):
+        return ('191',)
     return ()
 
 
