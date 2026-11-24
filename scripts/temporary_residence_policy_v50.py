@@ -31,6 +31,23 @@ def classify(topic, queries=(), cluster=''):
     forbidden=('larga duracion','residencia permanente','tarjeta permanente','nacionalidad',
       'toma huellas','cita huellas','duplicado tie','robo tie','perdida tie',
       'renovacion nie','expedicion tie','tarjeta identidad extranjero')
+    # A query about applying for the extraordinary regularisation is NOT a
+    # request to continue an authorization already granted. Never reframe it.
+    initial_processing = (
+        'regularizacion' in title and
+        any(term in title for term in (
+            'cuanto tarda', 'cuanto tiempo tarda', 'tiempo de tramitacion',
+            'estado expediente', 'estado de solicitud', 'consultar expediente',
+            'cuando sale', 'cuando me aprueban', 'como solicitar',
+            'solicitar regularizacion', 'requisitos para solicitar',
+        )) and
+        not any(term in title for term in (
+            'despues de obtener', 'tras obtener', 'autorizacion concedida',
+            'permiso concedido', 'cuando vence', 'tras la regularizacion',
+        ))
+    )
+    if initial_processing:
+        result['exclusion_reason']='INITIAL_REGULARIZATION_PROCESSING_NOT_TEMPORARY_RENEWAL';return result
     if any(x in text for x in forbidden):
         result['exclusion_reason']='EXCLUDED_PERMANENT_CARD_OR_OTHER_PROCEDURE';return result
     if re.search(r'\b(tie|nie)\b',text) and not any(x in text for x in ('autorizacion temporal','cuenta ajena','arraigo','regularizacion','menor no nacido')):
