@@ -9,6 +9,7 @@ from hashlib import sha256
 from io import BytesIO
 from urllib.parse import urlparse, urlunparse
 from urllib.request import Request, build_opener, HTTPRedirectHandler
+from urllib.error import URLError
 import re
 import ssl
 
@@ -300,25 +301,55 @@ def excerpt_for_procedure_guidance(body, limit=18000):
         remaining -= len(section)
     return '\n[...]\n'.join(excerpts)[:limit]
 
+def is_certificate_verification_error(error):
+    """Distinguish broken certificate chains from ordinary HTTP/network failures."""
+    reason = error.reason if isinstance(error, URLError) else error
+    return isinstance(reason, ssl.SSLCertVerificationError)
+
+
+def official_tls_alternative(url):
+    """Retry the Ministry's other HTTPS hostname; never disable TLS checks.
+
+    This is an availability fallback, not evidence of legal validity.
+    Both domains remain subject to the same strict official-host allowlist.
+    """
+    parsed = urlparse(url)
+    if parsed.scheme != 'https' or parsed.hostname != 'inclusion.gob.es' or not allowed(url):
+        return None
+    return urlunparse(parsed._replace(netloc='www.inclusion.gob.es'))
+
+
 def retrieve_one(authority,title,url,*,fetch=None):
     if not allowed(url): raise ValueError('Non-allowlisted official URL')
     pdf = is_pdf_url(url)
+    resolved_url = [url]
     if fetch is None:
         opener=build_opener(SafeRedirect())
         def fetch(endpoint):
-            req=Request(endpoint,headers={'User-Agent':'LexGoTramite-v50/official-research',
-                'Accept':'application/pdf' if pdf else 'text/html','Accept-Language':'es'})
-            with opener.open(req,timeout=20) as response:
-                if not allowed(response.url): raise ValueError('Final URL outside allowlist')
-                ctype=response.headers.get('Content-Type','').lower()
-                expected='application/pdf' if pdf else 'text/html'
-                if expected not in ctype: raise ValueError('Unexpected official content type: '+ctype[:80])
-                max_bytes = 15_000_000 if pdf else 750_000
-                payload=response.read(max_bytes+1)
-                if len(payload)>max_bytes: raise ValueError('Official document exceeds maximum size')
-                if pdf: return payload
-                charset=response.headers.get_content_charset() or 'utf-8'
-                return payload.decode(charset,errors='replace')
+            request_urls = [endpoint]
+            alternative = official_tls_alternative(endpoint) if pdf else None
+            if alternative:
+                request_urls.append(alternative)
+            for index, request_url in enumerate(request_urls):
+                req=Request(request_url,headers={'User-Agent':'LexGoTramite-v50/official-research',
+                    'Accept':'application/pdf' if pdf else 'text/html','Accept-Language':'es'})
+                try:
+                    with opener.open(req,timeout=20) as response:
+                        if not allowed(response.url): raise ValueError('Final URL outside allowlist')
+                        ctype=response.headers.get('Content-Type','').lower()
+                        expected='application/pdf' if pdf else 'text/html'
+                        if expected not in ctype: raise ValueError('Unexpected official content type: '+ctype[:80])
+                        max_bytes = 15_000_000 if pdf else 750_000
+                        payload=response.read(max_bytes+1)
+                        if len(payload)>max_bytes: raise ValueError('Official document exceeds maximum size')
+                        resolved_url[0] = response.url
+                        if pdf: return payload
+                        charset=response.headers.get_content_charset() or 'utf-8'
+                        return payload.decode(charset,errors='replace')
+                except URLError as error:
+                    if index == 0 and alternative and is_certificate_verification_error(error):
+                        continue
+                    raise
     raw=fetch(url)
     if pdf:
         if not isinstance(raw, bytes) or not raw.startswith(b'%PDF'):
@@ -337,7 +368,7 @@ def retrieve_one(authority,title,url,*,fetch=None):
     legal_publication = authority == 'boe'
     return {'evidence_id':'EV_'+digest[:20].upper(), 'source_id':authority,
       'authority':authority,'document_title':title,'article':None,
-      'official_url':url,'api_url':None,'retrieved_at':stamp,
+      'official_url':url,'retrieval_url':resolved_url[0],'api_url':None,'retrieved_at':stamp,
       'version_date':None,'version_status':'GUIDANCE_DATE_NOT_VERIFIED',
       'legal_status':'OFFICIAL_LEGAL_TEXT_UNVERIFIED' if legal_publication else 'PROCEDURAL_GUIDANCE_UNVERIFIED',
       'text':excerpt, 'sha256':digest,
