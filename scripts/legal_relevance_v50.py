@@ -220,6 +220,11 @@ def _topic_priority_articles(group, topic):
     normalized = normalize(topic)
     if group == 'renewal' and ('permanente' in normalized or 'larga duracion' in normalized):
         return ('185', '209')
+    # Regularización 2026: locate the modification framework in the
+    # consolidated RD 1155/2024. RD 316/2026 itself must be fetched from
+    # the official BOE publication, not this consolidated-only API.
+    if group == 'arraigo' and 'regularizacion' in normalized and '2026' in normalized:
+        return ('191',)
     return ()
 
 
@@ -260,8 +265,8 @@ def discover(group,topic,*,index_fetch=api_get,max_per_source=12,full_text_probe
     found=[];diagnostics=[]
     qs=questions(group)
     docs=list(SOURCE_CANDIDATES.get(group,[]))
-    if group=='arraigo' and 'regularizacion' in normalize(topic) and ('2026' in normalize(topic) or 'extraordinaria' in normalize(topic)):
-        docs.append('BOE-A-2026-8284')
+    # Only consolidated-law identifiers belong here. The BOE publication of
+    # RD 316/2026 has no consolidated index at this API endpoint.
     for doc in docs:
         endpoint=BASE+doc+'/texto/indice'
         report={'document':doc,'index_url':endpoint,'index_nodes':0,'index_articles':0,

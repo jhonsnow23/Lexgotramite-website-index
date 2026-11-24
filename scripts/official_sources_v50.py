@@ -12,6 +12,7 @@ import re
 import ssl
 
 HOSTS = frozenset({
+    'www.boe.es', 'boe.es',
     'www.inclusion.gob.es', 'sede.administracionespublicas.gob.es',
     'sede.policia.gob.es', 'www.mjusticia.gob.es', 'sede.mjusticia.gob.es',
 })
@@ -37,6 +38,8 @@ SOURCES = {
    'https://sede.mjusticia.gob.es/tramites/nacionalidad-espanola'),
  ],
  'regularizacion_2026': [
+  ('boe','Real Decreto 316/2026 — texto oficial publicado',
+   'https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-8284'),
   ('migraciones','Migraciones: regularización extraordinaria',
    'https://www.inclusion.gob.es/web/migraciones/residencia'),
  ],
@@ -127,6 +130,35 @@ class OfficialHTML(HTMLParser):
         return s
 
 
+def excerpt_for_legal_publication(body, limit=18000):
+    """Retain the actual official legal passages relevant to regularisation.
+
+    Fixed-size prefix truncation often loses the later additional provisions.
+    Returned excerpts remain UNVERIFIED and require claim-level review.
+    """
+    needles = (r'disposici[oó]n adicional vig[eé]sima',
+               r'disposici[oó]n adicional vig[eé]sima primera',
+               r'art[ií]culo 191', r'pr[oó]rroga', r'modificaci[oó]n',
+               r'regularizaci[oó]n extraordinaria')
+    windows = []
+    for pattern in needles:
+        for match in list(re.finditer(pattern, body, flags=re.I))[:5]:
+            begin = max(0, match.start()-350)
+            end = min(len(body),match.end()+2200)
+            if not any(begin >= a and end <= b for a,b in windows):
+                windows.append((begin,end))
+    # Priority order matters: additional provisions must not be crowded out
+    # by earlier, repeated generic references to modifications.
+    chunks=[];size=0
+    for begin,end in windows:
+        segment=body[begin:end]
+        if size+len(segment)>limit:
+            segment=segment[:max(0,limit-size)]
+        if segment:chunks.append(segment);size+=len(segment)
+        if size >= limit:break
+    return '\n[...]\n'.join(chunks) if chunks else body[:limit]
+
+
 def retrieve_one(authority,title,url,*,fetch=None):
     if not allowed(url): raise ValueError('Non-allowlisted official URL')
     if fetch is None:
@@ -151,14 +183,16 @@ def retrieve_one(authority,title,url,*,fetch=None):
     # Important: the whole source has a content fingerprint even when excerpt bounded.
     digest=sha256(body.encode('utf-8')).hexdigest()
     stamp=datetime.now(timezone.utc).isoformat()
+    legal_publication = authority == 'boe'
+    excerpt = excerpt_for_legal_publication(body) if legal_publication else body[:18000]
     return {'evidence_id':'EV_'+digest[:20].upper(), 'source_id':authority,
       'authority':authority,'document_title':title,'article':None,
       'official_url':url,'api_url':None,'retrieved_at':stamp,
       'version_date':None,'version_status':'GUIDANCE_DATE_NOT_VERIFIED',
-      'legal_status':'PROCEDURAL_GUIDANCE_UNVERIFIED',
-      'text':body[:18000], 'sha256':digest,
+      'legal_status':'OFFICIAL_LEGAL_TEXT_UNVERIFIED' if legal_publication else 'PROCEDURAL_GUIDANCE_UNVERIFIED',
+      'text':excerpt, 'sha256':digest,
       'research_relevance':{'semantic_verification_required':True,
-       'source_type':'official_procedural_guidance'}}
+       'source_type':'official_legal_publication' if legal_publication else 'official_procedural_guidance'}}
 
 
 def retrieve_for_topic(topic,group,*,fetch=None):
