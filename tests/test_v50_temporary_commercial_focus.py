@@ -47,7 +47,7 @@ class TestTemporaryFocus(unittest.TestCase):
             with self.subTest(category=category):
                 topic=SEEDS[category]['proposed_title']
                 def fake_fetch(url):
-                    return b'%PDF-fixture' if is_pdf_url(url) else official_html
+                    return b'%PDF-fixture' if (is_pdf_url(url) or '/documents/d/migraciones/' in url) else official_html
                 with patch('official_sources_v50.extract_pdf_text', return_value=('Modificación o prórroga de autorizaciones. '*40)):
                     records,errors,attempts=retrieve_for_topic(topic,'renewal',fetch=fake_fetch)
                 self.assertTrue(records)
