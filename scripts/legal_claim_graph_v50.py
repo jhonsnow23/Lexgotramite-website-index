@@ -68,13 +68,50 @@ def _sentences(text):
             and s.strip()[-1] in '.!?']
 
 
-def _passage_routes(passage, proposed):
-    """Descriptive classification only, never an eligibility decision."""
+def _passage_routes(passage, proposed, article=None):
+    """Descriptive branch mapping; never an individual eligibility decision."""
     low = passage.casefold()
+    article = str(article or '')
+    # Article 191 cross-references different requirement provisions for distinct
+    # branches. Keep the linked requirement article attached only to its branch.
+    branch_by_article = {
+        '74': 'MOD_ART191_2_AJENA_LT_1Y',
+        '80': 'MOD_ART191_3_AJENA_GE_1Y',
+        '86': 'MOD_ART191_3_PROPIA_GE_1Y',
+    }
+    if article in branch_by_article:
+        route = branch_by_article[article]
+        return [route] if route in proposed else []
+    if article == '191':
+        if 'artículo 74' in low and ('no lleve residiendo' in low or 'menos de un año' in low):
+            route = 'MOD_ART191_2_AJENA_LT_1Y'
+            return [route] if route in proposed else []
+        if 'artículo 80' in low or 'articulo 80' in low:
+            routes = ['MOD_ART191_3_AJENA_GE_1Y']
+            if 'artículo 86' in low or 'articulo 86' in low:
+                routes.append('MOD_ART191_3_PROPIA_GE_1Y')
+            return [route for route in routes if route in proposed]
+        if 'artículo 86' in low or 'articulo 86' in low:
+            route = 'MOD_ART191_3_PROPIA_GE_1Y'
+            return [route] if route in proposed else []
+        if 'artículo 84' in low and 'no habilitaba a trabajar' in low:
+            route = 'MOD_ART191_4_ORIGIN_NO_WORK'
+            return [route] if route in proposed else []
+    if ('búsqueda activa de empleo' in low or 'busqueda activa de empleo' in low or
+            'informe de esfuerzo de integración' in low or 'informe de esfuerzo de integracion' in low):
+        route = 'PRORROGA_EXCEPCIONAL_1Y'
+        if route in proposed:
+            return [route]
+    if ('duración de cuatro años' in low or 'duracion de cuatro anos' in low or
+            'edad legal de jubilación' in low or 'edad legal de jubilacion' in low or
+            'enfermedad grave' in low or 'discapacidad' in low):
+        route = 'PRORROGA_EXCEPCIONAL_4Y'
+        if route in proposed:
+            return [route]
     if 'excepcionalmente' in low and ('prorrog' in low or 'prórrog' in low):
         return [r for r in proposed if r == 'PRORROGA_EXCEPCIONAL']
     if 'prorrogará la validez' in low or 'prorrogara la validez' in low:
-        return [r for r in proposed if r == 'MODIFICACION_ART_191']
+        return [r for r in proposed if r == 'EXTENSION_VALIDEZ_DURANTE_MODIFICACION' or r == 'MODIFICACION_ART_191']
     if 'modificaci' in low and 'prórroga excepcional' not in low:
         return [r for r in proposed if r == 'MODIFICACION_ART_191']
     return proposed if len(proposed) == 1 else []
@@ -111,7 +148,7 @@ def build_source_claims(evidence, dossier, questions):
             selected = []
             seen_routes = set()
             for passage in candidates:
-                routes = _passage_routes(passage, role['destination_authorization'])
+                routes = _passage_routes(passage, role['destination_authorization'], row.get('article'))
                 route_key = tuple(routes)
                 if not routes or route_key in seen_routes:
                     continue

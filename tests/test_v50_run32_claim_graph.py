@@ -70,6 +70,12 @@ class Run32Tests(unittest.TestCase):
 
     def test_context_only_cannot_supply_sole_claim(self):
         ev,plan,_=fixtures();e=ev[-1]
+        # Article 84 is context-only for DA20/DA21 because those origins enable work.
+        e={'evidence_id':'EV_84','source_id':'BOE-A-2024-24099','authority':'boe',
+           'official_url':'https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099',
+           'document_title':'RD 1155/2024 artículo 84','article':'84',
+           'text':'Artículo 84. Requisitos de autorización inicial de residencia temporal y trabajo por cuenta propia.',
+           'research_relevance':{'context_only':True}}
         dossier=build_dossier(plan,[e])
         graph=build_source_claims([e],dossier,[{'id':'requirements','evidence_ids':[e['evidence_id']]}])
         self.assertEqual(graph['source_claims'],[])
