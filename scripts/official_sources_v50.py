@@ -46,6 +46,12 @@ SOURCES = {
    'https://inclusion.gob.es/documents/20121/7817425/Preguntas%20y%20respuestas%2021072026.pdf/95dc64f0-7af9-a350-fc0e-b598dc0b9694?version=1.0'),
   ('migraciones','Ministerio: 100 preguntas técnicas de regularización',
    'https://inclusion.gob.es/documents/20121/7817425/100%20Preguntas%20t%C3%A9cnicas%20sobre%20regularizaci%C3%B3n.pdf/45bc4075-03f8-d568-6f19-440de6e701b7?download=true&version=1.0'),
+  ('migraciones','Hoja 55 — modificación desde residencia temporal que habilita a trabajar',
+   'https://www.inclusion.gob.es/documents/410169/2260168/55.%2BModificaci%C3%B3n%2Bdesde%2Bsituaciones%2Bde%2Bautorizaciones%2Bde%2Bresidencia%2Btemporal%2Bque%2Bhabilitan%2Ba%2Btrabajar.pdf/'),
+  ('migraciones','Formulario EX-26 — solicitud de modificación de residencia o estancia',
+   'https://inclusion.gob.es/documents/d/migraciones/ex26-formulario-de-solicitud-modificacion-de-autorizacion-de-residencia-o-estancia-editable-1'),
+  ('migraciones','Criterio de gestión DGGMR 1/2025 — modificación y prórroga según artículo 191',
+   'https://www.inclusion.gob.es/documents/d/migraciones/criterio-de-gestion-dggm_rloex-1-2025_modificaciones-estancias-y-residencias-y-prorrogas-arraigos'),
   ('migraciones','Hoja 28 Ter — arraigo extraordinario',
    'https://www.inclusion.gob.es/web/migraciones/w/28-ter.-autorizacion-de-residencia-por-circunstancias-excepcionales-por-razon-de-arraigo-extraordinario'),
  ],
@@ -321,7 +327,7 @@ def official_tls_alternative(url):
 
 def retrieve_one(authority,title,url,*,fetch=None):
     if not allowed(url): raise ValueError('Non-allowlisted official URL')
-    pdf = is_pdf_url(url)
+    pdf = is_pdf_url(url) or urlparse(url).path.startswith('/documents/d/migraciones/')
     resolved_url = [url]
     if fetch is None:
         opener=build_opener(SafeRedirect())

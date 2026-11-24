@@ -498,7 +498,12 @@ def focused_evidence_for_topic(research_plan, evidence):
                 (source_id == 'BOE-A-2024-24099' and article in ('191','74','80','84','86'))
                 or (source_id == 'boe' and 'boe-a-2026-8284' in url)
                 or (source_id == 'migraciones' and (
-                    'preguntas' in title and 'regularizaci' in title
+                    # Procedure-specific Ministry guidance is admissible as an
+                    # UNVERIFIED candidate, not proof that any branch applies.
+                    ('55' in title and 'modificaci' in title)
+                    or ('ex-26' in title and 'modificaci' in title)
+                    or ('criterio de gestión' in title and '191' in title)
+                    or 'preguntas' in title and 'regularizaci' in title
                     or 'preguntas' in url and url.endswith('.pdf')
                     or 'preguntas' in url and '.pdf/' in url
                 ))
