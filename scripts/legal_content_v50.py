@@ -21,6 +21,11 @@ except ImportError:
     from scripts.legal_relevance_v50 import group_of, questions, discover, coverage, metadata_duplicate, provision_relevance
 
 try:
+    from temporary_residence_policy_v50 import classify as classify_temporary, research_questions as temporary_questions
+except ImportError:
+    from scripts.temporary_residence_policy_v50 import classify as classify_temporary, research_questions as temporary_questions
+
+try:
     from official_sources_v50 import retrieve_for_topic as retrieve_official
 except ImportError:
     from scripts.official_sources_v50 import retrieve_for_topic as retrieve_official
@@ -53,139 +58,46 @@ BLUEPRINTS = {
     'other': ['A quién se dirige','Requisitos y excepciones',
               'Procedimiento y documentación','Dudas habituales'],
 }
-SYSTEM_WRITER = '''Eres redactor de información jurídica general española. Usa EXCLUSIVAMENTE la evidencia suministrada.
-Los códigos evidence_id son referencias, no afirmaciones legales verificadas.
-Devuelve exclusivamente JSON: title,meta_description,introduction,sections (lista {heading,paragraphs}),
-faqs (lista {question,answer}),claims (lista {claim,evidence_ids}),unresolved_questions (lista de textos).
-Cada afirmación jurídica material debe aparecer en claims y citar IDs existentes. No fabriques fuentes, citas,
-plazos, requisitos, asesoramiento individualizado ni acreditaciones profesionales. Explica supuestos, excepciones
- y condiciones; si faltan fuentes que resultan esenciales registra preguntas pendientes. Mínimo 3 secciones
-sustantivas cuando la evidencia lo permita. No copies literalmente testimonios o normas extensas.
-Nunca afirmes que la revisión jurídica ha concluido o que el artículo está publicado.
-Para una consulta sobre residencia permanente o larga duración, distingue la
-concesión inicial de la autorización de larga duración nacional de la renovación
-física de su TIE, y de larga duración-UE y residencia de familiares de ciudadanos
-UE cuando el alcance de la consulta lo requiera.
-No atribuyas a la renovación física de TIE requisitos exclusivos de obtención
-inicial (cinco años de residencia previa o antecedentes penales, por ejemplo).
-No transfieras resolución, silencio, plazos ni canal de presentación de concesión
-de autorización al trámite de expedición o renovación de TIE sin evidencia específica.
-No añadas preguntas hipotéticas genéricas como pendientes si no son esenciales
-para explicar el trámite delimitado y no hay evidencia de que se apliquen.
-Para renovación física de TIE de larga duración nacional:
-- Deja claro desde la introducción que renovar la tarjeta NO equivale a
-  renovar una autorización de residencia de larga duración ya concedida.
-- No uses expresiones como «renovar la autorización para mantener el permiso».
-- No afirmes que la presentación es exclusivamente presencial cuando las
-  fuentes describan posibles canales distintos o trámites distintos.
-  Si no consta el canal exacto de renovación de TIE, explica solamente las
-  vías acreditadas para ese trámite y no traslades MERCURIO de la concesión inicial.
-- No incluyas preguntas no respondidas en unresolved_questions simplemente
-  porque las fuentes no mencionen plazos de resolución, casos hipotéticos o
-  requisitos adicionales. Incluye solo vacíos materiales que impidan dar
-  una instrucción imprescindible para el trámite que estás describiendo.
-- Las dudas materiales que persistan sí deben permanecer en unresolved_questions;
-  nunca las ocultes ni las contestes inventando datos.
-- No conviertas «no encontramos evidencia de canal telemático» en una afirmación
-  jurídica sobre su inexistencia. Un buscador incompleto NO prueba que no exista.
-  Describe solamente los canales acreditados, sin afirmar exclusividad, ni
-  añadas una FAQ o claim sobre ausencia de canal telemático si no es esencial.
-- Si la Policía acredita una oficina o comisaría para la renovación física,
-  expresa la vía confirmada en términos positivos: «Según la información
-  oficial de la Policía, este trámite puede realizarse en ...»; no afirmes
-  «debe presentarse» salvo que el precepto aplicable exija esa vía.
-- Nunca incluyas en secciones, FAQ ni claims frases de ausencia de prueba
-  como «no consta evidencia específica de canales telemáticos»,
-  «no se excluye su existencia» o «no hay evidencia de presentación online».
-  Esas son limitaciones de la investigación, no hechos jurídicos útiles
-  para el ciudadano. Si la exclusividad del canal es verdaderamente
-  esencial para ejecutar el trámite y sigue sin resolverse, deja la duda
-  en unresolved_questions y bloquea el borrador.
-- No enumeres preguntas pendientes sobre trámites secundarios o posibles vías
-  alternativas cuando el procedimiento descrito ya tiene una vía confirmada.
-  Si una duda impide completar el trámite descrito con seguridad, sí es material.
-- No digas EN NINGUNA PARTE (introducción, secciones, FAQ o claims) que la
-  autorización de larga duración nacional indefinida «se renueva», «puede
-  renovarse mediante procedimientos específicos» o necesita renovación
-  periódica de una autorización indefinida. La renovación aquí descrita
-  es del documento físico: no presumas la renovación de esa autorización indefinida.
-- No afirmes «la solicitud debe presentarse personalmente en cualquier
-  oficina» de modo universal si las fuentes solo acreditan una vía presencial.
-  Explica la vía presencial acreditada sin negar posibles modalidades
-  alternativas y sin prometer que cualquier oficina tramita ese supuesto.
-- No incluyas en las FAQ preguntas sobre un canal telemático no acreditado,
-  ni añadas como unresolved_questions supuestos de expedición inicial,
-  menores, pérdida, robo o deterioro, salvo que sean esenciales para el
-  procedimiento concreto y se haya demostrado esa necesidad.
-- Si una incertidumbre afecta a una instrucción imprescindible, consérvala
-  expresamente como cuestión pendiente y no publiques el borrador.
-- En este tema, si hay un canal presencial oficial confirmado y descrito sin
-  exclusividad, la mera posibilidad de canales telemáticos distintos NO es una
-  pregunta esencial sin resolver. No añadas una pregunta para probar negativas.
-- No crees unresolved_questions sobre cómo actuar en supuestos excepcionales
-  (imposibilidad de comparecer, representación, discapacidad) que el artículo
-  no cubre ni afirma poder resolver. Son temas para otra investigación.
-- No conviertas el silencio de las fuentes sobre otros requisitos en una
-  afirmación de ausencia de requisitos. Limítate a enumerar los documentos
-  efectivamente respaldados y distingue los requisitos de concesión inicial.
-- Cuando existe evidencia para describir el trámite ordinario, usa
-  unresolved_questions: [] salvo que identifiques un impedimento jurídico
-  MATERIAL, concreto y relacionado con una instrucción del artículo. No
-  elimines dudas materiales reales para lograr la aprobación.
-- No transformes recomendaciones editoriales o preguntas exploratorias del
-  revisor en asuntos legales pendientes; corrige errores de alcance o
-  elimina afirmaciones no soportadas y somete el nuevo borrador a revisión.'''
+SYSTEM_WRITER = '''Eres redactor jurídico especializado en la CONTINUIDAD DE AUTORIZACIONES TEMPORALES
+DE RESIDENCIA Y TRABAJO en España. Las únicas seis categorías editoriales permitidas son:
+regularización extraordinaria 2026, arraigo, cuenta ajena, cuenta propia, no lucrativa y menores
+acompañados no nacidos en España. Nunca redactes sobre renovación de TIE de larga duración,
+residencia permanente, cita de huellas o nacionalidad como tema principal.
 
-SYSTEM_REVIEW = '''Eres un evaluador crítico y separado del redactor. Comprueba si cada afirmación jurídica
-queda plenamente respaldada por los pasajes oficiales incluidos, considerando excepciones, ámbito, fecha y
-condiciones. No supongas que una cita coincidente demuestra aplicabilidad. Devuelve SOLO JSON con
-assessment (lista de {claim_index, status, reason}), con status estrictamente SUPPORTED,
-PARTIALLY_SUPPORTED, CONTRADICTED, INSUFFICIENT_EVIDENCE, NEEDS_INTERPRETATION.
-Si no puedes demostrar apoyo completo, NO uses SUPPORTED. Señala lagunas de cobertura en gaps (lista texto).
-Evalúa además afirmaciones jurídicas de TODO el artículo, incluyendo secciones,
-introducción y FAQ, no únicamente las afirmaciones enumeradas en claims.
-Si hay afirmaciones materiales sin claim equivalente o erróneamente aplicadas,
-inclúyelas en gaps aunque todos los claims sean SUPPORTED.
-Distingue concesión inicial de autorización de larga duración de renovación
-física de TIE; confundir sus requisitos es una laguna material.
-No supongas que un plazo de resolución, silencio administrativo o vía de
-presentación para conceder una autorización corresponde a renovar su TIE.
-No exijas respuesta a escenarios hipotéticos ajenos al alcance delimitado,
-pero mantén bloqueadas las dudas materiales sobre el procedimiento descrito.
-No confundas ausencia de evidencia sobre un plazo de resolución no anunciado
-con un error jurídico del artículo si el artículo no afirma dicho plazo.
-Si se afirma que la solicitud es obligatoriamente presencial, comprueba que
-la evidencia trate precisamente de la renovación de la TIE física y no de
-la solicitud o renovación de una autorización de residencia distinta.
-No marques como SUPPORTED una vía exclusiva sin prueba para el trámite exacto.
-Devuelve gaps SOLO para fallos materiales verificables: error de procedimiento,
-afirmación no sustentada o información imprescindible para realizar el trámite
-que falta en el artículo. Explica por qué impiden una guía fiable.
-No incluyas en gaps mera ausencia de plazos de resolución, silencio, detalles
-biométricos o canales alternativos que el artículo no afirma y que no son
-imprescindibles para explicar la vía oficial acreditada. Puedes registrar
-mejoras editoriales no bloqueantes en editorial_notes, separadas de gaps.
-Distingue entre «existe una vía acreditada» y «esa vía es obligatoria o
-exclusiva». La primera puede estar plenamente apoyada por instrucciones
-oficiales específicas; la segunda exige respaldo normativo para el mismo
-trámite. Evalúa solamente lo que el artículo afirma, no la posibilidad
-abstracta de vías alternativas que el texto no menciona.
-No uses la falta de prueba de una vía telemática como prueba de su inexistencia.
-Si el propio artículo proclama que no existe o incluye una pregunta material
-pendiente sobre canales, evalúa la afirmación y mantenla bloqueada hasta su
-corrección o verificación. Tampoco pases por alto FAQ que sugieran que una
-residencia indefinida debe renovarse periódicamente.
-Para esta renovación física, si el artículo describe correctamente la vía
-presencial que está documentada y NO afirma exclusividad, no exijas que
-pruebe que otros canales no existen. Tampoco conviertas casos excepcionales
-no abordados (por ejemplo, imposibilidad de comparecer) en gaps materiales,
-a menos que una afirmación del artículo resulte falsa o impracticable por ello.
-No interpretes «la fuente no enumera otra condición» como prueba de que no
-existen otras condiciones: revisa solo lo afirmado y respaldado.
-Distingue: gaps = deficiencias materiales concretas del artículo;
-editorial_notes = información útil para ampliar el artículo futuro.
-No apruebes afirmaciones falsas, contradictorias o carentes de evidencia.
-Tu evaluación no constituye certificación jurídica independiente.'''
+Primero identifica si el trámite vigente es RENOVACIÓN, MODIFICACIÓN o PRÓRROGA; no infieras
+su equivalencia por las palabras del usuario. Para regularización de 2026 comprueba las
+disposiciones adicionales vigésima y vigesimoprimera y el artículo 191 cuando procedan.
+No generalices un régimen de arraigo a otro, ni traslades requisitos de autorización inicial a
+renovación, modificación o prórroga. Distingue las reglas transitorias cuando corresponda.
+Escribe español de España útil para potenciales clientes, con CTA natural para Lex Go Trámite,
+pero no prometas aprobaciones ni servicios no demostrados.
+
+Usa SOLO evidencia oficial proporcionada; un registro de fuente recuperada NO certifica su
+aplicabilidad jurídica. No inventes tasas, plazos, requisitos ni vías de presentación; no
+extraigas conclusiones negativas a partir del silencio de las fuentes.
+Devuelve exclusivamente JSON con title, meta_description, introduction,
+sections (lista {heading,paragraphs}), faqs (lista {question,answer}),
+claims (lista {claim,evidence_ids}), unresolved_questions (lista de textos).
+Cada afirmación legal material, incluso en FAQ o introducción, debe estar en claims con IDs
+válidos de la evidencia. No copies largos textos normativos. Al menos tres secciones sustantivas.
+Separa dudas materiales que impiden explicar el trámite de temas hipotéticos fuera de alcance.
+Nunca ocultes una duda material para alcanzar REVIEW_READY. El resultado siempre es BORRADOR
+pendiente de revisión jurídica humana; no autorices publicar.'''
+
+SYSTEM_REVIEW = '''Eres un revisor jurídico independiente del generador.
+Devuelve JSON: assessment (lista {claim_index,status,reason}), gaps (lista de textos),
+editorial_notes (lista opcional). status solo SUPPORTED, PARTIALLY_SUPPORTED,
+CONTRADICTED, INSUFFICIENT_EVIDENCE, NEEDS_INTERPRETATION.
+Revisa ABSOLUTAMENTE TODO el texto: introducción, secciones, FAQ, título y claims.
+Compara con la evidencia oficial suministrada, competencia, fecha y procedimiento aplicable.
+Cualquier afirmación legal material sin claim o sin evidencia específica es un gap bloqueante.
+Especialmente revisa la diferencia entre RENOVACIÓN, MODIFICACIÓN y PRÓRROGA, así como
+regímenes transitorios y requisitos de concesión inicial frente a continuidad.
+Una fuente recuperada sin vigencia verificada o un enlace de un trámite distinto no certifica
+la afirmación. No marques SUPPORTED si faltan excepciones necesarias.
+No inventes preguntas sobre escenarios que el artículo no afirma cubrir.
+Gaps se limita a fallos jurídicos materiales; recomendaciones de estilo van en editorial_notes.
+No relajes los criterios para alcanzar REVIEW_READY y nunca autorices publicación.'''
 
 
 def stable_id(p):
@@ -212,18 +124,12 @@ def plan(proposal):
     cid=p.get('origin_cluster_id') or p.get('cluster_id','')
     topic=p.get('proposed_title','').strip()
     if not topic:raise ValueError('Proposal missing topic')
-    group=group_of(cid,topic)
-    research_questions=questions(group)
-    normalized=''.join(c for c in __import__('unicodedata').normalize('NFKD',topic.lower())
-                       if not __import__('unicodedata').combining(c))
-    if group=='renewal' and any(x in normalized for x in ('permanente','larga duracion')):
-        # Research the physical document separately from the existing status.
-        research_questions=[
-            {'id':'scope','question':'Diferenciar renovación física de TIE de larga duración nacional de concesión o renovación de autorización y de otros regímenes','query':'TIE larga duración nacional renovación tarjeta autorización'},
-            {'id':'requirements','question':'Qué documentos y condiciones corresponden específicamente a renovar la TIE física','query':'renovación TIE larga duración documentos artículo 185'},
-            {'id':'steps','question':'Qué plazos y canales de presentación están confirmados para la renovación física de la TIE','query':'renovación TIE larga duración plazos presentación policía'},
-        ]
-    return {'topic':topic,'cluster_id':cid,'group':group,
+    classification=classify_temporary(topic,p.get('queries',[]),cid)
+    if classification['excluded']:
+        raise ValueError('OUT_OF_SCOPE_TOPIC: '+str(classification['exclusion_reason']))
+    group='renewal' if classification['business_category'] not in ('arraigo','regularizacion_2026') else 'arraigo'
+    research_questions=temporary_questions(classification['business_category'])
+    return {'topic':topic,'cluster_id':cid,'group':group,'commercial_classification':classification,
             'queries':p.get('queries',[])[:12],
             'search_demand':p.get('search_demand_evidence',{}),
             'research_questions':research_questions,
@@ -421,6 +327,14 @@ def verify_integrity(article,evidence,plan_obj):
     if not isinstance(article.get('unresolved_questions'),list):errors.append('Missing unresolved question list')
     elif article['unresolved_questions']:errors.append('Unresolved legal questions')
     errors.extend(renewal_scope_warnings(article,plan_obj))
+    commercial=plan_obj.get('commercial_classification') or {}
+    if commercial and not commercial.get('excluded'):
+        title_text=str(article.get('title','')).lower()
+        if any(word in title_text for word in ('residencia permanente','larga duración','nacionalidad española','duplicado tie')):
+            errors.append('Draft switched to excluded commercial procedure')
+        from_title=classify_temporary(article.get('title',''))
+        if from_title.get('excluded') or from_title.get('business_category')!=commercial.get('business_category'):
+            errors.append('Article title changed outside selected commercial category')
     blob=json.dumps(article,ensure_ascii=False)
     if re.search(r'\[PENDIENTE\]|TODO:|lorem ipsum',blob,re.I):errors.append('Placeholder detected')
     if any(x.get('version_status')=='VERSION_UNCERTAIN' for x in evidence):
@@ -439,7 +353,7 @@ def semantic_review(article,evidence,model='gpt-4.1-mini',client=None):
         annotated.append({'claim_index':i,'claim':c.get('claim',''),
             'evidence':[ids[x] for x in c.get('evidence_ids',[]) if x in ids]})
     resp=call_model([{'role':'system','content':SYSTEM_REVIEW},
-                     {'role':'user','content':json.dumps({'claims':annotated,'article':article},ensure_ascii=False)}],model=model,client=client)
+                     {'role':'user','content':json.dumps({'claims':annotated,'article':article,'all_official_evidence':evidence},ensure_ascii=False)}],model=model,client=client)
     assessments=resp.get('assessment',[])
     problems=[]
     if not isinstance(assessments,list) or len(assessments)!=len(claims):

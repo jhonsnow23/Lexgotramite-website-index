@@ -24,6 +24,11 @@ except ImportError:
     from scripts import seo_v42 as baseline
     from scripts import legal_content_v50 as generator
 
+try:
+    from temporary_residence_policy_v50 import classify, SEEDS
+except ImportError:
+    from scripts.temporary_residence_policy_v50 import classify, SEEDS
+
 VERSION='5.0.0'
 ARTIFACT='lexgo-v50-results'
 PUBLISHED={'PUBLISHED','PUBLISHED_VERIFIED','SUBSTANTIVE_UPDATE_PUBLISHED'}
@@ -159,13 +164,16 @@ def choose(report,catalog,website,history,today,*,retry_failed=False):
             row['title_adjusted_to_query']=True
         else:
             row['title_adjusted_to_query']=False
-        row['research_registry_available'],candidate=supports_research(row)
+        row['commercial_classification']=classify(row['proposed_title'], [row.get('primary_query','')]+row.get('supporting_queries',[]), row['cluster_id'])
+        row['research_registry_available'],candidate=(supports_research(row) if not row['commercial_classification']['excluded'] else (False,None))
         duplicate,dup_reason,proposed_path=classify_duplicate(row,inventory)
         row['duplicate_metadata_detected']=duplicate
         row['duplicate_metadata_reason']=dup_reason
         row['proposed_new_path']=proposed_path
         block=topic_blocker(row,history,today,ignore_attempt_backoff=retry_failed)
-        if block:
+        if row['commercial_classification']['excluded']:
+            row['recommended_action']='SKIP';row['selection_reason']=row['commercial_classification']['exclusion_reason']
+        elif block:
             row['recommended_action']='MONITOR';row['selection_reason']=block
         elif duplicate:
             row['recommended_action']='SKIP';row['selection_reason']=dup_reason+' (metadata-only; no blog body read)'
@@ -181,7 +189,18 @@ def choose(report,catalog,website,history,today,*,retry_failed=False):
                 # Only safe create-new proposal reaches the generator. Associated
                 # URLs remain in diagnostic rows, never as rewrite instructions.
                 proposal['proposals'][0]['proposed_path']=proposed_path
+                proposal['proposals'][0]['commercial_classification']=row['commercial_classification']
         result.append(row)
+    # Rank business priority first, GSC score second. Never choose excluded demand.
+    eligible=[x for x in result if x['recommended_action']=='CREATE_NEW_ARTICLE']
+    eligible.sort(key=lambda x:(x['commercial_classification']['priority'],-x['score']))
+    if eligible:
+        winner=eligible[0]
+        _,proposal=supports_research(winner)
+        proposal['proposals'][0]['proposed_path']=winner['proposed_new_path']
+        proposal['proposals'][0]['commercial_classification']=winner['commercial_classification']
+    else:
+        winner=None;proposal=None
     return result,winner,proposal
 
 
@@ -241,6 +260,26 @@ def select(args):
         if args.require_history and origin.startswith('Local mode'):
             raise RuntimeError('Required GitHub history credential missing')
     rows,chosen,proposal=choose(report,catalog,args.website_root,history,today,retry_failed=args.retry_failed)
+    # A source-backed editorial seed may be tested without claiming GSC demand.
+    # It remains a draft, and all evidence/validation gates still apply.
+    if chosen is None:
+        inventory=metadata_inventory(args.website_root)
+        for key,seed in SEEDS.items():
+            item={'cluster_id':'seed_'+key,'proposed_title':seed['proposed_title'],
+                  'primary_query':seed['primary_query'],'supporting_queries':[seed['primary_query']],
+                  'impressions_28d':0,'impressions_90d':0,'existing_pages':[],
+                  'score':0,'score_breakdown':{},'search_demand_verified':False}
+            policy=classify(item['proposed_title'],[item['primary_query']],item['cluster_id'])
+            duplicate,_,path=classify_duplicate(item,inventory)
+            if duplicate or topic_blocker(item,history,today,ignore_attempt_backoff=args.retry_failed):continue
+            available,candidate=supports_research(item)
+            if not available:continue
+            item.update(commercial_classification=policy,recommended_action='CREATE_NEW_ARTICLE',
+                selection_reason='Editorial seed; NO verified Search Console demand',
+                proposed_new_path=path,research_registry_available=True)
+            candidate['proposals'][0].update(commercial_classification=policy,proposed_path=path)
+            rows.append(item);chosen=item;proposal=candidate;break
+
     save(out/'ranked_opportunities.json',{'version':VERSION,'metadata':report['metadata'],'opportunities':rows})
     # Keep history unchanged until the candidate finishes: a selection is not an outcome.
     save(out/'history.json',{'version':VERSION,'events':history[-200:]})

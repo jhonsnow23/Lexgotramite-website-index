@@ -259,7 +259,10 @@ def discover(group,topic,*,index_fetch=api_get,max_per_source=12,full_text_probe
     """Parse actual BOE indexes and rank by subject, not article ordinal position."""
     found=[];diagnostics=[]
     qs=questions(group)
-    for doc in SOURCE_CANDIDATES.get(group,[]):
+    docs=list(SOURCE_CANDIDATES.get(group,[]))
+    if group=='arraigo' and 'regularizacion' in normalize(topic) and ('2026' in normalize(topic) or 'extraordinaria' in normalize(topic)):
+        docs.append('BOE-A-2026-8284')
+    for doc in docs:
         endpoint=BASE+doc+'/texto/indice'
         report={'document':doc,'index_url':endpoint,'index_nodes':0,'index_articles':0,
                 'qualified_candidates':0,'candidates_selected':0,'failure_code':None,

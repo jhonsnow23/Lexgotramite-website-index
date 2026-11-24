@@ -36,6 +36,34 @@ SOURCES = {
   ('justicia','Nacionalidad por residencia',
    'https://sede.mjusticia.gob.es/tramites/nacionalidad-espanola'),
  ],
+ 'regularizacion_2026': [
+  ('migraciones','Migraciones: regularización extraordinaria',
+   'https://www.inclusion.gob.es/web/migraciones/residencia'),
+ ],
+ 'arraigo_temporal': [
+  ('migraciones','Hoja 29 — arraigo sociolaboral',
+   'https://www.inclusion.gob.es/es/web/migraciones/w/29.-autorizacion-de-residencia-temporal-por-circunstancias-excepcionales.-arraigo-sociolaboral.'),
+  ('migraciones','Hoja 28 — arraigo social',
+   'https://www.inclusion.gob.es/es/web/migraciones/w/autorizacion-residencia-temporal-por-circunstancias-excepcionales.-arraigo-social'),
+ ],
+ 'cuenta_ajena': [
+  ('migraciones','Migraciones: procedimientos de trabajo',
+   'https://www.inclusion.gob.es/web/migraciones/w/renovacion-de-la-autorizacion-de-residencia-temporal-y-trabajo-por-cuenta-ajena'),
+  ('administraciones','MERCURIO',
+   'https://sede.administracionespublicas.gob.es/pagina/index/directorio/mercurio2/language/es_ES'),
+ ],
+ 'cuenta_propia': [
+  ('migraciones','Hoja 15 — renovación por cuenta propia',
+   'https://www.inclusion.gob.es/web/migraciones/w/15.-renovacion-de-la-autorizacion-de-residencia-temporal-y-trabajo-por-cuenta-propia'),
+ ],
+ 'no_lucrativa': [
+  ('migraciones','Hoja 7 — renovación no lucrativa',
+   'https://www.inclusion.gob.es/web/migraciones/w/renovacion-de-la-autorizacion-de-residencia-temporal-no-lucrativa'),
+ ],
+ 'menores_no_nacidos': [
+  ('migraciones','Hoja 42 — menores acompañados no nacidos en España',
+   'https://www.inclusion.gob.es/web/migraciones/residencia'),
+ ],
  'electronic_filing': [
   ('administraciones','MERCURIO',
    'https://sede.administracionespublicas.gob.es/pagina/index/directorio/mercurio2/language/es_ES'),
@@ -45,6 +73,14 @@ SOURCES = {
 
 def subject(topic, group):
     t = str(topic).lower()
+    try:
+        from temporary_residence_policy_v50 import classify
+    except ImportError:
+        from scripts.temporary_residence_policy_v50 import classify
+    commercial=classify(topic)
+    if not commercial['excluded']:
+        key=commercial['business_category']
+        return 'arraigo_temporal' if key=='arraigo' else key
     if group == 'nationality': return 'nationality'
     if 'larga duraci' in t and (bool(re.search(r'\bue\b',t)) or 'unión europea' in t): return 'long_term_eu'
     if group in ('renewal','residence') and ('permanente' in t or 'larga duraci' in t):
