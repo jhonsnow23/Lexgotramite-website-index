@@ -38,6 +38,7 @@ jobs:
           # six-category commercial-scope tests below; do not bypass safety gates.
           python -m unittest discover -s tests -p 'test_official_sources_v50.py' -v
           python -m unittest discover -s tests -p 'test_v50_temporary_commercial_focus.py' -v
+          python -m unittest discover -s tests -p 'test_v50_rd316_boe_route.py' -v
       - name: Refresh REAL Google Search Console data
         env:
           GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
