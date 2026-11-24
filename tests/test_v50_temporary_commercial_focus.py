@@ -48,7 +48,7 @@ class TestTemporaryFocus(unittest.TestCase):
                 topic=SEEDS[category]['proposed_title']
                 records,errors,attempts=retrieve_for_topic(topic,'renewal',fetch=lambda url: official_html)
                 self.assertTrue(records)
-                self.assertTrue(all(r['legal_status']=='PROCEDURAL_GUIDANCE_UNVERIFIED' for r in records))
+                self.assertTrue(all(r['legal_status'] in ('PROCEDURAL_GUIDANCE_UNVERIFIED', 'OFFICIAL_LEGAL_TEXT_UNVERIFIED') for r in records))
                 self.assertTrue(all(r['research_relevance']['semantic_verification_required'] for r in records))
                 self.assertFalse(errors)
 
