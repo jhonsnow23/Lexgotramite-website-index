@@ -36,6 +36,11 @@ except ImportError:
     from scripts.legal_applicability_v50 import build_dossier, question_matrix, scope_conflicts, audit_declared_claims
 
 try:
+    from legal_claim_graph_v50 import split_rd316_evidence, build_source_claims, validate_graph, operative_mechanisms
+except ImportError:
+    from scripts.legal_claim_graph_v50 import split_rd316_evidence, build_source_claims, validate_graph, operative_mechanisms
+
+try:
     from boe_universal_v45 import retrieve, BOEError
 except ImportError:
     from scripts.boe_universal_v45 import retrieve, BOEError
@@ -630,6 +635,7 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
         # Preserve the raw crawl in diagnostics, but do not offer unrelated
         # renewal provisions as evidence for the long-term TIE procedure.
         evidence, excluded_for_topic = focused_evidence_for_topic(research_plan, evidence)
+        evidence = split_rd316_evidence(evidence)
         save('evidence_focus.json', {'selected_evidence_ids': [e['evidence_id'] for e in evidence],
              'excluded': excluded_for_topic, 'note': 'Selection does not certify legal applicability'})
         save('evidence.json',evidence);save('retrieval_errors.json',failed)
@@ -642,17 +648,27 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
             status['failure_codes']=[x.get('category') for x in blocking_errors or failed]
             return 2
         dossier=build_dossier(research_plan,evidence)
-        save('legal_applicability.json',dossier)
         covered,ready=research_readiness(research_plan,evidence,model=model,client=client,dossier=dossier)
+        graph=build_source_claims(evidence,dossier,covered)
+        graph['distinct_legal_mechanisms']=operative_mechanisms(evidence)
+        graph_errors=validate_graph(graph,dossier,evidence)
+        save('legal_applicability.json',dossier)
+        save('source_claim_graph.json',graph)
         matrix=question_matrix(research_plan,evidence,covered,dossier)
+        matrix['source_claims']=graph['source_claims']
+        matrix['graph_integrity_errors']=graph_errors
         save('claim_evidence_matrix.json',matrix)
+        if graph_errors:
+            status['result']='BLOCKED_APPLICABILITY'
+            status['errors']=graph_errors
+            return 2
         if scope_conflicts(matrix):
             ready=False
         save('research_coverage.json',{'questions':covered,'ready':ready,
              'applicability_conflicts':scope_conflicts(matrix),
              'publication_allowed':False})
         if not ready:
-            status['result']='BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE'
+            status['result']='BLOCKED_INSUFFICIENT_EVIDENCE'
             status['errors']=['Official provisions do not answer every essential research question']
             return 2
         audit=[];draft=None
