@@ -61,7 +61,23 @@ def split_rd316_evidence(evidence):
 
 def _sentences(text):
     # Source-exact anchored excerpts, not synthetic legal paraphrases.
-    return [m.group().strip() for m in re.finditer(r'[^.!?\n]{40,450}[.!?](?=\s|$)', text or '')]
+    # Avoid mid-sentence matches produced by the former 450-character regex cap.
+    candidates = re.split(r'(?<=[.!?])\s+', text or '')
+    return [s.strip() for s in candidates if 40 <= len(s.strip()) <= 1600
+            and (s.strip()[0].isupper() or s.strip()[0].isdigit())
+            and s.strip()[-1] in '.!?']
+
+
+def _passage_routes(passage, proposed):
+    """Descriptive classification only, never an eligibility decision."""
+    low = passage.casefold()
+    if 'excepcionalmente' in low and ('prorrog' in low or 'prórrog' in low):
+        return [r for r in proposed if r == 'PRORROGA_EXCEPCIONAL']
+    if 'prorrogará la validez' in low or 'prorrogara la validez' in low:
+        return [r for r in proposed if r == 'MODIFICACION_ART_191']
+    if 'modificaci' in low and 'prórroga excepcional' not in low:
+        return [r for r in proposed if r == 'MODIFICACION_ART_191']
+    return proposed if len(proposed) == 1 else []
 
 
 def build_source_claims(evidence, dossier, questions):
@@ -95,7 +111,7 @@ def build_source_claims(evidence, dossier, questions):
             cid='CL_'+sha256(('|'.join(key)).encode()).hexdigest()[:20].upper()
             claim_rows.append({'claim_id':cid,'claim_text':match,'claim_kind':'EXACT_SOURCE_EXCERPT',
                 'question_id':qid,'evidence_ids':[eid],
-                'procedure_routes':role['destination_authorization'],
+                'procedure_routes':_passage_routes(match, role['destination_authorization']),
                 'verification_status':'TEXTUAL_PROVENANCE_VERIFIED_LEGAL_APPLICABILITY_PENDING',
                 'support_type':'UNVERIFIED','applicability_conditions':role['applicability_conditions'],
                 'source_passage':{'evidence_id':eid,'exact_text':match,
