@@ -260,8 +260,9 @@ def discover(group,topic,*,index_fetch=api_get,max_per_source=12,full_text_probe
     found=[];diagnostics=[]
     qs=questions(group)
     docs=list(SOURCE_CANDIDATES.get(group,[]))
-    if group=='arraigo' and 'regularizacion' in normalize(topic) and ('2026' in normalize(topic) or 'extraordinaria' in normalize(topic)):
-        docs.append('BOE-A-2026-8284')
+    # RD 316/2026 is an amending decree obtained from the official BOE
+    # publication by official_sources_v50, not from the consolidated index API.
+    # Never append BOE-A-2026-8284 here: that index endpoint returns HTTP 404.
     for doc in docs:
         endpoint=BASE+doc+'/texto/indice'
         report={'document':doc,'index_url':endpoint,'index_nodes':0,'index_articles':0,
