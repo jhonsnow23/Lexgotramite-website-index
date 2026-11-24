@@ -503,9 +503,13 @@ def focused_evidence_for_topic(research_plan, evidence):
                     ('55' in title and 'modificaci' in title)
                     or ('ex-26' in title and 'modificaci' in title)
                     or ('criterio de gestión' in title and '191' in title)
-                    or 'preguntas' in title and 'regularizaci' in title
-                    or 'preguntas' in url and url.endswith('.pdf')
-                    or 'preguntas' in url and '.pdf/' in url
+                    # The 100-question technical FAQ includes similarly numbered
+                    # questions about INITIAL eligibility, not post-grant continuity.
+                    # Its excerpts must not be offered as proof of modification.
+                    or ('preguntas' in title and 'regularizaci' in title
+                        and '100 preguntas' not in title and '100%20preguntas' not in url)
+                    or ('preguntas' in url and '.pdf' in url
+                        and '100%20preguntas' not in url)
                 ))
             )
             if include:

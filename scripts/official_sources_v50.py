@@ -307,6 +307,38 @@ def excerpt_for_procedure_guidance(body, limit=18000):
         remaining -= len(section)
     return '\n[...]\n'.join(excerpts)[:limit]
 
+def excerpt_for_article_191_criterion(body, limit=18000):
+    """Prefer article 191.2/191.3 modification guidance over unrelated 191.8.
+
+    Source-specific retrieval, NOT legal applicability certification. Excerpts
+    retain document text unchanged; absence of a matching passage is reported
+    through the normal evidence validation process.
+    """
+    patterns = (
+        r'(?:art[ií]culo\s+)?191\s*\.\s*2\b',
+        r'(?:art[ií]culo\s+)?191\s*\.\s*3\b',
+        r'menos de un a[nñ]o',
+        r'al menos un a[nñ]o',
+    )
+    windows = []
+    for pattern in patterns:
+        for match in list(re.finditer(pattern, body, flags=re.I))[:12]:
+            lo, hi = max(0, match.start()-500), min(len(body), match.end()+1700)
+            if not any(lo >= a and hi <= b for a,b in windows):
+                windows.append((lo,hi))
+    if not windows:
+        return excerpt_for_procedure_guidance(body, limit=limit)
+    selected, used = [], 0
+    for lo,hi in sorted(windows):
+        part = body[lo:hi][:max(0, limit-used)]
+        if part:
+            selected.append(part)
+            used += len(part)
+        if used >= limit:
+            break
+    return '\n[...]\n'.join(selected)[:limit]
+
+
 def is_certificate_verification_error(error):
     """Distinguish broken certificate chains from ordinary HTTP/network failures."""
     reason = error.reason if isinstance(error, URLError) else error
@@ -362,7 +394,9 @@ def retrieve_one(authority,title,url,*,fetch=None):
             raise ValueError('Expected PDF bytes from official document')
         raw_pdf_text=extract_pdf_text(raw)
         body=normalize_letter_spaced_pdf_text(raw_pdf_text)
-        excerpt=excerpt_for_procedure_guidance(body)
+        excerpt=(excerpt_for_article_191_criterion(body)
+                 if 'criterio de gestión' in title.lower() and '191' in title
+                 else excerpt_for_procedure_guidance(body))
     else:
         if not isinstance(raw,str):raise ValueError('Fetched content is not decoded HTML')
         parser=OfficialHTML();parser.feed(raw)
