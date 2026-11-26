@@ -17,7 +17,7 @@ class Run37Tests(unittest.TestCase):
                            'reason':'General overview can retain evidenced routes without deciding this one',
                            'retained_answer':'Explain evidenced conditional routes only',
                            'limitation':'Do not conclude impossibility or eligibility for exceptional extension',
-                           'evidence_ids':['R001']}
+                           'evidence_ids':['R001'], 'supporting_passages':[{'evidence_id':'R001','quote':self.rows[0]['text'][:120]}]}
 
     def run_case(self, assessments):
         with patch.object(legal,'call_model',side_effect=[self.judgment,{'assessments':assessments}]) as mock:

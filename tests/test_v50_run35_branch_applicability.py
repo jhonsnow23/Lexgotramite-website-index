@@ -115,7 +115,8 @@ class Run35BranchTests(unittest.TestCase):
         def assessment(kinds):
             return {'assessments': [{'index': i, 'classification': kind,
                     'reason': 'Fixture: separability reviewed', 'retained_answer': 'Conditional route',
-                    'limitation': 'No individual conclusion', 'evidence_ids': ['R001']}
+                    'limitation': 'No individual conclusion', 'evidence_ids': ['R001'],
+                    'supporting_passages': [{'evidence_id':'R001','quote':rows[0]['text'][:120]}]}
                     for i, kind in enumerate(kinds)]}
         with patch.object(legal, 'call_model', side_effect=[model_result,
                 assessment(['INDIVIDUAL','VERIFIED_BY_MATRIX']),

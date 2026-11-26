@@ -147,7 +147,7 @@ habilitante; art. 86 en 191.3 cuenta propia bajo esas mismas condiciones; art. 8
 191.4 cuando se lleva al menos un año en España en situación de residencia y el origen no habilitaba a trabajar y no debe imponerse a DA20/DA21. Distingue la
 prolongación de validez durante una modificación de la prórroga excepcional de la autorización.
 Comprueba las limitaciones de research_coverage y el alcance original de la guía.
-Si research_coverage contiene exclusiones editoriales, devuelve además scope_limitations_status: SUPPORTED o BLOCKED.
+Si research_coverage contiene exclusiones editoriales o draft_readiness READY_WITH_DECLARED_LIMITATIONS, devuelve además scope_limitations_status: SUPPORTED o BLOCKED. Revisa también las condiciones individuales, los detalles omitidos y las lagunas supuestamente resueltas mediante evidencia; no basta con que el evaluador previo las haya aceptado.
 Solo SUPPORTED si todas las exclusiones son separables, explícitas y compatibles con el alcance original.
 Una exclusión editorial solo es válida si es separable y se declara expresamente en el texto;
 si impide explicar una condición material, contradice el alcance original o se usa para concluir
@@ -322,10 +322,10 @@ def retrieve_evidence(research_plan,retrieval=retrieve,*,discovery=discover,retu
                  'discovery_exhaustive':all(not r.get('uninspected_index_articles') for r in diagnostics)}
     return evidence,errors
 
-def call_model(messages,*,model='gpt-4.1-mini',client=None):
+def call_model(messages,*,model='gpt-4.1-mini',client=None,response_format=None,diagnostics=None):
     key=os.environ.get('OPENAI_API_KEY')
     if not key and client is None:raise RuntimeError('OPENAI_API_KEY missing')
-    payload={'model':model,'response_format':{'type':'json_object'},'temperature':0.1,
+    payload={'model':model,'response_format':response_format or {'type':'json_object'},'temperature':0.1,
              'messages':messages}
     if client:
         result=client(payload)
@@ -334,7 +334,15 @@ def call_model(messages,*,model='gpt-4.1-mini',client=None):
             data=json.dumps(payload,ensure_ascii=False).encode('utf-8'),method='POST',
             headers={'Authorization':'Bearer '+key,'Content-Type':'application/json'})
         with urllib.request.urlopen(req,timeout=100) as response:result=json.load(response)
-    content=result['choices'][0]['message']['content']
+    choice=result['choices'][0]
+    message=choice['message']
+    content=message.get('content')
+    if diagnostics is not None:
+        diagnostics.update({'finish_reason':choice.get('finish_reason'),
+                            'raw_response':_safe_raw_response(content),
+                            'refusal':bool(message.get('refusal'))})
+    if message.get('refusal') or choice.get('finish_reason') in ('length','content_filter'):
+        raise ValueError('Incomplete or refused model response')
     return json.loads(content) if isinstance(content,str) else content
 
 
@@ -498,7 +506,9 @@ def semantic_review(article,evidence,model='gpt-4.1-mini',client=None,dossier=No
                 problems.append(f'Claim {idx+1}: {entry.get("status","UNKNOWN")}')
         if len(seen)!=len(claims):problems.append('Reviewer omitted claim indices')
     if resp.get('gaps'):problems.append('Reviewer identified coverage gaps')
-    if any(q.get('editorial_exclusions') for q in (research_coverage or [])):
+    if any(q.get('editorial_exclusions') or q.get('draft_readiness') == 'READY_WITH_DECLARED_LIMITATIONS' for q in (research_coverage or [])):
+        if not isinstance(resp.get('gaps'),list):
+            problems.append('Reviewer omitted explicit coverage gap list for limited scope')
         if resp.get('scope_limitations_status') != 'SUPPORTED':
             problems.append('Reviewer did not approve editorial scope limitations')
     return resp,problems
@@ -594,24 +604,67 @@ def focused_evidence_for_topic(research_plan, evidence):
     return selected, excluded
 
 
+def _safe_diagnostic(value):
+    """Redact configured secrets and recognizable credential strings before persistence."""
+    if isinstance(value, dict):
+        return {str(k): ('[REDACTED]' if re.search(r'(?i)api.key|authorization|password|secret|token',str(k)) else _safe_diagnostic(v)) for k,v in value.items()}
+    if isinstance(value, list):
+        return [_safe_diagnostic(v) for v in value]
+    if isinstance(value, str):
+        for key, secret in os.environ.items():
+            if len(secret)>=8 and re.search(r'(?i)key|token|secret|password|credential',key):
+                value=value.replace(secret,'[REDACTED]')
+        return re.sub(r'(?i)(?:bearer\s+[^\s"\\]+|sk-[a-z0-9_-]{12,}|gh[pousr]_[a-z0-9_]{12,})','[REDACTED]',value)
+    return value
+
+
+def _safe_raw_response(content):
+    if not isinstance(content,str):
+        return _safe_diagnostic(content)
+    # Preserve the original response except for credentials. For valid JSON,
+    # redact values under sensitive keys as well as configured secret values.
+    safe=_safe_diagnostic(content)
+    try:
+        parsed=json.loads(safe)
+        cleaned=_safe_diagnostic(parsed)
+        return safe if cleaned==parsed else json.dumps(cleaned,ensure_ascii=False)
+    except (ValueError,TypeError):
+        return re.sub(r'(?i)("(?:api[_-]?key|authorization|password|secret|token)"\s*:\s*)"(?:[^"\\]|\\.)*"',r'\1"[REDACTED]"',safe)
+
+
+def _gap_schema():
+    fields = {'index':{'type':'integer'},
+              'classification':{'type':'string','enum':['MATERIAL','INDIVIDUAL','OPTIONAL_DETAIL','EDITORIAL_EXCLUSION','VERIFIED_BY_MATRIX']},
+              'reason':{'type':'string'},'retained_answer':{'type':'string'},
+              'limitation':{'type':'string'},'evidence_ids':{'type':'array','items':{'type':'string'}},
+              'supporting_passages':{'type':'array','items':{'type':'object','additionalProperties':False,
+                 'required':['evidence_id','quote'],'properties':{'evidence_id':{'type':'string'},'quote':{'type':'string'}}}}}
+    return {'type':'json_schema','json_schema':{'name':'gap_assessments','strict':True,'schema':{
+        'type':'object','additionalProperties':False,'required':['assessments'], 'properties':{
+        'assessments':{'type':'array','items':{'type':'object','additionalProperties':False,
+                                               'required':list(fields),'properties':fields}}}}}}
+
+
 def _general_guidance_missing_fact_classification(question, branch_coverage, *,
                                                   plan, evidence, dossier, model, client):
-    """Second semantic assessment; missing facts remain unresolved, never erased."""
+    """Assess gaps independently; never erase coverage or allow invalid rows."""
     facts = question.get('missing_facts') or []
+    diagnostic = {'question_id':question.get('id'), 'model':model, 'attempted':False, 'missing_facts':list(facts),
+                  'expected_indices':list(range(len(facts))), 'attempts':[], 'rejected':[], 'accepted':[]}
     result = {'individual_case_variables': [], 'non_blocking_unverified_details': [],
               'resolved_by_official_branch_matrix': [], 'editorial_exclusions': [],
-              'blocking_missing_facts': list(facts), 'gap_assessments': []}
+              'blocking_missing_facts': list(facts), 'gap_assessments': [], 'gap_diagnostics':diagnostic}
     if not facts or not branch_coverage.get('ready') or question.get('status') != 'PARTIALLY_ANSWERED':
+        diagnostic['skip_reason'] = 'NO_GAPS' if not facts else ('BRANCH_COVERAGE_NOT_READY' if not branch_coverage.get('ready') else 'QUESTION_NOT_PARTIAL')
         return result
-    # Ask a separate assessment to test separability against the ORIGINAL intent,
-    # not a rewritten research question or lexical match in the missing fact.
     aliases = {f'R{i:03d}': r['evidence_id'] for i, r in enumerate(evidence, 1)}
     compact = [{**r, 'evidence_id': alias} for alias, r in zip(aliases, evidence)]
+    diagnostic['expected_evidence_aliases']=aliases
     prompt = (
         'Independently assess whether each missing fact is essential to the original article intent. '
-        'Return JSON assessments: [{index, classification, reason, retained_answer, evidence_ids, limitation}]. '
+        'Return a JSON object with assessments array: [{index, classification, reason, retained_answer, evidence_ids, limitation, supporting_passages}]. '
         'Classifications: MATERIAL, INDIVIDUAL, OPTIONAL_DETAIL, EDITORIAL_EXCLUSION, VERIFIED_BY_MATRIX. '
-        'Default MATERIAL. Assess the entire gap, not keywords. If any part is material, classify MATERIAL. '
+        'For MATERIAL identify the specific missing rule, affected assertion and why it cannot be omitted in reason; use limitation for the evidence needed. Do not demand hypothetical additional requirements without a concrete missing rule. Default MATERIAL. Assess the entire gap, not keywords. If any part is material, classify MATERIAL. '
         'EDITORIAL_EXCLUSION only if a general guide can still answer its original intent accurately, '
         'including the conditions and interaction of verified routes, without deciding this separable legal question. '
         'A gap that affects whether exceptional extension is available must not be replaced by a finding that modification '
@@ -621,41 +674,106 @@ def _general_guidance_missing_fact_classification(question, branch_coverage, *,
         'route, a material deadline, exception, or essential filing step must remain blocked. '
         'INDIVIDUAL means only facts of a real applicant; OPTIONAL_DETAIL means a separable procedural detail, '
         'not an indispensable filing requirement. VERIFIED_BY_MATRIX requires actual official text resolving the gap. '
+        'For each non-material classification provide supporting_passages [{evidence_id, quote}] with a verbatim passage from every cited record that supports the retained answer. For MATERIAL use an empty array if no supporting passage is available. '
         'For each non-material classification provide a concrete retained_answer supported by exact supplied '
-        'short evidence_ids and a limitation stating what must not be concluded. Never invent citations. '
+        'short evidence_ids and a limitation stating what must not be concluded. The dossier uses canonical IDs; map them to short aliases via evidence_id_aliases. Never invent citations. '
         'Do not rewrite questions or change their coverage status.')
     payload = {'topic': plan['topic'], 'original_questions': plan['research_questions'],
                'question': question, 'missing_facts': list(enumerate(facts)),
-               'evidence': compact, 'legal_applicability_dossier': dossier,
+               'evidence': compact, 'evidence_id_aliases': aliases, 'legal_applicability_dossier': dossier,
                'branch_coverage': branch_coverage}
-    response = call_model([{'role':'system','content':prompt},
-                           {'role':'user','content':json.dumps(payload,ensure_ascii=False)}], model=model,client=client)
-    assessments = response.get('assessments') if isinstance(response, dict) else None
-    if not isinstance(assessments, list) or len(assessments) != len(facts):
+    diagnostic['attempted']=True
+    messages=[{'role':'system','content':prompt},{'role':'user','content':json.dumps(payload,ensure_ascii=False)}]
+    response=None
+    for attempt in range(2):
+        trace={'attempt':attempt+1,'format':'json_schema'}
+        diagnostic['attempts'].append(trace)
+        try:
+            response=call_model(messages,model=model,client=client,response_format=_gap_schema(),diagnostics=trace)
+            trace['parsed_response']=_safe_diagnostic(response)
+            if not isinstance(response,dict) or not isinstance(response.get('assessments'),list):
+                trace['status']='INVALID_RESPONSE'; trace['error_type']='MISSING_ASSESSMENTS_ARRAY'
+                response=None
+                continue
+            trace['status']='PARSED'
+            break
+        except (json.JSONDecodeError, ValueError) as exc:
+            trace['status']='INVALID_RESPONSE'; trace['error_type']=type(exc).__name__; trace['error_message']=_safe_diagnostic(str(exc)[:300])
+        except Exception as exc:
+            trace['status']='CALL_ERROR'; trace['error_type']=type(exc).__name__
+            trace['http_status']=getattr(exc,'code',None)
+            trace['error_message']=_safe_diagnostic(str(exc)[:300])
+            break
+    assessments=response.get('assessments') if isinstance(response,dict) else None
+    if not isinstance(assessments,list):
+        diagnostic['response_status']='MISSING_ASSESSMENTS_ARRAY'
+        diagnostic['rejected']=[{'index':i,'reason':'NO_VALID_RESPONSE'} for i in range(len(facts))]
         return result
-    if any(not isinstance(x, dict) or type(x.get('index')) is not int for x in assessments):
-        return result
-    if {x['index'] for x in assessments} != set(range(len(facts))):
-        return result
+    diagnostic['response_status']='ASSESSMENTS_RECEIVED'
+    diagnostic['received_indices']=[x.get('index') if isinstance(x,dict) else None for x in assessments]
+    by_index={}
+    for entry in assessments:
+        idx=entry.get('index') if isinstance(entry,dict) else None
+        if type(idx) is not int or idx not in range(len(facts)):
+            diagnostic['rejected'].append({'index':idx,'reason':'INVALID_INDEX'})
+            continue
+        by_index.setdefault(idx,[]).append(entry)
     categories = {'INDIVIDUAL':'individual_case_variables', 'OPTIONAL_DETAIL':'non_blocking_unverified_details',
                   'EDITORIAL_EXCLUSION':'editorial_exclusions', 'VERIFIED_BY_MATRIX':'resolved_by_official_branch_matrix'}
     result['blocking_missing_facts'] = []
-    for entry in assessments:
-        fact = facts[entry['index']]
-        refs = entry.get('evidence_ids')
-        category = categories.get(entry.get('classification')) if isinstance(entry.get('classification'), str) else None
-        valid = (category and isinstance(refs,list) and bool(refs) and
-                 all(isinstance(r,str) and r in aliases for r in refs) and
-                 all(isinstance(entry.get(k),str) and entry[k].strip() for k in ('reason','retained_answer','limitation')))
-        if not valid:
-            result['blocking_missing_facts'].append(fact)
-            continue
-        if category == 'resolved_by_official_branch_matrix' and not branch_coverage.get('exceptional_extension_conditions_verified'):
+    canonical_to_alias={v:k for k,v in aliases.items()}
+    text_by_alias={r['evidence_id']:' '.join(str(r.get('text') or '').split()) for r in compact}
+    for idx,fact in enumerate(facts):
+        entries=by_index.get(idx,[])
+        reason=None
+        if len(entries)!=1:
+            reason='DUPLICATE_INDEX' if entries else 'MISSING_INDEX'
+        else:
+            entry=entries[0]; kind=entry.get('classification'); refs=entry.get('evidence_ids')
+            # The dossier includes canonical IDs. Accept only exact known canonical IDs or short aliases.
+            if isinstance(refs,list):
+                refs=[canonical_to_alias.get(r,r) if isinstance(r,str) else r for r in refs]
+            category=categories.get(kind) if isinstance(kind,str) else None
+            if not isinstance(refs,list) or any(not isinstance(r,str) or r not in aliases for r in refs):
+                reason='INVALID_EVIDENCE_IDS'
+            elif not isinstance(entry.get('reason'),str) or not entry['reason'].strip():
+                reason='MISSING_REASON'
+            elif kind=='MATERIAL':
+                result['gap_assessments'].append({**entry,'missing_fact':fact,'evidence_ids':[aliases[r] for r in refs]})
+                diagnostic['accepted'].append({'index':idx,'classification':kind,'decision':'BLOCKED'})
+                result['blocking_missing_facts'].append(fact)
+                continue
+            elif not category:
+                reason='INVALID_CLASSIFICATION'
+            elif not refs or not all(isinstance(entry.get(k),str) and entry[k].strip() for k in ('retained_answer','limitation')):
+                reason='MISSING_SUPPORT_OR_LIMITATION'
+            elif category=='resolved_by_official_branch_matrix' and not branch_coverage.get('exceptional_extension_conditions_verified'):
+                reason='BRANCH_MATRIX_NOT_VERIFIED'
+            else:
+                passages=entry.get('supporting_passages')
+                normalized=[]
+                if not isinstance(passages,list) or not passages:
+                    reason='MISSING_SUPPORTING_PASSAGES'
+                else:
+                    for passage in passages:
+                        ref=passage.get('evidence_id') if isinstance(passage,dict) else None
+                        quote=passage.get('quote') if isinstance(passage,dict) else None
+                        ref=canonical_to_alias.get(ref,ref) if isinstance(ref,str) else None
+                        if (ref not in refs or not isinstance(quote,str) or len(' '.join(quote.split()))<20
+                            or ' '.join(quote.split()) not in text_by_alias.get(ref,'')):
+                            reason='INVALID_SUPPORTING_PASSAGE'; break
+                        normalized.append({'evidence_id':aliases[ref],'quote':quote})
+                    if not reason and {p['evidence_id'] for p in normalized} != {aliases[r] for r in refs}:
+                        reason='MISSING_PASSAGE_FOR_CITED_EVIDENCE'
+                if not reason:
+                    entry={**entry,'supporting_passages':normalized}
+        if reason:
+            diagnostic['rejected'].append({'index':idx,'reason':reason})
             result['blocking_missing_facts'].append(fact)
             continue
         result[category].append(fact)
-        result['gap_assessments'].append({**entry, 'missing_fact':fact,
-                                          'evidence_ids':[aliases[r] for r in refs]})
+        result['gap_assessments'].append({**entry,'missing_fact':fact,'evidence_ids':[aliases[r] for r in refs]})
+        diagnostic['accepted'].append({'index':idx,'classification':kind,'decision':'LIMITED_SCOPE'})
     return result
 
 
@@ -760,6 +878,7 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
             'independent_legal_accuracy_verified':False,'live_release_enabled':False}
     def save(name,obj):
         (out/name).write_text(json.dumps(obj,indent=2,ensure_ascii=False),encoding='utf-8')
+    gap_report={'status':'NOT_REACHED','questions':[],'publication_allowed':False}
     try:
         proposal=json.loads(Path(proposals_path).read_text(encoding='utf-8'))
         research_plan=plan(proposal);save('research_plan.json',research_plan)
@@ -789,6 +908,9 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
             return 2
         dossier=build_dossier(research_plan,evidence)
         covered,ready=research_readiness(research_plan,evidence,model=model,client=client,dossier=dossier)
+        gap_report.update({'status':'EVALUATED','questions':[{'question_id':q.get('id'), 'diagnostics':q.get('gap_diagnostics',{'attempted':False,'skip_reason':'NOT_GENERAL_GUIDANCE'}),'blocking_missing_facts':q.get('blocking_missing_facts',[]),'draft_readiness':q.get('draft_readiness')} for q in covered], 'ready_before_applicability':ready})
+        for q in covered:
+            q.pop('gap_diagnostics',None)
         graph=build_source_claims(evidence,dossier,covered)
         graph['distinct_legal_mechanisms']=operative_mechanisms(evidence)
         graph_errors=validate_graph(graph,dossier,evidence)
@@ -798,7 +920,10 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
         matrix['source_claims']=graph['source_claims']
         matrix['graph_integrity_errors']=graph_errors
         save('claim_evidence_matrix.json',matrix)
+        gap_report['graph_integrity_errors']=graph_errors
+        gap_report['applicability_conflicts']=scope_conflicts(matrix)
         if graph_errors:
+            gap_report['ready_for_draft']=False
             status['result']='BLOCKED_APPLICABILITY'
             status['errors']=graph_errors
             return 2
@@ -813,6 +938,7 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
              'legal_accuracy_certified':False,
              'applicability_conflicts':scope_conflicts(matrix),
              'publication_allowed':False})
+        gap_report['ready_for_draft']=ready
         if not ready:
             status['result']='BLOCKED_INSUFFICIENT_EVIDENCE'
             status['errors']=['Official provisions do not answer every essential research question']
@@ -838,10 +964,15 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
         # Even an unflagged automated pass cannot certify immigration-law correctness.
         return 0 if status['result']=='REVIEW_READY' else 3
     except Exception as exc:
-        status['errors']=[type(exc).__name__+': '+str(exc)[:250]]
+        status['errors']=[type(exc).__name__+': '+_safe_diagnostic(str(exc)[:250])]
         status['result']='ERROR'
         return 4
     finally:
+        if gap_report['status']=='NOT_REACHED':
+            gap_report['skip_reason']='PIPELINE_EXIT_BEFORE_GAP_ASSESSMENT'
+        gap_report['final_result']=status['result']
+        gap_report['final_errors']=_safe_diagnostic(status['errors'])
+        save('gap_assessment_diagnostics.json',_safe_diagnostic(gap_report))
         save('decision.json',status)
         print(json.dumps({'result':status['result'],'publication_allowed':False,'errors':status['errors']},ensure_ascii=False))
 
