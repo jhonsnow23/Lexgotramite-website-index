@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "content_type": "KNOWLEDGE_ARTICLE",
+    "category": "cuenta_propia",
+    "title": "Renovación de residencia y trabajo por cuenta propia: duración de la autorización renovada",
+    "slug": "renovacion-de-residencia-y-trabajo-por-cuenta-propia-duracion-de-la-autorizacion-renovada",
+    "description": "Información sobre Renovación de residencia y trabajo por cuenta propia: duración de la autorización renovada.",
+    "content_hash": "520e21011893a1b268ec240340a7a6fb33af379330e5a2f06843539c2bfe47e2",
+    "approval_hash": "4af532b7442578d695adbda131be6c911b240ea8747c42fa69cab27a75dab3ea",
+    "status": "PUBLISHED",
+    "published_at": "2026-11-26",
+    "word_count": 41,
+    "origin": "EDITORIAL_SEED",
+    "primary_search_query": "Renovación de residencia y trabajo por cuenta propia: duración de la autorización renovada",
+    "publication_authorization": {
+      "policy": "v66-autonomous-1",
+      "state": "AUTOMATED_PUBLICATION_AUTHORIZED",
+      "article_hash": "520e21011893a1b268ec240340a7a6fb33af379330e5a2f06843539c2bfe47e2",
+      "approval_hash": "4af532b7442578d695adbda131be6c911b240ea8747c42fa69cab27a75dab3ea",
+      "review_hash": "d6c42a34176a507edfed1e8af20078b3ac6cecfeea2409df69b5a5b4e8e06266",
+      "evidence_hash": "5d3b3a1b7eecc4f9d0f924f5c0d76956a13758399c19879f4cf17f52437a3fe2",
+      "source_run_id": "45859406857",
+      "source_slot": "historical:45859406857",
+      "publication_slot": "2026-11-26",
+      "content_type": "KNOWLEDGE_ARTICLE",
+      "source_refs": [
+        {
+          "source_id": "BOE-A-2024-24099",
+          "article": "87",
+          "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+          "authority": "boe",
+          "document_title": "BOE-A-2024-24099",
+          "text_hash": "90dd1e808d1bc714a0761b30730dc1ea41e5700de4aa54fb4f22759d7eb40250",
+          "retrieved_at": "2026-11-26T16:31:06.529723+00:00",
+          "citation_urls": [
+            "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a8-9"
+          ]
+        }
+      ],
+      "human_approved": false,
+      "mode": "BACKLOG_MIGRATION",
+      "budget_authorization": "OWNER_AUTHORIZED_HISTORICAL_NO_NEW_API_SPEND"
+    },
+    "source_run_id": "45859406857",
+    "publication_policy": "v66-autonomous-1",
+    "human_approved": false,
+    "url": "/guias/renovacion-cuenta-propia/#renovacion-de-residencia-y-trabajo-por-cuenta-propia-duracion-de-la-autorizacion-renovada",
+    "inline_html": "<div data-lexgo-content-hash=\"520e21011893a1b268ec240340a7a6fb33af379330e5a2f06843539c2bfe47e2\"><section>\n<p>La autorización de residencia y trabajo por cuenta propia renovada dura cuatro años. La excepción es que te corresponda una autorización de residencia de larga duración; en ese caso, no se aplica el plazo de cuatro años previsto para la renovación.</p><p class=\"lg-guide-source\">Fuente: <a href=\"https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a8-9\">Artículo 87 del Reglamento de Extranjería (RD 1155/2024)</a></p>\n</section>\n<h2>Qué debes comprobar en tu caso</h2>\n<p>El plazo concreto depende de si se da esa excepción; con la información disponible no puede determinarse cuál de las dos situaciones te corresponde. <a href=\"https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a8-9\">Artículo 87 del Reglamento de Extranjería (RD 1155/2024)</a></p>\n<p class=\"lg-guide-source\">Información general basada en los textos consolidados del BOE, de carácter informativo. No determina por sí sola la elegibilidad de una persona concreta. No constituye una guía exhaustiva de presentación de solicitudes.</p><p class=\"lg-guide-source\">Información general elaborada con fuentes oficiales y comprobaciones automatizadas. No sustituye una valoración profesional de tu caso.</p></div>"
+  }
+]
