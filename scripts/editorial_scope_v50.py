@@ -94,7 +94,7 @@ def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, 
         report.update(max_proposals=max_proposals,attempts=attempts,scope_candidates=candidates)
         if result is not None: return result
         reason=current.get('reason')
-        if reason not in ('COMMERCIAL_SCOPE_CHANGED','FORBIDDEN_ROUTE_IDS','INDEPENDENT_SCOPE_REJECTED','TITLE_NOT_NARROWED','ORIGINAL_BLOCKING_GAPS_NOT_ACCOUNTED_FOR','MISSING_TITLE','REPEATED_PROPOSAL','INVALID_QUESTION_COUNT','SCOPE_ROUTE_MISMATCH','INVALID_QUESTION','DUPLICATE_QUESTION','INCOMPLETE_INDEPENDENT_REVIEW','MISSING_REVIEW_REASON'):
+        if reason not in ('COMMERCIAL_SCOPE_CHANGED','FORBIDDEN_ROUTE_IDS','INDEPENDENT_SCOPE_REJECTED','TITLE_NOT_NARROWED','ORIGINAL_BLOCKING_GAPS_NOT_ACCOUNTED_FOR','MISSING_TITLE','REPEATED_PROPOSAL','INVALID_QUESTION_COUNT','SCOPE_ROUTE_MISMATCH','INVALID_QUESTION','DUPLICATE_QUESTION','INCOMPLETE_INDEPENDENT_REVIEW','MISSING_REVIEW_REASON','INVALID_ROUTE_IDS'):
             break
         feedback.append({'reason':reason,'title':(current.get('proposal') or {}).get('title') if isinstance(current.get('proposal'),dict) else None,
                          'scope':(current.get('proposal') or {}).get('scope') if isinstance(current.get('proposal'),dict) else None,
@@ -141,6 +141,7 @@ def _one_scope(plan, covered, evidence, dossier, *, call, model, client, report,
     # Keep the Python guard for other models and historical responses.
     if model in ('gpt-4.1-mini','gpt-4.1','gpt-4.1-nano') or model.startswith(('gpt-4.1-mini-','gpt-4.1-nano-','gpt-4.1-20')):
         proposal_fields['questions'].update(minItems=2,maxItems=8)
+        proposal_fields['questions']['items']['properties']['route_ids'].update(minItems=1,maxItems=1)
     data={'original_plan':plan,'original_coverage':covered,'blocking_gaps':gaps,'official_passages':short_selected,'dossier':dossier,'selectable_route_ids':sorted(route_set),'previous_rejections':feedback,'primary_route':primary_route,'required_question_count':{'min':2,'max':8}}
     def ask(name, fields, prompt, payload):
         trace={}; report[name+'_transport']=trace
@@ -150,7 +151,7 @@ def _one_scope(plan, covered, evidence, dossier, *, call, model, client, report,
         return result
     try:
         proposal=ask('proposal',proposal_fields,
-            'Propose ONE Spanish article exclusively about the primary_route selected by Python, or empty title if none; in that case describe unresolved questions without inventing answers. Same commercial category and genuine search intent. Provide 2 to 8 distinct essential questions. Every question must use only the primary_route; do not provide a survey of other routes. Include the primary route’s conditions and limitations, including material dependencies. '
+            'Propose ONE Spanish article exclusively about the primary_route selected by Python, or empty title if none; in that case describe unresolved questions without inventing answers. Same commercial category and genuine search intent. Provide 2 to 8 distinct essential questions. Every question must contain exactly one route ID, the primary_route; never repeat it; do not provide a survey of other routes. Include the primary route’s conditions and limitations, including material dependencies. '
             'If previous_rejections is nonempty, propose a genuinely different, narrower scope that addresses the recorded rejection. Prefer a single verified route or a clearly bounded subtopic; do not repeat the original broad modification-and-extension guide under a new title. '
             'Select only the passages necessary for each answer, including controlling exceptions; do not cite ranges of aliases in prose or select the whole catalog. '
             'Do not solve or erase original gaps. Every essential question needs an explicit supported answer with exact short passage aliases (P001 etc.) and applicable route IDs. '
@@ -179,7 +180,7 @@ def _one_scope(plan, covered, evidence, dossier, *, call, model, client, report,
             seen.add(q['question'].strip().casefold())
             refs=q.get('passage_ids'); routes=q.get('route_ids')
             if not isinstance(refs,list) or not refs or any(not isinstance(p,str) for p in refs) or len(set(refs))!=len(refs): raise ValueError('INVALID_PASSAGE_IDS')
-            if not isinstance(routes,list) or not routes or any(not isinstance(r,str) for r in routes) or len(set(routes))!=len(routes): raise ValueError('INVALID_ROUTE_IDS')
+            if not isinstance(routes,list) or not routes or any(not isinstance(r,str) for r in routes): raise ValueError('INVALID_ROUTE_IDS')
             forbidden=sorted(set(routes)-route_set)
             if forbidden:
                 report['forbidden_route_ids']=forbidden
@@ -188,6 +189,9 @@ def _one_scope(plan, covered, evidence, dossier, *, call, model, client, report,
             if set(routes)!={primary_route}:
                 report['out_of_scope_route_ids']=sorted(set(routes)-{primary_route})
                 raise ValueError('SCOPE_ROUTE_MISMATCH')
+            if len(routes)>1:
+                report.setdefault('route_normalizations',[]).append({'question_index':i,'original_route_ids':routes,'normalized_route_ids':[primary_route]})
+                routes=[primary_route]
             resolved=[]
             canonical_refs=[alias_map.get(pid,pid) for pid in refs]
             if len(set(canonical_refs))!=len(canonical_refs): raise ValueError('DUPLICATE_PASSAGE_IDS')
@@ -207,7 +211,7 @@ def _one_scope(plan, covered, evidence, dossier, *, call, model, client, report,
             'Never approve an assertion that an unresolved route does not exist, nor infer exceptional-extension eligibility. '
             'Reject trivial or SEO-irrelevant content, broad titles, incomplete answers, wrong branches and unsupported claims. '
             'Return all supported zero-based question indices, reasons, and explicit booleans. Approve only if every check passes.',
-            {**data,'proposal':proposal,'resolved_questions':resolved_questions})
+            {**data,'proposal':{**proposal,'questions':[{**q,'route_ids':r['route_ids']} for q,r in zip(questions,resolved_questions)]},'resolved_questions':resolved_questions})
         if not isinstance(verdict,dict) or any(verdict.get(k) is not True for k in REVIEW_FIELDS if k not in ('supported_question_indices','reasons')):
             raise ValueError('INDEPENDENT_SCOPE_REJECTED')
         indices=verdict.get('supported_question_indices')
