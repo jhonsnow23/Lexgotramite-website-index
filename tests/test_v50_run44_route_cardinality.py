@@ -17,7 +17,7 @@ class Run44Tests(unittest.TestCase):
         payload=json.loads(c.call_args_list[1].args[0][1]['content']); self.assertEqual(len(payload['review_target']['proposal']['questions'][2]['route_ids']),1)
         self.assertEqual(len(r['proposal']['questions'][2]['route_ids']),2)
     def test_review_veto(self):
-        result,r,c=self.run_scope(F['proposal'],{**self.verdict(),'approved':False}); self.assertIsNone(result); self.assertEqual(r['reason'],'INDEPENDENT_SCOPE_REJECTED')
+        result,r,c=self.run_scope(F['proposal'],{**self.verdict(),'approved':False,'no_misleading_omissions':False}); self.assertIsNone(result); self.assertEqual(r['reason'],'INDEPENDENT_SCOPE_REJECTED')
     def test_mixed_routes_not_normalized(self):
         p=copy.deepcopy(F['proposal']);p['questions'][2]['route_ids'].append('MOD_CUENTA_PROPIA_LT_1Y_UNRESOLVED'); result,r,c=self.run_scope(p); self.assertIsNone(result); self.assertEqual(r['reason'],'FORBIDDEN_ROUTE_IDS'); self.assertEqual(c.call_count,1)
     def test_empty_route_retries(self):

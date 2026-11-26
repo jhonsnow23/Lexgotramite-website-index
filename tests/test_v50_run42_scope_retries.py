@@ -70,7 +70,7 @@ class Run42Tests(unittest.TestCase):
         self.assertEqual(payload['previous_rejections'][0]['reason'],'FORBIDDEN_ROUTE_IDS')
         self.assertEqual(self.covered,original); self.assertFalse(self.report['publication_allowed'])
     def test_review_veto_then_retry_and_bounded_exhaustion(self):
-        p,v=self.narrow(); veto={**v,'approved':False}
+        p,v=self.narrow(); veto={**v,'approved':False,'no_misleading_omissions':False}
         p2=copy.deepcopy(p); p2['title']=p['title'].replace('antes del año','a partir de un año'); p2['scope']='Exclusively employed work after one year'
         cat=build_catalog(self.e); selected,_=select_context(cat,self.e,self.d); aliases,_=short_passage_context(selected); reverse={v:k for k,v in aliases.items()}
         for q,article in zip(p2['questions'],('191','80')):

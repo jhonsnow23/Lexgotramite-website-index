@@ -237,14 +237,39 @@ def _one_scope(plan, covered, evidence, dossier, *, call, model, client, report,
             eid=list(dict.fromkeys(p['evidence_id'] for p in resolved))
             alt_questions.append({'id':f'alt_{i+1}','question':q['question'],'query':q['question']})
             resolved_questions.append({'question_id':f'alt_{i+1}','answer':q['answer'],'evidence_ids':eid,'supporting_passages':resolved,'route_ids':routes})
-        verdict=ask('independent_scope_review',REVIEW_FIELDS,
+        review_prompt=(
             'Independently audit the proposed NEW scope, not the old guide. The review_target is the article actually proposed; historical_research_context is background, not a checklist of mandatory coverage. all_essential_questions_covered means essential questions of review_target only. Verify each answer against literal official text and applicable routes, all conditions, exceptions, filing rules and timing. '
             'Verify the title and all answers concern only primary_route, not other routes; reject any omitted material dependency of that route. Compare original and proposed substantive scope, not just titles. Reject a broad guide that still depends on the unresolved branch, even if a limitation is stated. '
             'Check each historical gap against the actual primary route, title, answers and reader-facing limitations in review_target. A gap outside that route is not itself grounds for rejection if the limitation makes the boundary clear; do not assume the article claims comprehensive coverage. Read the supplied limitations as part of the proposed article, not as internal notes. Reject if a gap is a genuine dependency, if the limitation is insufficient or misleading, or if any procedural requirement essential to the proposed route is unverified. Explain the specific dependency or missing disclosure in reasons. '
             'Never approve an assertion that an unresolved route does not exist, nor infer exceptional-extension eligibility. '
             'Reject trivial or SEO-irrelevant content, broad titles, incomplete answers, wrong branches and unsupported claims. '
-            'Return all supported zero-based question indices, reasons, and explicit booleans. Approve only if every check passes.',
-            {'review_target':{'primary_route':primary_route,'proposal':{**proposal,'questions':[{**q,'route_ids':r['route_ids']} for q,r in zip(questions,resolved_questions)]},'resolved_questions':resolved_questions,'reader_facing_limitations':proposal['limitations']},'historical_research_context':{'original_plan':plan,'original_coverage':covered,'blocking_gaps':gaps},'official_passages':short_selected,'dossier':dossier,'previous_rejections':feedback})
+            'Return all supported zero-based question indices, reasons, and explicit booleans. Approve only if every check passes. If rejecting, identify the failed criterion and specific material defect; do not contradict your own findings.')
+        review_payload={'review_target':{'primary_route':primary_route,'proposal':{**proposal,'questions':[{**q,'route_ids':r['route_ids']} for q,r in zip(questions,resolved_questions)]},'resolved_questions':resolved_questions,'reader_facing_limitations':proposal['limitations']},'historical_research_context':{'original_plan':plan,'original_coverage':covered,'blocking_gaps':gaps},'official_passages':short_selected,'dossier':dossier}
+        verdict=ask('independent_scope_review',REVIEW_FIELDS,review_prompt,review_payload)
+        # A negative verdict with every individual check passing and complete
+        # support is inconsistent, not an approval. Ask once for a fresh audit.
+        checks=[k for k in REVIEW_FIELDS if k not in ('approved','supported_question_indices','reasons')]
+        def complete(v):
+            indices=v.get('supported_question_indices')
+            reasons=v.get('reasons')
+            return (all(v.get(k) is True for k in checks)
+                    and isinstance(indices,list) and all(type(i) is int for i in indices)
+                    and sorted(indices)==list(range(len(questions)))
+                    and isinstance(reasons,list) and bool(reasons)
+                    and all(isinstance(r,str) and r.strip() for r in reasons))
+        if isinstance(verdict,dict) and verdict.get('approved') is False and complete(verdict):
+            report['review_consistency']='INCONSISTENT_NEGATIVE_VERDICT'
+            # Reconsider the same article, not a different proposal. The initial
+            # reasons are evidence of a possible objection, not an instruction
+            # to reverse the verdict. The new reviewer must explicitly resolve it.
+            recheck_fields={**REVIEW_FIELDS,'prior_objections_resolved':{'type':'boolean'},'resolution':STR}
+            fresh=ask('independent_scope_recheck',recheck_fields,review_prompt+
+                ' Conduct a fresh legal audit of this exact article. The initial verdict is inconsistent. Independently assess every prior objection against the official text. Do not approve merely because other flags were true. If any material objection remains unresolved, reject. Explain the resolution of each prior objection; set prior_objections_resolved true only if every objection is demonstrably nonmaterial or resolved by evidence.',
+                {**review_payload,'initial_review':verdict})
+            if (not isinstance(fresh,dict) or fresh.get('prior_objections_resolved') is not True
+                    or not isinstance(fresh.get('resolution'),str) or not fresh['resolution'].strip()):
+                raise ValueError('INDEPENDENT_SCOPE_REJECTED')
+            verdict=fresh
         if not isinstance(verdict,dict) or any(verdict.get(k) is not True for k in REVIEW_FIELDS if k not in ('supported_question_indices','reasons')):
             raise ValueError('INDEPENDENT_SCOPE_REJECTED')
         indices=verdict.get('supported_question_indices')

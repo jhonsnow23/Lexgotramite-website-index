@@ -27,7 +27,7 @@ class Run43Tests(unittest.TestCase):
         data=json.loads(call.call_args_list[2].args[0][1]['content']);self.assertEqual(data['previous_rejections'][1]['question_count'],1);self.assertEqual(data['required_question_count'],{'min':2,'max':8})
         self.assertEqual(result[0]['adaptive_editorial_scope']['primary_route'],'MOD_ART191_2_AJENA_LT_1Y')
     def test_independent_veto_rotates_branch_and_retains_reasons(self):
-        p,v=self.narrow(); p2,v2=self.narrow('MOD_ART191_3_AJENA_GE_1Y','80'); veto={**v,'approved':False,'reasons':['Material condition missing']}
+        p,v=self.narrow(); p2,v2=self.narrow('MOD_ART191_3_AJENA_GE_1Y','80'); veto={**v,'approved':False,'no_misleading_omissions':False,'reasons':['Material condition missing']}
         result,call=self.run_scope(p,veto,p2,v2); self.assertIsNotNone(result,self.report.get('reason'))
         payload=json.loads(call.call_args_list[2].args[0][1]['content']);self.assertEqual(payload['previous_rejections'][0]['review']['reasons'],veto['reasons']);self.assertEqual(payload['primary_route'],'MOD_ART191_3_AJENA_GE_1Y')
     def test_closed_schema_and_candidate_excludes_umbrella(self):
@@ -41,7 +41,7 @@ class Run43Tests(unittest.TestCase):
         result,call=self.run_scope(p,p2,p3);self.assertIsNone(result);self.assertEqual(call.call_count,3);self.assertEqual([a['reason'] for a in self.report['attempts']],['INVALID_QUESTION_COUNT']*3)
     def test_no_independent_approval_never_generates_scope(self):
         p,v=self.narrow();p2,v2=self.narrow('MOD_ART191_3_AJENA_GE_1Y','80');p3,v3=self.narrow('MOD_ART191_3_PROPIA_GE_1Y','86');p3['title']='Modificación por cuenta propia tras la regularización extraordinaria de 2026 a partir de un año';p3['scope']='Self employed after one year'
-        result,call=self.run_scope(p,{**v,'approved':False},p2,{**v2,'approved':False},p3,{**v3,'approved':False});self.assertIsNone(result);self.assertEqual(call.call_count,6);self.assertNotIn('authorized_plan',self.report)
+        result,call=self.run_scope(p,{**v,'approved':False,'no_misleading_omissions':False},p2,{**v2,'approved':False,'no_misleading_omissions':False},p3,{**v3,'approved':False,'no_misleading_omissions':False});self.assertIsNone(result);self.assertEqual(call.call_count,6);self.assertNotIn('authorized_plan',self.report)
     def test_configured_model_schema_question_bounds(self):
         p,v=self.narrow();call=Mock(side_effect=[p,v]);report={}
         self.assertIsNotNone(alternative_scope(self.plan,self.covered,self.e,self.d,call=call,model='gpt-4.1-mini',client=None,report=report))
