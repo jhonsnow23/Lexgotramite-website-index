@@ -229,7 +229,12 @@ class FirstArticleTests(unittest.TestCase):
     def test_legacy_publishers_and_new_workflows_are_read_only(self):
         for name in ('lexgo-first-article-v50.yml','lexgo-seo-v50.yml','publish.yml','publish-daily-seo.yml'):
             text=(ROOT/'.github/workflows'/name).read_text()
-            self.assertIn('contents: read',text);self.assertNotIn('contents: write',text)
+            # Run 66 explicitly authorizes only the isolated publication job.
+            generation=text.split('\n  publish:\n',1)[0] if name=='lexgo-seo-v50.yml' else text
+            self.assertIn('contents: read',generation);self.assertNotIn('contents: write',generation)
+            if name=='lexgo-seo-v50.yml':
+                publication=text.split('\n  publish:\n',1)[1]
+                self.assertIn('contents: write',publication);self.assertNotIn('OPENAI_API_KEY',publication)
             self.assertNotIn('git push',text);self.assertNotIn('publish_next_article.py',text)
             if name.startswith('publish'):self.assertNotIn('schedule:',text)
 

@@ -130,16 +130,28 @@ def body_html(a):
     if a.get('disclaimer'):parts.append(f'<p class="lg-guide-source">{esc(a["disclaimer"])}</p>')
     return '\n'.join(parts)
 
-def publish(folder,approve,root=ROOT):
+def publish(folder,approve,root=ROOT,*,authorization=None):
     a,m,kind,expected=approved_source(folder)
-    if approve!=expected:raise ValueError('Explicit human approval hash required; inspect first')
+    if approve!=expected:raise ValueError('Exact reviewed content approval hash required')
+    if authorization is not None:
+        import os
+        if (os.environ.get('LEXGO_AUTOPUBLISH_ENABLED')!='true' or authorization.get('policy')!='v66-autonomous-1'
+            or authorization.get('state')!='AUTOMATED_PUBLICATION_AUTHORIZED' or authorization.get('human_approved') is not False
+            or authorization.get('approval_hash')!=expected or authorization.get('article_hash')!=a['content_hash']
+            or authorization.get('content_type')!=kind):raise ValueError('Invalid automated publication authorization')
     rows=inventory(root); slug=engine.seo.proposed_slug(a['title']); cat=m['category']; dt=today()
     if not re.fullmatch(r'[a-z0-9-]+',slug) or any(r['content_hash']==a['content_hash'] or editorial.normalized(r['title'])==editorial.normalized(a['title']) for r in rows):raise ValueError('Duplicate content or invalid slug')
     description=m.get('meta_description') or engine.editorial_metadata(a,m)['meta_description']; engine.plain(description); html_body=body_html(a); words=sum(len(editorial.join_fields(p['text'],p['conditions'],p['exceptions']).split()) for s in a['sections'] for p in s['paragraphs'])
+    if authorization is not None:
+        # Neutral metadata avoids omitting a material exception from a short snippet.
+        description='Información sobre '+a['title']+'.'
+        html_body='<div data-lexgo-content-hash="'+esc(a['content_hash'])+'">'+html_body+'<p class="lg-guide-source">Información general elaborada con fuentes oficiales y comprobaciones automatizadas. No sustituye una valoración profesional de tu caso.</p></div>'
     related=[r for r in rows if r['category']==cat and r['content_type']=='KNOWLEDGE_ARTICLE'][-6:]
     # Only public existing destinations; append navigation, never alter legal prose.
     related_html=('<h2>Información relacionada</h2><ul class="lg-guide-links">'+links(related)+'</ul>') if related else ''
     row={'content_type':kind,'category':cat,'title':a['title'],'slug':slug,'description':description,'content_hash':a['content_hash'],'approval_hash':expected,'status':'PUBLISHED','published_at':dt,'word_count':words,'origin':m.get('origin'),'primary_search_query':m.get('primary_search_query')}
+    if authorization is not None:
+        row.update(publication_authorization=authorization,source_run_id=authorization['source_run_id'],publication_policy=authorization['policy'],human_approved=False)
     if kind=='KNOWLEDGE_ARTICLE':
         if words<150:
             row.update(url=cat_url(cat)+'#'+slug,inline_html=html_body)

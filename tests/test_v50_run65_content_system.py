@@ -90,5 +90,5 @@ class ContentSystem(unittest.TestCase):
         s=(ROOT/'.github/workflows/lexgo-prepare-publication-v50.yml').read_text();self.assertIn('workflow_dispatch:',s);self.assertNotIn('schedule:',s);self.assertIn('contents: read',s);self.assertNotIn('contents: write',s);self.assertNotIn('OPENAI_API_KEY',s);self.assertIn('approval_hash',s)
     def test_workflows_read_only_and_reserve_first(self):
         for name in ('lexgo-seo-v50.yml','lexgo-weekly-blog-v50.yml'):
-            s=(ROOT/'.github/workflows'/name).read_text();self.assertIn('contents: read',s);self.assertNotIn('contents: write',s);self.assertIn('group: lexgo-seo-engine-v50',s);self.assertLess(s.index('Persist reservation before generation'),s.index('OPENAI_API_KEY:'));self.assertIn('retention-days: 90',s)
+            s=(ROOT/'.github/workflows'/name).read_text();self.assertIn('contents: read',s);gen,pub=s.split('\n  publish:\n',1);self.assertNotIn('contents: write',gen);self.assertIn('contents: write',pub);self.assertNotIn('OPENAI_API_KEY:',pub);self.assertIn('group: lexgo-seo-engine-v50',s);self.assertLess(s.index('Persist reservation before generation'),s.index('OPENAI_API_KEY:'));self.assertIn('retention-days: 90',s)
 if __name__=='__main__':unittest.main()

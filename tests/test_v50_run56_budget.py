@@ -65,7 +65,8 @@ class BudgetTests(unittest.TestCase):
         self.assertIn('default: 0.25',integration);self.assertIn('--max-api-cost-usd "$DAILY_USD"',normal);self.assertIn('Persist reservation before generation',normal)
         for workflow in (integration,normal):
             self.assertIn("'gpt-6-luna'",workflow);self.assertIn("'gpt-6.1-terra'",workflow)
-            self.assertIn('contents: read',workflow);self.assertNotIn('contents: write',workflow)
+            generation=workflow.split('\n  publish:\n',1)[0]
+            self.assertIn('contents: read',generation);self.assertNotIn('contents: write',generation)
             self.assertNotIn('git push',workflow)
 
 if __name__=='__main__':unittest.main()
