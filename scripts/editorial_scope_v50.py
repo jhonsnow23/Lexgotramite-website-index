@@ -79,6 +79,29 @@ def scope_candidates(plan, dossier):
     return sorted(allowed)
 
 
+def passage_route_compatibility(record, primary_route):
+    """Shared DA20/21 modification rules are not a separate destination route.
+
+    Only these identified provisions inherit to the three mapped work-enabled
+    branches. This is citation eligibility, not proof of the proposed answer.
+    The independent reviewer must still check the actual passage and claim.
+    """
+    routes=set(record.get('route_ids') or [])
+    if primary_route in routes:
+        return 'DIRECT_ROUTE'
+    if (record.get('document_reference') == 'BOE-A-2026-8284'
+            and record.get('article_reference') in ('DA20.10','DA21.10')
+            and record.get('applicability') == 'CONDITIONALLY_APPLICABLE'
+            and 'MODIFICACION_ART_191' in routes
+            and primary_route in ('MOD_ART191_2_AJENA_LT_1Y',
+                                  'MOD_ART191_3_AJENA_GE_1Y',
+                                  'MOD_ART191_3_PROPIA_GE_1Y')):
+        return 'SHARED_ORIGIN_MODIFICATION_RULE'
+    if not routes:
+        return 'NO_ROUTE_TAG_REQUIRES_REVIEW'
+    return None
+
+
 def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, report, max_proposals=3):
     """Retry substantive rejections only; never retry transport/integrity failures blindly."""
     max_proposals=max(1,min(3,max_proposals))
@@ -94,7 +117,7 @@ def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, 
         report.update(max_proposals=max_proposals,attempts=attempts,scope_candidates=candidates)
         if result is not None: return result
         reason=current.get('reason')
-        if reason not in ('COMMERCIAL_SCOPE_CHANGED','FORBIDDEN_ROUTE_IDS','INDEPENDENT_SCOPE_REJECTED','TITLE_NOT_NARROWED','ORIGINAL_BLOCKING_GAPS_NOT_ACCOUNTED_FOR','MISSING_TITLE','REPEATED_PROPOSAL','INVALID_QUESTION_COUNT','SCOPE_ROUTE_MISMATCH','INVALID_QUESTION','DUPLICATE_QUESTION','INCOMPLETE_INDEPENDENT_REVIEW','MISSING_REVIEW_REASON','INVALID_ROUTE_IDS'):
+        if reason not in ('COMMERCIAL_SCOPE_CHANGED','FORBIDDEN_ROUTE_IDS','INDEPENDENT_SCOPE_REJECTED','TITLE_NOT_NARROWED','ORIGINAL_BLOCKING_GAPS_NOT_ACCOUNTED_FOR','MISSING_TITLE','REPEATED_PROPOSAL','INVALID_QUESTION_COUNT','SCOPE_ROUTE_MISMATCH','INVALID_QUESTION','DUPLICATE_QUESTION','INCOMPLETE_INDEPENDENT_REVIEW','MISSING_REVIEW_REASON','INVALID_ROUTE_IDS','PASSAGE_WRONG_ROUTE'):
             break
         feedback.append({'reason':reason,'title':(current.get('proposal') or {}).get('title') if isinstance(current.get('proposal'),dict) else None,
                          'scope':(current.get('proposal') or {}).get('scope') if isinstance(current.get('proposal'),dict) else None,
@@ -102,7 +125,8 @@ def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, 
                          'out_of_scope_route_ids':current.get('out_of_scope_route_ids',[]),
                          'review':current.get('independent_scope_review'),
                          'primary_route':current.get('primary_route'),
-                         'question_count':current.get('question_count')})
+                         'question_count':current.get('question_count'),
+                         'passage_route_rejection':current.get('passage_route_rejection')})
         if reason in ('INDEPENDENT_SCOPE_REJECTED','REPEATED_PROPOSAL') and candidate_index+1<len(candidates):
             candidate_index+=1
     return None
@@ -136,13 +160,18 @@ def _one_scope(plan, covered, evidence, dossier, *, call, model, client, report,
     report['primary_route']=primary_route
     if not route_set or primary_route not in route_set:
         report['status']='NO_SELECTABLE_ROUTES'; return None
-    proposal_fields={**PROPOSAL_FIELDS,'business_category':{'type':'string','enum':[plan['commercial_classification']['business_category']]},'questions':{**PROPOSAL_FIELDS['questions'],'items':{**PROPOSAL_FIELDS['questions']['items'],'properties':{**CLAIM_FIELDS,'passage_ids':{'type':'array','items':{'type':'string','enum':list(alias_map)}},'route_ids':{'type':'array','items':{'type':'string','enum':[primary_route]}}}}}}
+    records_by_id={p['passage_id']:p for p in selected}
+    eligible_aliases=[a for a,pid in alias_map.items() if passage_route_compatibility(records_by_id[pid],primary_route)]
+    report['eligible_passage_aliases']=eligible_aliases
+    if not eligible_aliases:
+        report['status']='NO_ROUTE_COMPATIBLE_PASSAGES'; return None
+    proposal_fields={**PROPOSAL_FIELDS,'business_category':{'type':'string','enum':[plan['commercial_classification']['business_category']]},'questions':{**PROPOSAL_FIELDS['questions'],'items':{**PROPOSAL_FIELDS['questions']['items'],'properties':{**CLAIM_FIELDS,'passage_ids':{'type':'array','items':{'type':'string','enum':eligible_aliases}},'route_ids':{'type':'array','items':{'type':'string','enum':[primary_route]}}}}}}
     # The configured non-fine-tuned GPT-4.1 family supports array bounds.
     # Keep the Python guard for other models and historical responses.
     if model in ('gpt-4.1-mini','gpt-4.1','gpt-4.1-nano') or model.startswith(('gpt-4.1-mini-','gpt-4.1-nano-','gpt-4.1-20')):
         proposal_fields['questions'].update(minItems=2,maxItems=8)
         proposal_fields['questions']['items']['properties']['route_ids'].update(minItems=1,maxItems=1)
-    data={'original_plan':plan,'original_coverage':covered,'blocking_gaps':gaps,'official_passages':short_selected,'dossier':dossier,'selectable_route_ids':sorted(route_set),'previous_rejections':feedback,'primary_route':primary_route,'required_question_count':{'min':2,'max':8}}
+    data={'original_plan':plan,'original_coverage':covered,'blocking_gaps':gaps,'official_passages':short_selected,'dossier':dossier,'selectable_route_ids':sorted(route_set),'previous_rejections':feedback,'primary_route':primary_route,'required_question_count':{'min':2,'max':8},'eligible_passage_aliases':eligible_aliases}
     def ask(name, fields, prompt, payload):
         trace={}; report[name+'_transport']=trace
         result=call([{'role':'system','content':prompt},{'role':'user','content':json.dumps(payload,ensure_ascii=False)}],
@@ -153,7 +182,7 @@ def _one_scope(plan, covered, evidence, dossier, *, call, model, client, report,
         proposal=ask('proposal',proposal_fields,
             'Propose ONE Spanish article exclusively about the primary_route selected by Python, or empty title if none; in that case describe unresolved questions without inventing answers. Same commercial category and genuine search intent. Provide 2 to 8 distinct essential questions. Every question must contain exactly one route ID, the primary_route; never repeat it; do not provide a survey of other routes. Include the primary route’s conditions and limitations, including material dependencies. '
             'If previous_rejections is nonempty, propose a genuinely different, narrower scope that addresses the recorded rejection. Prefer a single verified route or a clearly bounded subtopic; do not repeat the original broad modification-and-extension guide under a new title. '
-            'Select only the passages necessary for each answer, including controlling exceptions; do not cite ranges of aliases in prose or select the whole catalog. '
+            'Select only eligible_passage_aliases for the primary route. Shared DA20.10/DA21.10 provisions may support common filing and validity rules, not unrelated prórroga claims. Select only the passages necessary for each answer, including controlling exceptions; do not cite ranges of aliases in prose or select the whole catalog. '
             'Do not solve or erase original gaps. Every essential question needs an explicit supported answer with exact short passage aliases (P001 etc.) and applicable route IDs. '
             'Use only selectable route IDs; never include an unresolved or excluded branch even if you list it as a limitation. Do not infer unavailable routes or exceptional eligibility from uncertainty. Include all material conditions, exceptions, deadlines and effects needed for the specific article. '
             'Explicitly list each original blocking gap ID outside the new scope, and limitations and individual conditions. No exhaustive title for a partial guide.',data)
@@ -198,8 +227,12 @@ def _one_scope(plan, covered, evidence, dossier, *, call, model, client, report,
             for pid in canonical_refs:
                 p=resolve_passage(pid,catalog,evidence,allowed_ids=sent)
                 if not p: raise ValueError('INVALID_PASSAGE_ID')
-                known_routes=set(records[pid]['route_ids'])
-                if known_routes and not known_routes.intersection(routes): raise ValueError('PASSAGE_WRONG_ROUTE')
+                compatibility=passage_route_compatibility(records[pid],primary_route)
+                if compatibility is None:
+                    report['passage_route_rejection']={'question_index':i,'passage_id':pid,'primary_route':primary_route,'source_route_ids':records[pid]['route_ids']}
+                    raise ValueError('PASSAGE_WRONG_ROUTE')
+                if compatibility == 'SHARED_ORIGIN_MODIFICATION_RULE':
+                    report.setdefault('shared_passage_uses',[]).append({'question_index':i,'passage_id':pid,'primary_route':primary_route,'reason':compatibility})
                 resolved.append(p)
             eid=list(dict.fromkeys(p['evidence_id'] for p in resolved))
             alt_questions.append({'id':f'alt_{i+1}','question':q['question'],'query':q['question']})

@@ -69,5 +69,11 @@ class Run40Tests(unittest.TestCase):
         self.assertIsNotNone(result,report)
         self.assertEqual(m.call_count,2)
         props=m.call_args_list[0].kwargs['response_format']['json_schema']['schema']['properties']
-        self.assertEqual(props['questions']['items']['properties']['passage_ids']['items']['enum'],list(alias_map))
+        # Run 46 narrows the closed enum to route-compatible aliases; the
+        # full alias map is retained for stable replay and diagnostics.
+        from editorial_scope_v50 import passage_route_compatibility
+        records={p['passage_id']:p for p in t.selected}
+        expected=[a for a,pid in alias_map.items() if passage_route_compatibility(records[pid],report['primary_route'])]
+        self.assertEqual(props['questions']['items']['properties']['passage_ids']['items']['enum'],expected)
+        self.assertLess(len(expected),len(alias_map))
         self.assertFalse(report['publication_allowed'])
