@@ -154,5 +154,64 @@
     "human_approved": false,
     "url": "/guias/renovacion-residencia-no-lucrativa/#renovacion-de-residencia-no-lucrativa-cuanto-dura-la-autorizacion-renovada",
     "inline_html": "<div data-lexgo-content-hash=\"af0200ffe12f3f9a088c2c07946535022fe906676d446dd23e6a17d1f495b770\"><section>\n<p>Si te renuevan la autorización de residencia temporal no lucrativa, la autorización renovada tiene una vigencia de dos años. La excepción es que te corresponda obtener una autorización de residencia de larga duración o de larga duración-UE.</p><p class=\"lg-guide-source\">Fuente: <a href=\"https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a6-6\">Artículo 64 del Reglamento de Extranjería (RD 1155/2024)</a></p>\n</section>\n<p class=\"lg-guide-source\">Información general basada en los textos consolidados del BOE, de carácter informativo. No determina por sí sola la elegibilidad de una persona concreta. No constituye una guía exhaustiva de presentación de solicitudes.</p><p class=\"lg-guide-source\">Información general elaborada con fuentes oficiales y comprobaciones automatizadas. No sustituye una valoración profesional de tu caso.</p></div>"
+  },
+  {
+    "content_type": "KNOWLEDGE_ARTICLE",
+    "category": "no_lucrativa",
+    "title": "Renovación de residencia temporal no lucrativa: plazo de solicitud y efectos de presentarla",
+    "slug": "renovacion-de-residencia-temporal-no-lucrativa-plazo-de-solicitud-y-efectos-de-presentarla",
+    "description": "Información sobre Renovación de residencia temporal no lucrativa: plazo de solicitud y efectos de presentarla.",
+    "content_hash": "fa83fcadd512b1ed108fd220f0a70c5980cc80559ad7835a97750816347d22fa",
+    "approval_hash": "32260d9953588bc3add97ec70bdc57976678fa26dbc497d0667048b3dce12b81",
+    "status": "PUBLISHED",
+    "published_at": "2026-11-26",
+    "word_count": 290,
+    "origin": "EDITORIAL_SEED",
+    "primary_search_query": null,
+    "publication_authorization": {
+      "policy": "v66-autonomous-1",
+      "state": "AUTOMATED_PUBLICATION_AUTHORIZED",
+      "article_hash": "fa83fcadd512b1ed108fd220f0a70c5980cc80559ad7835a97750816347d22fa",
+      "approval_hash": "32260d9953588bc3add97ec70bdc57976678fa26dbc497d0667048b3dce12b81",
+      "review_hash": "5d8dfcb690d54556e0e683e1f42de0b899aa7759e0742298c998dafdf88996b9",
+      "evidence_hash": "9648976969b9e55684bcfbe0eb929ec5abbd79ecb30a1680cfcc2ce724a7a98f",
+      "source_run_id": "45840104482",
+      "source_slot": "historical:45840104482",
+      "publication_slot": "2026-11-26",
+      "content_type": "KNOWLEDGE_ARTICLE",
+      "source_refs": [
+        {
+          "source_id": "BOE-A-2024-24099",
+          "article": "64",
+          "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+          "authority": "boe",
+          "document_title": "BOE-A-2024-24099",
+          "text_hash": "8347d0a14df6108eabcf4e473e5ba50d5258d0a861d781ecb6ff10051f6b0213",
+          "retrieved_at": "2026-11-26T14:33:03.180601+00:00",
+          "citation_urls": [
+            "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099"
+          ]
+        },
+        {
+          "source_id": "BOE-A-2000-544",
+          "article": "52",
+          "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2000-544",
+          "authority": "boe",
+          "document_title": "BOE-A-2000-544",
+          "text_hash": "092eadfa42b8c3fd01ef028d40493cfef2aa2922e0ca1b7e0844d481cffb76cd",
+          "retrieved_at": "2026-11-26T14:33:05.809209+00:00",
+          "citation_urls": [
+            "https://www.boe.es/buscar/act.php?id=BOE-A-2000-544"
+          ]
+        }
+      ],
+      "human_approved": false,
+      "mode": "BACKLOG_MIGRATION",
+      "budget_authorization": "OWNER_AUTHORIZED_HISTORICAL_NO_NEW_API_SPEND"
+    },
+    "source_run_id": "45840104482",
+    "publication_policy": "v66-autonomous-1",
+    "human_approved": false,
+    "url": "/guias/renovacion-residencia-no-lucrativa/renovacion-de-residencia-temporal-no-lucrativa-plazo-de-solicitud-y-efectos-de-presentarla"
   }
 ]
