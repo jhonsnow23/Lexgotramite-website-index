@@ -24,7 +24,7 @@ class Run38Tests(unittest.TestCase):
         return {'index':i,'classification':kind,'reason':'Simulated independent assessment; not a legal finding',
                 'retained_answer':'Describe the expressly documented branches only',
                 'limitation':'No conclusion on the unresolved route or eligibility for exceptional extension',
-                'evidence_ids':refs,'supporting_passages':[{'evidence_id':r,'quote':by_ref[r]['text'][:160]} for r in refs if r in by_ref]}
+                'evidence_ids':refs,'supporting_passage_ids':[next(p['passage_id'] for p in legal.build_catalog(self.rows)['passages'].values() if p['evidence_id']==by_ref[r]['evidence_id']) for r in refs if r in by_ref]}
 
     def classify(self,*outputs,question=None):
         with patch.object(legal,'call_model',side_effect=outputs) as m:
@@ -51,7 +51,7 @@ class Run38Tests(unittest.TestCase):
         self.assertEqual(r['blocking_missing_facts'],[self.q['missing_facts'][1]])
 
     def test_invented_passage_blocks_only_its_gap(self):
-        bad={**self.row(1),'supporting_passages':[{'evidence_id':'R001','quote':'An invented legal paragraph that does not occur in the evidence.'}]}
+        bad={**self.row(1),'supporting_passage_ids':['P_INVENTED']}
         r,_=self.classify({'assessments':[self.row(0),bad]})
         self.assertEqual(r['blocking_missing_facts'],[self.q['missing_facts'][1]])
         self.assertEqual(r['gap_diagnostics']['rejected'][0]['reason'],'INVALID_SUPPORTING_PASSAGE')
@@ -107,7 +107,7 @@ class Run38Tests(unittest.TestCase):
 
     def test_real_four_gaps_replay_material_block(self):
         rc,f,m=self.replay([{'assessments':[self.row(0),self.row(1,'MATERIAL')]},{'assessments':[self.row(0,'OPTIONAL_DETAIL'),self.row(1,'MATERIAL')]}])
-        self.assertEqual(rc,2); self.assertEqual(m.call_count,3)
+        self.assertEqual(rc,2); self.assertEqual(m.call_count,4)
         self.assertFalse(f['decision.json']['publication_allowed'])
         self.assertEqual(sum(len(q['blocking_missing_facts']) for q in f['research_coverage.json']['questions']),2)
         self.assertEqual(f['gap_assessment_diagnostics.json']['status'],'EVALUATED')

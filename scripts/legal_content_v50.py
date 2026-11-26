@@ -45,6 +45,16 @@ try:
 except ImportError:
     from scripts.boe_universal_v45 import retrieve, BOEError
 
+try:
+    from evidence_passages_v50 import build_catalog, resolve_passage, select_context
+except ImportError:
+    from scripts.evidence_passages_v50 import build_catalog, resolve_passage, select_context
+
+try:
+    from editorial_scope_v50 import alternative_scope
+except ImportError:
+    from scripts.editorial_scope_v50 import alternative_scope
+
 # Identified research starting points, not an assertion of legal applicability.
 # Do not guess special immigration articles for broadly defined authorizations.
 REGISTRY = {
@@ -360,6 +370,8 @@ def article_request(research_plan,evidence,model='gpt-4.1-mini',client=None,prev
             'review_gaps': (findings.get('review') or {}).get('gaps',[]),
             'do_not_claim': 'Exclusively presencial, no online option exists, or no additional legal requirements exist, unless exact evidence proves it.',
         }
+    if research_plan.get('adaptive_editorial_scope'):
+        data['instructions'] += ' Use exactly the authorized title and ONLY the approved answers and limitations in plan.adaptive_editorial_scope. The original broad topic is not the scope. Never reintroduce excluded gaps or infer legal absence.'
     messages=[{'role':'system','content':SYSTEM_WRITER},
               {'role':'user','content':json.dumps(data,ensure_ascii=False)}]
     return call_model(messages,model=model,client=client)
@@ -489,7 +501,10 @@ def semantic_review(article,evidence,model='gpt-4.1-mini',client=None,dossier=No
     for i,c in enumerate(claims):
         annotated.append({'claim_index':i,'claim':c.get('claim',''),
             'evidence':[ids[x] for x in c.get('evidence_ids',[]) if x in ids]})
-    resp=call_model([{'role':'system','content':SYSTEM_REVIEW},
+    review_prompt=SYSTEM_REVIEW
+    if (research_plan or {}).get('adaptive_editorial_scope'):
+        review_prompt += '\nFor an independently approved adaptive scope, assess the NEW authorized title and scope, all approved answers, and explicit original exclusions. Reject any new material legal assertion outside the approved answers or any omitted essential condition; return scope_limitations_status. Do not infer impossibility or exceptional-extension eligibility from excluded gaps.'
+    resp=call_model([{'role':'system','content':review_prompt},
                      {'role':'user','content':json.dumps({'claims':annotated,'article':article,'all_official_evidence':evidence,'legal_applicability_dossier':dossier,'research_coverage':research_coverage,'research_plan':research_plan},ensure_ascii=False)}],model=model,client=client)
     assessments=resp.get('assessment',[])
     problems=[]
@@ -637,8 +652,7 @@ def _gap_schema():
               'classification':{'type':'string','enum':['MATERIAL','INDIVIDUAL','OPTIONAL_DETAIL','EDITORIAL_EXCLUSION','VERIFIED_BY_MATRIX']},
               'reason':{'type':'string'},'retained_answer':{'type':'string'},
               'limitation':{'type':'string'},'evidence_ids':{'type':'array','items':{'type':'string'}},
-              'supporting_passages':{'type':'array','items':{'type':'object','additionalProperties':False,
-                 'required':['evidence_id','quote'],'properties':{'evidence_id':{'type':'string'},'quote':{'type':'string'}}}}}
+              'supporting_passage_ids':{'type':'array','items':{'type':'string'}}}
     return {'type':'json_schema','json_schema':{'name':'gap_assessments','strict':True,'schema':{
         'type':'object','additionalProperties':False,'required':['assessments'], 'properties':{
         'assessments':{'type':'array','items':{'type':'object','additionalProperties':False,
@@ -658,11 +672,19 @@ def _general_guidance_missing_fact_classification(question, branch_coverage, *,
         diagnostic['skip_reason'] = 'NO_GAPS' if not facts else ('BRANCH_COVERAGE_NOT_READY' if not branch_coverage.get('ready') else 'QUESTION_NOT_PARTIAL')
         return result
     aliases = {f'R{i:03d}': r['evidence_id'] for i, r in enumerate(evidence, 1)}
-    compact = [{**r, 'evidence_id': alias} for alias, r in zip(aliases, evidence)]
+    catalog = build_catalog(evidence)
+    selected, omitted = select_context(catalog, evidence, dossier)
+    sent = {p['passage_id'] for p in selected}
+    diagnostic['passages_sent'] = sorted(sent)
+    diagnostic['passages_omitted_for_budget'] = omitted
+    if any(not catalog['passages'][pid]['parent_passage_id'] for pid in omitted):
+        diagnostic['skip_reason']='CONTEXT_BUDGET_OMITTED_PRIMARY_PASSAGES'
+        return result
+    compact = [{k:v for k,v in r.items() if k not in ('text','research_relevance')} | {'evidence_id': alias} for alias, r in zip(aliases, evidence)]
     diagnostic['expected_evidence_aliases']=aliases
     prompt = (
         'Independently assess whether each missing fact is essential to the original article intent. '
-        'Return a JSON object with assessments array: [{index, classification, reason, retained_answer, evidence_ids, limitation, supporting_passages}]. '
+        'Return a JSON object with assessments array: [{index, classification, reason, retained_answer, evidence_ids, limitation, supporting_passage_ids}]. '
         'Classifications: MATERIAL, INDIVIDUAL, OPTIONAL_DETAIL, EDITORIAL_EXCLUSION, VERIFIED_BY_MATRIX. '
         'For MATERIAL identify the specific missing rule, affected assertion and why it cannot be omitted in reason; use limitation for the evidence needed. Do not demand hypothetical additional requirements without a concrete missing rule. Default MATERIAL. Assess the entire gap, not keywords. If any part is material, classify MATERIAL. '
         'EDITORIAL_EXCLUSION only if a general guide can still answer its original intent accurately, '
@@ -674,13 +696,13 @@ def _general_guidance_missing_fact_classification(question, branch_coverage, *,
         'route, a material deadline, exception, or essential filing step must remain blocked. '
         'INDIVIDUAL means only facts of a real applicant; OPTIONAL_DETAIL means a separable procedural detail, '
         'not an indispensable filing requirement. VERIFIED_BY_MATRIX requires actual official text resolving the gap. '
-        'For each non-material classification provide supporting_passages [{evidence_id, quote}] with a verbatim passage from every cited record that supports the retained answer. For MATERIAL use an empty array if no supporting passage is available. '
+        'For each non-material classification select supporting_passage_ids from official_passages, at least one from every cited record that supports the retained answer. Never transcribe quotations. Read parent passages for conditions and exceptions. Match legal branch and distinguish procedural guidance from eligibility. For MATERIAL use an empty array if no supporting passage is available. '
         'For each non-material classification provide a concrete retained_answer supported by exact supplied '
         'short evidence_ids and a limitation stating what must not be concluded. The dossier uses canonical IDs; map them to short aliases via evidence_id_aliases. Never invent citations. '
         'Do not rewrite questions or change their coverage status.')
     payload = {'topic': plan['topic'], 'original_questions': plan['research_questions'],
                'question': question, 'missing_facts': list(enumerate(facts)),
-               'evidence': compact, 'evidence_id_aliases': aliases, 'legal_applicability_dossier': dossier,
+               'evidence': compact, 'official_passages':selected, 'evidence_id_aliases': aliases, 'legal_applicability_dossier': dossier,
                'branch_coverage': branch_coverage}
     diagnostic['attempted']=True
     messages=[{'role':'system','content':prompt},{'role':'user','content':json.dumps(payload,ensure_ascii=False)}]
@@ -722,7 +744,6 @@ def _general_guidance_missing_fact_classification(question, branch_coverage, *,
                   'EDITORIAL_EXCLUSION':'editorial_exclusions', 'VERIFIED_BY_MATRIX':'resolved_by_official_branch_matrix'}
     result['blocking_missing_facts'] = []
     canonical_to_alias={v:k for k,v in aliases.items()}
-    text_by_alias={r['evidence_id']:' '.join(str(r.get('text') or '').split()) for r in compact}
     for idx,fact in enumerate(facts):
         entries=by_index.get(idx,[])
         reason=None
@@ -750,19 +771,17 @@ def _general_guidance_missing_fact_classification(question, branch_coverage, *,
             elif category=='resolved_by_official_branch_matrix' and not branch_coverage.get('exceptional_extension_conditions_verified'):
                 reason='BRANCH_MATRIX_NOT_VERIFIED'
             else:
-                passages=entry.get('supporting_passages')
+                passages=entry.get('supporting_passage_ids')
                 normalized=[]
                 if not isinstance(passages,list) or not passages:
                     reason='MISSING_SUPPORTING_PASSAGES'
                 else:
-                    for passage in passages:
-                        ref=passage.get('evidence_id') if isinstance(passage,dict) else None
-                        quote=passage.get('quote') if isinstance(passage,dict) else None
-                        ref=canonical_to_alias.get(ref,ref) if isinstance(ref,str) else None
-                        if (ref not in refs or not isinstance(quote,str) or len(' '.join(quote.split()))<20
-                            or ' '.join(quote.split()) not in text_by_alias.get(ref,'')):
+                    seen=set()
+                    for pid in passages:
+                        resolved=resolve_passage(pid,catalog,evidence,allowed_ids=sent)
+                        if not resolved or pid in seen or resolved['evidence_id'] not in {aliases[r] for r in refs}:
                             reason='INVALID_SUPPORTING_PASSAGE'; break
-                        normalized.append({'evidence_id':aliases[ref],'quote':quote})
+                        seen.add(pid); normalized.append(resolved)
                     if not reason and {p['evidence_id'] for p in normalized} != {aliases[r] for r in refs}:
                         reason='MISSING_PASSAGE_FOR_CITED_EVIDENCE'
                 if not reason:
@@ -773,7 +792,7 @@ def _general_guidance_missing_fact_classification(question, branch_coverage, *,
             continue
         result[category].append(fact)
         result['gap_assessments'].append({**entry,'missing_fact':fact,'evidence_ids':[aliases[r] for r in refs]})
-        diagnostic['accepted'].append({'index':idx,'classification':kind,'decision':'LIMITED_SCOPE'})
+        diagnostic['accepted'].append({'index':idx,'classification':kind,'decision':'LIMITED_SCOPE','passage_ids':entry['supporting_passage_ids']})
     return result
 
 
@@ -879,6 +898,7 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
     def save(name,obj):
         (out/name).write_text(json.dumps(obj,indent=2,ensure_ascii=False),encoding='utf-8')
     gap_report={'status':'NOT_REACHED','questions':[],'publication_allowed':False}
+    scope_report={'status':'NOT_REACHED','publication_allowed':False}
     try:
         proposal=json.loads(Path(proposals_path).read_text(encoding='utf-8'))
         research_plan=plan(proposal);save('research_plan.json',research_plan)
@@ -906,6 +926,7 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
             status['result']='BLOCKED_INSUFFICIENT_EVIDENCE'
             status['failure_codes']=[x.get('category') for x in blocking_errors or failed]
             return 2
+        save('evidence_passage_catalog.json',build_catalog(evidence))
         dossier=build_dossier(research_plan,evidence)
         covered,ready=research_readiness(research_plan,evidence,model=model,client=client,dossier=dossier)
         gap_report.update({'status':'EVALUATED','questions':[{'question_id':q.get('id'), 'diagnostics':q.get('gap_diagnostics',{'attempted':False,'skip_reason':'NOT_GENERAL_GUIDANCE'}),'blocking_missing_facts':q.get('blocking_missing_facts',[]),'draft_readiness':q.get('draft_readiness')} for q in covered], 'ready_before_applicability':ready})
@@ -940,15 +961,50 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
              'publication_allowed':False})
         gap_report['ready_for_draft']=ready
         if not ready:
-            status['result']='BLOCKED_INSUFFICIENT_EVIDENCE'
-            status['errors']=['Official provisions do not answer every essential research question']
-            return 2
+            alternative=None
+            if not scope_conflicts(matrix):
+                alternative=alternative_scope(research_plan,covered,evidence,dossier,call=call_model,model=model,client=client,report=scope_report)
+            else:
+                scope_report['status']='BLOCKED_ORIGINAL_APPLICABILITY'
+            if alternative:
+                alt_plan,alt_covered=alternative
+                # Reapply metadata-only duplicate detection to the new title.
+                try:
+                    from seo_v50 import classify_duplicate, metadata_inventory
+                except ImportError:
+                    from scripts.seo_v50 import classify_duplicate, metadata_inventory
+                duplicate,duplicate_reason,_=classify_duplicate({'proposed_title':alt_plan['topic'],'primary_query':alt_plan['commercial_classification']['search_intent']},metadata_inventory(Path(__file__).resolve().parents[1]))
+                alt_dossier=build_dossier(alt_plan,evidence)
+                alt_matrix=question_matrix(alt_plan,evidence,alt_covered,alt_dossier)
+                alt_graph=build_source_claims(evidence,alt_dossier,alt_covered)
+                alt_graph['distinct_legal_mechanisms']=operative_mechanisms(evidence)
+                alt_errors=scope_conflicts(alt_matrix)+validate_graph(alt_graph,alt_dossier,evidence)
+                if duplicate:
+                    alt_errors.append('ALTERNATIVE_DUPLICATE_METADATA: '+duplicate_reason)
+                if alt_errors:
+                    scope_report.update({'status':'BLOCKED_ALTERNATIVE_APPLICABILITY','errors':alt_errors})
+                    alternative=None
+                else:
+                    research_plan,covered,dossier=alt_plan,alt_covered,alt_dossier
+                    save('alternative_claim_evidence_matrix.json',alt_matrix)
+                    save('alternative_source_claim_graph.json',alt_graph)
+                    gap_report['alternative_ready_for_draft']=True
+                    gap_report['original_scope_ready_for_draft']=False
+                    status['adaptive_editorial_scope']=True
+            if not alternative:
+                status['result']='BLOCKED_INSUFFICIENT_EVIDENCE'
+                status['errors']=['Official provisions do not answer every essential research question']
+                return 2
+        else:
+            scope_report['status']='ORIGINAL_SCOPE_READY'
         audit=[];draft=None
         for attempt in range(max_revisions+1):
             previous=draft
             draft=article_request(research_plan,evidence,model=model,client=client,previous=previous,
                     findings=audit[-1] if audit else None,dossier=dossier,research_coverage=covered)
             integrity=verify_integrity(draft,evidence,research_plan)
+            if research_plan.get('adaptive_editorial_scope') and draft.get('title')!=research_plan['topic']:
+                integrity.append('Draft changed the independently authorized alternative title')
             claim_matrix,claim_errors=audit_declared_claims(draft,dossier)
             integrity.extend(claim_errors)
             save('article_claim_applicability.json',claim_matrix)
@@ -973,6 +1029,9 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
         gap_report['final_result']=status['result']
         gap_report['final_errors']=_safe_diagnostic(status['errors'])
         save('gap_assessment_diagnostics.json',_safe_diagnostic(gap_report))
+        save('passage_selection_diagnostics.json',_safe_diagnostic(gap_report))
+        scope_report['final_result']=status['result']
+        save('editorial_scope_decision.json',_safe_diagnostic(scope_report))
         save('decision.json',status)
         print(json.dumps({'result':status['result'],'publication_allowed':False,'errors':status['errors']},ensure_ascii=False))
 
