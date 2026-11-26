@@ -126,6 +126,7 @@ def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, 
                          'review':current.get('independent_scope_review'),
                          'primary_route':current.get('primary_route'),
                          'question_count':current.get('question_count'),
+                         'gap_reference_check':current.get('gap_reference_check'),
                          'passage_route_rejection':current.get('passage_route_rejection')})
         if reason in ('INDEPENDENT_SCOPE_REJECTED','REPEATED_PROPOSAL') and candidate_index+1<len(candidates):
             candidate_index+=1
@@ -166,12 +167,15 @@ def _one_scope(plan, covered, evidence, dossier, *, call, model, client, report,
     if not eligible_aliases:
         report['status']='NO_ROUTE_COMPATIBLE_PASSAGES'; return None
     proposal_fields={**PROPOSAL_FIELDS,'business_category':{'type':'string','enum':[plan['commercial_classification']['business_category']]},'questions':{**PROPOSAL_FIELDS['questions'],'items':{**PROPOSAL_FIELDS['questions']['items'],'properties':{**CLAIM_FIELDS,'passage_ids':{'type':'array','items':{'type':'string','enum':eligible_aliases}},'route_ids':{'type':'array','items':{'type':'string','enum':[primary_route]}}}}}}
+    required_gap_ids=sorted(g['gap_id'] for g in gaps)
+    proposal_fields['excluded_gap_ids']={'type':'array','items':{'type':'string','enum':required_gap_ids}}
     # The configured non-fine-tuned GPT-4.1 family supports array bounds.
     # Keep the Python guard for other models and historical responses.
     if model in ('gpt-4.1-mini','gpt-4.1','gpt-4.1-nano') or model.startswith(('gpt-4.1-mini-','gpt-4.1-nano-','gpt-4.1-20')):
+        proposal_fields['excluded_gap_ids'].update(minItems=len(required_gap_ids),maxItems=len(required_gap_ids))
         proposal_fields['questions'].update(minItems=2,maxItems=8)
         proposal_fields['questions']['items']['properties']['route_ids'].update(minItems=1,maxItems=1)
-    data={'original_plan':plan,'original_coverage':covered,'blocking_gaps':gaps,'official_passages':short_selected,'dossier':dossier,'selectable_route_ids':sorted(route_set),'previous_rejections':feedback,'primary_route':primary_route,'required_question_count':{'min':2,'max':8},'eligible_passage_aliases':eligible_aliases}
+    data={'original_plan':plan,'original_coverage':covered,'blocking_gaps':gaps,'official_passages':short_selected,'dossier':dossier,'selectable_route_ids':sorted(route_set),'previous_rejections':feedback,'primary_route':primary_route,'required_question_count':{'min':2,'max':8},'eligible_passage_aliases':eligible_aliases,'required_excluded_gap_ids':required_gap_ids}
     def ask(name, fields, prompt, payload):
         trace={}; report[name+'_transport']=trace
         result=call([{'role':'system','content':prompt},{'role':'user','content':json.dumps(payload,ensure_ascii=False)}],
@@ -181,20 +185,30 @@ def _one_scope(plan, covered, evidence, dossier, *, call, model, client, report,
     try:
         proposal=ask('proposal',proposal_fields,
             'Propose ONE Spanish article exclusively about the primary_route selected by Python, or empty title if none; in that case describe unresolved questions without inventing answers. Same commercial category and genuine search intent. Provide 2 to 8 distinct essential questions. Every question must contain exactly one route ID, the primary_route; never repeat it; do not provide a survey of other routes. Include the primary route’s conditions and limitations, including material dependencies. '
-            'If previous_rejections is nonempty, propose a genuinely different, narrower scope that addresses the recorded rejection. Prefer a single verified route or a clearly bounded subtopic; do not repeat the original broad modification-and-extension guide under a new title. '
+            'If previous_rejections is nonempty, repair a gap-reference formatting error without changing a valid topic; after a substantive rejection propose a genuinely different, narrower scope that addresses the recorded rejection. Prefer a single verified route or a clearly bounded subtopic; do not repeat the original broad modification-and-extension guide under a new title. '
             'Select only eligible_passage_aliases for the primary route. Shared DA20.10/DA21.10 provisions may support common filing and validity rules, not unrelated prórroga claims. Select only the passages necessary for each answer, including controlling exceptions; do not cite ranges of aliases in prose or select the whole catalog. '
             'Do not solve or erase original gaps. Every essential question needs an explicit supported answer with exact short passage aliases (P001 etc.) and applicable route IDs. '
             'Use only selectable route IDs; never include an unresolved or excluded branch even if you list it as a limitation. Do not infer unavailable routes or exceptional eligibility from uncertainty. Include all material conditions, exceptions, deadlines and effects needed for the specific article. '
-            'Explicitly list each original blocking gap ID outside the new scope, and limitations and individual conditions. Limitations must be reader-facing statements for publication in the draft: identify the single route covered, explicitly state that other routes are not evaluated, and distinguish unverified procedural details from verified requirements. Do not assert that an unresolved route is legally unavailable or that no official guidance exists. No exhaustive title for a partial guide.',data)
+            'Copy each required_excluded_gap_ids identifier exactly once if the gap is genuinely outside the new scope; if a gap remains a dependency do not present the article as sufficient. Explicitly list each original blocking gap ID outside the new scope, and limitations and individual conditions. Limitations must be reader-facing statements for publication in the draft: identify the single route covered, explicitly state that other routes are not evaluated, and distinguish unverified procedural details from verified requirements. Do not assert that an unresolved route is legally unavailable or that no official guidance exists. No exhaustive title for a partial guide.',data)
         if not isinstance(proposal,dict): raise ValueError('INVALID_PROPOSAL')
         for key in ('title','search_intent','scope','utility','seo_rationale','omission_rationale','business_category'):
             if not isinstance(proposal.get(key),str) or not proposal[key].strip(): raise ValueError('MISSING_'+key.upper())
-        if any(norm(f.get('title') or '')==norm(proposal['title']) and norm(f.get('scope') or '')==norm(proposal['scope']) for f in feedback):
-            raise ValueError('REPEATED_PROPOSAL')
+        matching=[f for f in feedback if norm(f.get('title') or '')==norm(proposal['title']) and norm(f.get('scope') or '')==norm(proposal['scope'])]
+        refs=proposal.get('excluded_gap_ids')
+        gap_refs_valid=(isinstance(refs,list) and all(isinstance(v,str) for v in refs)
+                        and sorted(refs)==required_gap_ids)
+        # A repaired reference list is not a repeated failed proposal. Permit
+        # only this specific repair, and never override a substantive veto.
+        if matching:
+            repaired=(gap_refs_valid and all(f['reason']=='ORIGINAL_BLOCKING_GAPS_NOT_ACCOUNTED_FOR' for f in matching))
+            if not repaired:
+                raise ValueError('REPEATED_PROPOSAL')
+            report['proposal_reference_repair']='CORRECTED_GAP_IDS_SAME_SCOPE'
         for key in ('limitations','individual_conditions','excluded_gap_ids'):
             if not isinstance(proposal.get(key),list) or any(not isinstance(v,str) or not v.strip() for v in proposal[key]): raise ValueError('INVALID_'+key.upper())
         if not proposal['limitations']: raise ValueError('MISSING_LIMITATIONS')
-        if set(proposal['excluded_gap_ids'])!={g['gap_id'] for g in gaps}: raise ValueError('ORIGINAL_BLOCKING_GAPS_NOT_ACCOUNTED_FOR')
+        report['gap_reference_check']={'expected':required_gap_ids,'received':proposal['excluded_gap_ids'],'valid':gap_refs_valid}
+        if not gap_refs_valid: raise ValueError('ORIGINAL_BLOCKING_GAPS_NOT_ACCOUNTED_FOR')
         report['commercial_scope_check']=commercial_scope_check(plan,proposal)
         if not report['commercial_scope_check']['accepted']:
             raise ValueError('COMMERCIAL_SCOPE_CHANGED')
