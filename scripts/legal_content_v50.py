@@ -371,7 +371,7 @@ def article_request(research_plan,evidence,model='gpt-4.1-mini',client=None,prev
             'do_not_claim': 'Exclusively presencial, no online option exists, or no additional legal requirements exist, unless exact evidence proves it.',
         }
     if research_plan.get('adaptive_editorial_scope'):
-        data['instructions'] += ' Use exactly the authorized title and ONLY the approved answers and limitations in plan.adaptive_editorial_scope. The original broad topic is not the scope. Never reintroduce excluded gaps or infer legal absence.'
+        data['instructions'] += ' Use exactly the authorized title and ONLY the approved answers and limitations in plan.adaptive_editorial_scope. The original broad topic is not the scope. Include the approved reader-facing scope limitations explicitly in the article, including the boundary of the specific route and any unverified procedural details. Never reintroduce excluded gaps or infer legal absence.'
     messages=[{'role':'system','content':SYSTEM_WRITER},
               {'role':'user','content':json.dumps(data,ensure_ascii=False)}]
     return call_model(messages,model=model,client=client)
@@ -503,7 +503,7 @@ def semantic_review(article,evidence,model='gpt-4.1-mini',client=None,dossier=No
             'evidence':[ids[x] for x in c.get('evidence_ids',[]) if x in ids]})
     review_prompt=SYSTEM_REVIEW
     if (research_plan or {}).get('adaptive_editorial_scope'):
-        review_prompt += '\nFor an independently approved adaptive scope, assess the NEW authorized title and scope, all approved answers, and explicit original exclusions. Reject any new material legal assertion outside the approved answers or any omitted essential condition; return scope_limitations_status. Do not infer impossibility or exceptional-extension eligibility from excluded gaps.'
+        review_prompt += '\nFor an independently approved adaptive scope, assess the NEW authorized title and scope, all approved answers, and explicit original exclusions. Reject any new material legal assertion outside the approved answers or any omitted essential condition or missing approved reader-facing limitation; return scope_limitations_status. Assess completeness relative to the authorized narrow scope, not the historical broad topic. Do not infer impossibility or exceptional-extension eligibility from excluded gaps.'
     resp=call_model([{'role':'system','content':review_prompt},
                      {'role':'user','content':json.dumps({'claims':annotated,'article':article,'all_official_evidence':evidence,'legal_applicability_dossier':dossier,'research_coverage':research_coverage,'research_plan':research_plan},ensure_ascii=False)}],model=model,client=client)
     assessments=resp.get('assessment',[])

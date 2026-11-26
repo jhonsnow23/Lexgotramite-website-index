@@ -14,7 +14,7 @@ class Run44Tests(unittest.TestCase):
     def test_real_duplicate_reaches_review(self):
         result,r,c=self.run_scope(F['proposal'],self.verdict()); self.assertEqual(c.call_count,2,r.get('reason')); self.assertIsNotNone(result,r.get('reason')); self.assertEqual(r['route_normalizations'][0]['question_index'],2)
         props=c.call_args_list[0].kwargs['response_format']['json_schema']['schema']['properties']['questions']['items']['properties']['route_ids']; self.assertEqual((props['minItems'],props['maxItems']),(1,1))
-        payload=json.loads(c.call_args_list[1].args[0][1]['content']); self.assertEqual(len(payload['proposal']['questions'][2]['route_ids']),1)
+        payload=json.loads(c.call_args_list[1].args[0][1]['content']); self.assertEqual(len(payload['review_target']['proposal']['questions'][2]['route_ids']),1)
         self.assertEqual(len(r['proposal']['questions'][2]['route_ids']),2)
     def test_review_veto(self):
         result,r,c=self.run_scope(F['proposal'],{**self.verdict(),'approved':False}); self.assertIsNone(result); self.assertEqual(r['reason'],'INDEPENDENT_SCOPE_REJECTED')
