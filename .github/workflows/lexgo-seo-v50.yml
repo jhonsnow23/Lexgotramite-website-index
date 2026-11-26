@@ -9,9 +9,9 @@ on:
         default: false
         required: false
       allow_editorial_fallback:
-        description: 'Explicitly allow an editorial seed when no eligible GSC demand exists'
+        description: 'Allow a clearly labeled renewal seed when no eligible measured keyword exists'
         type: boolean
-        default: false
+        default: true
 
 permissions:
   contents: read
@@ -72,6 +72,8 @@ jobs:
           python -m unittest discover -s tests -p 'test_v50_run58_editorial_seo.py' -v
           python -m unittest discover -s tests -p 'test_v50_run59_budget_settlement.py' -v
           python -m unittest discover -s tests -p 'test_v50_run60_official_instructions.py' -v
+          python -m unittest discover -s tests -p 'test_v50_run61_source_context.py' -v
+          python -m unittest discover -s tests -p 'test_v50_run62_renewal_intent.py' -v
       - name: Refresh REAL Google Search Console data
         env:
           GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
@@ -92,6 +94,7 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           MANUAL_RETRY: ${{ inputs.retry_failed_topic }}
           EDITORIAL_FALLBACK: ${{ inputs.allow_editorial_fallback }}
+          LEXGO_KEYWORD_PLANNER_CSV: ${{ vars.LEXGO_KEYWORD_PLANNER_CSV }}
         shell: bash
         run: |
           set -eu
@@ -116,7 +119,7 @@ jobs:
               echo 'exit_code=4' >> "$GITHUB_OUTPUT"
             else
               set +e
-              python scripts/first_article_v50.py --proposal-file reports/seo_v50/selected_proposal.json --output reports/seo_v50/article --article-type information --max-topics 1 --max-research-rounds 2 --max-draft-repairs 1 --max-execution-minutes 25 --max-api-cost-usd 0.25 --research-model "$RESEARCH_MODEL" --review-model "$REVIEW_MODEL"
+              python scripts/first_article_v50.py --proposal-file reports/seo_v50/selected_proposal.json --output reports/seo_v50/article --article-type specific_question --max-topics 1 --max-research-rounds 2 --max-draft-repairs 1 --max-execution-minutes 25 --max-api-cost-usd 0.25 --research-model "$RESEARCH_MODEL" --review-model "$REVIEW_MODEL"
               CODE=$?
               set -e
               echo "exit_code=$CODE" >> "$GITHUB_OUTPUT"
