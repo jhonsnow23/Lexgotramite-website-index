@@ -1,0 +1,2740 @@
+{
+  "metadata": {
+    "source": "google_search_console_api",
+    "site": "sc-domain:lexgotramite.com",
+    "data_end_date": "2026-11-23",
+    "retrieved_at": "2026-11-26",
+    "limitations": "Property search impressions, not overall Google keyword volumes; query rows may be withheld or truncated.",
+    "verified_google_data": true
+  },
+  "windows": {
+    "28": []
+  },
+  "v50_commercial_query_clusters": {
+    "7": [
+      {
+        "id": "gsc_0d0f560ff89939bd3e82",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social",
+            "impressions": 27,
+            "clicks": 0,
+            "average_position": 47.85,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social españa",
+            "impressions": 6,
+            "clicks": 0,
+            "average_position": 51.17,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social en españa",
+            "impressions": 5,
+            "clicks": 0,
+            "average_position": 56.2,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social espana",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 54.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social que es",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 51.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "que es arraigo social en españa",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 54.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 41,
+        "clicks": 0,
+        "average_position": 49.73,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_8590874d69eab705bf25",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "requisitos arraigo social",
+            "impressions": 18,
+            "clicks": 0,
+            "average_position": 50.28,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social requisitos españa",
+            "impressions": 6,
+            "clicks": 0,
+            "average_position": 57.5,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana",
+              "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social requisitos",
+            "impressions": 5,
+            "clicks": 0,
+            "average_position": 49.8,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "requisitos para el arraigo social",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 55.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 30,
+        "clicks": 0,
+        "average_position": 51.8,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana",
+          "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_6918f45bc55f6f719b68",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "tramitación arraigo social",
+            "impressions": 12,
+            "clicks": 0,
+            "average_position": 51.5,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 12,
+        "clicks": 0,
+        "average_position": 51.5,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_05f2b254101c41de41ab",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social estepona",
+            "impressions": 11,
+            "clicks": 0,
+            "average_position": 53.55,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 11,
+        "clicks": 0,
+        "average_position": 53.55,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_68af629465a1b2ee3e38",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "solicitar arraigo social",
+            "impressions": 7,
+            "clicks": 0,
+            "average_position": 61.57,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 7,
+        "clicks": 0,
+        "average_position": 61.57,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_4cd5296096c0462159ba",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "trámite de arraigo social",
+            "impressions": 6,
+            "clicks": 0,
+            "average_position": 56.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 6,
+        "clicks": 0,
+        "average_position": 56.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_41876841f9948a1fd2c6",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo en españa",
+            "impressions": 5,
+            "clicks": 0,
+            "average_position": 47.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 5,
+        "clicks": 0,
+        "average_position": 47.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_d612d3de4da5adfe81a7",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "tramitar arraigo social málaga",
+            "impressions": 5,
+            "clicks": 0,
+            "average_position": 63.8,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 5,
+        "clicks": 0,
+        "average_position": 63.8,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_bd7d50f18909b6672c15",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "requisitos arraigo social málaga",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 51.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 1,
+        "clicks": 0,
+        "average_position": 51.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_d4e54f0469ed95608d47",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "requisito arraigo social",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 47.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 1,
+        "clicks": 0,
+        "average_position": 47.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      }
+    ],
+    "28": [
+      {
+        "id": "gsc_0d0f560ff89939bd3e82",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social",
+            "impressions": 188,
+            "clicks": 0,
+            "average_position": 53.53,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social españa",
+            "impressions": 41,
+            "clicks": 0,
+            "average_position": 51.8,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social en españa",
+            "impressions": 26,
+            "clicks": 0,
+            "average_position": 57.54,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social espana",
+            "impressions": 4,
+            "clicks": 0,
+            "average_position": 50.5,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social que es",
+            "impressions": 3,
+            "clicks": 0,
+            "average_position": 49.33,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "que es arraigo social en españa",
+            "impressions": 3,
+            "clicks": 0,
+            "average_position": 49.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "que es el arraigo social en españa",
+            "impressions": 2,
+            "clicks": 0,
+            "average_position": 45.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "qué es arraigo social",
+            "impressions": 2,
+            "clicks": 0,
+            "average_position": 50.5,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "que es arraigo social",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 48.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 270,
+        "clicks": 0,
+        "average_position": 53.41,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_8590874d69eab705bf25",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "requisitos arraigo social",
+            "impressions": 81,
+            "clicks": 0,
+            "average_position": 51.96,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social requisitos",
+            "impressions": 36,
+            "clicks": 0,
+            "average_position": 51.47,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social requisitos españa",
+            "impressions": 20,
+            "clicks": 0,
+            "average_position": 58.1,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana",
+              "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "requisitos para el arraigo social",
+            "impressions": 11,
+            "clicks": 0,
+            "average_position": 46.91,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "requisitos para arraigo social en españa",
+            "impressions": 4,
+            "clicks": 0,
+            "average_position": 45.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana",
+              "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "requisitos para arraigo social",
+            "impressions": 3,
+            "clicks": 0,
+            "average_position": 46.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 155,
+        "clicks": 0,
+        "average_position": 51.99,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana",
+          "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_6918f45bc55f6f719b68",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "tramitación arraigo social",
+            "impressions": 40,
+            "clicks": 0,
+            "average_position": 50.62,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 40,
+        "clicks": 0,
+        "average_position": 50.62,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_41876841f9948a1fd2c6",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo en españa",
+            "impressions": 34,
+            "clicks": 0,
+            "average_position": 54.85,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 34,
+        "clicks": 0,
+        "average_position": 54.85,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_68af629465a1b2ee3e38",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "solicitar arraigo social",
+            "impressions": 26,
+            "clicks": 0,
+            "average_position": 59.65,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 26,
+        "clicks": 0,
+        "average_position": 59.65,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_4cd5296096c0462159ba",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "trámite de arraigo social",
+            "impressions": 24,
+            "clicks": 0,
+            "average_position": 52.08,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 24,
+        "clicks": 0,
+        "average_position": 52.08,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_4f83b62e8c82aa69a09a",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "requisitos arraigo social cataluña",
+            "impressions": 20,
+            "clicks": 0,
+            "average_position": 48.1,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana",
+              "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 20,
+        "clicks": 0,
+        "average_position": 48.1,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana",
+          "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_f45c8961ce116b1dc11b",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "documentos para arraigo social",
+            "impressions": 7,
+            "clicks": 0,
+            "average_position": 58.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana",
+              "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social documentos",
+            "impressions": 6,
+            "clicks": 0,
+            "average_position": 46.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana",
+              "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social documentacion",
+            "impressions": 2,
+            "clicks": 0,
+            "average_position": 48.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "documentacion arraigo social",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 52.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 16,
+        "clicks": 0,
+        "average_position": 51.88,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana",
+          "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_5ecdd84e8783516a1e3f",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social spain",
+            "impressions": 14,
+            "clicks": 0,
+            "average_position": 43.93,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 14,
+        "clicks": 0,
+        "average_position": 43.93,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_05f2b254101c41de41ab",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social estepona",
+            "impressions": 11,
+            "clicks": 0,
+            "average_position": 53.55,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 11,
+        "clicks": 0,
+        "average_position": 53.55,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_bd7d50f18909b6672c15",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "requisitos arraigo social málaga",
+            "impressions": 9,
+            "clicks": 0,
+            "average_position": 49.78,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 9,
+        "clicks": 0,
+        "average_position": 49.78,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_0acd72fbded82b207fed",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social marbella",
+            "impressions": 6,
+            "clicks": 0,
+            "average_position": 48.5,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 6,
+        "clicks": 0,
+        "average_position": 48.5,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_d612d3de4da5adfe81a7",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "tramitar arraigo social málaga",
+            "impressions": 6,
+            "clicks": 0,
+            "average_position": 63.67,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 6,
+        "clicks": 0,
+        "average_position": 63.67,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_2ecfa18b328ace392f59",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "requisitos para arraigo en españa",
+            "impressions": 5,
+            "clicks": 0,
+            "average_position": 48.2,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 5,
+        "clicks": 0,
+        "average_position": 48.2,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_4eaaf7734157e9af5204",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "como solicitar arraigo social en españa",
+            "impressions": 3,
+            "clicks": 0,
+            "average_position": 65.33,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 3,
+        "clicks": 0,
+        "average_position": 65.33,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_60bdf07b323ec55e9b3a",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social 2 años españa",
+            "impressions": 3,
+            "clicks": 0,
+            "average_position": 76.67,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana",
+              "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 3,
+        "clicks": 0,
+        "average_position": 76.67,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana",
+          "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_96312a29fa90de8d3d96",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo socia",
+            "impressions": 3,
+            "clicks": 0,
+            "average_position": 44.67,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 3,
+        "clicks": 0,
+        "average_position": 44.67,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_e04bac28c47036f00a4d",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo spain",
+            "impressions": 3,
+            "clicks": 0,
+            "average_position": 54.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 3,
+        "clicks": 0,
+        "average_position": 54.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_9bc0c48e098401306a7f",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "requisitos para el nuevo arraigo social",
+            "impressions": 2,
+            "clicks": 0,
+            "average_position": 50.5,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 2,
+        "clicks": 0,
+        "average_position": 50.5,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_9e671e70e56ad9a7bd46",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo sociol",
+            "impressions": 2,
+            "clicks": 0,
+            "average_position": 56.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 2,
+        "clicks": 0,
+        "average_position": 56.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_716302ee2aa1dc6eb121",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "que significa arraigo social",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 53.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 1,
+        "clicks": 0,
+        "average_position": 53.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_8e7b1a99271444fc8107",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social extranjeria",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 65.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 1,
+        "clicks": 0,
+        "average_position": 65.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_d4e54f0469ed95608d47",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "requisito arraigo social",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 47.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 1,
+        "clicks": 0,
+        "average_position": 47.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      }
+    ],
+    "90": [
+      {
+        "id": "gsc_0d0f560ff89939bd3e82",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social",
+            "impressions": 649,
+            "clicks": 0,
+            "average_position": 49.15,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social españa",
+            "impressions": 110,
+            "clicks": 0,
+            "average_position": 48.36,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social en españa",
+            "impressions": 90,
+            "clicks": 0,
+            "average_position": 51.52,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana",
+              "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social espana",
+            "impressions": 12,
+            "clicks": 0,
+            "average_position": 48.67,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "que es el arraigo social en españa",
+            "impressions": 12,
+            "clicks": 0,
+            "average_position": 51.25,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "que es arraigo social en españa",
+            "impressions": 10,
+            "clicks": 0,
+            "average_position": 50.3,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "qué es arraigo social",
+            "impressions": 10,
+            "clicks": 0,
+            "average_position": 48.8,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social que es",
+            "impressions": 9,
+            "clicks": 0,
+            "average_position": 48.56,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "que es arraigo social",
+            "impressions": 5,
+            "clicks": 0,
+            "average_position": 50.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "qué es el arraigo social",
+            "impressions": 5,
+            "clicks": 0,
+            "average_position": 50.8,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "que es un arraigo social",
+            "impressions": 3,
+            "clicks": 0,
+            "average_position": 52.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social:",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 46.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 916,
+        "clicks": 0,
+        "average_position": 49.33,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana",
+          "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_8590874d69eab705bf25",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "requisitos arraigo social",
+            "impressions": 218,
+            "clicks": 0,
+            "average_position": 48.3,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social requisitos",
+            "impressions": 108,
+            "clicks": 0,
+            "average_position": 46.99,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social requisitos españa",
+            "impressions": 47,
+            "clicks": 0,
+            "average_position": 55.06,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana",
+              "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "requisitos para el arraigo social",
+            "impressions": 33,
+            "clicks": 0,
+            "average_position": 47.06,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "requisitos para arraigo social",
+            "impressions": 14,
+            "clicks": 0,
+            "average_position": 42.36,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "requisitos para arraigo social en españa",
+            "impressions": 13,
+            "clicks": 0,
+            "average_position": 49.92,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana",
+              "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "requisitos de arraigo social",
+            "impressions": 2,
+            "clicks": 0,
+            "average_position": 49.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 435,
+        "clicks": 0,
+        "average_position": 48.47,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana",
+          "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_41876841f9948a1fd2c6",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo en españa",
+            "impressions": 162,
+            "clicks": 0,
+            "average_position": 43.89,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo españa",
+            "impressions": 5,
+            "clicks": 0,
+            "average_position": 40.8,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 167,
+        "clicks": 0,
+        "average_position": 43.8,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_68af629465a1b2ee3e38",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "solicitar arraigo social",
+            "impressions": 74,
+            "clicks": 0,
+            "average_position": 53.16,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 74,
+        "clicks": 0,
+        "average_position": 53.16,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_4cd5296096c0462159ba",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "trámite de arraigo social",
+            "impressions": 67,
+            "clicks": 0,
+            "average_position": 47.39,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 67,
+        "clicks": 0,
+        "average_position": 47.39,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_f45c8961ce116b1dc11b",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "documentos para arraigo social",
+            "impressions": 27,
+            "clicks": 0,
+            "average_position": 48.89,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana",
+              "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "documentacion arraigo social",
+            "impressions": 10,
+            "clicks": 0,
+            "average_position": 47.1,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana",
+              "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social documentacion",
+            "impressions": 8,
+            "clicks": 0,
+            "average_position": 42.38,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "arraigo social documentos",
+            "impressions": 6,
+            "clicks": 0,
+            "average_position": 46.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana",
+              "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 51,
+        "clicks": 0,
+        "average_position": 47.18,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana",
+          "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_d612d3de4da5adfe81a7",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "tramitar arraigo social málaga",
+            "impressions": 45,
+            "clicks": 0,
+            "average_position": 50.93,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 45,
+        "clicks": 0,
+        "average_position": 50.93,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_4f83b62e8c82aa69a09a",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "requisitos arraigo social cataluña",
+            "impressions": 43,
+            "clicks": 0,
+            "average_position": 46.28,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana",
+              "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 43,
+        "clicks": 0,
+        "average_position": 46.28,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana",
+          "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_6918f45bc55f6f719b68",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "tramitación arraigo social",
+            "impressions": 40,
+            "clicks": 0,
+            "average_position": 50.62,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 40,
+        "clicks": 0,
+        "average_position": 50.62,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_5ecdd84e8783516a1e3f",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social spain",
+            "impressions": 39,
+            "clicks": 0,
+            "average_position": 39.18,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 39,
+        "clicks": 0,
+        "average_position": 39.18,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_bd7d50f18909b6672c15",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "requisitos arraigo social málaga",
+            "impressions": 26,
+            "clicks": 0,
+            "average_position": 44.5,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 26,
+        "clicks": 0,
+        "average_position": 44.5,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_c7e30af78d47bcfc0ad9",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social cataluña",
+            "impressions": 26,
+            "clicks": 0,
+            "average_position": 37.62,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 26,
+        "clicks": 0,
+        "average_position": 37.62,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_05f2b254101c41de41ab",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social estepona",
+            "impressions": 11,
+            "clicks": 0,
+            "average_position": 53.55,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 11,
+        "clicks": 0,
+        "average_position": 53.55,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_2ecfa18b328ace392f59",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "requisitos para arraigo en españa",
+            "impressions": 11,
+            "clicks": 0,
+            "average_position": 49.64,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 11,
+        "clicks": 0,
+        "average_position": 49.64,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_4eaaf7734157e9af5204",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "como solicitar arraigo social en españa",
+            "impressions": 11,
+            "clicks": 0,
+            "average_position": 49.27,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 11,
+        "clicks": 0,
+        "average_position": 49.27,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_96312a29fa90de8d3d96",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo socia",
+            "impressions": 11,
+            "clicks": 0,
+            "average_position": 46.18,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 11,
+        "clicks": 0,
+        "average_position": 46.18,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_e04bac28c47036f00a4d",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo spain",
+            "impressions": 11,
+            "clicks": 0,
+            "average_position": 44.09,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 11,
+        "clicks": 0,
+        "average_position": 44.09,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_9e671e70e56ad9a7bd46",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo sociol",
+            "impressions": 9,
+            "clicks": 0,
+            "average_position": 49.33,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 9,
+        "clicks": 0,
+        "average_position": 49.33,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_1746e9eadff892ddd3ec",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "requisitos para solicitar el arraigo social",
+            "impressions": 5,
+            "clicks": 0,
+            "average_position": 48.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "requisitos para solicitar arraigo social",
+            "impressions": 2,
+            "clicks": 0,
+            "average_position": 47.5,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 7,
+        "clicks": 0,
+        "average_position": 47.86,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_0acd72fbded82b207fed",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social marbella",
+            "impressions": 6,
+            "clicks": 0,
+            "average_position": 48.5,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 6,
+        "clicks": 0,
+        "average_position": 48.5,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_9bc0c48e098401306a7f",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "requisitos para el nuevo arraigo social",
+            "impressions": 6,
+            "clicks": 0,
+            "average_position": 43.83,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 6,
+        "clicks": 0,
+        "average_position": 43.83,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_24cfa2afa8a191aa9211",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social en españa 2009",
+            "impressions": 5,
+            "clicks": 0,
+            "average_position": 43.8,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 5,
+        "clicks": 0,
+        "average_position": 43.8,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_60bdf07b323ec55e9b3a",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social 2 años españa",
+            "impressions": 4,
+            "clicks": 0,
+            "average_position": 69.75,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana",
+              "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 4,
+        "clicks": 0,
+        "average_position": 69.75,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana",
+          "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_1e0e1047345feaa4d5c6",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "solicitud arraigo social",
+            "impressions": 2,
+            "clicks": 0,
+            "average_position": 44.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 2,
+        "clicks": 0,
+        "average_position": 44.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_32a1e287f01df4ee9980",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "permiso arraigo social",
+            "impressions": 2,
+            "clicks": 0,
+            "average_position": 39.5,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 2,
+        "clicks": 0,
+        "average_position": 39.5,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_8e7b1a99271444fc8107",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social extranjeria",
+            "impressions": 2,
+            "clicks": 0,
+            "average_position": 61.5,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 2,
+        "clicks": 0,
+        "average_position": 61.5,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_92925792082618dad259",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "residencia por arraigo social",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 39.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          },
+          {
+            "query": "residencia por arraigo social en españa",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 63.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 2,
+        "clicks": 0,
+        "average_position": 51.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_a128bb50b877c2b8c6c3",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social para inmigrantes",
+            "impressions": 2,
+            "clicks": 0,
+            "average_position": 52.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 2,
+        "clicks": 0,
+        "average_position": 52.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_4b4019aad04bc2c5cdfe",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social valencia",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 38.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 1,
+        "clicks": 0,
+        "average_position": 38.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_716302ee2aa1dc6eb121",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "que significa arraigo social",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 53.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 1,
+        "clicks": 0,
+        "average_position": 53.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_9364cb8ebc3600966077",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social espanha",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 46.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 1,
+        "clicks": 0,
+        "average_position": 46.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_d4e54f0469ed95608d47",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "requisito arraigo social",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 47.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 1,
+        "clicks": 0,
+        "average_position": 47.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/arraigo-social-espana"
+        ]
+      },
+      {
+        "id": "gsc_e3b56b43202682557903",
+        "category": "arraigo",
+        "queries": [
+          {
+            "query": "arraigo social requirements",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 46.0,
+            "ctr": 0.0,
+            "landing_pages": [
+              "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+            ]
+          }
+        ],
+        "impressions": 1,
+        "clicks": 0,
+        "average_position": 46.0,
+        "ctr": 0.0,
+        "landing_pages": [
+          "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+        ]
+      }
+    ]
+  },
+  "history": {
+    "version": "5.0.0",
+    "events": [
+      {
+        "selected_on": "2026-11-22",
+        "cluster_id": "residence_renewal",
+        "existing_page": "blog/renovar-residencia-espana.html",
+        "source": "actual previous v4.1 artifact",
+        "status": "DRAFT_ATTEMPTED"
+      },
+      {
+        "selected_on": "2026-11-23",
+        "cluster_id": "residency_options",
+        "service": "Residencia y renovaciones",
+        "query": "residencia legal en españa",
+        "existing_page": "blog/tipos-de-residencia-en-espana.html",
+        "publication_allowed": false,
+        "status": "DRAFT_ATTEMPTED"
+      },
+      {
+        "selected_on": "2026-11-23",
+        "cluster_id": "nationality_requirements",
+        "service": "Nacionalidad española",
+        "query": "requisitos nacionalidad española",
+        "existing_page": "nacionalidad-espanola.html",
+        "publication_allowed": false,
+        "status": "DRAFT_ATTEMPTED"
+      },
+      {
+        "date": "2026-11-23",
+        "selected_on": "2026-11-23",
+        "cluster_id": "residency_options",
+        "existing_page": "blog/tipos-de-residencia-en-espana.html",
+        "status": "BLOCKED_VALIDATION",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_VALIDATION"
+      },
+      {
+        "date": "2026-11-23",
+        "selected_on": "2026-11-23",
+        "cluster_id": "long_term_residence",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-23",
+        "selected_on": "2026-11-23",
+        "cluster_id": "long_term_residence",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-23",
+        "selected_on": "2026-11-23",
+        "cluster_id": "long_term_residence",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-23",
+        "selected_on": "2026-11-23",
+        "cluster_id": "long_term_residence",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-23",
+        "selected_on": "2026-11-23",
+        "cluster_id": "long_term_residence",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-23",
+        "selected_on": "2026-11-23",
+        "cluster_id": "long_term_residence",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-23",
+        "selected_on": "2026-11-23",
+        "cluster_id": "long_term_residence",
+        "existing_page": null,
+        "status": "BLOCKED_VALIDATION",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_VALIDATION"
+      },
+      {
+        "date": "2026-11-23",
+        "selected_on": "2026-11-23",
+        "cluster_id": "long_term_residence",
+        "existing_page": null,
+        "status": "BLOCKED_VALIDATION",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_VALIDATION"
+      },
+      {
+        "date": "2026-11-23",
+        "selected_on": "2026-11-23",
+        "cluster_id": "long_term_residence",
+        "existing_page": null,
+        "status": "BLOCKED_VALIDATION",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_VALIDATION"
+      },
+      {
+        "date": "2026-11-23",
+        "selected_on": "2026-11-23",
+        "cluster_id": "long_term_residence",
+        "existing_page": null,
+        "status": "BLOCKED_VALIDATION",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_VALIDATION"
+      },
+      {
+        "date": "2026-11-23",
+        "selected_on": "2026-11-23",
+        "cluster_id": "long_term_residence",
+        "existing_page": null,
+        "status": "BLOCKED_VALIDATION",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_VALIDATION"
+      },
+      {
+        "date": "2026-11-23",
+        "selected_on": "2026-11-23",
+        "cluster_id": "long_term_residence",
+        "existing_page": null,
+        "status": "BLOCKED_VALIDATION",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_VALIDATION"
+      },
+      {
+        "date": "2026-11-23",
+        "selected_on": "2026-11-23",
+        "cluster_id": "long_term_residence",
+        "existing_page": null,
+        "status": "REVIEW_READY",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "REVIEW_READY"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "regularization_processing",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_VALIDATION",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_VALIDATION"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "regularization_processing",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_RETRIEVAL",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_IRRELEVANT_OR_INCOMPLETE_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-24",
+        "selected_on": "2026-11-24",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_arraigo",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_regularizacion_2026",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_cuenta_ajena",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_cuenta_propia",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "seed_no_lucrativa",
+        "existing_page": null,
+        "status": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "gsc_4f83b62e8c82aa69a09a",
+        "existing_page": null,
+        "status": "ERROR",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BUDGET_EXHAUSTED"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "gsc_4f83b62e8c82aa69a09a",
+        "existing_page": null,
+        "status": "BLOCKED_LEGAL_VALIDATION",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_LEGAL_VALIDATION"
+      },
+      {
+        "date": "2026-11-26",
+        "selected_on": "2026-11-26",
+        "cluster_id": "gsc_4f83b62e8c82aa69a09a",
+        "existing_page": null,
+        "status": "BLOCKED_LEGAL_VALIDATION",
+        "published": false,
+        "publication_allowed": false,
+        "generator_result": "BLOCKED_LEGAL_VALIDATION"
+      }
+    ]
+  },
+  "generic_renewal_signal": {
+    "id": "residence_renewal",
+    "title": "Renovación de residencia",
+    "topic": "post_regularization",
+    "impressions": 311,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 41.8,
+    "query_count": 46,
+    "representative_queries": [
+      {
+        "query": "renovación residencia en españa",
+        "impressions": 56,
+        "clicks": 0,
+        "average_position": 39.7,
+        "landing_pages": [
+          "https://lexgotramite.com/blog/renovar-residencia-espana"
+        ]
+      },
+      {
+        "query": "renovacion de residencia en españa",
+        "impressions": 49,
+        "clicks": 0,
+        "average_position": 51.0,
+        "landing_pages": [
+          "https://lexgotramite.com/blog/renovar-residencia-espana"
+        ]
+      },
+      {
+        "query": "renovar residencia españa",
+        "impressions": 32,
+        "clicks": 0,
+        "average_position": 32.5,
+        "landing_pages": [
+          "https://lexgotramite.com/blog/renovar-residencia-espana"
+        ]
+      },
+      {
+        "query": "renovacion permiso de residencia",
+        "impressions": 17,
+        "clicks": 0,
+        "average_position": 40.2,
+        "landing_pages": [
+          "https://lexgotramite.com/blog/renovar-residencia-espana"
+        ]
+      },
+      {
+        "query": "renovación tarjeta de residencia en españa",
+        "impressions": 16,
+        "clicks": 0,
+        "average_position": 43.8,
+        "landing_pages": [
+          "https://lexgotramite.com/blog/renovar-residencia-espana"
+        ]
+      },
+      {
+        "query": "renovacion de residencia",
+        "impressions": 15,
+        "clicks": 0,
+        "average_position": 47.7,
+        "landing_pages": [
+          "https://lexgotramite.com/blog/renovar-residencia-espana"
+        ]
+      },
+      {
+        "query": "renovar residencia en españa",
+        "impressions": 15,
+        "clicks": 0,
+        "average_position": 29.4,
+        "landing_pages": [
+          "https://lexgotramite.com/blog/renovar-residencia-espana"
+        ]
+      },
+      {
+        "query": "como renovar la residencia en españa",
+        "impressions": 10,
+        "clicks": 0,
+        "average_position": 36.9,
+        "landing_pages": [
+          "https://lexgotramite.com/blog/renovar-residencia-espana"
+        ]
+      }
+    ],
+    "existing_content_evidence": [
+      {
+        "path": "blog/renovar-residencia-espana.html",
+        "reason": "observed_search_console_landing_page",
+        "impressions": 311
+      }
+    ],
+    "recommended_action": "improve_existing_page",
+    "priority_score": 88,
+    "legal_review_required": true,
+    "verification_status": "NOT_VERIFIED",
+    "editorial_notes": "Confirm current BOE and official ministry guidance before rewriting or publishing."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "proposals": [
+    {
+      "cluster_id": "renewal_seed_no_lucrativa",
+      "origin_cluster_id": "renewal_seed_no_lucrativa",
+      "proposed_title": "Renovación de residencia no lucrativa: cuánto dura la autorización renovada",
+      "action": "create_article",
+      "queries": [
+        "Renovación de residencia no lucrativa: cuánto dura la autorización renovada"
+      ],
+      "search_demand_evidence": null,
+      "commercial_classification": {
+        "business_category": "no_lucrativa",
+        "search_intent": "Renovación de residencia no lucrativa: cuánto dura la autorización renovada",
+        "legal_procedure": "RENOVACION",
+        "procedure_type": "RENOVACION",
+        "applicable_regulation": [
+          "RD 1155/2024 (texto consolidado)",
+          "RD 316/2026 (verificar aplicabilidad)"
+        ],
+        "target_audience": "Residentes temporales sin actividad lucrativa",
+        "priority": 5,
+        "excluded": false,
+        "exclusion_reason": null,
+        "renewal_intent_verified": true
+      },
+      "proposed_path": "blog/renovacion-de-residencia-no-lucrativa-cuanto-dura-la-autorizacion-renovada.html",
+      "topic_origin": "EDITORIAL_SEED",
+      "search_demand_verified": false,
+      "selection_reason": "Editorial renewal seed; NO verified category-specific search demand",
+      "primary_query": "Renovación de residencia no lucrativa: cuánto dura la autorización renovada",
+      "keyword_planner_estimate": null
+    }
+  ]
+}

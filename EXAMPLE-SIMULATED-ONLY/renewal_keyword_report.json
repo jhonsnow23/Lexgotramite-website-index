@@ -1,0 +1,67 @@
+{
+  "categories": {
+    "regularizacion_2026": {
+      "gsc_top_20": [],
+      "keyword_planner_import_top_20": []
+    },
+    "arraigo": {
+      "gsc_top_20": [],
+      "keyword_planner_import_top_20": []
+    },
+    "cuenta_ajena": {
+      "gsc_top_20": [],
+      "keyword_planner_import_top_20": []
+    },
+    "cuenta_propia": {
+      "gsc_top_20": [],
+      "keyword_planner_import_top_20": []
+    },
+    "no_lucrativa": {
+      "gsc_top_20": [],
+      "keyword_planner_import_top_20": []
+    },
+    "menores_no_nacidos": {
+      "gsc_top_20": [],
+      "keyword_planner_import_top_20": []
+    }
+  },
+  "gsc_scope": "Property impressions, NOT nationwide Google search volume",
+  "keyword_planner_scope": "Uploader-supplied Spain/Spanish estimates; not independently API-verified",
+  "selection_order": "Imported nationwide estimates if eligible, otherwise GSC by observed impressions, then explicit editorial fallback",
+  "selected": {
+    "cluster_id": "renewal_seed_no_lucrativa",
+    "proposed_title": "Renovación de residencia no lucrativa: cuánto dura la autorización renovada",
+    "primary_query": "Renovación de residencia no lucrativa: cuánto dura la autorización renovada",
+    "supporting_queries": [
+      "Renovación de residencia no lucrativa: cuánto dura la autorización renovada"
+    ],
+    "impressions_28d": null,
+    "impressions_90d": null,
+    "existing_pages": [],
+    "score": 0,
+    "score_breakdown": {},
+    "search_demand_verified": false,
+    "commercial_classification": {
+      "business_category": "no_lucrativa",
+      "search_intent": "Renovación de residencia no lucrativa: cuánto dura la autorización renovada",
+      "legal_procedure": "RENOVACION",
+      "procedure_type": "RENOVACION",
+      "applicable_regulation": [
+        "RD 1155/2024 (texto consolidado)",
+        "RD 316/2026 (verificar aplicabilidad)"
+      ],
+      "target_audience": "Residentes temporales sin actividad lucrativa",
+      "priority": 5,
+      "excluded": false,
+      "exclusion_reason": null,
+      "renewal_intent_verified": true
+    },
+    "recommended_action": "CREATE_NEW_ARTICLE",
+    "selection_reason": "Editorial renewal seed; NO verified category-specific search demand",
+    "proposed_new_path": "blog/renovacion-de-residencia-no-lucrativa-cuanto-dura-la-autorizacion-renovada.html",
+    "research_registry_available": true,
+    "topic_origin": "EDITORIAL_SEED",
+    "keyword_planner_estimate": null
+  },
+  "publication_allowed": false
+}

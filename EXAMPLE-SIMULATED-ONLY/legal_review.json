@@ -1,0 +1,33 @@
+{
+  "article_hash": "efa3a13b40f82936dccea39b83dd73e0234c9dfa34966de0d47c7b71e8167f15",
+  "verdict": {
+    "approved": true,
+    "claim_checks": [
+      {
+        "claim_id": "C_d999a259995c77617330",
+        "supported": true,
+        "reason": "Simulated check"
+      },
+      {
+        "claim_id": "C_e300ef47d78e263c4634",
+        "supported": true,
+        "reason": "Simulated check"
+      }
+    ],
+    "prior_defect_checks": [],
+    "defects": [],
+    "explanation": "Simulated reviewer, not legal certification.",
+    "scope_complete": true,
+    "intent_preserved": true,
+    "conditions_and_exceptions_complete": true,
+    "no_unsupported_statements": true,
+    "source_applicability_verified": true,
+    "no_misleading_omissions": true,
+    "current_legal_basis_supported": true,
+    "gap_assessments_sound": true
+  },
+  "blocking_gap_ids": [],
+  "passed": true,
+  "simulated": true,
+  "publication_allowed": false
+}

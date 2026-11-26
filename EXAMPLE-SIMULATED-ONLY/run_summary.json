@@ -6,7 +6,7 @@
     {
       "result": "SIMULATED_REVIEW_PASS",
       "reason": "Independent complete-article checks passed; human review required",
-      "topic": "Renovación de residencia temporal no lucrativa: plazo de solicitud y efectos de presentarla",
+      "topic": "Renovación de residencia no lucrativa: cuánto dura la autorización renovada",
       "candidate_count": 1,
       "automated_review_passed": true,
       "simulated": true,
@@ -15,7 +15,7 @@
       "human_legal_review_required": true,
       "topic_origin": "EDITORIAL_SEED",
       "search_demand_verified": false,
-      "selection_reason": "Editorial integration seed; no verified search demand",
+      "selection_reason": "Editorial renewal seed; NO verified category-specific search demand",
       "artifact_directory": "topic_01_no_lucrativa"
     }
   ],
@@ -28,10 +28,12 @@
   "legal_accuracy_certified": false,
   "topic_origin": "EDITORIAL_SEED",
   "search_demand_verified": false,
-  "selection_reason": "Editorial integration seed; no verified search demand",
-  "supporting_queries": [],
+  "selection_reason": "Editorial renewal seed; NO verified category-specific search demand",
+  "supporting_queries": [
+    "Renovación de residencia no lucrativa: cuánto dura la autorización renovada"
+  ],
   "simulated_article": "topic_01_no_lucrativa/simulated_article.md",
   "api_calls": 2,
   "estimated_cost_usd": 0.00066,
-  "conservative_budget_debit_usd": 0.080557
+  "conservative_budget_debit_usd": 0.00132
 }

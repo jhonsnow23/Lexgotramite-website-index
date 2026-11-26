@@ -43,7 +43,7 @@ PROFILES = {
     'cuenta_propia': ('Renovación de residencia y trabajo por cuenta propia: duración y efectos de la autorización', (86, 87)),
     'cuenta_ajena': ('Renovación de residencia y trabajo por cuenta ajena: plazo de solicitud y efectos', (80, 81)),
     'arraigo': ('Prórroga del arraigo sociolaboral: condiciones y límites', (132, 127, 131, 191)),
-    'menores_no_nacidos': ('Residencia de menores no nacidos en España: alcance de la autorización y continuidad', (160, 69, 71)),
+    'menores_no_nacidos': ('Renovación de residencia de menores no nacidos en España: alcance de la autorización y continuidad', (160, 69, 71)),
     'regularizacion_2026': ('Modificación tras la regularización extraordinaria de 2026: plazo y efectos de la solicitud', (191, 74, 80, 86)),
 }
 TYPES = {
@@ -592,9 +592,9 @@ def select_topics(category='',topic='',bootstrap=True, website_root=None, propos
         if proposal is not None:
             demand=row.get('search_demand_evidence') or {}
             verified=seo.gsc_v50.verified_proposal(row)
-            out[-1].update(origin=row.get('topic_origin','SELECTED_PROPOSAL') if verified or row.get('topic_origin')=='EDITORIAL_SEED' else 'SELECTED_PROPOSAL',search_demand_evidence=demand if verified else None,
+            out[-1].update(origin=row.get('topic_origin','SELECTED_PROPOSAL') if verified or row.get('topic_origin') in ('EDITORIAL_SEED','KEYWORD_PLANNER_IMPORT') else 'SELECTED_PROPOSAL',search_demand_evidence=demand if verified else None,
                            search_demand_verified=verified,primary_query=row.get('primary_query',title),
-                           cluster_id=row.get('cluster_id'),queries=row.get('queries',[]),selection_reason=row.get('selection_reason'))
+                           cluster_id=row.get('cluster_id'),queries=row.get('queries',[]),selection_reason=row.get('selection_reason'),keyword_planner_estimate=row.get('keyword_planner_estimate'))
     return out
 
 
@@ -666,10 +666,11 @@ def run_topic(target, article_type, root, model, researcher, research_model, rev
                          '(permanencia y cálculo económico) y SEM 4/2025 (informe) si están presentes; no confundas un mínimo legal '
                          'con su concreción administrativa. Si citas la guía, acompáñala del precepto BOE aplicable y atribuye '
                          'cada regla a su fuente. Delimita ámbito personal, antecedentes solo por delitos previstos en el ordenamiento '
-                         'español y remisión completa al artículo 84 cuando proceda; si enumeras ejemplos, indícalo expresamente. '
+                         'español y remisión completa al artículo 84 cuando proceda; conserva la condición de cualificación o experiencia cuando la actividad lo requiera y colegiación cuando proceda. '
+                         'En SEM 1/2025 verifica el desistimiento de protección internacional y el inicio o reanudación del cómputo; lee el apartado CUARTA completo antes de atribuir la acreditación y mantenimiento de medios a un supuesto. '
                          'Incluye la salvedad de la prueba alternativa desde la primera mención del informe, no solo al final. '
                          'Si la consulta es territorial, distingue requisitos estatales de trámites autonómicos; usa la Generalitat '
-                         'solo para el informe, no para modificar los requisitos estatales. Contrasta cualquier discrepancia y no '
+                         'solo para el informe, no para modificar los requisitos estatales. Contrasta la ficha con los Criteris Ref. 1/2025, su Annex 1 y el régimen transitorio; explica las exenciones y no traslades las condiciones de renovación a la primera solicitud. Si falta el texto aplicable, registra una brecha material. Contrasta cualquier discrepancia y no '
                          'repitas disposiciones transitorias expiradas sin comprobar su aplicación. No atribuyas la fecha de versión '
                          'de un artículo al reglamento entero. No inventes órganos ni canales locales.')
             raw=model.call('research',research_model,RESEARCH_PROMPT+focus,data,research_schema(aliases))
@@ -787,6 +788,13 @@ def run(output, *, category='', topic='', article_type='specific_question', boot
     try:
         if article_type not in TYPES: raise ValueError('Unknown article type')
         targets=select_topics(category,topic,bootstrap,website_root,proposal)
+        # Enforce the new commercial strategy before any live retrieval or API call.
+        # Historical injected-transport replays remain available for safety regression tests.
+        if transport is None:
+            for target in targets:
+                gate=seo.renewal.assess_group(target['topic'],target.get('queries',[])+([target['primary_query']] if target.get('primary_query') else []))
+                if gate['excluded'] or gate['business_category']!=target['category']:
+                    raise ValueError('RENEWAL_ONLY_SCOPE: '+str(gate['exclusion_reason']))
         save(root/'topic_selection_report.json',{'targets':targets,'publication_allowed':False})
         # Inspect only the existing homepage contact anchor; no old article bodies are read.
         contact_url=None

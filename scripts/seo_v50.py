@@ -21,10 +21,12 @@ try:
     import seo_v42 as baseline
     import legal_content_v50 as generator
     import gsc_opportunities_v50 as gsc_v50
+    import renewal_intent_v50 as renewal
 except ImportError:
     from scripts import seo_v42 as baseline
     from scripts import legal_content_v50 as generator
     from scripts import gsc_opportunities_v50 as gsc_v50
+    from scripts import renewal_intent_v50 as renewal
 
 try:
     from temporary_residence_policy_v50 import classify, SEEDS
@@ -55,7 +57,7 @@ def topic_blocker(item,history,today,*,ignore_attempt_backoff=False):
     for e in events(history):
         age=recent_event(e,today)
         if age is None:continue
-        same_cluster=e.get('cluster_id')==item['cluster_id']
+        same_cluster=(e.get('cluster_id')==item['cluster_id'] or (bool(e.get('topic')) and bool(item.get('proposed_title')) and renewal.policy.norm(e['topic'])==renewal.policy.norm(item['proposed_title'])))
         # Search Console associated URLs are NOT article identities. Different
         # intent clusters often share the same service landing page. Never
         # conflate them when computing publication or failed-attempt cooldowns.
@@ -183,7 +185,7 @@ def choose(report,catalog,website,history,today,*,retry_failed=False):
             row['title_adjusted_to_query']=True
         else:
             row['title_adjusted_to_query']=False
-        row['commercial_classification']=classify(row['proposed_title'], [row.get('primary_query','')]+row.get('supporting_queries',[]), row['cluster_id'])
+        row['commercial_classification']=(renewal.assess_group(row['proposed_title'], [row.get('primary_query','')]+row.get('supporting_queries',[])) if precise else classify(row['proposed_title'], [row.get('primary_query','')]+row.get('supporting_queries',[]), row['cluster_id']))
         row['research_registry_available'],candidate=(supports_research(row) if not row['commercial_classification']['excluded'] else (False,None))
         duplicate,dup_reason,proposed_path=classify_duplicate(row,inventory)
         # Existing service pages are metadata-only hints. Strong exact intent is a recommendation, not a rewrite.
@@ -223,7 +225,7 @@ def choose(report,catalog,website,history,today,*,retry_failed=False):
     eligible.sort(key=lambda x:(x['commercial_classification']['priority'],-x['score']))
     if eligible:
         # Business scope is already enforced. Prefer measured opportunity score in the precise GSC pipeline.
-        if precise:eligible.sort(key=lambda x:(-x['score'],x['commercial_classification']['priority'],x['cluster_id']))
+        if precise:eligible.sort(key=lambda x:(-x['impressions_90d'],-x['impressions_28d'],-x['score'],x['cluster_id']))
         winner=eligible[0]
         _,proposal=supports_research(winner)
         proposal['proposals'][0]['proposed_path']=winner['proposed_new_path']
@@ -299,27 +301,41 @@ def select(args):
         if args.require_history and origin.startswith('Local mode'):
             raise RuntimeError('Required GitHub history credential missing')
     rows,chosen,proposal=choose(report,catalog,args.website_root,history,today,retry_failed=args.retry_failed)
-    # A source-backed editorial seed may be tested without claiming GSC demand.
-    # It remains a draft, and all evidence/validation gates still apply.
+    # Imported nationwide estimates are a separate source, never GSC metrics.
+    planner=renewal.planner_rows(os.getenv('LEXGO_KEYWORD_PLANNER_CSV',''))
+    inventory=metadata_inventory(args.website_root)
+    def unverified_candidate(title,key,origin,query,estimate=None):
+        item={'cluster_id':key,'proposed_title':title,'primary_query':query,'supporting_queries':[query],
+              'impressions_28d':0,'impressions_90d':0,'existing_pages':[], 'score':0,'score_breakdown':{},'search_demand_verified':False}
+        policy=renewal.assess_group(title,[query])
+        if policy['excluded']:return None,None
+        duplicate,_,path=classify_duplicate(item,inventory)
+        if duplicate or topic_blocker(item,history,today,ignore_attempt_backoff=args.retry_failed):return None,None
+        available,candidate=supports_research(item)
+        if not available:return None,None
+        reason=('User-imported Keyword Planner estimate; not independently API-verified' if estimate else 'Editorial renewal seed; NO verified category-specific search demand')
+        item.update(commercial_classification=policy,recommended_action='CREATE_NEW_ARTICLE',selection_reason=reason,proposed_new_path=path,research_registry_available=True,
+                    topic_origin=origin,impressions_28d=None,impressions_90d=None,keyword_planner_estimate=estimate)
+        candidate['proposals'][0].update(commercial_classification=policy,proposed_path=path,topic_origin=origin,search_demand_verified=False,search_demand_evidence=None,selection_reason=reason,primary_query=query,keyword_planner_estimate=estimate)
+        return item,candidate
+    # If supplied, nationwide estimates directly serve the requested market-wide
+    # strategy; otherwise use verified property data. Never mix the metric units.
+    if planner:
+        for entry in planner:
+            import hashlib
+            key='planner_'+hashlib.sha256(renewal.policy.norm(entry['query']).encode()).hexdigest()[:20]
+            item,candidate=unverified_candidate(entry['query'],key,'KEYWORD_PLANNER_IMPORT',entry['query'],entry)
+            if item:rows.append(item);chosen=item;proposal=candidate;break
     if chosen is None and getattr(args,'allow_editorial_fallback',False):
-        inventory=metadata_inventory(args.website_root)
-        for key,seed in SEEDS.items():
-            item={'cluster_id':'seed_'+key,'proposed_title':seed['proposed_title'],
-                  'primary_query':seed['primary_query'],'supporting_queries':[seed['primary_query']],
-                  'impressions_28d':0,'impressions_90d':0,'existing_pages':[],
-                  'score':0,'score_breakdown':{},'search_demand_verified':False}
-            policy=classify(item['proposed_title'],[item['primary_query']],item['cluster_id'])
-            duplicate,_,path=classify_duplicate(item,inventory)
-            if duplicate or topic_blocker(item,history,today,ignore_attempt_backoff=args.retry_failed):continue
-            available,candidate=supports_research(item)
-            if not available:continue
-            item.update(commercial_classification=policy,recommended_action='CREATE_NEW_ARTICLE',
-                selection_reason='Editorial seed; NO verified Search Console demand',
-                proposed_new_path=path,research_registry_available=True)
-            candidate['proposals'][0].update(commercial_classification=policy,proposed_path=path,topic_origin='EDITORIAL_SEED',search_demand_verified=False,search_demand_evidence=None,selection_reason=item['selection_reason'],primary_query=item['primary_query'])
-            item['impressions_28d']=None;item['impressions_90d']=None;item['topic_origin']='EDITORIAL_SEED'
-            rows.append(item);chosen=item;proposal=candidate;break
-
+        for key,title in renewal.FALLBACKS:
+            item,candidate=unverified_candidate(title,'renewal_seed_'+key,'EDITORIAL_SEED',title)
+            if item:rows.append(item);chosen=item;proposal=candidate;break
+    by_category={}
+    for category in SEEDS:
+        g=[r for r in rows if r.get('search_demand_verified') is True and not r['commercial_classification']['excluded'] and r['commercial_classification']['business_category']==category]
+        by_category[category]={'gsc_top_20':sorted(g,key=lambda r:(-r['impressions_90d'],-r['impressions_28d'],r['cluster_id']))[:20],
+                               'keyword_planner_import_top_20':[r for r in planner if r['category']==category][:20]}
+    save(out/'renewal_keyword_report.json',{'categories':by_category,'gsc_scope':'Property impressions, NOT nationwide Google search volume','keyword_planner_scope':'Uploader-supplied Spain/Spanish estimates; not independently API-verified','selection_order':'Imported nationwide estimates if eligible, otherwise GSC by observed impressions, then explicit editorial fallback','selected':chosen,'publication_allowed':False})
     save(out/'ranked_opportunities.json',{'version':VERSION,'metadata':report['metadata'],'opportunities':rows})
     save(out/'seo_opportunity_report.json',{'metadata':report['metadata'],'score_method':'Measured impressions (overlapping periods not summed), position opportunity, low CTR signal and recent demand; heuristic, not forecast','opportunities':rows})
     save(out/'gsc_query_clusters.json',{'metadata':report['metadata'],'windows':report.get('v50_commercial_query_clusters',{}),'aggregation':'Observed query/page rows; property-wide search volume not inferred.'})
@@ -366,7 +382,7 @@ def finalize(args):
         elif result=='BLOCKED_VALIDATION':status='BLOCKED_VALIDATION'
         else:status='DRAFT_FAILED'
         history.append({'date':date.today().isoformat(),'selected_on':date.today().isoformat(),
-            'cluster_id':selected['cluster_id'],'existing_page':None,
+            'cluster_id':selected['cluster_id'],'topic':selected.get('proposed_title'),'existing_page':None,
             'status':status,'published':False,'publication_allowed':False,'generator_result':result})
     save(out/'history.json',{'version':VERSION,'events':history[-200:]})
     save(out/'run_summary.json',{'version':VERSION,'selected_cluster':selected['cluster_id'] if selected else None,

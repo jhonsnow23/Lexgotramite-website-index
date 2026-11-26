@@ -16,7 +16,7 @@ def signature(query):
     q=policy.norm(query); c=policy.classify(query)
     if c['excluded']:return None
     # Do not let initial regularisation or document-card searches enter continuity.
-    if c['business_category']=='regularizacion_2026' and not re.search(r'\b(renov\w*|modific\w*|prorrog\w*|continu\w*)\b',q):return None
+    if c['business_category']=='regularizacion_2026' and not re.search(r'\b(renov\w*|renuev\w*|modific\w*|prorrog\w*|continu\w*|caduc\w*|venc\w*|expir\w*)\b',q):return None
     if re.search(r'\b(tie|nie|huellas|duplicado|tarjeta)\b',q) and not re.search(r'\b(autorizacion|permiso|residencia)\b',q):return None
     words={EQUIV.get(w,w) for w in q.split() if w not in STOP}
     # Only normalize a narrow, explicit equivalence: renewal timing before expiry.
