@@ -87,6 +87,9 @@ def classify(topic, queries=(), cluster=''):
     elif category=='arraigo':kind=None  # Routes differ by modality and transitional law
     else:kind='RENOVACION'
     if category in ('regularizacion_2026','arraigo') and any(x in title for x in ('renovar','renovacion')):kind=None
+    # A comparison of two ordinary arraigo continuity mechanisms is not itself
+    # a choice of procedure. Keep the classification pending until researched.
+    if category=='arraigo' and any(w in title for w in ('prorroga','prorrogar')) and any(w in title for w in ('modificacion','modificar')):kind=None
     result.update(business_category=category,priority=SEEDS[category]['priority'],excluded=False,
         exclusion_reason=None,procedure_type=kind,legal_procedure='PENDING_OFFICIAL_CLASSIFICATION' if kind is None else kind,
         applicable_regulation=['RD 1155/2024 (texto consolidado)','RD 316/2026 (verificar aplicabilidad)'],

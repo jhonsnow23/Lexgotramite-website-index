@@ -196,6 +196,11 @@ def plan(proposal):
         raise ValueError('OUT_OF_SCOPE_TOPIC: '+str(classification['exclusion_reason']))
     group='renewal' if classification['business_category'] not in ('arraigo','regularizacion_2026') else 'arraigo'
     research_questions=temporary_questions(classification['business_category'])
+    # A specific ordinary arraigo modality is not a question about every
+    # arraigo category. Preserve all three research dimensions.
+    if classification['business_category']=='arraigo' and 'arraigo sociolaboral' in topic.lower():
+        research_questions=[{**q, 'question':q['question'].replace('modalidad específica de arraigo','arraigo sociolaboral'),
+            'query':q['query'].replace('modalidad específica de arraigo','arraigo sociolaboral')} for q in research_questions]
     return {'topic':topic,'cluster_id':cid,'group':group,'commercial_classification':classification,
             'legal_regime':('REGULARIZACION_EXTRAORDINARIA_2026' if classification['business_category']=='regularizacion_2026' else classification['business_category'].upper()),
             'discovery_group_legacy':group,
@@ -842,7 +847,11 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
        'otherwise use PARTIALLY_ANSWERED, NOT_ANSWERED, or REQUIRES_LEGAL_INTERPRETATION. '
        'For a GENERAL_GUIDANCE article, applicant-specific variables such as residence duration, origin authorisation, '
        'and work modality are decision branches to explain, not missing research facts. Do not ask for a fictional applicant. '
-       'For regularisation 2026, DA20.10 and DA21.10 are separate origins and both expressly enable work by cuenta ajena and propia. '
+       'If any material legal rule, exception, deadline or effect needed for the guide is absent or contradictory, keep the question partial or require legal interpretation. '
+       'Never invent an evidence_id. This is a research-readiness assessment, not a legal certification.')
+    category=research_plan.get('commercial_classification',{}).get('business_category')
+    if category=='regularizacion_2026':
+        prompt+=(' For regularisation 2026, DA20.10 and DA21.10 are separate origins and both expressly enable work by cuenta ajena and propia. '
        'Map Article 191 precisely: 191.2 -> Article 74 for cuenta ajena when the person has not yet resided for at least one year as holder of a residence authorization; '
        '191.3 -> Article 80 for cuenta ajena or Article 86 for cuenta propia when the person has spent at least one year in Spain in a situation of residence and the origin authorisation enabled work; '
        '191.4 -> Article 74 except 1.a and, where applicable, Article 84 only when the origin authorisation did NOT enable work. '
@@ -850,9 +859,12 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
        'Do not infer an Article 191 route for cuenta propia before one year if the supplied law does not establish it. '
        'Distinguish extension of validity while a modification is pending from the exceptional extension of the authorisation itself. '
        'A complete universal document checklist or exclusive filing channel is not required for a GENERAL_GUIDANCE article if it is not asserted and is clearly labelled unverified. '
-       'The exceptional-extension conditions in DA20.10 and DA21.10 must still be checked and explained from the actual text. '
-       'If any material legal rule, exception, deadline or effect needed for the guide is absent or contradictory, keep the question partial or require legal interpretation. '
-       'Never invent an evidence_id. This is a research-readiness assessment, not a legal certification.')
+       'The exceptional-extension conditions in DA20.10 and DA21.10 must still be checked and explained from the actual text.')
+    elif category=='arraigo':
+        prompt+=(' For ordinary arraigo continuity, identify the exact origin modality and distinguish extension under Article 132 from modification under Article 191 using the supplied current text. '
+                 'Check transitional rules only for the origin regime where they actually apply. Do not import exceptional rules for DA20/DA21 or requirements for another arraigo modality. '
+                 'Do not treat initial-grant procedure instructions as continuity instructions unless a verified provision expressly incorporates them. '
+                 'For a partial answer, select the exact supplied aliases supporting the verified part and explicitly list what remains unresolved.')
     aliases = {f'R{i:03d}': row['evidence_id'] for i, row in enumerate(evidence, 1)}
     prompt_evidence = []
     for alias, row in zip(aliases, evidence):
@@ -861,21 +873,43 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
         prompt_evidence.append(compact)
     prompt += (' Cite only the exact short evidence_id values supplied in evidence '
                '(for example R001). Never lengthen, guess or concatenate IDs. '
-               'For each question, provide evidence_ids as a JSON list; an '
+               'For each question, provide evidence_ids as a JSON list including support for any verified part of a partial answer; use an empty list when none exists. An '
                'unsupported question must not be labelled ANSWERED_WITH_EVIDENCE.')
+    # Close the first research evaluator's reference vocabulary as well as
+    # the later gap evaluator's. Exact original IDs are safe compatibility
+    # input only if present in this run's supplied evidence, never from prose.
+    fields={'id':{'type':'string','enum':[q['id'] for q in research_plan['research_questions']]},
+            'status':{'type':'string','enum':['ANSWERED_WITH_EVIDENCE','PARTIALLY_ANSWERED','NOT_ANSWERED','REQUIRES_LEGAL_INTERPRETATION','SOURCE_UNAVAILABLE']},
+            'evidence_ids':{'type':'array','items':{'type':'string','enum':list(aliases)}},
+            'reason':{'type':'string'},'missing_facts':{'type':'array','items':{'type':'string'}}}
+    response_format={'type':'json_schema','json_schema':{'name':'research_readiness','strict':True,'schema':{
+        'type':'object','additionalProperties':False,'required':['questions'],'properties':{
+            'questions':{'type':'array','items':{'type':'object','additionalProperties':False,
+                'required':list(fields),'properties':fields}}}}}}
+    # Do not leak the canonical IDs through dossier references while requiring
+    # short aliases in the evidence array. Rewrite only exact matching values.
+    reverse={v:k for k,v in aliases.items()}
+    def alias_values(value):
+        if isinstance(value,dict): return {k:alias_values(v) for k,v in value.items()}
+        if isinstance(value,list): return [alias_values(v) for v in value]
+        return reverse.get(value,value) if isinstance(value,str) else value
     result=call_model([{'role':'system','content':prompt},
         {'role':'user','content':json.dumps({'topic':research_plan['topic'],
             'questions':research_plan['research_questions'],
-            'evidence':prompt_evidence,'legal_applicability_dossier':dossier},ensure_ascii=False)}],
-        model=model,client=client)
+            'evidence':prompt_evidence,'legal_applicability_dossier':alias_values(dossier)},ensure_ascii=False)}],
+        model=model,client=client,response_format=response_format)
     judgments={}
+    reference_diagnostics={}
     for item in result.get('questions',[]):
         if not isinstance(item,dict) or not item.get('id'):
             continue
         refs=item.get('evidence_ids',[])
         if not isinstance(refs,list):
             refs=[]
-        resolved=[aliases[r] for r in refs if isinstance(r,str) and r in aliases]
+        resolved=[aliases.get(r,r) for r in refs if isinstance(r,str) and (r in aliases or r in reverse)]
+        rejected=[r for r in refs if not isinstance(r,str) or (r not in aliases and r not in reverse)]
+        reference_diagnostics[item['id']]={'received':_safe_diagnostic(refs),
+            'resolved':list(dict.fromkeys(resolved)), 'rejected':_safe_diagnostic(rejected)}
         judgments[item['id']]={**item,'evidence_ids':list(dict.fromkeys(resolved))}
     covered, fully_answered = coverage(research_plan['research_questions'],evidence,semantic_judgments=judgments)
     branch_coverage = general_guidance_branch_coverage(evidence, dossier or {})
@@ -923,6 +957,7 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
             question['blocking_missing_facts'] = question.get('missing_facts', [])
         ready = fully_answered
     for question in covered:
+        question['research_reference_diagnostics'] = reference_diagnostics.get(question['id'], {'received':[], 'resolved':[], 'rejected':[]})
         question['general_guidance_branch_coverage'] = branch_coverage if general_guide else None
     return covered, ready
 

@@ -230,6 +230,14 @@ def _topic_priority_articles(group, topic):
              'autorizacion extraordinaria' in normalized) and
             any(word in normalized for word in ('continu', 'modific', 'prorrog'))):
         return ('191',)
+    # Ordinary arraigo continuity is not the extraordinary regularisation.
+    # Article 132 governs extensions; Article 191 governs modifications.
+    # Include the surrounding origin requirements and cross-reference candidates
+    # for research only. The observed index and full-text guard remain mandatory.
+    if (group == 'arraigo' and 'arraigo' in normalized and
+            'extraordinario' not in normalized and
+            any(word in normalized for word in ('continu', 'modific', 'prorrog', 'renov'))):
+        return ('132', '191', '127', '131', '125', '126', '130', '74', '80', '84', '86')
     return ()
 
 
@@ -322,6 +330,25 @@ def discover(group,topic,*,index_fetch=api_get,max_per_source=12,full_text_probe
                 report['candidates_selected']=len(candidates)
             elif not candidates:
                 report['failure_code']='NO_RELEVANT_CANDIDATES'
+            # Lexical ranking must not silently displace a known research entry
+            # point either. Use the exact block mapping observed in this index.
+            if report['discovery_mode'] != 'BOUNDED_FULL_TEXT_PROBE':
+                priorities = _topic_priority_articles(group, topic)
+                if priorities:
+                    by_number = {c['article']: c for c in candidates}
+                    prioritized = []
+                    for num in priorities:
+                        row = next((r for r in rows if r[0] == num), None)
+                        if row is None:
+                            continue
+                        n,bid,title,context = row
+                        prioritized.append(by_number.get(n, {'source_id':doc,'article':n,
+                            'block_id':bid,'title':title,'section_context':context,'score':0.0,
+                            'question_scores':{},'concept_scores':{},'discovery_method':'TOPIC_PRIORITY_INDEX_ENTRY'}))
+                    candidates = prioritized + [c for c in candidates if c['article'] not in {r['article'] for r in prioritized}]
+                    report['candidates_selected'] = min(max_per_source,len(candidates))
+                    if prioritized and report['failure_code']=='NO_RELEVANT_CANDIDATES':
+                        report['failure_code']=None
             found.extend(candidates if report['discovery_mode']=='BOUNDED_FULL_TEXT_PROBE' else candidates[:max_per_source]);diagnostics.append(report)
         except Exception as e:
             report['failure_code']='BOE_INDEX_ERROR'

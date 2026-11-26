@@ -1,0 +1,1632 @@
+{
+  "research_plan": {
+    "topic": "Prórroga o modificación de residencia por arraigo sociolaboral",
+    "cluster_id": "seed_arraigo",
+    "group": "arraigo",
+    "commercial_classification": {
+      "business_category": "arraigo",
+      "search_intent": "Prórroga o modificación de residencia por arraigo sociolaboral",
+      "legal_procedure": "PRORROGA",
+      "procedure_type": "PRORROGA",
+      "applicable_regulation": [
+        "RD 1155/2024 (texto consolidado)",
+        "RD 316/2026 (verificar aplicabilidad)"
+      ],
+      "target_audience": "Titulares de autorización temporal por arraigo",
+      "priority": 2,
+      "excluded": false,
+      "exclusion_reason": null
+    },
+    "legal_regime": "ARRAIGO",
+    "discovery_group_legacy": "arraigo",
+    "queries": [
+      "renovar arraigo sociolaboral"
+    ],
+    "search_demand": {
+      "impressions_28d": 0,
+      "impressions_90d": 0
+    },
+    "research_questions": [
+      {
+        "id": "scope",
+        "question": "Qué procedimiento corresponde realmente a continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias y a quién se aplica",
+        "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias normativa vigente"
+      },
+      {
+        "id": "requirements",
+        "question": "Qué requisitos, documentos y excepciones se aplican específicamente a continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias",
+        "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias requisitos documentos excepciones"
+      },
+      {
+        "id": "steps",
+        "question": "Qué plazos, vías de solicitud y efectos jurídicos están acreditados para continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias",
+        "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias plazos presentación efectos"
+      }
+    ],
+    "source_registry_complete": true,
+    "existing_page_action": "create_article",
+    "duplicate_metadata": false,
+    "publication_allowed": false
+  },
+  "research_coverage": {
+    "questions": [
+      {
+        "id": "scope",
+        "question": "Qué procedimiento corresponde realmente a continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias y a quién se aplica",
+        "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias normativa vigente",
+        "status": "PARTIALLY_ANSWERED",
+        "evidence_ids": [],
+        "reason": "The legal framework establishes that the continuity of the specific modality of arraigo (arraigo sociolaboral) is processed as a prórroga (extension) or modificación (modification) depending on the modality and individual circumstances, but the exact procedural classification and transitional provisions depend on the specific modality of arraigo and are not fully detailed in the supplied evidence. The official procedural guidance (EV_E8997A7BB8BD500DEF9E and EV_5CE8F155F01DDFFF9046) provides general procedural information but does not explicitly clarify whether continuity is a prórroga or modificación or the detailed transitional provisions applicable. Articles 125 and 130 (EV_B0085C7D9FDC64921785 and EV_486433672F1CB79FF028) confirm the existence of residence authorizations for arraigo and their procedural aspects but do not fully resolve the question of procedural classification for continuity or transitional rules. Therefore, the question is partially answered but requires further specification of the legal rules distinguishing prórroga versus modificación and the transitional provisions applicable to each modality of arraigo.",
+        "missing_facts": [
+          "Precise legal rule or article explicitly stating whether continuity of arraigo sociolaboral is processed as prórroga or modificación.",
+          "Detailed transitional provisions applicable to continuity of arraigo sociolaboral modality.",
+          "Clarification on which modalities of arraigo and individual circumstances trigger prórroga versus modificación."
+        ],
+        "draft_readiness": "BLOCKED",
+        "blocking_missing_facts": [
+          "Precise legal rule or article explicitly stating whether continuity of arraigo sociolaboral is processed as prórroga or modificación.",
+          "Detailed transitional provisions applicable to continuity of arraigo sociolaboral modality.",
+          "Clarification on which modalities of arraigo and individual circumstances trigger prórroga versus modificación."
+        ],
+        "general_guidance_branch_coverage": null
+      },
+      {
+        "id": "requirements",
+        "question": "Qué requisitos, documentos y excepciones se aplican específicamente a continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias",
+        "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias requisitos documentos excepciones",
+        "status": "PARTIALLY_ANSWERED",
+        "evidence_ids": [],
+        "reason": "The requirements, documents, and exceptions for continuity of the specific modality of arraigo (prórroga or modificación) are partially addressed in the evidence. Articles 74, 80, and 85 (EV_D7A494DDA33A2BF41A55, EV_5542B019D06C298222BC, EV_52869961B89F7790D1C8) provide requirements for residence and work authorizations by cuenta ajena and cuenta propia, which are relevant for renewal or modification after arraigo. The official guidance (EV_E8997A7BB8BD500DEF9E and EV_5CE8F155F01DDFFF9046) details specific requirements and documentation for arraigo sociolaboral, including contracts, criminal records, and continuity of residence. However, the evidence does not fully specify exceptions or detailed document checklists specifically for continuity procedures (prórroga or modificación) of arraigo sociolaboral, nor does it clarify exceptions or special cases in transitional provisions. Hence, the question is partially answered but lacks complete detail on exceptions and specific document requirements for continuity.",
+        "missing_facts": [
+          "Explicit list of exceptions applicable to prórroga or modificación of arraigo sociolaboral.",
+          "Complete and specific documentation checklist for continuity procedures.",
+          "Clarification on differences in requirements between prórroga and modificación for arraigo sociolaboral."
+        ],
+        "draft_readiness": "BLOCKED",
+        "blocking_missing_facts": [
+          "Explicit list of exceptions applicable to prórroga or modificación of arraigo sociolaboral.",
+          "Complete and specific documentation checklist for continuity procedures.",
+          "Clarification on differences in requirements between prórroga and modificación for arraigo sociolaboral."
+        ],
+        "general_guidance_branch_coverage": null
+      },
+      {
+        "id": "steps",
+        "question": "Qué plazos, vías de solicitud y efectos jurídicos están acreditados para continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias",
+        "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias plazos presentación efectos",
+        "status": "PARTIALLY_ANSWERED",
+        "evidence_ids": [],
+        "reason": "The evidence partially establishes the procedural steps, deadlines, application channels, and legal effects for continuity of arraigo sociolaboral. Article 80 (EV_5542B019D06C298222BC) sets deadlines for renewal of residence and work authorizations by cuenta ajena, including prórroga effects upon timely application. Article 130 (EV_A389D56CDCF87E83CEDE) and official guidance (EV_E8997A7BB8BD500DEF9E, EV_5CE8F155F01DDFFF9046) describe procedural presentation, provisional work authorization during processing, and conditions for effectiveness of the authorization. Article 40 (EV_B0085C7D9FDC64921785) relates to visa procedures but is less directly relevant. However, the evidence does not fully clarify the specific deadlines, exclusive filing channels, or all legal effects uniquely applicable to continuity of arraigo sociolaboral, nor does it detail transitional provisions affecting these steps. Therefore, the question is partially answered but requires further specification of procedural deadlines, channels, and legal effects specific to continuity of arraigo sociolaboral.",
+        "missing_facts": [
+          "Exact deadlines and time limits for filing prórroga or modificación for arraigo sociolaboral.",
+          "Specific filing channels (in person, telematic) exclusive or preferred for continuity procedures.",
+          "Detailed legal effects of filing within or outside deadlines, including extensions of validity.",
+          "Transitional provisions affecting procedural steps and effects."
+        ],
+        "draft_readiness": "BLOCKED",
+        "blocking_missing_facts": [
+          "Exact deadlines and time limits for filing prórroga or modificación for arraigo sociolaboral.",
+          "Specific filing channels (in person, telematic) exclusive or preferred for continuity procedures.",
+          "Detailed legal effects of filing within or outside deadlines, including extensions of validity.",
+          "Transitional provisions affecting procedural steps and effects."
+        ],
+        "general_guidance_branch_coverage": null
+      }
+    ],
+    "ready": false,
+    "ready_for_draft": false,
+    "coverage_fully_answered": false,
+    "model_coverage_fully_answered": false,
+    "draft_readiness_mode": "FULL_EVIDENCE_REQUIRED",
+    "human_legal_review_required": true,
+    "legal_accuracy_certified": false,
+    "applicability_conflicts": [],
+    "publication_allowed": false
+  },
+  "evidence": [
+    {
+      "evidence_id": "EV_B0085C7D9FDC64921785",
+      "source_id": "BOE-A-2024-24099",
+      "article": "40",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a4-2",
+      "retrieved_at": "2026-11-26T12:09:40.142728+00:00",
+      "version_date": "2024-11-20",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 40. Procedimiento de tramitación de los visados de residencia temporal por reagrupación familiar, de residencia temporal y trabajo por cuenta ajena y de residencia para actividades de temporada.\n1. La solicitud de visado de residencia temporal por reagrupación familiar, de residencia temporal y trabajo por cuenta ajena y de residencia para actividades de temporada deberá presentarse por la persona extranjera personalmente o mediante representación, acompañarse de la documentación que acredite el cumplimiento de los requisitos generales previstos en el artículo 38 y dentro de los plazos siguientes:\na) En el caso de los visados de residencia temporal por reagrupación familiar, la solicitud deberá ser presentada en el plazo de dos meses desde la notificación de la concesión de la autorización al reagrupante junto con la documentación original que acredite los vínculos familiares o de parentesco o de la existencia de la unión de hecho y, en su caso, la edad y la dependencia legal.\nb) En el caso de los visados de residencia temporal y trabajo por cuenta ajena y residencia para actividades de temporada, la solicitud deberá ser presentada en el plazo de un mes desde la notificación de la concesión de la autorización al empleador interesado.\n2. La oficina consular valorará el cumplimiento de los requisitos del artículo 38 y, en el caso de los visados de residencia temporal por reagrupación familiar, la documentación original que acredite los vínculos familiares o de parentesco o de la existencia de la unión de hecho y, en su caso, la edad y la dependencia legal.\n3. La oficina consular resolverá y expedirá, en su caso, el visado en el plazo máximo de un mes desde la presentación de la solicitud de visado.\n4. En los procedimientos de gestión de contratación colectiva en origen, una vez recibida la notificación de la resolución de concesión de la autorización, el empleador, la organización empresarial o sus representantes acreditados deberán presentar ante la oficina consular española competente las solicitudes de visado de todas las personas trabajadoras de forma conjunta y acompañada de la documentación que acredite el cumplimiento de los requisitos del artículo 38.\nEl visado se emitirá, en su caso, en el plazo abreviado que se establezca en la orden ministerial por la que se apruebe la gestión colectiva de contrataciones en origen.",
+      "sha256": "c5f9d4ab424402d3f3f3b8906a2a2bd49cdef6e5f82292b82150931bc0d63166",
+      "research_relevance": {
+        "index_heading": "Artículo 40",
+        "question_scores": {},
+        "subject_matches": [
+          "residencia"
+        ],
+        "semantic_verification_required": true
+      }
+    },
+    {
+      "evidence_id": "EV_486433672F1CB79FF028",
+      "source_id": "BOE-A-2024-24099",
+      "article": "68",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a6-10",
+      "retrieved_at": "2026-11-26T12:09:43.429154+00:00",
+      "version_date": "2024-11-20",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 68. Procedimiento.\n1. La solicitud de reagrupación familiar se podrá presentar cuando la persona extranjera reagrupante haya residido en España al menos un año y haya solicitado la autorización para residir durante al menos otro año, con las siguientes excepciones:\na) Que la persona reagrupante sea titular de una autorización de residencia de larga duración o de larga duración-UE concedida en España, para la reagrupación de sus ascendientes o de los ascendientes de su cónyuge o pareja de hecho.\nLa solicitud podrá presentarse cuando se haya solicitado la autorización de residencia de larga duración o de residencia de larga duración-UE.\nEn el caso de que la persona reagrupante sea residente de larga duración-UE, para la concesión de la reagrupación familiar deberá acreditar el cumplimiento de los requisitos previstos en las letras b) y c) del artículo 176.\nb) Que la persona reagrupante sea residente en España en base a su previa condición de residentes de larga duración-UE en otro Estado miembro de la Unión Europea.\nEn todo caso, no podrá concederse la autorización de residencia a la persona familiar reagrupable hasta que, en función de la situación que deba ostentar el reagrupante para el ejercicio del derecho, no se haya producido la efectiva renovación de la autorización de la persona reagrupante, o concedido su autorización de residencia de larga duración o de residencia de larga duración-UE en España.\n2. La persona extranjera que desee ejercer el derecho de reagrupación familiar deberá solicitar, personalmente ante la oficina de extranjería competente para su tramitación, una autorización de residencia temporal a favor de los miembros de su familia que desee reagrupar.\nLa reagrupación de los familiares de las personas extranjeras residentes de larga duración-UE en otro Estado miembro de la Unión Europea, podrá ser presentada por los propios familiares, aportando prueba de residencia como miembro de la familia de la persona residente de larga duración-UE en el primer Estado miembro.\n3. La solicitud, que deberá cumplimentarse en modelo oficial, deberá acompañarse de la siguiente documentación:\na) Relativos a la persona reagrupante:\n1.º Copia completa del pasaporte, documento de viaje o cédula de inscripción del solicitante en vigor.\n2.º Copia de la documentación que acredite que cuenta con empleo y/o recursos económicos suficientes, de acuerdo con lo establecido en el artículo 67.1.\n3.º Documentación que acredite la disponibilidad, por parte de la persona reagrupante, de una vivienda adecuada de acuerdo con lo establecido en el artículo 67.2.\n4.º En los casos de reagrupación de cónyuge o pareja, declaración responsable de la persona reagrupante de que no reside con él en España otro cónyuge o pareja.\n5.º Seguro de enfermedad de acuerdo con lo establecido en el artículo 67.3.\nb) Relativos al familiar a reagrupar:\n1.º Copia completa del pasaporte completo o título de viaje, en vigor.\n2.º Copia de la documentación acreditativa de los vínculos familiares o de parentesco o de la existencia de la unión de hecho y, en su caso, de la dependencia legal y económica.\n4. Para la valoración del requisito establecido en el artículo 67.6, la oficina de extranjería recabará de oficio el informe del registro central de penados para comprobar la inexistencia de antecedentes penales en España y recabará informe policial sobre la persona en cuyo favor se tramita la autorización. Estos informes serán emitidos en el plazo de siete días.\nLa existencia de antecedentes en el informe policial no supondrá, por sí misma y de forma automática, causa de denegación de la autorización. En ese caso, el órgano competente valorará de forma casuística y circunstanciada, que la persona extranjera no suponga una amenaza para el orden público, la seguridad interior, la salud pública o las relaciones internacionales de ninguno de los Estados miembros de la Unión Europea.\n5. En el supuesto de que se cumpla con los requisitos establecidos para la reagrupación familiar, el órgano competente resolverá la concesión de la autorización de residencia por reagrupación, y se suspenderá la eficacia de la autorización en los siguientes términos:\na) La solicitud de visado se tramitará conforme a lo establecido en los artículos 38 y 40. La resolución de concesión, en su caso, hará mención expresa a que la autorización no desplegará sus efectos hasta que no se produzca la obtención del visado y la posterior entrada en España de su titular, que deberá ser en el plazo máximo de un mes.\nb) En el supuesto de familiares de residentes de larga duración-UE, la eficacia de la autorización estará condicionada a la efectiva entrada del familiar en territorio nacional, si dicha entrada se produjera tras la concesión de la autorización. En este caso, la entrada deberá producirse en el plazo máximo de un mes desde la notificación de la concesión de la autorización, lo que habrá de constar en la resolución.\n6. El órgano competente, a la vista de la documentación presentada y de los informes obtenidos, resolverá de forma motivada en el plazo máximo de dos meses, atendiendo a los requisitos previstos en esta sección, sobre la autorización solicitada. Transcurrido dicho plazo sin haber obtenido respuesta se entenderá que la solicitud ha sido desestimada.\nLa resolución se grabará en la aplicación correspondiente, de forma que la oficina consular competente en la tramitación del visado tenga acceso a la misma.\n7. Los procedimientos regulados en este artículo, así como los relativos al correspondiente visado y a la renovación de autorizaciones de residencia por reagrupación familiar serán objeto de tramitación preferente.\n8. La Secretaría de Estado de Migraciones publicará periódicamente información estadística sobre las solicitudes y concesiones de autorizaciones iniciales de residencia por reagrupación familiar a los órganos competentes en la correspondiente Comunidad Autónoma, así como a la Federación Española de Municipios y Provincias a los efectos de su traslado a los Ayuntamientos correspondientes.\n9. Cuando la persona reagrupante sea titular de una autorización de residencia temporal, la vigencia de la autorización de residencia de los familiares reagrupados se extenderá hasta la misma fecha que la autorización de que sea titular la persona reagrupante en el momento de la entrada del familiar en España, con el mínimo de un año.\nCuando la persona reagrupante tenga la condición de residente de larga duración o de residencia de larga duración-UE en España, la vigencia de la primera autorización de residencia de los familiares reagrupados se extenderá hasta la fecha de validez de la tarjeta de identidad de extranjero de que sea titular la persona reagrupante en el momento de la entrada del familiar en España, con el mínimo de un año. La posterior autorización de residencia de la persona reagrupada será de larga duración.",
+      "sha256": "c2f4829c9cc97f9258e598338b07ebe2204f1e88cbdbcc37dba77d59c9a0c3e2",
+      "research_relevance": {
+        "index_heading": "Artículo 68",
+        "question_scores": {},
+        "subject_matches": [
+          "residencia"
+        ],
+        "semantic_verification_required": true
+      }
+    },
+    {
+      "evidence_id": "EV_D7A494DDA33A2BF41A55",
+      "source_id": "BOE-A-2024-24099",
+      "article": "74",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a7-6",
+      "retrieved_at": "2026-11-26T12:09:44.012295+00:00",
+      "version_date": "2024-11-20",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 74. Requisitos.\n1. Para la concesión de una autorización inicial de residencia temporal y trabajo por cuenta ajena será necesario cumplir los siguientes requisitos específicos:\na) Que la situación nacional de empleo permita la contratación de la persona trabajadora extranjera en los términos previstos en el artículo 75 o, en el caso de que la autorización se encuadre en un procedimiento de gestión colectiva de contrataciones en origen, en los términos que se establezca en la orden correspondiente.\nb) Que el empleador presente un contrato de trabajo firmado por la persona trabajadora y por él mismo y que se establezca para la persona trabajadora una actividad continuada durante el periodo de vigencia de la autorización inicial de residencia temporal y trabajo por cuenta ajena.\nLa fecha de comienzo del contrato deberá estar condicionada al momento de eficacia de la autorización de residencia temporal y trabajo por cuenta ajena.\nc) Que las condiciones fijadas en el contrato de trabajo se ajusten a las establecidas por la normativa vigente y el convenio colectivo aplicable para la misma actividad, categoría profesional y localidad.\nEn el caso de que la contratación fuera a tiempo parcial, la retribución total a percibir por la persona solicitante deberá ser igual o superior al salario mínimo interprofesional para jornada completa y en cómputo anual.\nd) Que el empleador se encuentre al corriente del cumplimiento de sus obligaciones tributarias y frente a la Seguridad Social.\ne) Que el empleador cuente con medios económicos, materiales o personales, suficientes para su proyecto empresarial y para hacer frente a las obligaciones asumidas en el contrato frente al trabajador en los términos establecidos en el artículo 76.\nf) Que la persona trabajadora tenga la capacitación y, en su caso, la cualificación profesional legalmente exigida para el ejercicio de la profesión.\ng) No encontrarse, en su caso, dentro del plazo de compromiso de no retorno a España que la persona extranjera haya asumido al retornar voluntariamente a su país de origen.\nh) No representar una amenaza para el orden público, la seguridad pública o la salud pública, circunstancia que se acreditará mediante la comprobación de la inexistencia de antecedentes penales en España y la valoración del informe policial correspondiente.\ni) Haber abonado la tasa por tramitación del procedimiento.\n2. Sin perjuicio de lo previsto en el apartado anterior, no se tendrá en cuenta la situación nacional de empleo en los supuestos establecidos en el artículo 40 de la Ley Orgánica 4/2000, de 11 de enero, o por Convenio internacional.\nIgualmente, se autorizará a trabajar sin atender a la situación nacional de empleo a las personas nacionales de Estados con los que se hayan suscrito convenios internacionales a tal efecto, así como a las personas nacionales de Estados no pertenecientes a la Unión Europea ni al Espacio Económico Europeo enroladas en buques españoles en virtud de acuerdos internacionales de pesca marítima. En este caso, se concederá validez de autorización para trabajar al duplicado de la notificación de embarque o renovación del contrato de tripulantes extranjeros en buques españoles. En estos supuestos no se exigirá la solicitud de la tarjeta de residencia de extranjeros.\n3. En el caso de que la actividad a desarrollar corresponda a actividades de temporada, se estará a lo dispuesto en el título V.",
+      "sha256": "ee4b82157eadf77ae9f0466a2cb9a1cbbf7c82b9552ef85e3b32471b88c17a4b",
+      "research_relevance": {
+        "index_heading": "Artículo 74",
+        "question_scores": {},
+        "subject_matches": [
+          "residencia"
+        ],
+        "semantic_verification_required": true
+      }
+    },
+    {
+      "evidence_id": "EV_5542B019D06C298222BC",
+      "source_id": "BOE-A-2024-24099",
+      "article": "80",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a8-2",
+      "retrieved_at": "2026-11-26T12:09:44.472191+00:00",
+      "version_date": "2024-11-20",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 80. Renovación de las autorizaciones de residencia temporal y trabajo por cuenta ajena.\n1. La renovación de las autorizaciones de residencia temporal y trabajo por cuenta ajena deberá solicitarse, en modelo oficial, durante los dos meses previos a la fecha de expiración de la vigencia de su autorización. La presentación de la solicitud en este plazo prorrogará la validez de la autorización anterior hasta la resolución del procedimiento. También se prorrogará hasta la resolución del procedimiento en el supuesto en que la solicitud se presentase dentro de los tres meses posteriores a la fecha en que hubiera finalizado la vigencia de la anterior autorización, sin perjuicio de la incoación del correspondiente procedimiento sancionador por la infracción prevista en el artículo 52.b) de la Ley Orgánica 4/2000.\n2. La autorización de residencia y trabajo por cuenta ajena se renovará a su expiración en los siguientes supuestos:\na) Cuando se acredite la continuidad en la relación laboral que dio lugar a la concesión de la autorización cuya renovación se pretende.\nb) Cuando la persona trabajadora haya tenido un periodo de actividad laboral de al menos tres meses por año, y se encuentre en alguna de las siguientes circunstancias:\n1.º Haya suscrito un contrato de trabajo con un nuevo empleador acorde con las características de su autorización para trabajar, y figure en situación de alta o asimilada al alta en el momento de solicitar la renovación.\n2.º Disponga de un nuevo contrato que reúna los requisitos establecidos en el artículo 74 y con inicio de vigencia condicionado a la concesión de renovación.\n3.º Que la relación laboral que dio lugar a la autorización cuya renovación se pretende se haya extinguido por causas ajenas a su voluntad, y desde entonces hasta la fecha de solicitud de la renovación de la autorización de residencia y trabajo se ha mantenido inscrito ininterrumpidamente como demandante de empleo en los Servicios Públicos de Empleo competentes.\nc) Cuando la persona trabajadora se encuentre en alguna de las situaciones previstas en el artículo 38.6 b) y c) de la Ley Orgánica 4/2000, de 11 de enero.\nd) De acuerdo con el artículo 38.6.d) de la Ley Orgánica 4/2000, de 11 de enero, cuando:\n1.º La persona trabajadora acredite que se ha encontrado trabajando y en alta en el régimen correspondiente de la Seguridad Social durante un mínimo de nueve meses en un periodo de doce.\n2.º Un familiar, definido en los términos del artículo 66, cumpliera con los requisitos económicos para reagrupar a la persona trabajadora.\n3.º En los supuestos de extinción del contrato de trabajo o suspensión de la relación laboral como consecuencia de que la trabajadora sea víctima de violencia de género o violencia sexual.\n3. Junto con la solicitud de renovación deberán presentarse los documentos acreditativos de que se reúnen las condiciones para su concesión, de acuerdo con lo establecido en el apartado anterior, así como informe emitido por las autoridades autonómicas competentes que acredite la escolarización de los menores a su cargo en edad de escolarización obligatoria.\n4. En caso de que a partir de la documentación presentada junto a la solicitud no quede acreditada la escolarización de los menores en edad de escolarización obligatoria que estén a cargo de la persona solicitante, la oficina de extranjería pondrá esta circunstancia en conocimiento de las autoridades educativas competentes, y advertirá expresamente y por escrito a la persona extranjera solicitante de que en caso de no producirse la escolarización y presentarse el correspondiente informe en el plazo de un mes, la autorización no será renovada.\n5. Para la renovación de la autorización se valorará, en su caso, previa solicitud de oficio de los respectivos informes:\na) La posibilidad de renovar la autorización de residencia a las personas extranjeras que hubieren sido condenadas por la comisión de un delito y hayan cumplido la condena, las que hubieran sido indultadas o se hallasen en situación de remisión condicional de la pena o de suspensión de la pena.\nb) Que la persona extranjera haya incumplido sus obligaciones en materia tributaria y de Seguridad Social.\n6. Igualmente se valorará, en su caso, el esfuerzo de integración de la persona extranjera. Esta circunstancia se acreditará mediante la aportación, entre otros medios de prueba, de un informe favorable de los órganos competentes de la Comunidad Autónoma de su lugar de residencia que recomienden la renovación.\nEl informe, de ser favorable, certificará el conocimiento y respeto de los valores constitucionales de España, los valores estatutarios de la Comunidad Autónoma en que se resida, los valores de la Unión Europea, los derechos humanos, las libertades públicas, la democracia, la tolerancia y la igualdad entre mujeres y hombres y, en su caso, el aprendizaje de las lenguas oficiales del lugar de residencia.\nEn caso de que el informe no haya sido emitido en el plazo de un mes, circunstancia que habrá de ser debidamente acreditada por el interesado, podrá justificarse este requisito por cualquier medio de prueba admitido en Derecho.\n7. Los descubiertos en la cotización a la Seguridad Social no impedirán la renovación de la autorización, siempre que se acredite la realización habitual de la actividad. El órgano competente pondrá en conocimiento de la Inspección de Trabajo y Seguridad Social la situación de descubierto de cotización, a los efectos de que se lleven a cabo las actuaciones que procedan.\n8. Será causa de denegación de las solicitudes de renovación, además del incumplimiento de algunos de los requisitos previstos en este artículo, la concurrencia de alguno de los supuestos de denegación previstos en el artículo 78 de este reglamento, excepto el relativo a que la situación nacional de empleo permita la contratación y aquellos que no sean atribuibles a la persona trabajadora.\n9. Transcurrido el plazo de tres meses para resolver y notificar sobre una solicitud de renovación de autorización de residencia y trabajo por cuenta ajena sin que se haya dictado resolución expresa, esta se entenderá estimada.",
+      "sha256": "32238655c884f1863fc76c0bde7289b0b9da6ecfc4b5e7da947bea04191fab47",
+      "research_relevance": {
+        "index_heading": "Artículo 80",
+        "question_scores": {},
+        "subject_matches": [
+          "residencia"
+        ],
+        "semantic_verification_required": true
+      }
+    },
+    {
+      "evidence_id": "EV_52869961B89F7790D1C8",
+      "source_id": "BOE-A-2024-24099",
+      "article": "85",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a8-7",
+      "retrieved_at": "2026-11-26T12:09:44.947138+00:00",
+      "version_date": "2024-11-20",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 85. Procedimiento.\n1. La persona trabajadora extranjera no residente que pretenda trabajar por cuenta propia en España deberá presentar una solicitud de visado de residencia conforme a lo establecido en los artículos 38 y 39.\n2. Para la valoración del requisito establecido en el artículo 84 e), la oficina de extranjería recabará de oficio el informe del registro central de penados para comprobar la inexistencia de antecedentes penales en España y recabará informe policial sobre la persona solicitante. Estos informes serán emitidos en el plazo de siete días.\nLa existencia de antecedentes en el informe policial no supondrá, por sí misma y de forma automática, causa de denegación de la autorización. En ese caso, el órgano competente valorará de forma casuística y circunstanciada, que la persona extranjera no suponga una amenaza para el orden público, la seguridad interior, la salud pública o las relaciones internacionales de ninguno de los Estados miembros de la Unión Europea.\n3. La autorización inicial de residencia temporal y trabajo por cuenta propia será denegada cuando no se cumplan los requisitos establecidos para su concesión en el artículo 84.\nLa autorización será igualmente denegada cuando, para fundamentar la petición, se hayan presentado documentos falsos o formulado alegaciones inexactas, o medie mala fe.\n4. El órgano competente resolverá sobre la autorización de residencia en el plazo máximo de tres meses desde la recepción de la comunicación de la oficina consular. Transcurrido este plazo sin respuesta, se entenderá que la solicitud ha sido desestimada.\n5. Al resolver sobre la autorización inicial de residencia temporal y trabajo por cuenta propia el órgano competente, que será el autonómico cuando tenga competencias en materia de autorización inicial de trabajo por cuenta propia, deberá grabar de inmediato la resolución favorable en la aplicación informática correspondiente, de manera que los órganos de la Administración o Administraciones afectadas tengan conocimiento en tiempo real de la misma, y condicionará su eficacia a la expedición del visado y posterior alta de la persona trabajadora, durante los tres meses posteriores a su entrada legal en España, en el régimen correspondiente de la Seguridad Social.\nCuando la oficina consular competente no disponga de los medios técnicos necesarios para el acceso en tiempo real a la resolución mencionada en el párrafo anterior, los servicios centrales del Ministerio de Asuntos Exteriores, Unión Europea y Cooperación le darán traslado electrónico de la misma en el plazo de veinticuatro horas desde su recepción.\n6. Las personas extranjeras que deseen desarrollar actividades por cuenta propia durante el primer año de concesión de autorización de forma simultánea en varias Comunidades Autónomas, y siempre en relación con el mismo sector de actividad, habrán de obtener las correspondientes autorizaciones de trabajo por cuenta propia, de conformidad con los requisitos relativos a la actividad generalmente exigidos para su obtención.\n7. En el plazo de los tres meses posteriores a la entrada legal de la persona extranjera en España, se deberá producir su afiliación, alta y posterior cotización, en los términos establecidos por la normativa de Seguridad Social que resulte de aplicación. El alta en el régimen correspondiente de la Seguridad Social en el mencionado plazo dotará de eficacia a la autorización inicial de residencia temporal y trabajo por cuenta propia.\n8. En el plazo de un mes desde el alta del trabajador en el régimen correspondiente de la Seguridad Social, éste deberá solicitar personalmente la tarjeta de identidad de extranjero.\n9. Si finalizado el plazo de tres meses de estancia no existiera constancia de que el trabajador se ha dado de alta en el régimen correspondiente de la Seguridad Social, éste quedará obligado a salir del territorio nacional, incurriendo en caso contrario en infracción grave por encontrarse irregularmente en España.",
+      "sha256": "3e73af0966ac2d91065ba7a8588c29d2e1030290c6834ffb68e6d090fa11d811",
+      "research_relevance": {
+        "index_heading": "Artículo 85",
+        "question_scores": {},
+        "subject_matches": [
+          "residencia"
+        ],
+        "semantic_verification_required": true
+      }
+    },
+    {
+      "evidence_id": "EV_E06211449E1DE4A11EF8",
+      "source_id": "BOE-A-2024-24099",
+      "article": "125",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a1-37",
+      "retrieved_at": "2026-11-26T12:09:49.063664+00:00",
+      "version_date": "2024-11-20",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 125. Tipos de autorización de residencia temporal por razones de arraigo.\n1. Se concederá una autorización de residencia temporal por razones de arraigo a las personas extranjeras que se encuentren en España, cuando existan vínculos con el lugar en el que residen, ya sean de tipo económico, social, familiar, laboral o formativo, siempre que cumplan con los requisitos establecidos en los artículos 126 y 127.\nLas autorizaciones de residencia temporal por razones de arraigo pueden ser de los siguientes tipos:\na) Por razón de arraigo de segunda oportunidad.\nb) Por razón de arraigo sociolaboral.\nc) Por razón de arraigo social.\nd) Por razón de arraigo socioformativo.\ne) Por razón de arraigo familiar.\n2. La duración de estas autorizaciones es de un año, salvo por razón de arraigo familiar, cuya duración será de cinco años.",
+      "sha256": "410958f94848a08cc2e421e7891ae30620386c0e20e8ca6226325f70d97a56dc",
+      "research_relevance": {
+        "index_heading": "Artículo 125",
+        "question_scores": {},
+        "subject_matches": [
+          "arraigo",
+          "residencia"
+        ],
+        "semantic_verification_required": true
+      }
+    },
+    {
+      "evidence_id": "EV_A389D56CDCF87E83CEDE",
+      "source_id": "BOE-A-2024-24099",
+      "article": "130",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a1-42",
+      "retrieved_at": "2026-11-26T12:09:49.537483+00:00",
+      "version_date": "2026-04-15",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 130. Procedimiento.\n1. La autorización de residencia temporal por circunstancias excepcionales, que no requerirá visado, deberá ser solicitada personalmente por la persona extranjera ante el órgano competente para su tramitación, salvo en el caso de menores o de personas con discapacidad que precisan el apoyo de otra persona para el ejercicio de su capacidad jurídica, en el que podrá presentar la solicitud su representante legal, o la persona que presta dicho apoyo, acompañada de la siguiente documentación:\na) Copia completa del pasaporte en vigor, cédula de inscripción o título de viaje en vigor, reconocido como válido en España.\nb) En los casos en que se exija, contrato de trabajo firmado por la persona trabajadora y el empleador.\nc) Documentación acreditativa de encontrarse en alguna de las situaciones a las que se refieren los artículos anteriores.\n2. En particular, para los supuestos de arraigo, y los establecidos en los artículos 128.3 y el 129.2, cuando la persona interesada sea mayor de edad penal, se deberá aportar un certificado de antecedentes penales expedido por las autoridades del país o países en que haya residido durante los cinco años anteriores a su entrada en España, en el que no deberán constar condenas por delitos existentes en el ordenamiento jurídico español.\nLa oficina de extranjería recabará de oficio el informe del registro central de penados para comprobar la inexistencia de antecedentes penales en España y recabará informe policial sobre la persona solicitante. Estos informes serán emitidos en el plazo de siete días.\nNo será preciso acreditar la inexistencia de antecedentes en un tercer país cuando concurra alguno de los siguientes supuestos:\n1.º Haber permanecido de forma continuada en España durante los últimos cinco años inmediatamente anteriores a la fecha de presentación de la solicitud.\n2.º Haber acreditado esa circunstancia en otra solicitud anterior dentro de los cinco años inmediatamente anteriores a la fecha de presentación de la solicitud sin que se haya ausentado desde entonces del territorio nacional.\nLa existencia de antecedentes en el informe policial no supondrá, por sí misma y de forma automática, causa de denegación de la autorización. En ese caso, el órgano competente valorará de forma casuística y circunstanciada, que la persona extranjera no suponga una amenaza para el orden público, la seguridad interior, la salud pública o las relaciones internacionales de ninguno de los Estados miembros de la Unión Europea.\n3. El órgano competente para resolver comprobará si con la solicitud se acompaña la documentación exigida y, si estuviera incompleta, formulará a la persona solicitante el oportuno requerimiento a fin de que se subsanen los defectos observados en el plazo que se señale en la notificación, que no podrá ser superior quince días, advirtiéndole de que de no subsanarse en plazo se le tendrá por desistido de su solicitud y se procederá al archivo de su expediente.\n4. En los supuestos a los que se refiere el artículo 129.1 la competencia para su resolución corresponderá:\na) A la persona titular de la Secretaría de Estado de Seguridad cuando la autorización esté basada en la colaboración con las autoridades policiales, fiscales y judiciales y en los casos de seguridad nacional. A la solicitud basada en estos supuestos se acompañará el informe desde la jefatura correspondiente de las Fuerzas y Cuerpos de Seguridad, ya sean del Estado, ya sean de la Comunidad Autónoma, así como, en su caso, el de la autoridad fiscal o judicial, para acreditar las razones que la sustentan.\nb) A la persona titular de la Dirección General de Gestión Migratoria en los casos de colaboración con las demás autoridades administrativas o judiciales y por razones de interés público sin perjuicio de la previsión recogida en el apartado 2 del artículo 129.\n5. Una vez admitida a trámite la solicitud de la autorización por circunstancias excepcionales por arraigo prevista en el artículo 127.b) y hasta que se resuelva el procedimiento, se habilitará, de forma provisional, a las personas solicitantes a residir y a trabajar por cuenta ajena. En la comunicación de inicio de la tramitación de la solicitud se hará constar que la persona solicitante está habilitada provisionalmente a trabajar.\nResuelto el procedimiento y, en su caso, concedida dicha autorización, su eficacia estará condicionada a que la persona extranjera esté dada de alta en el régimen correspondiente de la Seguridad Social en el plazo de un mes desde la notificación realizada al solicitante.\n6. En el plazo de un mes desde la notificación de la concesión de la autorización de residencia temporal por circunstancias excepcionales la persona extranjera deberá solicitar personalmente la tarjeta de identidad de extranjero.\n7. Las autorizaciones a las que se refiere el capítulo I del título IX de menores extranjeros, podrán ser solicitadas de forma simultánea a la solicitud de la autorización por circunstancias excepcionales. En ese caso, la resolución deberá ser emitida de forma simultánea.",
+      "sha256": "62b6de1f6f79990b597486c1e82cbb07b1d1579335be0cf8805373d03666d033",
+      "research_relevance": {
+        "index_heading": "Artículo 130",
+        "question_scores": {},
+        "subject_matches": [
+          "arraigo",
+          "excepcionales",
+          "residencia"
+        ],
+        "semantic_verification_required": true
+      }
+    },
+    {
+      "evidence_id": "EV_E3775BC0AEF5AE2E188E",
+      "source_id": "BOE-A-2024-24099",
+      "article": "136",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a1-48",
+      "retrieved_at": "2026-11-26T12:09:50.161310+00:00",
+      "version_date": "2024-11-20",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 136. Finalización del procedimiento relativo a la residencia temporal y trabajo por circunstancias excepcionales de la mujer extranjera víctima de violencia de género.\n1. En el supuesto de que se hubiere acreditado la condición de víctima mediante sentencia condenatoria o resolución judicial, se procederá a la tramitación de una autorización de residencia temporal y trabajo por circunstancias excepcionales, así como a las autorizaciones correspondientes a favor de los hijos e hijas y ascendientes descritos en el presente capítulo. Estas autorizaciones tendrán una vigencia de cinco años.\n2. Concluido el proceso penal, el Ministerio Fiscal lo pondrá en conocimiento de la oficina de extranjería y de la Comisaría de Policía correspondiente en el plazo de un mes, a los siguientes efectos:\n1.º De haber concluido con sentencia condenatoria o resolución judicial de la que se deduzca que la mujer ha sido víctima de violencia de género, a los efectos de:\na) Si fuera titular de una la autorización provisional de residencia y trabajo, se concederá una autorización de residencia y trabajo por circunstancias excepcionales por el Delegado o Subdelegado del Gobierno competente y se notificará en el plazo máximo de veinte días desde que a la oficina de extranjería le conste la sentencia o resolución judicial.\nb) Si no se hubiera solicitado la autorización de residencia y trabajo, el Ministerio Fiscal informará a la mujer extranjera sobre la posibilidad que le asiste en aplicación del presente artículo de solicitar una autorización de residencia temporal y trabajo a su favor, así como autorizaciones de residencia temporal o de residencia temporal y trabajo a favor de los hijos e hijas recogidos en los artículos anteriores.\nIgualmente, le informarán de que dispone de un plazo de seis meses desde la fecha en la que le haya sido notificada la sentencia, o resolución judicial para la presentación de la solicitud o solicitudes.\nEl procedimiento relativo a esta solicitud de autorización será tramitado en los términos previstos en el artículo 135.\nc) La concesión de una autorización de residencia y trabajo por circunstancias excepcionales de acuerdo con lo previsto en este apartado supondrá el archivo del procedimiento sancionador que pudiera existir con la mujer extranjera víctima de violencia de género.\nLa vigencia de la autorización será de cinco años. Ello, sin perjuicio de la posibilidad de su titular de acceder en el curso de dicha validez a la situación de residencia de larga duración, previa solicitud, a cuyo efecto se computará, en su caso, el tiempo durante el que hubiera sido titular de una autorización provisional concedida en base al artículo anterior.\nEn el plazo de un mes desde su concesión, la titular de la autorización solicitará personalmente y ante la Comisaría de Policía correspondiente, la tarjeta de identidad de extranjero. Dicha tarjeta hará constar que su titular está autorizada a residir y trabajar en España, pero no su condición de víctima de violencia de género.\nLas disposiciones previstas en este apartado serán de aplicación, en su caso, a las autorizaciones concedidas a favor de los familiares descritos en el artículo 134.2.\n2.º De haber concluido con sentencia no condenatoria o resolución judicial de la que no se deduzca que la mujer ha sido víctima de violencia de género, a los efectos de:\na) Si se ha solicitado una autorización provisional de residencia y trabajo en aplicación de lo dispuesto en el artículo 135, esta autorización le será denegada, así como las autorizaciones solicitadas a favor de los familiares recogidos en el artículo 134.2.\nb) La automática pérdida de eficacia de la autorización provisional que se hubiera podido conceder, cuya titularidad no podrá ser alegada de cara a la obtención de la condición de residente de larga duración o de la nacionalidad. Esta previsión será de aplicación, en su caso, a las autorizaciones provisionales de los familiares recogidos en el artículo 134.2.\nc) El inicio o la continuación del procedimiento sancionador en materia de extranjería inicialmente no incoado o suspendido, y su tramitación y resolución de acuerdo con lo previsto en el título III de la Ley Orgánica 4/2000.",
+      "sha256": "849bbdbbd71959b593121b7d87498da24d883b2bd77a1a9c2f833eeb609a3f28",
+      "research_relevance": {
+        "index_heading": "Artículo 136",
+        "question_scores": {},
+        "subject_matches": [
+          "excepcionales",
+          "residencia"
+        ],
+        "semantic_verification_required": true
+      }
+    },
+    {
+      "evidence_id": "EV_88F3A88610FF2643FAC0",
+      "source_id": "BOE-A-2024-24099",
+      "article": "198",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a1-110",
+      "retrieved_at": "2026-11-26T12:09:55.743950+00:00",
+      "version_date": "2024-11-20",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 198. Acceso a la información para personas trabajadoras extranjeras y empleadores.\n1. Estará disponible de forma fácilmente accesible para las personas trabajadoras extranjeras y los empleadores, la información adecuada sobre los procedimientos y documentos justificativos necesarios para tramitar los visados y las autorizaciones reguladas en este Reglamento y, en su caso, sobre las tasas aplicables, así como sobre los supuestos de modificación y las causas de extinción de las autorizaciones.\n2. Asimismo, se facilitará información fácilmente accesible sobre las condiciones de entrada y residencia, incluidos los derechos, las obligaciones, las vías de reclamación y denuncia disponibles contra sus empleadores y los recursos y garantías judiciales de las personas trabajadoras extranjeras y de los miembros de sus familias, así como información sobre las organizaciones de trabajadores más representativas a nivel estatal y autonómico.",
+      "sha256": "ef4af56bc4a4a01b19993863919349defb45d34d3d0b305c22ffb944bb2b9546",
+      "research_relevance": {
+        "index_heading": "Artículo 198",
+        "question_scores": {},
+        "subject_matches": [
+          "residencia"
+        ],
+        "semantic_verification_required": true
+      }
+    },
+    {
+      "evidence_id": "EV_E8997A7BB8BD500DEF9E",
+      "source_id": "migraciones",
+      "authority": "migraciones",
+      "document_title": "Hoja 29 — arraigo sociolaboral",
+      "article": null,
+      "official_url": "https://www.inclusion.gob.es/es/web/migraciones/w/29.-autorizacion-de-residencia-temporal-por-circunstancias-excepcionales.-arraigo-sociolaboral.",
+      "retrieval_url": "https://www.inclusion.gob.es/es/web/migraciones/w/29.-autorizacion-de-residencia-temporal-por-circunstancias-excepcionales.-arraigo-sociolaboral.",
+      "api_url": null,
+      "retrieved_at": "2026-11-26T12:10:03.722239+00:00",
+      "version_date": null,
+      "version_status": "GUIDANCE_DATE_NOT_VERIFIED",
+      "legal_status": "PROCEDURAL_GUIDANCE_UNVERIFIED",
+      "text": "Saltar al contenido principal Selecciona tu idioma Castellano Català Euskara Galego English Français Buscar Menú Trámites Destacados mostrar submenu Trámites Destacados Trámites Destacados: Pensiones Trámites Destacados: Altas y bajas de la Seguridad Social Trámites Destacados: Ayudas Trámites Destacados: Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) Directo a Trámites Destacados: Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) Trámites Destacados: Pensiones El Ministerio mostrar submenu El Ministerio ¿Quiénes somos? La Ministra Biografía de la Ministra El Ministerio en el mundo Organización administrativa del Ministerio de Inclusión, Seguridad Social y Migraciones Secretaría de Estado de Migraciones Secretaría de Estado de la Seguridad Social y Pensiones Secretaría General de Inclusión Subsecretaría de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Atención a la ciudadanía Canal Interno Información Quejas, sugerencias y felicitaciones Sede electrónica Empleo Público Acceso a empleo público Movilidad del empleado público Biblioteca Virtual Plan estratégico de subvenciones - PES Directo a ¿Quiénes somos? Organización administrativa del Ministerio de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Sede electrónica Biblioteca Virtual Inclusión mostrar submenu Inclusión ¿Quiénes somos? Ingreso Mínimo Vital Qué es el Complemento de Ayuda para la Infancia (CAPI) Estadísticas e Informes Laboratorio de Políticas de Inclusión Fondo de Impacto Social Más Información Órganos de gobernanza del IMV Registro de Mediadores sociales del IMV Sello de Inclusión Social Directo a Laboratorio de Políticas de Inclusión Sello de Inclusión Social Seguridad Social y Pensiones mostrar submenu Seguridad Social y Pensiones ¿Quiénes somos? Pensiones Altas y bajas Vida Laboral Autónomos Otras prestaciones Directo a Seguridad Social y Pensiones Migraciones mostrar submenu Migraciones ¿Quiénes somos? Integración Prioridades de integración OBERAXE Foro para la Integración Social de los Inmigrantes Vivir en España Tipos de autorización Normativa e instrucciones Criterios de Gestión Retorno voluntario Información útil Contacto Vivir en el extranjero Portal de la Ciudadanía Española en el Exterior Carta España Sistema de Acogida de Protección Internacional Cómo funciona y datos Personas destinatarias Entidades colaboradoras Reasentamiento y otros programas CRCP 2024-2025 Iniciativas para la inserción laboral Línea Acogida Informa Ucrania Urgente Atención Humanitaria Estadísticas Brexit. Derecho de los ciudadanos Directo a Red Europea de Migraciones (REM-EMN) OBERAXE Foro para la Integración Social de los Inmigrantes Fondos Europeos Proyectos de Migración Regular Unidad de Grandes Empresas y Colectivos Estratégicos Consejo General de la Ciudadanía Española en el Exterior Comunicación mostrar submenu Comunicación Noticias Buscador Redes Sociales Multimedia Galería Revistas Contacto para periodistas Directo a Noticias Redes Sociales Multimedia Galería Revistas Estadísticas mostrar submenu Estadísticas Migraciones Estadísticas de empleo y mercado laboral Estadísticas de pensiones y prestaciones Directo a Estadísticas Selecciona tu idioma Castellano Català Euskara Galego English Français Trámites Destacados mostrar submenu Trámites Destacados Pensiones Altas y bajas de la Seguridad Social Ayudas Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) El Ministerio mostrar submenu El Ministerio ¿Quiénes somos? mostrar submenu ¿Quiénes somos? La Ministra Biografías El Ministerio en el mundo Organización administrativa mostrar submenu Organización administrativa S.E. de Migraciones S.E. de la Seguridad Social y Pensiones S.G. de Inclusión Subsecretaría de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Atención a la ciudadanía mostrar submenu Atención a la ciudadanía Canal Interno Información Quejas, sugerencias y felicitaciones Sede electrónica Empleo Público mostrar submenu Empleo Público Acceso a empleo público Movilidad del empleado público Biblioteca Virtual Plan estratégico de subvenciones - PES Inclusión mostrar submenu Inclusión ¿Quiénes somos? IMV IMV - CAPI Estadísticas e informes Laboratorio de Políticas de Inclusión Fondo de Impacto Social Más Información mostrar submenu Más Información Órganos de gobernanza del IMV Registro de Mediadores sociales del IMV Sello de Inclusión Social Seguridad Social y Pensiones mostrar submenu Seguridad Social y Pensiones ¿Quiénes somos? Pensiones Altas y bajas Vida Laboral Autónomos Otras prestaciones Migraciones mostrar submenu Migraciones ¿Quiénes somos? Integración mostrar submenu Integración Prioridades de integración OBERAXE Foro para la Integración Social de los Inmigrantes Vivir en España mostrar submenu Vivir en España Tipos de autorización Normativa e instrucciones Criterios de Gestión Retorno voluntario Información útil Contacto Vivir en el extranjero mostrar submenu Vivir en el extranjero Portal de la Ciudadanía Española en el Exterior Carta España Sistema de Acogida de Protección Internacional mostrar submenu Sistema de Acogida de Protección Internacional Cómo funciona y datos Personas destinatarias Entidades colaboradoras Reasentamiento y otros programas CRCP 2024-2025 Iniciativas para la inserción laboral Línea Acogida Informa Ucrania Urgente Atención Humanitaria Estadísticas Brexit. Derecho de los ciudadanos Comunicación mostrar submenu Comunicación Noticias mostrar submenu Noticias Buscador Redes Sociales Multimedia Galería Revistas Contacto para periodistas Estadísticas mostrar submenu Estadísticas Migraciones Estadísticas de empleo y mercado laboral Estadísticas de pensiones y prestaciones twitter twitter Instagram youtube linkedin Hoja 29 - Autorización de residencia temporal por circunstancias excepcionales. Arraigo sociolaboral. - Migraciones Inicio / Migraciones Vivir en España Tipos de autorización Normativa e instrucciones mostrar submenu Normativa e instrucciones Normativa UE, normativa internacional y jurisprudencia UE Instrucciones Criterios de Gestión Retorno voluntario Información útil mostrar submenu Información útil Trámites que se pueden realizar por Internet Modelos de solicitud Información de las comunidades autónomas y entidades locales Tiempo de tramitación de procedimientos (CORA) Preguntas frecuentes Reglamento de Extranjería Otra información Subvenciones Noticias Contacto Hoja 29 - Autorización de residencia temporal por circunstancias excepcionales. Arraigo sociolaboral. * El contenido de esta página es meramente orientativo. Únicamente es de aplicación lo dispuesto en la normativa vigente en el momento de presentación de la solicitud. Última actualización: abril de 2026 Índice de contenidos Tipo de Autorización Normativa básica Requisitos Documentación exigible Procedimiento TIPO DE AUTORIZACIÓN Es una autorización de residencia temporal por circunstancias excepcionales que se podrá conceder a ciudadanos extranjeros que se hallen en España durante un periodo mínimo de dos años y cuenten con uno o varios contratos de trabajo. NORMATIVA BÁSICA Ley Orgánica 4/2000, de 11 de enero, sobre derechos y libertades de los extranjeros en España y su integración social (art. 31.3). Real Decreto 1155/2024, de 19 de noviembre, por el que se aprueba el Reglamento de la Ley Orgánica 4/2000, de 11 de enero, sobre derechos y libertades de los extranjeros en España y su integración social (artículos 124 a 127). REQUISITOS No ser ciudadano de un Estado de la Unión Europea, del Espacio Económico Europeo o de Suiza, o familiar de ciudadanos de estos países a los que les sea de aplicación el régimen de ciudadano de la Unión. Encontrarse en España y no tener la condición de solicitante de protección internacional en el momento de la presentación de la solicitud ni durante su tramitación. Haber permanecido en territorio nacional de forma continuada durante, al menos, los dos años anteriores a la presentación de dicha solicitud. A estos efectos, cuando la persona extranjera haya sido solicitante de protección internacional, no será computable el tiempo de permanencia en España durante la tramitación de la solicitud de protección internacional hasta su resolución firme en vía administrativa y, en su caso, judicial. No representar una amenaza para el orden público, seguridad o salud pública. Carecer de antecedentes penales en España y en los países donde haya residido los últimos cinco años, por delitos existentes en el ordenamiento español. No figurar como rechazable en el espacio territorial de países con los que España tenga firmado un convenio en tal sentido. No encontrarse, en su caso, dentro del plazo de compromiso de no retorno a España Abonar la tasa correspondiente por la tramitación del procedimiento. No ser titular de una autorización de estancia o residencia ni ostentar la condición de persona interesada en procedimientos que tengan por objeto la concesión, prórroga, renovación o modificación de autorizaciones de estancia o residencia. Contar con uno o varios contratos de trabajo que garanticen al menos el salario mínimo interprofesional o el salario establecido, en su caso, en el convenio colectivo aplicable, en el momento de la solicitud, en proporción a la jornada trabajada, y cuya suma represente una jornada semanal no inferior a veinte horas en cómputo global. Podrá aportarse más de un contrato de trabajo en los siguientes supuestos: - En el caso de la realización de trabajos de naturaleza estacional o vinculados a actividades productivas de temporada se podrán presentar dos o más contratos, con distintos empleadores y concatenados. -En el caso de desarrollo de actividades en una misma o distinta ocupación, trabajando parcialmente y de manera simultánea para más de un empleador. El empleador o empleadores deberán cumplir los siguientes requisitos: Encontrarse al corriente del cumplimiento de sus obligaciones tributarias y frente a la Seguridad Social. Contar con medios económicos, materiales o personales, suficientes para su proyecto empresarial y para hacer frente a las obligaciones asumidas en el contrato frente al trabajador. DOCUMENTACIÓN EXIGIBLE Nota: con carácter general se deberán aportar copias de los documentos y exhibir los originales en el momento de presentar la solicitud. Impreso de solicitud en modelo oficial (EX–10) , debidamente cumplimentado y firmado por la persona extranjera. Copia completa del pasaporte, título de viaje o cédula de inscripción. Documentación acreditativa de la permanencia continuada en España durante un periodo mínimo de dos años. Certificado de antecedentes penales expedido por las Autoridades del país o países en los que haya residido durante los cinco últimos años anteriores a la entrada en España. Contrato o contratos de trabajo con las características exigidas, firmado/s por el empleador/es y trabajador. También deben acompañarse los siguientes documentos: Copia del N.I.F. y, en su caso, los estatutos de la sociedad para determinar si la persona que firma el contrato está habilitada para ello, de las escrituras de la empresa. Acreditación de que la empresa garantiza la solvencia necesaria, a través de: la declaración del IRPF, o del IVA, o del Impuesto de Sociedades o del informe de la vida laboral de la empresa (VILE). Copia de la documentación que acredite la capacitación y, en su caso, la cualificación profesional legalmente exigida para el ejercicio de la profesión, así como la homologación y/o reconocimiento para el ejercicio de la profesión en el caso de profesiones reguladas en España. Nota importante: cuando se aporten documentos de otros países deberán estar traducidos al castellano o lengua cooficial del territorio donde se presente la solicitud por un traductor jurado. Lista de traductores jurados. Por otro lado, todo documento público extranjero deberá ser previamente legalizado por la Oficina Consular de España con jurisdicción en el país en el que se ha expedido dicho documento o, en su caso, por el Ministerio de Asuntos Exteriores, Unión Europea y Cooperación salvo en el caso en que dicho documento haya sido apostillado por la Autoridad competente del país emisor según el Convenio de la Haya de 5 de octubre de 1961 y salvo que dicho documento esté exento de legalización en virtud de Convenio Internacional. Información sobre traducción y legalización de los documentos. PROCEDIMIENTO Sujeto legitimado para presentar la solicitud: la persona extranjera personalmente, o su representante legal o persona que presta apoyo en el supuesto de ser menor o persona con discapacidad. Hoja informativa sobre sujetos legitimados. Lugar de presentación: Presencialmente, en la Oficina de Extranjería de la provincia en la que la persona extranjera tenga fijado el domicilio. Telemáticamente, a través de la sede electrónica del Ministerio de Política Territorial y Memoria Democrática (Mercurio). Información de la dirección, teléfonos y horarios de atención al público. Una vez admitida a trámite la solicitud de la autorización por circunstancias excepcionales por arraigo prevista en el artículo 127.b) y hasta que se resuelva el procedimiento, se habilitará, de forma provisional, a las personas solicitantes a residir y a trabajar por cuenta ajena. En la comunicación de inicio de la tramitación de la solicitud se hará constar que la persona solicitante está habilitada provisionalmente a trabajar. Resuelto el procedimiento y, en su caso, concedida dicha autorización, su eficacia estará condicionada a que la persona extranjera esté dada de alta en el régimen correspondiente de la Seguridad Social en el plazo de un mes desde la notificación realizada al solicitante. Tasa correspondiente: se devengará en el momento de presentación de la solicitud, y deberá abonarse en el plazo de diez días hábiles: Modelo 790 código 052, epígrafe 2.3.1. “autorización de residencia temporal por circunstancias excepcionales por arraigo”: a abonar por la persona extranjera El impreso para el abono se podrá descargar desde esta página. Plazo de resolución de la solicitud: tres meses contados a partir del día siguiente a la fecha en que haya tenido entrada en el registro del órgano competente para su tramitación. Transcurrido dicho plazo sin que la Administración haya practicado la notificación se podrá entender que la solicitud ha sido desestimada por silencio administrativo. (Cuando no se haya podido notificar la resolución se anunciará en el Tablón Edictal Único (TEU). Si se hubiera optado por notificación electrónica o normativamente estuviera obligado a utilizar ese medio, la resolución se notificará mediante publicación en la sede electrónica. Si no se accediera a la resolución en diez días naturales desde su publicación, se dará por notificada). La eficacia de la autorización concedida estará condicionada a la posterior afiliación y alta del trabajador en la Seguridad Social en el plazo de un mes desde la notificación realizada al solicitante. En el plazo de un mes desde la notificación de la concesión de la autorización de residencia por circunstancias excepcionales, la persona extranjera deberá solicitar personalmente la tarjeta de identidad de extranjero, en la Comisaría de Policía o servicios policiales competentes de su lugar de residencia. La documentación a aportar en la solicitud de la tarjeta de identidad de extranjero puede ser consultada en el siguiente enlace: https://sede.administracionespublicas.gob.es/procedimientos/index/categoria/34 La autorización concedida tendrá una vigencia de un año. A su finalización podrá modificar a una autorización de residencia y trabajo inicial a través del artículo 191 del Reglamento o podrá prorrogarse por periodos anuales, estando condicionada al cumplimiento de sus requisitos y a la prueba de encontrarse en situación de búsqueda activa de empleo y debidamente inscrito en el servicio público de empleo. No obstante, se podrá prorrogar sin necesidad de acreditar los anteriores requisitos si concurren circunstancias que impidan el acceso al empleo por razones debidamente justificadas, tales como, enfermedad o discapacidad o haber alcanzado la edad legal de jubilación. 29. Autorización de residencia temporal por circunstancias excepcionales. Arraigo sociolaboral. Archivo de extensión y tamaño (pdf - 258 KB) Oculto Visualización del menú Trámites Destacados El Ministerio Inclusión Seguridad Social y Pensiones Migraciones Comunicación Estadísticas Inclusión, Seguridad Social y Migraciones Sede central del Ministerio: Calle de José Abascal, 39 - 28003 Madrid Visualización del menú Aviso legal Accesibilidad Mapa Web Privacidad Atención al usuario Subir al principio de la página.",
+      "sha256": "e8997a7bb8bd500def9e562f80d5339d85c275d57c74784ddcb0952d8b5f3e21",
+      "research_relevance": {
+        "semantic_verification_required": true,
+        "source_type": "official_procedural_guidance"
+      }
+    },
+    {
+      "evidence_id": "EV_5CE8F155F01DDFFF9046",
+      "source_id": "migraciones",
+      "authority": "migraciones",
+      "document_title": "Hoja 28 — arraigo social",
+      "article": null,
+      "official_url": "https://www.inclusion.gob.es/es/web/migraciones/w/autorizacion-residencia-temporal-por-circunstancias-excepcionales.-arraigo-social",
+      "retrieval_url": "https://www.inclusion.gob.es/es/web/migraciones/w/autorizacion-residencia-temporal-por-circunstancias-excepcionales.-arraigo-social",
+      "api_url": null,
+      "retrieved_at": "2026-11-26T12:10:05.620523+00:00",
+      "version_date": null,
+      "version_status": "GUIDANCE_DATE_NOT_VERIFIED",
+      "legal_status": "PROCEDURAL_GUIDANCE_UNVERIFIED",
+      "text": "Saltar al contenido principal Selecciona tu idioma Castellano Català Euskara Galego English Français Buscar Menú Trámites Destacados mostrar submenu Trámites Destacados Trámites Destacados: Pensiones Trámites Destacados: Altas y bajas de la Seguridad Social Trámites Destacados: Ayudas Trámites Destacados: Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) Directo a Trámites Destacados: Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) Trámites Destacados: Pensiones El Ministerio mostrar submenu El Ministerio ¿Quiénes somos? La Ministra Biografía de la Ministra El Ministerio en el mundo Organización administrativa del Ministerio de Inclusión, Seguridad Social y Migraciones Secretaría de Estado de Migraciones Secretaría de Estado de la Seguridad Social y Pensiones Secretaría General de Inclusión Subsecretaría de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Atención a la ciudadanía Canal Interno Información Quejas, sugerencias y felicitaciones Sede electrónica Empleo Público Acceso a empleo público Movilidad del empleado público Biblioteca Virtual Plan estratégico de subvenciones - PES Directo a ¿Quiénes somos? Organización administrativa del Ministerio de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Sede electrónica Biblioteca Virtual Inclusión mostrar submenu Inclusión ¿Quiénes somos? Ingreso Mínimo Vital Qué es el Complemento de Ayuda para la Infancia (CAPI) Estadísticas e Informes Laboratorio de Políticas de Inclusión Fondo de Impacto Social Más Información Órganos de gobernanza del IMV Registro de Mediadores sociales del IMV Sello de Inclusión Social Directo a Laboratorio de Políticas de Inclusión Sello de Inclusión Social Seguridad Social y Pensiones mostrar submenu Seguridad Social y Pensiones ¿Quiénes somos? Pensiones Altas y bajas Vida Laboral Autónomos Otras prestaciones Directo a Seguridad Social y Pensiones Migraciones mostrar submenu Migraciones ¿Quiénes somos? Integración Prioridades de integración OBERAXE Foro para la Integración Social de los Inmigrantes Vivir en España Tipos de autorización Normativa e instrucciones Criterios de Gestión Retorno voluntario Información útil Contacto Vivir en el extranjero Portal de la Ciudadanía Española en el Exterior Carta España Sistema de Acogida de Protección Internacional Cómo funciona y datos Personas destinatarias Entidades colaboradoras Reasentamiento y otros programas CRCP 2024-2025 Iniciativas para la inserción laboral Línea Acogida Informa Ucrania Urgente Atención Humanitaria Estadísticas Brexit. Derecho de los ciudadanos Directo a Red Europea de Migraciones (REM-EMN) OBERAXE Foro para la Integración Social de los Inmigrantes Fondos Europeos Proyectos de Migración Regular Unidad de Grandes Empresas y Colectivos Estratégicos Consejo General de la Ciudadanía Española en el Exterior Comunicación mostrar submenu Comunicación Noticias Buscador Redes Sociales Multimedia Galería Revistas Contacto para periodistas Directo a Noticias Redes Sociales Multimedia Galería Revistas Estadísticas mostrar submenu Estadísticas Migraciones Estadísticas de empleo y mercado laboral Estadísticas de pensiones y prestaciones Directo a Estadísticas Selecciona tu idioma Castellano Català Euskara Galego English Français Trámites Destacados mostrar submenu Trámites Destacados Pensiones Altas y bajas de la Seguridad Social Ayudas Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) El Ministerio mostrar submenu El Ministerio ¿Quiénes somos? mostrar submenu ¿Quiénes somos? La Ministra Biografías El Ministerio en el mundo Organización administrativa mostrar submenu Organización administrativa S.E. de Migraciones S.E. de la Seguridad Social y Pensiones S.G. de Inclusión Subsecretaría de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Atención a la ciudadanía mostrar submenu Atención a la ciudadanía Canal Interno Información Quejas, sugerencias y felicitaciones Sede electrónica Empleo Público mostrar submenu Empleo Público Acceso a empleo público Movilidad del empleado público Biblioteca Virtual Plan estratégico de subvenciones - PES Inclusión mostrar submenu Inclusión ¿Quiénes somos? IMV IMV - CAPI Estadísticas e informes Laboratorio de Políticas de Inclusión Fondo de Impacto Social Más Información mostrar submenu Más Información Órganos de gobernanza del IMV Registro de Mediadores sociales del IMV Sello de Inclusión Social Seguridad Social y Pensiones mostrar submenu Seguridad Social y Pensiones ¿Quiénes somos? Pensiones Altas y bajas Vida Laboral Autónomos Otras prestaciones Migraciones mostrar submenu Migraciones ¿Quiénes somos? Integración mostrar submenu Integración Prioridades de integración OBERAXE Foro para la Integración Social de los Inmigrantes Vivir en España mostrar submenu Vivir en España Tipos de autorización Normativa e instrucciones Criterios de Gestión Retorno voluntario Información útil Contacto Vivir en el extranjero mostrar submenu Vivir en el extranjero Portal de la Ciudadanía Española en el Exterior Carta España Sistema de Acogida de Protección Internacional mostrar submenu Sistema de Acogida de Protección Internacional Cómo funciona y datos Personas destinatarias Entidades colaboradoras Reasentamiento y otros programas CRCP 2024-2025 Iniciativas para la inserción laboral Línea Acogida Informa Ucrania Urgente Atención Humanitaria Estadísticas Brexit. Derecho de los ciudadanos Comunicación mostrar submenu Comunicación Noticias mostrar submenu Noticias Buscador Redes Sociales Multimedia Galería Revistas Contacto para periodistas Estadísticas mostrar submenu Estadísticas Migraciones Estadísticas de empleo y mercado laboral Estadísticas de pensiones y prestaciones twitter twitter Instagram youtube linkedin Hoja 28 - Autorización de residencia temporal por circunstancias excepcionales. Arraigo social - Migraciones Inicio / Migraciones Vivir en España Tipos de autorización Normativa e instrucciones mostrar submenu Normativa e instrucciones Normativa UE, normativa internacional y jurisprudencia UE Instrucciones Criterios de Gestión Retorno voluntario Información útil mostrar submenu Información útil Trámites que se pueden realizar por Internet Modelos de solicitud Información de las comunidades autónomas y entidades locales Tiempo de tramitación de procedimientos (CORA) Preguntas frecuentes Reglamento de Extranjería Otra información Subvenciones Noticias Contacto Hoja 28 - Autorización de residencia temporal por circunstancias excepcionales. Arraigo social * El contenido de esta página es meramente orientativo. Únicamente es de aplicación lo dispuesto en la normativa vigente en el momento de presentación de la solicitud. Última actualización: abril de 2026 Índice de contenidos Tipo de Autorización Normativa básica Requisitos Documentación exigible Procedimiento TIPO DE AUTORIZACIÓN Es una autorización de residencia temporal por circunstancias excepcionales que se podrá conceder a aquellos ciudadanos extranjeros que se hallen en España durante un periodo mínimo de dos años y tengan vínculos familiares en España o puedan justificar que están integrados en la sociedad española a través de un informe de integración social que podrá emitir la Comunidad Autónoma o, en su caso, el Ayuntamiento, en cuyo territorio tenga su domicilio habitual la persona extranjera. *Nota. Podrá obtener más información acerca del informe de integración social en el siguiente enlace: https://www.inclusion.gob.es/documents/d/migraciones/report_250709-instrucciones-informe-arraigo-v-10-tras-cli NORMATIVA BÁSICA Ley Orgánica 4/2000, de 11 de enero, sobre derechos y libertades de los extranjeros en España y su integración social (art. 31.3) Real Decreto 1155/2024, de 19 de noviembre, por el que se aprueba el Reglamento de la Ley Orgánica 4/2000, de 11 de enero, sobre derechos y libertades de los extranjeros en España y su integración social (artículos del 124 al 127 y del 130 al 132). Instrucciones SEM 1/2025 sobre las autorizaciones de residencia temporal por circunstancias excepcionales por razón de arraigo previstas en el Reglamento de Extranjería, aprobado por el Real Decreto 1155/2024, de 19 de noviembre. REQUISITOS No ser ciudadano de un Estado de la Unión Europea, del Espacio Económico Europeo o de Suiza, o familiar de ciudadanos de estos países a los que les sea de aplicación el régimen de ciudadano de la Unión. Carecer de antecedentes penales en España y en los países donde haya residido los últimos cinco años, por delitos existentes en el ordenamiento español. No figurar como rechazable en el espacio territorial de países con los que España tenga firmado un convenio en tal sentido. No encontrarse, en su caso, dentro del plazo de compromiso de no retorno a España que la persona extranjera haya asumido al retornar voluntariamente a su país de origen. No representar una amenaza para el orden público, la seguridad o salud pública. Encontrarse en España y no tener la condición de solicitante de protección internacional en el momento de la presentación de la solicitud ni durante su tramitación. Se entenderá por solicitante de protección internacional a aquella persona extranjera que haya formulado una solicitud de protección internacional sobre la que no se haya adoptado una resolución firme en sede administrativa, y, en su caso, judicial. Haber permanecido con carácter continuado en España durante, al menos, los dos años anteriores a la presentación de dicha solicitud. Para que este requisito se cumpla, las ausencias de España durante este período no pueden superar los 90 días. Cuando la persona extranjera haya sido solicitante de protección internacional, no será computable el tiempo de permanencia en España durante la tramitación de la solicitud de protección internacional hasta su resolución firme en sede administrativa, y, en su caso, judicial. Tener vínculos familiares con otras personas extranjeras titulares de una autorización de residencia (cónyuge o pareja de hecho registrada y familiares en primer grado en línea directa) y que se justifique disponer de medios económicos suficientes para su mantenimiento. En todo caso, se deberá alcanzar, al menos, el 100 % del IPREM para el mantenimiento del familiar que vaya a solicitar el arraigo. Por tanto, deberá acreditarse 100% por el familiar con residencia legal, respecto al que se acredite el vínculo y 100% para el solicitante del arraigo, en total un 200% del IPREM, con independencia de los miembros que conformen la unidad de convivencia. Los medios económicos deberán estar disponibles en España y procederán de los familiares mencionados. Si se cumplen los requisitos del artículo 84, se podrá alegar que los medios proceden de una actividad por cuenta propia. En caso de que no se acredite la existencia de ese tipo de vínculos familiares se valorará el esfuerzo de integración social de la persona extranjera, avalado mediante la aportación de un informe favorable que podrá emitirse por las Comunidades Autónomas o, en su caso, por los Ayuntamientos, en cuyo territorio tenga su domicilio habitual la persona extranjera. El informe debe ser emitido en un plazo máximo de un mes desde su solicitud. Nota: Dicho informe podrá ser emitido por la Corporación local en la que el extranjero tenga su domicilio habitual, cuando así haya sido establecido por la Comunidad Autónoma competente, siempre que ello haya sido previamente puesto en conocimiento de la Secretaría de Estado de Migraciones. En ambos casos el informe deberá ser emitido en el plazo de un mes desde su solicitud. El informe sobre la integración social hará constar, entre otros factores de arraigo que puedan acreditarse por las diferentes Administraciones competentes, el tiempo de permanencia de la persona interesada en su domicilio habitual, los medios económicos con los que cuente, y los esfuerzos de integración a través del seguimiento de programas de inserción sociolaborales y culturales. Simultáneamente y por medios electrónicos, la Comunidad Autónoma o la Corporación local deberá dar traslado del informe a la Oficina de Extranjería competente. Para la emisión del informe, el órgano autonómico competente, en su caso, podrá realizar consulta al Ayuntamiento donde el extranjero tenga su domicilio habitual sobre la información que pueda incorporar al mismo. En caso de que el informe no haya sido emitido en plazo, circunstancia que habrá de ser debidamente acreditada por el interesado, podrá justificarse este requisito por cualquier medio de prueba. Abonar la tasa correspondiente por la tramitación del procedimiento. No ser titular de una autorización de estancia o residencia ni ostentar la condición de persona interesada en procedimientos que tengan por objeto la concesión, prórroga, renovación o modificación de autorizaciones de estancia o residencia. DOCUMENTACIÓN EXIGIBLE Nota: con carácter general se deberán aportar copias de los documentos y exhibir los originales en el momento de presentar la solicitud. Impreso de solicitud en modelo oficial (EX -10) , debidamente cumplimentado y firmado por la persona extranjera. Copia completa del pasaporte cédula de inscripción o título de viaje en vigor, reconocido como válido en España. Documentación acreditativa de la permanencia continuada en España durante un periodo mínimo de dos años. La documentación que se aporte deberá contener los datos de identificación del solicitante, preferentemente debe haber sido emitida y/o registrada por una Administración Pública española. A título de ejemplo, se tomarán en consideración documentos relativos al empadronamiento, a una hospitalización, a una consulta médica en la sanidad pública, así como cualquier documentación municipal, autonómica o estatal que justifique la presencia en España. Certificado de antecedentes penales expedido por las Autoridades del país o países en los que haya residido durante los cinco últimos años anteriores a la entrada en España. Documentación acreditativa de los vínculos familiares exigidos (certificado de matrimonio o del registro de parejas, actualizados, certificado de nacimiento u otros documentos), o bien, informe de integración social emitido por la Comunidad Autónoma o, en su caso, por el Ayuntamiento, en cuyo territorio tenga su domicilio habitual el solicitante. Documentación acreditativa de los medios de vida: Acreditación de los medios económicos. Deberá acreditarse el 100% del IPREM por el familiar con residencia legal, respecto al que se acredita el vínculo y el 100% para el solicitante del arraigo, en total un 200% del IPREM. Estos medios económicos deberán estar disponibles en España. En los casos en los que los medios económicos procedan de una actividad por cuenta propia, será necesario cumplir los requisitos del artículo 84 del Real Decreto 1155/2024, y se deberán presentar los siguientes documentos: En actividades comerciales minoristas y prestación de los servicios enumerados en el Anexo de la Ley 12/2012, de 26 de diciembre, que se realicen en establecimientos permanentes, cuya superficie útil sea igual o inferior a 750 metros cuadrados, declaración responsable o comunicación previa (en los términos el artículo 69 de la Ley 39/2015, de 1 de octubre) y, en su caso, justificante de pago del tributo correspondiente. En el resto de actividades y prestaciones de servicios profesionales, relación de las autorizaciones o licencias que se exijan para la instalación, apertura o funcionamiento de la actividad proyectada o para el ejercicio profesional, indicando, la situación en la que se encuentre los trámites para su consecución, incluyendo, en su caso, las certificaciones de solicitud ante los organismos correspondientes. Copia de la documentación que acredite la capacitación y, en su caso, la cualificación profesional legalmente exigida para el ejercicio de la profesión, así como la homologación y/o reconocimiento, y en su caso colegiación, para el ejercicio de la profesión en el caso de profesiones reguladas en España. Copia de la documentación que acredite la suficiencia de la inversión prevista para la implantación del proyecto y sobre la incidencia, en su caso, en la creación de empleo, incluyendo como tal el autoempleo. A título de ejemplo y con independencia de su justificación mediante otros medios admisibles en Derecho, los dos últimos apartados pueden ser acreditados por el informe de valoración emitido por una de las siguientes organizaciones: Federación Nacional de Asociaciones de Empresarios y Trabajadores Autónomos (ATA) Unión de Profesionales y Trabajadores Autónomos (UPTA) Confederación Intersectorial de Autónomos del Estado Español (CIAE) Organización de Profesionales y Autónomos (OPA) Unión de Asociaciones de Trabajadores Autónomos y Emprendedores (UATAE) Nota importante: cuando se aporten documentos de otros países deberán estar traducidos al castellano o lengua cooficial del territorio donde se presente la solicitud por un traductor jurado. Lista de traductores jurados. Por otro lado, todo documento público extranjero deberá ser previamente legalizado por la Oficina Consular de España con jurisdicción en el país en el que se ha expedido dicho documento o, en su caso, por el Ministerio de Asuntos Exteriores, Unión Europea y Cooperación salvo en el caso en que dicho documento haya sido apostillado por la Autoridad competente del país emisor según el Convenio de la Haya de 5 de octubre de 1961 y salvo que dicho documento esté exento de legalización en virtud de Convenio Internacional. Información sobre traducción y legalización de los documentos. PROCEDIMIENTO Sujeto legitimado para presentar la solicitud: la persona extranjera personalmente, o su representante legal en el supuesto de ser menor o incapaz. Hoja informativa sobre sujetos legitimados. Lugar de presentación: Presencialmente, en la Oficina de Extranjería de la provincia en la que la persona extranjera tenga fijado el domicilio. Telemáticamente, a través de la sede electrónica del Ministerio de Política Territorial y Memoria Democrática (Mer",
+      "sha256": "5ce8f155f01ddfff9046c0c9a3cd115e3da8523b52a9aa8565662066f4f9bf62",
+      "research_relevance": {
+        "semantic_verification_required": true,
+        "source_type": "official_procedural_guidance"
+      }
+    }
+  ],
+  "discovery_diagnostics": {
+    "cross_reference_attempts": [],
+    "official_source_attempts": [
+      {
+        "source": "migraciones",
+        "url": "https://www.inclusion.gob.es/es/web/migraciones/w/29.-autorizacion-de-residencia-temporal-por-circunstancias-excepcionales.-arraigo-sociolaboral.",
+        "status": "RETRIEVED_UNVERIFIED"
+      },
+      {
+        "source": "migraciones",
+        "url": "https://www.inclusion.gob.es/es/web/migraciones/w/autorizacion-residencia-temporal-por-circunstancias-excepcionales.-arraigo-social",
+        "status": "RETRIEVED_UNVERIFIED"
+      }
+    ],
+    "index": [
+      {
+        "document": "BOE-A-2024-24099",
+        "index_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/indice",
+        "index_nodes": 383,
+        "index_articles": 265,
+        "qualified_candidates": 0,
+        "candidates_selected": 48,
+        "failure_code": "INDEX_HEADINGS_UNINFORMATIVE",
+        "discovery_mode": "BOUNDED_FULL_TEXT_PROBE",
+        "full_text_probe_count": 48,
+        "uninspected_index_articles": 217,
+        "sample_index_headings": [
+          "Artículo 1",
+          "Artículo 2",
+          "Artículo 3",
+          "Artículo 4",
+          "Artículo 5"
+        ],
+        "rejected_sample": [
+          {
+            "article": "1",
+            "heading": "Artículo 1",
+            "reason": "NO_LEXICAL_OR_CONCEPT_MATCH"
+          },
+          {
+            "article": "2",
+            "heading": "Artículo 2",
+            "reason": "NO_LEXICAL_OR_CONCEPT_MATCH"
+          },
+          {
+            "article": "3",
+            "heading": "Artículo 3",
+            "reason": "NO_LEXICAL_OR_CONCEPT_MATCH"
+          },
+          {
+            "article": "4",
+            "heading": "Artículo 4",
+            "reason": "NO_LEXICAL_OR_CONCEPT_MATCH"
+          },
+          {
+            "article": "5",
+            "heading": "Artículo 5",
+            "reason": "NO_LEXICAL_OR_CONCEPT_MATCH"
+          },
+          {
+            "article": "6",
+            "heading": "Artículo 6",
+            "reason": "NO_LEXICAL_OR_CONCEPT_MATCH"
+          },
+          {
+            "article": "7",
+            "heading": "Artículo 7",
+            "reason": "NO_LEXICAL_OR_CONCEPT_MATCH"
+          },
+          {
+            "article": "8",
+            "heading": "Artículo 8",
+            "reason": "NO_LEXICAL_OR_CONCEPT_MATCH"
+          }
+        ]
+      }
+    ],
+    "provision_attempts": [
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "1",
+        "heading": "Artículo 1",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "7",
+        "heading": "Artículo 7",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "12",
+        "heading": "Artículo 12",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "18",
+        "heading": "Artículo 18",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "23",
+        "heading": "Artículo 23",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "29",
+        "heading": "Artículo 29",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "35",
+        "heading": "Artículo 35",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": [
+            "scope"
+          ]
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "40",
+        "heading": "Artículo 40",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "EVIDENCE_CANDIDATE",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": true,
+          "reason": "LEXICAL_CANDIDATE_REQUIRES_SEMANTIC_REVIEW",
+          "matched_questions": [
+            "steps"
+          ],
+          "subject_matches": [
+            "residencia"
+          ]
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "46",
+        "heading": "Artículo 46",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "52",
+        "heading": "Artículo 52",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": [
+            "scope",
+            "requirements",
+            "steps"
+          ]
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "57",
+        "heading": "Artículo 57",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": [
+            "scope",
+            "requirements"
+          ]
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "63",
+        "heading": "Artículo 63",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "68",
+        "heading": "Artículo 68",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "EVIDENCE_CANDIDATE",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": true,
+          "reason": "LEXICAL_CANDIDATE_REQUIRES_SEMANTIC_REVIEW",
+          "matched_questions": [
+            "requirements"
+          ],
+          "subject_matches": [
+            "residencia"
+          ]
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "74",
+        "heading": "Artículo 74",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "EVIDENCE_CANDIDATE",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": true,
+          "reason": "LEXICAL_CANDIDATE_REQUIRES_SEMANTIC_REVIEW",
+          "matched_questions": [
+            "scope"
+          ],
+          "subject_matches": [
+            "residencia"
+          ]
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "80",
+        "heading": "Artículo 80",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "EVIDENCE_CANDIDATE",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": true,
+          "reason": "LEXICAL_CANDIDATE_REQUIRES_SEMANTIC_REVIEW",
+          "matched_questions": [
+            "requirements",
+            "steps"
+          ],
+          "subject_matches": [
+            "residencia"
+          ]
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "85",
+        "heading": "Artículo 85",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "EVIDENCE_CANDIDATE",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": true,
+          "reason": "LEXICAL_CANDIDATE_REQUIRES_SEMANTIC_REVIEW",
+          "matched_questions": [
+            "requirements"
+          ],
+          "subject_matches": [
+            "residencia"
+          ]
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "91",
+        "heading": "Artículo 91",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "96",
+        "heading": "Artículo 96",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "102",
+        "heading": "Artículo 102",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "108",
+        "heading": "Artículo 108",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "113",
+        "heading": "Artículo 113",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "119",
+        "heading": "Artículo 119",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "125",
+        "heading": "Artículo 125",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "EVIDENCE_CANDIDATE",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": true,
+          "reason": "LEXICAL_CANDIDATE_REQUIRES_SEMANTIC_REVIEW",
+          "matched_questions": [
+            "requirements"
+          ],
+          "subject_matches": [
+            "arraigo",
+            "residencia"
+          ]
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "130",
+        "heading": "Artículo 130",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "EVIDENCE_CANDIDATE",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": true,
+          "reason": "LEXICAL_CANDIDATE_REQUIRES_SEMANTIC_REVIEW",
+          "matched_questions": [
+            "steps"
+          ],
+          "subject_matches": [
+            "arraigo",
+            "excepcionales",
+            "residencia"
+          ]
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "136",
+        "heading": "Artículo 136",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "EVIDENCE_CANDIDATE",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": true,
+          "reason": "LEXICAL_CANDIDATE_REQUIRES_SEMANTIC_REVIEW",
+          "matched_questions": [
+            "steps"
+          ],
+          "subject_matches": [
+            "excepcionales",
+            "residencia"
+          ]
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "141",
+        "heading": "Artículo 141",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "147",
+        "heading": "Artículo 147",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "153",
+        "heading": "Artículo 153",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "158",
+        "heading": "Artículo 158",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "164",
+        "heading": "Artículo 164",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "170",
+        "heading": "Artículo 170",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "175",
+        "heading": "Artículo 175",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "181",
+        "heading": "Artículo 181",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "186",
+        "heading": "Artículo 186",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "192",
+        "heading": "Artículo 192",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "198",
+        "heading": "Artículo 198",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "EVIDENCE_CANDIDATE",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": true,
+          "reason": "LEXICAL_CANDIDATE_REQUIRES_SEMANTIC_REVIEW",
+          "matched_questions": [
+            "requirements"
+          ],
+          "subject_matches": [
+            "residencia"
+          ]
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "203",
+        "heading": "Artículo 203",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "209",
+        "heading": "Artículo 209",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": [
+            "scope",
+            "requirements",
+            "steps"
+          ]
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "214",
+        "heading": "Artículo 214",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "220",
+        "heading": "Artículo 220",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "226",
+        "heading": "Artículo 226",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": [
+            "steps"
+          ]
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "231",
+        "heading": "Artículo 231",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "237",
+        "heading": "Artículo 237",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "243",
+        "heading": "Artículo 243",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "248",
+        "heading": "Artículo 248",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "254",
+        "heading": "Artículo 254",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "259",
+        "heading": "Artículo 259",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      },
+      {
+        "document": "BOE-A-2024-24099",
+        "article": "265",
+        "heading": "Artículo 265",
+        "index_score": 0.0,
+        "index_question_scores": {},
+        "stage": "REJECTED_FULL_TEXT",
+        "discovery_method": "STRATIFIED_FULL_TEXT_PROBE",
+        "full_text_relevance": {
+          "relevant": false,
+          "reason": "NO_RESEARCH_QUESTION_LINK",
+          "matched_questions": []
+        }
+      }
+    ],
+    "retrieved_candidates": 48,
+    "accepted_evidence": 11,
+    "full_text_probes_attempted": 48,
+    "discovery_exhaustive": false
+  },
+  "editorial_scope_decision": {
+    "status": "NO_RECORDED_MATERIAL_GAP",
+    "original_scope": {
+      "topic": "Prórroga o modificación de residencia por arraigo sociolaboral",
+      "cluster_id": "seed_arraigo",
+      "group": "arraigo",
+      "commercial_classification": {
+        "business_category": "arraigo",
+        "search_intent": "Prórroga o modificación de residencia por arraigo sociolaboral",
+        "legal_procedure": "PRORROGA",
+        "procedure_type": "PRORROGA",
+        "applicable_regulation": [
+          "RD 1155/2024 (texto consolidado)",
+          "RD 316/2026 (verificar aplicabilidad)"
+        ],
+        "target_audience": "Titulares de autorización temporal por arraigo",
+        "priority": 2,
+        "excluded": false,
+        "exclusion_reason": null
+      },
+      "legal_regime": "ARRAIGO",
+      "discovery_group_legacy": "arraigo",
+      "queries": [
+        "renovar arraigo sociolaboral"
+      ],
+      "search_demand": {
+        "impressions_28d": 0,
+        "impressions_90d": 0
+      },
+      "research_questions": [
+        {
+          "id": "scope",
+          "question": "Qué procedimiento corresponde realmente a continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias y a quién se aplica",
+          "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias normativa vigente"
+        },
+        {
+          "id": "requirements",
+          "question": "Qué requisitos, documentos y excepciones se aplican específicamente a continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias",
+          "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias requisitos documentos excepciones"
+        },
+        {
+          "id": "steps",
+          "question": "Qué plazos, vías de solicitud y efectos jurídicos están acreditados para continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias",
+          "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias plazos presentación efectos"
+        }
+      ],
+      "source_registry_complete": true,
+      "existing_page_action": "create_article",
+      "duplicate_metadata": false,
+      "publication_allowed": false
+    },
+    "original_coverage": [
+      {
+        "id": "scope",
+        "question": "Qué procedimiento corresponde realmente a continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias y a quién se aplica",
+        "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias normativa vigente",
+        "status": "PARTIALLY_ANSWERED",
+        "evidence_ids": [],
+        "reason": "The legal framework establishes that the continuity of the specific modality of arraigo (arraigo sociolaboral) is processed as a prórroga (extension) or modificación (modification) depending on the modality and individual circumstances, but the exact procedural classification and transitional provisions depend on the specific modality of arraigo and are not fully detailed in the supplied evidence. The official procedural guidance (EV_E8997A7BB8BD500DEF9E and EV_5CE8F155F01DDFFF9046) provides general procedural information but does not explicitly clarify whether continuity is a prórroga or modificación or the detailed transitional provisions applicable. Articles 125 and 130 (EV_B0085C7D9FDC64921785 and EV_486433672F1CB79FF028) confirm the existence of residence authorizations for arraigo and their procedural aspects but do not fully resolve the question of procedural classification for continuity or transitional rules. Therefore, the question is partially answered but requires further specification of the legal rules distinguishing prórroga versus modificación and the transitional provisions applicable to each modality of arraigo.",
+        "missing_facts": [
+          "Precise legal rule or article explicitly stating whether continuity of arraigo sociolaboral is processed as prórroga or modificación.",
+          "Detailed transitional provisions applicable to continuity of arraigo sociolaboral modality.",
+          "Clarification on which modalities of arraigo and individual circumstances trigger prórroga versus modificación."
+        ],
+        "draft_readiness": "BLOCKED",
+        "blocking_missing_facts": [
+          "Precise legal rule or article explicitly stating whether continuity of arraigo sociolaboral is processed as prórroga or modificación.",
+          "Detailed transitional provisions applicable to continuity of arraigo sociolaboral modality.",
+          "Clarification on which modalities of arraigo and individual circumstances trigger prórroga versus modificación."
+        ],
+        "general_guidance_branch_coverage": null
+      },
+      {
+        "id": "requirements",
+        "question": "Qué requisitos, documentos y excepciones se aplican específicamente a continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias",
+        "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias requisitos documentos excepciones",
+        "status": "PARTIALLY_ANSWERED",
+        "evidence_ids": [],
+        "reason": "The requirements, documents, and exceptions for continuity of the specific modality of arraigo (prórroga or modificación) are partially addressed in the evidence. Articles 74, 80, and 85 (EV_D7A494DDA33A2BF41A55, EV_5542B019D06C298222BC, EV_52869961B89F7790D1C8) provide requirements for residence and work authorizations by cuenta ajena and cuenta propia, which are relevant for renewal or modification after arraigo. The official guidance (EV_E8997A7BB8BD500DEF9E and EV_5CE8F155F01DDFFF9046) details specific requirements and documentation for arraigo sociolaboral, including contracts, criminal records, and continuity of residence. However, the evidence does not fully specify exceptions or detailed document checklists specifically for continuity procedures (prórroga or modificación) of arraigo sociolaboral, nor does it clarify exceptions or special cases in transitional provisions. Hence, the question is partially answered but lacks complete detail on exceptions and specific document requirements for continuity.",
+        "missing_facts": [
+          "Explicit list of exceptions applicable to prórroga or modificación of arraigo sociolaboral.",
+          "Complete and specific documentation checklist for continuity procedures.",
+          "Clarification on differences in requirements between prórroga and modificación for arraigo sociolaboral."
+        ],
+        "draft_readiness": "BLOCKED",
+        "blocking_missing_facts": [
+          "Explicit list of exceptions applicable to prórroga or modificación of arraigo sociolaboral.",
+          "Complete and specific documentation checklist for continuity procedures.",
+          "Clarification on differences in requirements between prórroga and modificación for arraigo sociolaboral."
+        ],
+        "general_guidance_branch_coverage": null
+      },
+      {
+        "id": "steps",
+        "question": "Qué plazos, vías de solicitud y efectos jurídicos están acreditados para continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias",
+        "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias plazos presentación efectos",
+        "status": "PARTIALLY_ANSWERED",
+        "evidence_ids": [],
+        "reason": "The evidence partially establishes the procedural steps, deadlines, application channels, and legal effects for continuity of arraigo sociolaboral. Article 80 (EV_5542B019D06C298222BC) sets deadlines for renewal of residence and work authorizations by cuenta ajena, including prórroga effects upon timely application. Article 130 (EV_A389D56CDCF87E83CEDE) and official guidance (EV_E8997A7BB8BD500DEF9E, EV_5CE8F155F01DDFFF9046) describe procedural presentation, provisional work authorization during processing, and conditions for effectiveness of the authorization. Article 40 (EV_B0085C7D9FDC64921785) relates to visa procedures but is less directly relevant. However, the evidence does not fully clarify the specific deadlines, exclusive filing channels, or all legal effects uniquely applicable to continuity of arraigo sociolaboral, nor does it detail transitional provisions affecting these steps. Therefore, the question is partially answered but requires further specification of procedural deadlines, channels, and legal effects specific to continuity of arraigo sociolaboral.",
+        "missing_facts": [
+          "Exact deadlines and time limits for filing prórroga or modificación for arraigo sociolaboral.",
+          "Specific filing channels (in person, telematic) exclusive or preferred for continuity procedures.",
+          "Detailed legal effects of filing within or outside deadlines, including extensions of validity.",
+          "Transitional provisions affecting procedural steps and effects."
+        ],
+        "draft_readiness": "BLOCKED",
+        "blocking_missing_facts": [
+          "Exact deadlines and time limits for filing prórroga or modificación for arraigo sociolaboral.",
+          "Specific filing channels (in person, telematic) exclusive or preferred for continuity procedures.",
+          "Detailed legal effects of filing within or outside deadlines, including extensions of validity.",
+          "Transitional provisions affecting procedural steps and effects."
+        ],
+        "general_guidance_branch_coverage": null
+      }
+    ],
+    "publication_allowed": false,
+    "max_proposals": 3,
+    "original_blocking_gaps": [
+      {
+        "gap_id": "scope:0",
+        "question_id": "scope",
+        "fact": "Precise legal rule or article explicitly stating whether continuity of arraigo sociolaboral is processed as prórroga or modificación."
+      },
+      {
+        "gap_id": "scope:1",
+        "question_id": "scope",
+        "fact": "Detailed transitional provisions applicable to continuity of arraigo sociolaboral modality."
+      },
+      {
+        "gap_id": "scope:2",
+        "question_id": "scope",
+        "fact": "Clarification on which modalities of arraigo and individual circumstances trigger prórroga versus modificación."
+      },
+      {
+        "gap_id": "requirements:0",
+        "question_id": "requirements",
+        "fact": "Explicit list of exceptions applicable to prórroga or modificación of arraigo sociolaboral."
+      },
+      {
+        "gap_id": "requirements:1",
+        "question_id": "requirements",
+        "fact": "Complete and specific documentation checklist for continuity procedures."
+      },
+      {
+        "gap_id": "requirements:2",
+        "question_id": "requirements",
+        "fact": "Clarification on differences in requirements between prórroga and modificación for arraigo sociolaboral."
+      },
+      {
+        "gap_id": "steps:0",
+        "question_id": "steps",
+        "fact": "Exact deadlines and time limits for filing prórroga or modificación for arraigo sociolaboral."
+      },
+      {
+        "gap_id": "steps:1",
+        "question_id": "steps",
+        "fact": "Specific filing channels (in person, telematic) exclusive or preferred for continuity procedures."
+      },
+      {
+        "gap_id": "steps:2",
+        "question_id": "steps",
+        "fact": "Detailed legal effects of filing within or outside deadlines, including extensions of validity."
+      },
+      {
+        "gap_id": "steps:3",
+        "question_id": "steps",
+        "fact": "Transitional provisions affecting procedural steps and effects."
+      }
+    ],
+    "attempts": [
+      {
+        "status": "NO_RECORDED_MATERIAL_GAP",
+        "original_scope": {
+          "topic": "Prórroga o modificación de residencia por arraigo sociolaboral",
+          "cluster_id": "seed_arraigo",
+          "group": "arraigo",
+          "commercial_classification": {
+            "business_category": "arraigo",
+            "search_intent": "Prórroga o modificación de residencia por arraigo sociolaboral",
+            "legal_procedure": "PRORROGA",
+            "procedure_type": "PRORROGA",
+            "applicable_regulation": [
+              "RD 1155/2024 (texto consolidado)",
+              "RD 316/2026 (verificar aplicabilidad)"
+            ],
+            "target_audience": "Titulares de autorización temporal por arraigo",
+            "priority": 2,
+            "excluded": false,
+            "exclusion_reason": null
+          },
+          "legal_regime": "ARRAIGO",
+          "discovery_group_legacy": "arraigo",
+          "queries": [
+            "renovar arraigo sociolaboral"
+          ],
+          "search_demand": {
+            "impressions_28d": 0,
+            "impressions_90d": 0
+          },
+          "research_questions": [
+            {
+              "id": "scope",
+              "question": "Qué procedimiento corresponde realmente a continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias y a quién se aplica",
+              "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias normativa vigente"
+            },
+            {
+              "id": "requirements",
+              "question": "Qué requisitos, documentos y excepciones se aplican específicamente a continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias",
+              "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias requisitos documentos excepciones"
+            },
+            {
+              "id": "steps",
+              "question": "Qué plazos, vías de solicitud y efectos jurídicos están acreditados para continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias",
+              "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias plazos presentación efectos"
+            }
+          ],
+          "source_registry_complete": true,
+          "existing_page_action": "create_article",
+          "duplicate_metadata": false,
+          "publication_allowed": false
+        },
+        "original_coverage": [
+          {
+            "id": "scope",
+            "question": "Qué procedimiento corresponde realmente a continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias y a quién se aplica",
+            "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias normativa vigente",
+            "status": "PARTIALLY_ANSWERED",
+            "evidence_ids": [],
+            "reason": "The legal framework establishes that the continuity of the specific modality of arraigo (arraigo sociolaboral) is processed as a prórroga (extension) or modificación (modification) depending on the modality and individual circumstances, but the exact procedural classification and transitional provisions depend on the specific modality of arraigo and are not fully detailed in the supplied evidence. The official procedural guidance (EV_E8997A7BB8BD500DEF9E and EV_5CE8F155F01DDFFF9046) provides general procedural information but does not explicitly clarify whether continuity is a prórroga or modificación or the detailed transitional provisions applicable. Articles 125 and 130 (EV_B0085C7D9FDC64921785 and EV_486433672F1CB79FF028) confirm the existence of residence authorizations for arraigo and their procedural aspects but do not fully resolve the question of procedural classification for continuity or transitional rules. Therefore, the question is partially answered but requires further specification of the legal rules distinguishing prórroga versus modificación and the transitional provisions applicable to each modality of arraigo.",
+            "missing_facts": [
+              "Precise legal rule or article explicitly stating whether continuity of arraigo sociolaboral is processed as prórroga or modificación.",
+              "Detailed transitional provisions applicable to continuity of arraigo sociolaboral modality.",
+              "Clarification on which modalities of arraigo and individual circumstances trigger prórroga versus modificación."
+            ],
+            "draft_readiness": "BLOCKED",
+            "blocking_missing_facts": [
+              "Precise legal rule or article explicitly stating whether continuity of arraigo sociolaboral is processed as prórroga or modificación.",
+              "Detailed transitional provisions applicable to continuity of arraigo sociolaboral modality.",
+              "Clarification on which modalities of arraigo and individual circumstances trigger prórroga versus modificación."
+            ],
+            "general_guidance_branch_coverage": null
+          },
+          {
+            "id": "requirements",
+            "question": "Qué requisitos, documentos y excepciones se aplican específicamente a continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias",
+            "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias requisitos documentos excepciones",
+            "status": "PARTIALLY_ANSWERED",
+            "evidence_ids": [],
+            "reason": "The requirements, documents, and exceptions for continuity of the specific modality of arraigo (prórroga or modificación) are partially addressed in the evidence. Articles 74, 80, and 85 (EV_D7A494DDA33A2BF41A55, EV_5542B019D06C298222BC, EV_52869961B89F7790D1C8) provide requirements for residence and work authorizations by cuenta ajena and cuenta propia, which are relevant for renewal or modification after arraigo. The official guidance (EV_E8997A7BB8BD500DEF9E and EV_5CE8F155F01DDFFF9046) details specific requirements and documentation for arraigo sociolaboral, including contracts, criminal records, and continuity of residence. However, the evidence does not fully specify exceptions or detailed document checklists specifically for continuity procedures (prórroga or modificación) of arraigo sociolaboral, nor does it clarify exceptions or special cases in transitional provisions. Hence, the question is partially answered but lacks complete detail on exceptions and specific document requirements for continuity.",
+            "missing_facts": [
+              "Explicit list of exceptions applicable to prórroga or modificación of arraigo sociolaboral.",
+              "Complete and specific documentation checklist for continuity procedures.",
+              "Clarification on differences in requirements between prórroga and modificación for arraigo sociolaboral."
+            ],
+            "draft_readiness": "BLOCKED",
+            "blocking_missing_facts": [
+              "Explicit list of exceptions applicable to prórroga or modificación of arraigo sociolaboral.",
+              "Complete and specific documentation checklist for continuity procedures.",
+              "Clarification on differences in requirements between prórroga and modificación for arraigo sociolaboral."
+            ],
+            "general_guidance_branch_coverage": null
+          },
+          {
+            "id": "steps",
+            "question": "Qué plazos, vías de solicitud y efectos jurídicos están acreditados para continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias",
+            "query": "continuidad de la modalidad específica de arraigo: prórroga o modificación y disposiciones transitorias plazos presentación efectos",
+            "status": "PARTIALLY_ANSWERED",
+            "evidence_ids": [],
+            "reason": "The evidence partially establishes the procedural steps, deadlines, application channels, and legal effects for continuity of arraigo sociolaboral. Article 80 (EV_5542B019D06C298222BC) sets deadlines for renewal of residence and work authorizations by cuenta ajena, including prórroga effects upon timely application. Article 130 (EV_A389D56CDCF87E83CEDE) and official guidance (EV_E8997A7BB8BD500DEF9E, EV_5CE8F155F01DDFFF9046) describe procedural presentation, provisional work authorization during processing, and conditions for effectiveness of the authorization. Article 40 (EV_B0085C7D9FDC64921785) relates to visa procedures but is less directly relevant. However, the evidence does not fully clarify the specific deadlines, exclusive filing channels, or all legal effects uniquely applicable to continuity of arraigo sociolaboral, nor does it detail transitional provisions affecting these steps. Therefore, the question is partially answered but requires further specification of procedural deadlines, channels, and legal effects specific to continuity of arraigo sociolaboral.",
+            "missing_facts": [
+              "Exact deadlines and time limits for filing prórroga or modificación for arraigo sociolaboral.",
+              "Specific filing channels (in person, telematic) exclusive or preferred for continuity procedures.",
+              "Detailed legal effects of filing within or outside deadlines, including extensions of validity.",
+              "Transitional provisions affecting procedural steps and effects."
+            ],
+            "draft_readiness": "BLOCKED",
+            "blocking_missing_facts": [
+              "Exact deadlines and time limits for filing prórroga or modificación for arraigo sociolaboral.",
+              "Specific filing channels (in person, telematic) exclusive or preferred for continuity procedures.",
+              "Detailed legal effects of filing within or outside deadlines, including extensions of validity.",
+              "Transitional provisions affecting procedural steps and effects."
+            ],
+            "general_guidance_branch_coverage": null
+          }
+        ],
+        "publication_allowed": false,
+        "max_proposals": 1,
+        "original_blocking_gaps": [
+          {
+            "gap_id": "scope:0",
+            "question_id": "scope",
+            "fact": "Precise legal rule or article explicitly stating whether continuity of arraigo sociolaboral is processed as prórroga or modificación."
+          },
+          {
+            "gap_id": "scope:1",
+            "question_id": "scope",
+            "fact": "Detailed transitional provisions applicable to continuity of arraigo sociolaboral modality."
+          },
+          {
+            "gap_id": "scope:2",
+            "question_id": "scope",
+            "fact": "Clarification on which modalities of arraigo and individual circumstances trigger prórroga versus modificación."
+          },
+          {
+            "gap_id": "requirements:0",
+            "question_id": "requirements",
+            "fact": "Explicit list of exceptions applicable to prórroga or modificación of arraigo sociolaboral."
+          },
+          {
+            "gap_id": "requirements:1",
+            "question_id": "requirements",
+            "fact": "Complete and specific documentation checklist for continuity procedures."
+          },
+          {
+            "gap_id": "requirements:2",
+            "question_id": "requirements",
+            "fact": "Clarification on differences in requirements between prórroga and modificación for arraigo sociolaboral."
+          },
+          {
+            "gap_id": "steps:0",
+            "question_id": "steps",
+            "fact": "Exact deadlines and time limits for filing prórroga or modificación for arraigo sociolaboral."
+          },
+          {
+            "gap_id": "steps:1",
+            "question_id": "steps",
+            "fact": "Specific filing channels (in person, telematic) exclusive or preferred for continuity procedures."
+          },
+          {
+            "gap_id": "steps:2",
+            "question_id": "steps",
+            "fact": "Detailed legal effects of filing within or outside deadlines, including extensions of validity."
+          },
+          {
+            "gap_id": "steps:3",
+            "question_id": "steps",
+            "fact": "Transitional provisions affecting procedural steps and effects."
+          }
+        ]
+      }
+    ],
+    "scope_candidates": [
+      "ARRAIGO_PROCEDURE"
+    ],
+    "final_result": "BLOCKED_INSUFFICIENT_EVIDENCE"
+  },
+  "gap_assessment_diagnostics": {
+    "status": "EVALUATED",
+    "questions": [
+      {
+        "question_id": "scope",
+        "diagnostics": {
+          "attempted": false,
+          "skip_reason": "NOT_GENERAL_GUIDANCE"
+        },
+        "blocking_missing_facts": [
+          "Precise legal rule or article explicitly stating whether continuity of arraigo sociolaboral is processed as prórroga or modificación.",
+          "Detailed transitional provisions applicable to continuity of arraigo sociolaboral modality.",
+          "Clarification on which modalities of arraigo and individual circumstances trigger prórroga versus modificación."
+        ],
+        "draft_readiness": "BLOCKED"
+      },
+      {
+        "question_id": "requirements",
+        "diagnostics": {
+          "attempted": false,
+          "skip_reason": "NOT_GENERAL_GUIDANCE"
+        },
+        "blocking_missing_facts": [
+          "Explicit list of exceptions applicable to prórroga or modificación of arraigo sociolaboral.",
+          "Complete and specific documentation checklist for continuity procedures.",
+          "Clarification on differences in requirements between prórroga and modificación for arraigo sociolaboral."
+        ],
+        "draft_readiness": "BLOCKED"
+      },
+      {
+        "question_id": "steps",
+        "diagnostics": {
+          "attempted": false,
+          "skip_reason": "NOT_GENERAL_GUIDANCE"
+        },
+        "blocking_missing_facts": [
+          "Exact deadlines and time limits for filing prórroga or modificación for arraigo sociolaboral.",
+          "Specific filing channels (in person, telematic) exclusive or preferred for continuity procedures.",
+          "Detailed legal effects of filing within or outside deadlines, including extensions of validity.",
+          "Transitional provisions affecting procedural steps and effects."
+        ],
+        "draft_readiness": "BLOCKED"
+      }
+    ],
+    "publication_allowed": false,
+    "ready_before_applicability": false,
+    "graph_integrity_errors": [],
+    "applicability_conflicts": [],
+    "ready_for_draft": false,
+    "final_result": "BLOCKED_INSUFFICIENT_EVIDENCE",
+    "final_errors": [
+      "Official provisions do not answer every essential research question"
+    ]
+  },
+  "selected_proposal": {
+    "proposals": [
+      {
+        "cluster_id": "seed_arraigo",
+        "origin_cluster_id": "seed_arraigo",
+        "proposed_title": "Prórroga o modificación de residencia por arraigo sociolaboral",
+        "action": "create_article",
+        "queries": [
+          "renovar arraigo sociolaboral"
+        ],
+        "search_demand_evidence": {
+          "impressions_28d": 0,
+          "impressions_90d": 0
+        },
+        "commercial_classification": {
+          "business_category": "arraigo",
+          "search_intent": "Prórroga o modificación de residencia por arraigo sociolaboral",
+          "legal_procedure": "PRORROGA",
+          "procedure_type": "PRORROGA",
+          "applicable_regulation": [
+            "RD 1155/2024 (texto consolidado)",
+            "RD 316/2026 (verificar aplicabilidad)"
+          ],
+          "target_audience": "Titulares de autorización temporal por arraigo",
+          "priority": 2,
+          "excluded": false,
+          "exclusion_reason": null
+        },
+        "proposed_path": "blog/prorroga-o-modificacion-de-residencia-por-arraigo-sociolaboral.html"
+      }
+    ]
+  }
+}
