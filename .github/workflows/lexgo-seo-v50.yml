@@ -42,6 +42,10 @@ jobs:
           python -m unittest discover -s tests -p 'test_v50_temporary_commercial_focus.py' -v
           python -m unittest discover -s tests -p 'test_v50_rd316_boe_route.py' -v
           python -m unittest discover -s tests -p 'test_v50_regularization_guidance_pdf.py' -v
+          python -m unittest discover -s tests -p 'test_v50_run35_branch_applicability.py' -v
+          python -m unittest discover -s tests -p 'test_v50_run37_editorial_scope.py' -v
+          python -m unittest discover -s tests -p 'test_v50_run38_gap_diagnostics.py' -v
+          python -m unittest discover -s tests -p 'test_v50_run39_passages_scope.py' -v
       - name: Refresh REAL Google Search Console data
         env:
           GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
