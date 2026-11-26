@@ -1,6 +1,8 @@
-name: 'Lex Go Trámite SEO Engine v5.0 — Draft & Evidence (NO PUBLICATION)'
+name: 'Lex Go Trámite — Daily Knowledge Article (NO PUBLICATION)'
 
 on:
+  schedule:
+    - cron: '15 7 * * *'
   workflow_dispatch:
     inputs:
       retry_failed_topic:
@@ -23,6 +25,7 @@ concurrency:
 
 jobs:
   draft:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
@@ -75,6 +78,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_v50_run61_source_context.py' -v
           python -m unittest discover -s tests -p 'test_v50_run62_renewal_intent.py' -v
           python -m unittest discover -s tests -p 'test_v50_run63_narrow_answer.py' -v
+          python -m unittest discover -s tests -p 'test_v50_run65_content_system.py' -v
       - name: Refresh REAL Google Search Console data
         env:
           GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
@@ -94,7 +98,7 @@ jobs:
           GH_HISTORY_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           MANUAL_RETRY: ${{ inputs.retry_failed_topic }}
-          EDITORIAL_FALLBACK: ${{ inputs.allow_editorial_fallback }}
+          EDITORIAL_FALLBACK: ${{ github.event_name == 'schedule' || inputs.allow_editorial_fallback }}
           LEXGO_KEYWORD_PLANNER_CSV: ${{ vars.LEXGO_KEYWORD_PLANNER_CSV }}
         shell: bash
         run: |
@@ -103,12 +107,34 @@ jobs:
           if [ "$MANUAL_RETRY" = 'true' ]; then ARGS+=(--retry-failed); fi
           if [ "$EDITORIAL_FALLBACK" = 'true' ]; then ARGS+=(--allow-editorial-fallback); fi
           python scripts/seo_v50.py select --require-history "${ARGS[@]}"
+      - name: Reserve shared daily budget before any paid request
+        id: reserve
+        if: hashFiles('reports/seo_v50/selected_proposal.json') != ''
+        env:
+          GH_HISTORY_TOKEN: ${{ github.token }}
+          LEXGO_BUDGET_START: ${{ vars.LEXGO_BUDGET_START }}
+          LEXGO_BUDGET_BALANCE_USD: ${{ vars.LEXGO_BUDGET_BALANCE_USD }}
+          LEXGO_MONTHLY_DEBIT_USD: ${{ vars.LEXGO_MONTHLY_DEBIT_USD }}
+        run: |
+          python scripts/weekly_content_v50.py reserve daily reports/v65-budget/reservation.json
+          python -c "import json,os; r=json.load(open('reports/v65-budget/reservation.json')); open(os.environ['GITHUB_OUTPUT'],'a').write('allowed='+str(r['allowed']).lower()+'\n'+'usd='+str(r.get('reserved_usd',0))+'\n')"
+      - name: Persist reservation before generation
+        id: persist_reservation
+        if: steps.reserve.outputs.allowed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexgo-content-reservation-v65
+          path: reports/v65-budget/reservation.json
+          if-no-files-found: error
+          retention-days: 90
       - name: Generate evidence-linked legal draft
+        if: steps.reserve.outputs.allowed == 'true'
         id: draft
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           RESEARCH_MODEL: 'gpt-6-luna'
           REVIEW_MODEL: 'gpt-6.1-terra'
+          DAILY_USD: ${{ steps.reserve.outputs.usd }}
         shell: bash
         run: |
           if [ ! -s reports/seo_v50/selected_proposal.json ]; then
@@ -120,15 +146,26 @@ jobs:
               echo 'exit_code=4' >> "$GITHUB_OUTPUT"
             else
               set +e
-              python scripts/first_article_v50.py --proposal-file reports/seo_v50/selected_proposal.json --output reports/seo_v50/article --article-type specific_question --max-topics 1 --max-research-rounds 2 --max-draft-repairs 1 --max-execution-minutes 25 --max-api-cost-usd 0.25 --research-model "$RESEARCH_MODEL" --review-model "$REVIEW_MODEL"
+              python scripts/first_article_v50.py --proposal-file reports/seo_v50/selected_proposal.json --output reports/seo_v50/article --article-type specific_question --max-topics 1 --max-research-rounds 2 --max-draft-repairs 1 --max-execution-minutes 25 --max-api-cost-usd "$DAILY_USD" --research-model "$RESEARCH_MODEL" --review-model "$REVIEW_MODEL"
               CODE=$?
               set -e
               echo "exit_code=$CODE" >> "$GITHUB_OUTPUT"
               echo "Generator exit status: $CODE (0=review ready; nonzero=not review ready; inspect decision)"
             fi
           fi
+      - name: Settle reserved budget
+        if: always() && steps.persist_reservation.outcome == 'success'
+        run: python scripts/weekly_content_v50.py settle reports/v65-budget/reservation.json reports/seo_v50/article/api_usage.json reports/v65-budget/settlement.json
+      - name: Preserve budget settlement
+        if: always() && hashFiles('reports/v65-budget/settlement.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexgo-content-settlement-v65
+          path: reports/v65-budget/settlement.json
+          if-no-files-found: error
+          retention-days: 90
       - name: Record ACTUAL draft outcome (not a publication)
-        if: always() && hashFiles('reports/seo_v50/selection.json') != ''
+        if: always() && hashFiles('reports/seo_v50/selection.json') != '' && (steps.reserve.outputs.allowed == 'true' || hashFiles('reports/seo_v50/selected_proposal.json') == '')
         run: python scripts/seo_v50.py finalize
       - name: Upload all diagnostic artifacts
         if: always()
@@ -138,12 +175,17 @@ jobs:
           path: |
             reports/seo_intelligence.json
             reports/seo_v50/**
+            reports/v65-budget/**
           if-no-files-found: warn
           retention-days: 90
       - name: Explain outcome
         if: always()
         shell: bash
         run: |
+          if [ -f reports/v65-budget/reservation.json ] && python -c "import json; exit(0 if json.load(open('reports/v65-budget/reservation.json'))['allowed'] is False else 1)"; then
+            cat reports/v65-budget/reservation.json
+            exit 0
+          fi
           if [ -f reports/seo_v50/run_summary.json ]; then
             cat reports/seo_v50/run_summary.json
           else

@@ -55,6 +55,7 @@ concurrency:
 
 jobs:
   first-article:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
@@ -77,7 +78,27 @@ jobs:
           python -m unittest discover -s tests -p 'test_v50_run61_source_context.py' -v
           python -m unittest discover -s tests -p 'test_v50_run62_renewal_intent.py' -v
           python -m unittest discover -s tests -p 'test_v50_run63_narrow_answer.py' -v
+      - name: Reserve shared diagnostic budget before any paid request
+        id: reserve
+        env:
+          GH_HISTORY_TOKEN: ${{ github.token }}
+          LEXGO_BUDGET_START: ${{ vars.LEXGO_BUDGET_START }}
+          LEXGO_BUDGET_BALANCE_USD: ${{ vars.LEXGO_BUDGET_BALANCE_USD }}
+          LEXGO_MONTHLY_DEBIT_USD: ${{ vars.LEXGO_MONTHLY_DEBIT_USD }}
+        run: |
+          python scripts/weekly_content_v50.py reserve diagnostic reports/v65-budget/reservation.json
+          python -c "import json,os; r=json.load(open('reports/v65-budget/reservation.json')); open(os.environ['GITHUB_OUTPUT'],'a').write('allowed='+str(r['allowed']).lower()+'\n'+'usd='+str(r.get('reserved_usd',0))+'\n')"
+      - name: Persist reservation before generation
+        id: persist_reservation
+        if: steps.reserve.outputs.allowed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexgo-content-reservation-v65
+          path: reports/v65-budget/reservation.json
+          if-no-files-found: error
+          retention-days: 90
       - name: Real research, candidate generation, review and repair
+        if: steps.reserve.outputs.allowed == 'true'
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           RESEARCH_MODEL: 'gpt-6-luna'
@@ -91,10 +112,12 @@ jobs:
           REPAIRS: ${{ inputs.max_draft_repairs }}
           MINUTES: ${{ inputs.max_execution_minutes }}
           USD: ${{ inputs.max_api_cost_usd }}
+          RESERVED_USD: ${{ steps.reserve.outputs.usd }}
         shell: bash
         run: |
           set -eu
           if [ "$CATEGORY" = auto ]; then CATEGORY=''; fi
+          USD=$(python -c 'import os; print(min(float(os.environ["USD"]),float(os.environ["RESERVED_USD"])))')
           python scripts/first_article_v50.py \
             --output reports/seo_v50_first_article \
             --bootstrap-first-article "$BOOTSTRAP" --target-category "$CATEGORY" \
@@ -102,18 +125,32 @@ jobs:
             --max-topics "$MAX_TOPICS" --max-research-rounds "$RESEARCH_ROUNDS" \
             --max-draft-repairs "$REPAIRS" --max-execution-minutes "$MINUTES" \
             --max-api-cost-usd "$USD" --research-model "$RESEARCH_MODEL" --review-model "$REVIEW_MODEL"
+      - name: Settle reserved budget
+        if: always() && steps.persist_reservation.outcome == 'success'
+        run: python scripts/weekly_content_v50.py settle reports/v65-budget/reservation.json reports/seo_v50_first_article/api_usage.json reports/v65-budget/settlement.json
+      - name: Preserve budget settlement
+        if: always() && hashFiles('reports/v65-budget/settlement.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexgo-content-settlement-v65
+          path: reports/v65-budget/settlement.json
+          if-no-files-found: error
+          retention-days: 90
       - name: Preserve diagnostics and unpublished drafts
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: lexgo-v50-first-article-results
-          path: reports/seo_v50_first_article/**
+          path: |
+            reports/seo_v50_first_article/**
+            reports/v65-budget/**
           if-no-files-found: warn
           retention-days: 7
       - name: Show actual outcome
         if: always()
         shell: bash
         run: |
+          if [ -f reports/v65-budget/reservation.json ] && python -c "import json; exit(0 if json.load(open('reports/v65-budget/reservation.json'))['allowed'] is False else 1)"; then cat reports/v65-budget/reservation.json; exit 0; fi
           test -s reports/seo_v50_first_article/run_summary.json
           cat reports/seo_v50_first_article/run_summary.json
           python -c "import json; d=json.load(open('reports/seo_v50_first_article/run_summary.json')); assert d['publication_allowed'] is False; assert d['result']=='REVIEW_READY' and d['articles_independently_approved']==1 and not d['simulated']"

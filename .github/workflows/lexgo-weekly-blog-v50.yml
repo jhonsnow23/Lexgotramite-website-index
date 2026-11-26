@@ -1,0 +1,79 @@
+name: 'Lex Go Trámite — Weekly Blog Article (NO PUBLICATION)'
+on:
+  schedule:
+    - cron: '15 17 * * 0'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: lexgo-seo-engine-v50
+  cancel-in-progress: false
+jobs:
+  weekly:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'pypdf==5.9.0' 'jsonschema==4.26.0'
+      - name: Test weekly and publication safety
+        run: python -m unittest discover -s tests -p 'test_v50_run65_content_system.py' -v
+      - name: Restore seven days of research and choose coherent topic
+        id: plan
+        env:
+          GH_HISTORY_TOKEN: ${{ github.token }}
+        run: |
+          python scripts/weekly_content_v50.py weekly-plan reports/weekly/plan.json
+          python -c "import json,os; p=json.load(open('reports/weekly/plan.json')); open(os.environ['GITHUB_OUTPUT'],'a').write('selected='+str(p['selected'] is not None).lower()+'\n')"
+      - name: Reserve shared weekly budget
+        id: reserve
+        if: steps.plan.outputs.selected == 'true'
+        env:
+          GH_HISTORY_TOKEN: ${{ github.token }}
+          LEXGO_BUDGET_START: ${{ vars.LEXGO_BUDGET_START }}
+          LEXGO_BUDGET_BALANCE_USD: ${{ vars.LEXGO_BUDGET_BALANCE_USD }}
+          LEXGO_MONTHLY_DEBIT_USD: ${{ vars.LEXGO_MONTHLY_DEBIT_USD }}
+        run: |
+          python scripts/weekly_content_v50.py reserve weekly reports/v65-budget/reservation.json
+          python -c "import json,os; r=json.load(open('reports/v65-budget/reservation.json')); open(os.environ['GITHUB_OUTPUT'],'a').write('allowed='+str(r['allowed']).lower()+'\n')"
+      - name: Persist reservation before generation
+        id: persist_reservation
+        if: steps.reserve.outputs.allowed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexgo-content-reservation-v65
+          path: reports/v65-budget/reservation.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Generate and independently review weekly draft
+        if: steps.reserve.outputs.allowed == 'true'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python scripts/weekly_content_v50.py weekly-run reports/weekly/plan.json reports/v65-budget/reservation.json reports/weekly/article
+      - name: Settle reserved budget
+        if: always() && steps.persist_reservation.outcome == 'success'
+        run: python scripts/weekly_content_v50.py settle reports/v65-budget/reservation.json reports/weekly/article/api_usage.json reports/v65-budget/settlement.json
+      - name: Preserve budget settlement
+        if: always() && hashFiles('reports/v65-budget/settlement.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexgo-content-settlement-v65
+          path: reports/v65-budget/settlement.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Preserve unpublished blog and research reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexgo-v50-weekly-blog-results
+          path: |
+            reports/weekly/**
+            reports/v65-budget/**
+          if-no-files-found: warn
+          retention-days: 90

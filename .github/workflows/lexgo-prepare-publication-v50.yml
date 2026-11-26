@@ -1,0 +1,65 @@
+name: 'Lex Go Trámite — Prepare Human-Approved Publication (MANUAL ONLY)'
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: 'GitHub Actions run ID containing a REVIEW_READY draft on main'
+        type: string
+        required: true
+      source_type:
+        description: 'Origin workflow of the reviewed draft'
+        type: choice
+        options:
+          - daily
+          - weekly
+          - first_article
+        default: daily
+        required: true
+      approval_hash:
+        description: 'Leave blank to inspect. Paste exact approval hash only after human legal review.'
+        type: string
+        required: false
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: lexgo-seo-engine-v50
+  cancel-in-progress: false
+jobs:
+  prepare:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'pypdf==5.9.0' 'jsonschema==4.26.0'
+      - name: Validate source run identity
+        id: source
+        env:
+          GH_HISTORY_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+          SOURCE_TYPE: ${{ inputs.source_type }}
+        run: python scripts/prepare_publication_v50.py validate-run
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ steps.source.outputs.artifact }}
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/lexgo-reviewed-source
+      - name: Inspect reviewed article or prepare authorized website patch
+        env:
+          SOURCE_TYPE: ${{ inputs.source_type }}
+          APPROVAL_HASH: ${{ inputs.approval_hash }}
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python scripts/prepare_publication_v50.py prepare "$RUNNER_TEMP/lexgo-reviewed-source" "$RUNNER_TEMP/lexgo-publication-output"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lexgo-human-publication-package
+          path: ${{ runner.temp }}/lexgo-publication-output/**
+          if-no-files-found: error
+          retention-days: 7

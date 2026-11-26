@@ -8,6 +8,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   draft:
+    if: vars.LEXGO_LEGACY_PAID_DIAGNOSTICS == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:

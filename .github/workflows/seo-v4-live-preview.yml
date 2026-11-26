@@ -1,8 +1,6 @@
 name: SEO v4 - official sources live preview (no publication)
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '20 10 * * 1,3,5'
 permissions:
   contents: read
 concurrency:
