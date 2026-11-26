@@ -1,7 +1,8 @@
-name: 'Lex Go Trámite — Weekly Blog Article (NO PUBLICATION)'
+name: 'Lex Go Trámite — Weekly Blog Article (AUTOMATED VALIDATED PUBLICATION)'
 on:
   schedule:
-    - cron: '15 17 * * 0'
+    - cron: '15 18 * * 0'
+      timezone: 'Europe/Madrid'
   workflow_dispatch:
 permissions:
   contents: read
@@ -11,7 +12,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   weekly:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && vars.LEXGO_GENERATION_ENABLED == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -23,7 +24,9 @@ jobs:
           python-version: '3.11'
       - run: python -m pip install 'pypdf==5.9.0' 'jsonschema==4.26.0'
       - name: Test weekly and publication safety
-        run: python -m unittest discover -s tests -p 'test_v50_run65_content_system.py' -v
+        run: |
+          python -m unittest discover -s tests -p 'test_v50_run65_content_system.py' -v
+          python -m unittest discover -s tests -p 'test_v50_run66_autonomous.py' -v
       - name: Restore seven days of research and choose coherent topic
         id: plan
         env:
@@ -52,7 +55,7 @@ jobs:
           if-no-files-found: error
           retention-days: 90
       - name: Generate and independently review weekly draft
-        if: steps.reserve.outputs.allowed == 'true'
+        if: steps.reserve.outputs.allowed == 'true' && vars.LEXGO_GENERATION_ENABLED == 'true'
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: python scripts/weekly_content_v50.py weekly-run reports/weekly/plan.json reports/v65-budget/reservation.json reports/weekly/article
@@ -75,5 +78,39 @@ jobs:
           path: |
             reports/weekly/**
             reports/v65-budget/**
+          if-no-files-found: warn
+          retention-days: 90
+
+  publish:
+    # Recover a previously settled approved draft even when new generation failed or was skipped.
+    needs: weekly
+    if: always() && !cancelled() && github.ref == 'refs/heads/main' && vars.LEXGO_AUTOPUBLISH_ENABLED == 'true'
+    permissions:
+      contents: write
+      actions: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out current main; publication uses a fast-forward push only
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'pypdf==5.9.0' 'jsonschema==4.26.0'
+      - name: Authorize exact reviewed article, render, validate and publish
+        env:
+          GH_HISTORY_TOKEN: ${{ github.token }}
+          LEXGO_AUTOPUBLISH_ENABLED: ${{ vars.LEXGO_AUTOPUBLISH_ENABLED }}
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python scripts/autonomous_publisher_v50.py weekly "$RUNNER_TEMP/lexgo-publication/weekly.json"
+      - name: Record actual publication and deployment outcome
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexgo-publication-v66
+          path: ${{ runner.temp }}/lexgo-publication/**
           if-no-files-found: warn
           retention-days: 90

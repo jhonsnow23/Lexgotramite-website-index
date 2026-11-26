@@ -1,8 +1,9 @@
-name: 'Lex Go Trámite — Daily Knowledge Article (NO PUBLICATION)'
+name: 'Lex Go Trámite — Daily Knowledge Article (AUTOMATED VALIDATED PUBLICATION)'
 
 on:
   schedule:
-    - cron: '15 7 * * *'
+    - cron: '15 8 * * *'
+      timezone: 'Europe/Madrid'
   workflow_dispatch:
     inputs:
       retry_failed_topic:
@@ -25,7 +26,7 @@ concurrency:
 
 jobs:
   draft:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && vars.LEXGO_GENERATION_ENABLED == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
@@ -79,6 +80,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_v50_run62_renewal_intent.py' -v
           python -m unittest discover -s tests -p 'test_v50_run63_narrow_answer.py' -v
           python -m unittest discover -s tests -p 'test_v50_run65_content_system.py' -v
+          python -m unittest discover -s tests -p 'test_v50_run66_autonomous.py' -v
       - name: Refresh REAL Google Search Console data
         env:
           GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
@@ -128,7 +130,7 @@ jobs:
           if-no-files-found: error
           retention-days: 90
       - name: Generate evidence-linked legal draft
-        if: steps.reserve.outputs.allowed == 'true'
+        if: steps.reserve.outputs.allowed == 'true' && vars.LEXGO_GENERATION_ENABLED == 'true'
         id: draft
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -204,4 +206,51 @@ jobs:
             echo 'An eligible topic was selected but no generator decision was produced.'
             exit 1
           fi
-          echo 'No publishing permissions exist in this workflow.'
+          echo 'Generation job is read-only. Publication is evaluated separately.'
+
+  publish:
+    # Recover a previously settled approved draft even when new generation failed or was skipped.
+    needs: draft
+    if: always() && !cancelled() && github.ref == 'refs/heads/main' && vars.LEXGO_AUTOPUBLISH_ENABLED == 'true'
+    permissions:
+      contents: write
+      actions: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out current main; publication uses a fast-forward push only
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'pypdf==5.9.0' 'jsonschema==4.26.0'
+      - name: One-time migration of the four authorized historical drafts (no AI calls)
+        env:
+          GH_HISTORY_TOKEN: ${{ github.token }}
+          LEXGO_AUTOPUBLISH_ENABLED: ${{ vars.LEXGO_AUTOPUBLISH_ENABLED }}
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python scripts/autonomous_publisher_v50.py daily "$RUNNER_TEMP/lexgo-publication/backlog.json" --backlog
+      - name: Authorize exact reviewed article, render, validate and publish
+        env:
+          GH_HISTORY_TOKEN: ${{ github.token }}
+          LEXGO_AUTOPUBLISH_ENABLED: ${{ vars.LEXGO_AUTOPUBLISH_ENABLED }}
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python scripts/autonomous_publisher_v50.py daily "$RUNNER_TEMP/lexgo-publication/daily.json"
+      - name: Recover an eligible weekly publication if pending (no paid requests)
+        if: success()
+        env:
+          GH_HISTORY_TOKEN: ${{ github.token }}
+          LEXGO_AUTOPUBLISH_ENABLED: ${{ vars.LEXGO_AUTOPUBLISH_ENABLED }}
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python scripts/autonomous_publisher_v50.py weekly "$RUNNER_TEMP/lexgo-publication/weekly.json"
+      - name: Record actual publication and deployment outcome
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexgo-publication-v66
+          path: ${{ runner.temp }}/lexgo-publication/**
+          if-no-files-found: warn
+          retention-days: 90

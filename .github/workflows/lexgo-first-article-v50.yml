@@ -55,7 +55,7 @@ concurrency:
 
 jobs:
   first-article:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && vars.LEXGO_GENERATION_ENABLED == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:

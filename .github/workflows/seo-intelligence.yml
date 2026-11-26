@@ -1,8 +1,9 @@
-name: SEO intelligence (read only)
+name: Lex Go Trámite — Weekly SEO Performance (READ ONLY)
 
 on:
   schedule:
-    - cron: '40 9 * * *'
+    - cron: '45 20 * * 0'
+      timezone: 'Europe/Madrid'
   workflow_dispatch:
 
 permissions:
@@ -21,7 +22,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run unit tests
-        run: python -m unittest discover -s tests -v
+        run: PYTHONPATH=scripts python -m unittest discover -s tests -p 'test_seo_intelligence.py' -v
       - name: Analyze Search Console (read only)
         env:
           GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
@@ -34,10 +35,12 @@ jobs:
             exit 0
           fi
           python scripts/seo_intelligence.py
-      - name: Generate supervised editorial drafts (no publishing)
+      - name: Recheck a rotating batch of published official sources (no paid AI)
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
         run: |
-          test -s reports/seo_intelligence.json || { echo 'SEO report missing; cannot create proposals'; exit 1; }
-          python scripts/seo_content_v3.py
+          python -m pip install 'pypdf==5.9.0' 'jsonschema==4.26.0'
+          python scripts/autonomous_publisher_v50.py monitor reports/legal-source-monitor.json
       - name: Save report as workflow artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -45,6 +48,6 @@ jobs:
           name: lexgotramite-seo-report
           path: |
             reports/seo_intelligence.*
-            reports/editorial_v3/**
+            reports/legal-source-monitor.json
           if-no-files-found: ignore
           retention-days: 30
