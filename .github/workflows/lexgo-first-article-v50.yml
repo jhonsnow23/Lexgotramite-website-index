@@ -70,6 +70,7 @@ jobs:
         run: |
           python -m unittest discover -s tests -p 'test_v50_run55_first_article.py' -v
           python -m unittest discover -s tests -p 'test_v50_run56_budget.py' -v
+          python -m unittest discover -s tests -p 'test_v50_run57_live_research.py' -v
       - name: Real research, candidate generation, review and repair
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
