@@ -344,7 +344,7 @@ class OfficialResearch:
         out=[]
         for authority,title,url in official.candidates(topic,'arraigo' if category in ('arraigo','regularizacion_2026') else 'renewal'):
             # Generic Mercurio and generic landing pages are not binding law.
-            if authority not in ('boe','migraciones'): continue
+            if authority not in ('boe','migraciones','gencat'): continue
             if url in self.cache: out.extend(self.cache[url]); continue
             trial=self.ledger.document(url)
             try:
@@ -370,7 +370,7 @@ def source_context(evidence, plan):
         a=f'P{len(alias_map)+1:03d}'; alias_map[a]=p['passage_id']
         record=next(r for r in evidence if r['evidence_id']==p['evidence_id'])
         records.append({'passage_id':a,'canonical_passage_id':p['passage_id'],
-              'source':p['document_reference'],'article':p['article_reference'],'url':p['source_url'],
+              'source':p['document_reference'],'source_title':p['source_title'],'article':p['article_reference'],'url':p['source_url'],
               'version_date':record.get('version_date'),'version_status':record.get('version_status'),
               'retrieved_at':record.get('retrieved_at'),'version_date_basis':record.get('version_date_basis'),
               'selected_as_of':record.get('selected_as_of'),'available_version_dates':record.get('available_version_dates'),
@@ -601,9 +601,7 @@ def select_topics(category='',topic='',bootstrap=True, website_root=None, propos
 def priority_articles(category, topic):
     # Social arraigo is an initial-eligibility procedure, not sociolaboral
     # extension. Article 127(c) expressly refers to Article 84.
-    normalized = policy.norm(topic)
-    if (category == 'arraigo' and re.search(r'\barraigo social\b', normalized)
-            and not re.search(r'\b(?:renov\w*|prorrog\w*|modific\w*|continu\w*)\b', normalized)):
+    if policy.initial_social_focus(category,topic):
         return (127, 126, 84, 124)
     return PROFILES[category][1]
 
@@ -646,6 +644,8 @@ def run_topic(target, article_type, root, model, researcher, research_model, rev
         if category in ('no_lucrativa','cuenta_ajena','cuenta_propia'):
             # Filing after expiry may refer to this separate statutory rule.
             fetch([{'document':LO,'article':52,'reason':'Relevant cross-reference for late applications'}])
+        if policy.initial_social_focus(category,topic) and priorities==(127,126,84,124):
+            fetch([{'document':LO,'article':1,'reason':'Ámbito personal de la Ley Orgánica'}])
         add(researcher.guidance(category,topic))
         if not any(r.get('source_id')==RD and str(r.get('article'))==str(priorities[0]) for r in evidence):
             return decision('BLOCKED_INSUFFICIENT_EVIDENCE','Primary consolidated provision unavailable')
@@ -662,13 +662,27 @@ def run_topic(target, article_type, root, model, researcher, research_model, rev
                 focus = ('\nPara arraigo social, comprueba los requisitos generales y específicos, las remisiones, '
                          'las vías familiares y de integración y la prueba alternativa si el informe no se emite en plazo. '
                          'Contrasta literalmente los importes IPREM y las ausencias con la guía y la norma; '
-                         'distingue su autoridad y no resuelvas discrepancias por suposición. Si la consulta es territorial, '
-                         'distingue requisitos estatales de trámites autonómicos y no inventes órganos ni canales locales.')
+                         'distingue su autoridad y no resuelvas discrepancias por suposición. Investiga el fundamento en SEM 1/2025 '
+                         '(permanencia y cálculo económico) y SEM 4/2025 (informe) si están presentes; no confundas un mínimo legal '
+                         'con su concreción administrativa. Si citas la guía, acompáñala del precepto BOE aplicable y atribuye '
+                         'cada regla a su fuente. Delimita ámbito personal, antecedentes solo por delitos previstos en el ordenamiento '
+                         'español y remisión completa al artículo 84 cuando proceda; si enumeras ejemplos, indícalo expresamente. '
+                         'Incluye la salvedad de la prueba alternativa desde la primera mención del informe, no solo al final. '
+                         'Si la consulta es territorial, distingue requisitos estatales de trámites autonómicos; usa la Generalitat '
+                         'solo para el informe, no para modificar los requisitos estatales. Contrasta cualquier discrepancia y no '
+                         'repitas disposiciones transitorias expiradas sin comprobar su aplicación. No atribuyas la fecha de versión '
+                         'de un artículo al reglamento entero. No inventes órganos ni canales locales.')
             raw=model.call('research',research_model,RESEARCH_PROMPT+focus,data,research_schema(aliases))
             save(root/f'research_round_{round_number:02}.json',raw)
             try: claims,gaps=validate_research(raw,aliases,catalog,evidence,dossier)
             except IntegrityError as exc:
-                repair_feedback={'integrity_error':str(exc)}; mark('REPAIR_REQUIRED',str(exc)); continue
+                # A schema-valid response can request official articles even when
+                # one paragraph fails provenance. Keep prior legal repair obligations.
+                repair_feedback={**(repair_feedback or {}),'integrity_error':str(exc)}
+                mark('REPAIR_REQUIRED',str(exc))
+                if raw['additional_articles'] and round_number<=limits.research_rounds:
+                    fetch(raw['additional_articles'])
+                continue
             coverage.append({'round':round_number,'claims':claims,'gaps':gaps}); save(root/'research_coverage.json',coverage)
             if raw['additional_articles'] and round_number<=limits.research_rounds:
                 mark('ADDITIONAL_RESEARCH_REQUIRED','Targeted official cross-reference requests')

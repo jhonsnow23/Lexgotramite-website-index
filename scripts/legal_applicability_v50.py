@@ -161,7 +161,12 @@ def procedure_context(plan):
                    'verification_status': 'NOT_VERIFIED_FOR_INDIVIDUAL'}]
         decision_variables = ['Modalidad concreta de autorización y circunstancias del supuesto.']
         unresolved_branches = []
+    try:
+        from temporary_residence_policy_v50 import catalonia_social_focus
+    except ImportError:
+        from scripts.temporary_residence_policy_v50 import catalonia_social_focus
     return {
+        'regional_report_scope': 'CATALONIA' if catalonia_social_focus(cat,plan.get('topic','')) else None,
         'business_category': cat, 'legal_regime': legal_regime,
         'editorial_scope': scope,
         'origin_authorization': ('DA20_OR_DA21_TEMPORARY_RESIDENCE_AUTHORIZATION'
@@ -255,6 +260,15 @@ def _role(row, context):
     if source == RD1155 and article:
         return ('CONDITIONALLY_APPLICABLE', [context['routes'][0]['route_id']],
                 'Comprobar la modalidad y los presupuestos específicos del precepto')
+    if source == 'gencat':
+        try:
+            from official_sources_v50 import CAT_INTEGRATION
+        except ImportError:
+            from scripts.official_sources_v50 import CAT_INTEGRATION
+        if context.get('regional_report_scope')=='CATALONIA' and row.get('official_url')==CAT_INTEGRATION[2]:
+            return ('PROCEDURAL_GUIDANCE',[context['routes'][0]['route_id']],
+                    'Guía autonómica solo para el informe de integración en Cataluña; no sustituye los requisitos estatales ni certifica vigencia.')
+        return 'UNRELATED', [], 'Guía autonómica fuera de su ámbito territorial o procedimiento'
     if source in ('migraciones', 'policia', 'boe'):
         return ('PROCEDURAL_GUIDANCE' if source == 'migraciones' else 'UNDETERMINED',
                 [context['routes'][0]['route_id']] if source == 'migraciones' else [],
@@ -314,7 +328,7 @@ def build_dossier(plan, evidence):
             'procedure_type': ('MULTIPLE_CONDITIONAL_ROUTES' if len(routes) > 1 else
                                'MODIFICACION' if routes and routes[0].startswith('MOD_') else
                                'PRORROGA' if routes and 'PRORROGA' in routes[0] else context['procedure_type']),
-            'procedure_stage': 'POST_GRANT_CONTINUITY',
+            'procedure_stage': ('INITIAL_APPLICATION' if plan.get('material_search_focus')=='INITIAL_SOCIAL_ARRAIGO' else 'POST_GRANT_CONTINUITY'),
             'applicability': role,
             'applicability_conditions': [reason],
             'supported_claims': [],

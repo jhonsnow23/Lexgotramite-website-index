@@ -21,9 +21,9 @@ except ImportError:
     from scripts.legal_relevance_v50 import group_of, questions, discover, coverage, metadata_duplicate, provision_relevance
 
 try:
-    from temporary_residence_policy_v50 import classify as classify_temporary, research_questions as temporary_questions, employer_change_focus, employer_change_questions
+    from temporary_residence_policy_v50 import classify as classify_temporary, research_questions as temporary_questions, employer_change_focus, employer_change_questions, initial_social_focus, initial_social_questions
 except ImportError:
-    from scripts.temporary_residence_policy_v50 import classify as classify_temporary, research_questions as temporary_questions, employer_change_focus, employer_change_questions
+    from scripts.temporary_residence_policy_v50 import classify as classify_temporary, research_questions as temporary_questions, employer_change_focus, employer_change_questions, initial_social_focus, initial_social_questions
 
 try:
     from official_sources_v50 import retrieve_for_topic as retrieve_official
@@ -201,6 +201,10 @@ def plan(proposal):
     if classification['business_category']=='arraigo' and 'arraigo sociolaboral' in topic.lower():
         research_questions=[{**q, 'question':q['question'].replace('modalidad específica de arraigo','arraigo sociolaboral'),
             'query':q['query'].replace('modalidad específica de arraigo','arraigo sociolaboral')} for q in research_questions]
+    social_focus=initial_social_focus(classification['business_category'],topic)
+    if social_focus:
+        research_questions=initial_social_questions(topic)
+        classification={**classification,'target_audience':'Personas que solicitan inicialmente arraigo social'}
     employer_focus=employer_change_focus(classification['business_category'],topic)
     if employer_focus:
         research_questions=employer_change_questions()
@@ -210,7 +214,7 @@ def plan(proposal):
             'queries':p.get('queries',[])[:12],
             'search_demand':p.get('search_demand_evidence',{}),
             'research_questions':research_questions,
-            **({'material_search_focus':'EMPLOYER_CHANGE_RENEWAL'} if employer_focus else {}),
+            **({'material_search_focus':'EMPLOYER_CHANGE_RENEWAL'} if employer_focus else {'material_search_focus':'INITIAL_SOCIAL_ARRAIGO'} if social_focus else {}),
             'source_registry_complete':bool(research_questions),
             'existing_page_action':p.get('action'),
             'duplicate_metadata':metadata_duplicate(p),

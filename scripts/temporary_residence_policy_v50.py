@@ -147,3 +147,23 @@ def employer_change_questions():
         {'id':'requirements','question':'Qué requisitos, excepciones y documentos acreditativos se aplican al cambio de empleador en la renovación: periodo de actividad, nuevo contrato, alta o situación asimilada, inicio condicionado y remisión al artículo 74 cuando proceda; distinguir otros supuestos del artículo 80 de estos dos', 'query':'renovación cuenta ajena nuevo empleador artículo 80 74 requisitos documentación alta contrato condicionado'},
         {'id':'steps','question':'Qué plazos, presentación, efectos y consecuencias de la solicitud de renovación al cambiar de empleador están acreditados; distinguir los efectos generales y las condiciones específicas del nuevo contrato, y señalar cualquier detalle material no verificado', 'query':'renovación cuenta ajena cambio empleador artículo 80 plazo presentación efectos nuevo contrato documentación'},
     ]
+
+
+def initial_social_focus(category, topic):
+    """Search intent only: initial social arraigo, not renewal/continuity."""
+    text=norm(topic)
+    return (category == 'arraigo' and bool(re.search(r'\barraigo social\b',text))
+            and not re.search(r'\b(?:renov\w*|prorrog\w*|modific\w*|continu\w*)\b',text))
+
+
+def catalonia_social_focus(category, topic):
+    return initial_social_focus(category,topic) and bool(re.search(r'\b(?:cataluna|catalunya|catalonia|barcelona|girona|lleida|tarragona)\b',norm(topic)))
+
+
+def initial_social_questions(topic):
+    region=' en Cataluña' if catalonia_social_focus('arraigo',topic) else ''
+    return [
+        {'id':'scope','question':'A quién se dirige el acceso inicial al arraigo social'+region+' y qué regímenes quedan fuera; no confundirlo con prórroga, modificación ni arraigo familiar.', 'query':'arraigo social inicial ámbito personal requisitos artículos 124 126 127'},
+        {'id':'requirements','question':'Cuáles son los requisitos generales y específicos de arraigo social: permanencia y ausencias, antecedentes, vínculos y medios económicos, remisión al artículo 84, integración y prueba alternativa; contrastar norma e instrucciones oficiales.', 'query':'arraigo social SEM 1/2025 permanencia ausencias IPREM artículo 127 c artículo 84'},
+        {'id':'steps','question':'Qué papel cumple el informe de integración y cómo se acredita, incluidas sus excepciones'+region+'; distinguir requisitos estatales del trámite autonómico.', 'query':'arraigo social informe integración SEM 4/2025'+(' Generalitat Catalunya' if region else '')},
+    ]

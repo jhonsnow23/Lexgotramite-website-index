@@ -16,6 +16,7 @@ import ssl
 HOSTS = frozenset({
     'www.boe.es', 'boe.es',
     'www.inclusion.gob.es', 'inclusion.gob.es', 'sede.administracionespublicas.gob.es',
+    'tramits.gencat.cat',
     'sede.policia.gob.es', 'www.mjusticia.gob.es', 'sede.mjusticia.gob.es',
 })
 
@@ -103,8 +104,25 @@ def subject(topic, group):
     return None
 
 
+SEM1 = ('migraciones','Instrucciones SEM 1/2025 — arraigo',
+        'https://www.inclusion.gob.es/documents/d/migraciones/instrucciones-sem-1_2025-sobre-las-autorizaciones-de-residencia-temporal-por-circunstancias-excepcionales-por-razon-de-arraigo-aprobado-por-el-real-decreto-1155_2024')
+SEM4 = ('migraciones','Instrucciones SEM 4/2025 — informe de integración social',
+        'https://www.inclusion.gob.es/documents/d/migraciones/report_250709-instrucciones-informe-arraigo-v-10-tras-clti.pdf')
+CAT_INTEGRATION = ('gencat','Generalitat de Catalunya — informe de esfuerzo de integración',
+                   'https://tramits.gencat.cat/es/tramits/tramits-temes/informe-esforc-integracio')
+
+
 def candidates(topic, group):
     key=subject(topic,group)
+    try:
+        from temporary_residence_policy_v50 import initial_social_focus, catalonia_social_focus
+    except ImportError:
+        from scripts.temporary_residence_policy_v50 import initial_social_focus, catalonia_social_focus
+    if key=='arraigo_temporal' and initial_social_focus('arraigo',topic):
+        # Do not spend context on a different modality's information sheet.
+        rows=[SOURCES[key][1],SEM1,SEM4]
+        if catalonia_social_focus('arraigo',topic): rows.append(CAT_INTEGRATION)
+        return rows
     return list(SOURCES.get(key, []))
 
 
@@ -368,6 +386,32 @@ def excerpt_for_article_191_criterion(body, limit=18000):
     return '\n[...]\n'.join(selected)[:limit]
 
 
+def focused_instruction_excerpt(body, kind):
+    """Keep literal local windows, not the regularisation FAQ extractor.
+
+    Use a bounded excerpt for the paid model. Omission markers keep provenance
+    separate. If the expected text is missing, fail closed instead of silently
+    pretending the instruction was retrieved in useful form.
+    """
+    patterns = ((r'ausencias\s+de\s+Espa[nñ]a', r'200\s*%\s*(?:del\s+)?IPREM',
+                 r'requisitos\s+espec[ií]ficos[^.]{0,130}arraigo\s+social') if kind=='SEM1'
+                else (r'no\s+se\s+(?:hubiera|haya|ha)\s+emitido', r'cualquier\s+medio\s+de\s+prueba',
+                      r'informe\s+de\s+integraci[oó]n\s+social', r'art[ií]culo\s+68'))
+    windows=[]
+    for pat in patterns:
+        matches=list(re.finditer(pat,body,re.I))
+        # Last mention of the precise rule is often operative rather than index.
+        for match in (matches[-1:] if kind=='SEM1' else matches[:1]):
+            lo=max(0,match.start()-650); hi=min(len(body),match.end()+1800)
+            windows.append((lo,hi))
+    if not windows: raise ValueError('Expected official instruction text unavailable')
+    merged=[]
+    for lo,hi in sorted(windows):
+        if merged and lo<=merged[-1][1]: merged[-1]=(merged[-1][0],max(hi,merged[-1][1]))
+        else: merged.append((lo,hi))
+    return '\n[...]\n'.join(body[a:b].strip() for a,b in merged)
+
+
 def is_certificate_verification_error(error):
     """Distinguish broken certificate chains from ordinary HTTP/network failures."""
     reason = error.reason if isinstance(error, URLError) else error
@@ -423,7 +467,9 @@ def retrieve_one(authority,title,url,*,fetch=None):
             raise ValueError('Expected PDF bytes from official document')
         raw_pdf_text=extract_pdf_text(raw)
         body=normalize_letter_spaced_pdf_text(raw_pdf_text)
-        excerpt=(excerpt_for_article_191_criterion(body)
+        excerpt=(focused_instruction_excerpt(body,'SEM1') if url==SEM1[2] else
+                 focused_instruction_excerpt(body,'SEM4') if url==SEM4[2] else
+                 excerpt_for_article_191_criterion(body)
                  if 'criterio de gestión' in title.lower() and '191' in title
                  else excerpt_for_procedure_guidance(body))
     else:
@@ -431,6 +477,10 @@ def retrieve_one(authority,title,url,*,fetch=None):
         parser=OfficialHTML();parser.feed(raw)
         body=parser.content()
         excerpt=excerpt_for_legal_publication(body) if authority=='boe' else body[:18000]
+        if url==CAT_INTEGRATION[2]:
+            match=re.search(r'Este informe tiene como finalidad',body,re.I)
+            if not match: raise ValueError('Expected integration report guidance unavailable')
+            excerpt=body[match.start():match.start()+9000]
     if len(body)<150:raise ValueError('Official source had insufficient extracted text')
     digest=sha256(body.encode('utf-8')).hexdigest()
     stamp=datetime.now(timezone.utc).isoformat()
