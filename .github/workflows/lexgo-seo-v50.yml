@@ -49,6 +49,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_v50_run40_closed_selection.py' -v
           python -m unittest discover -s tests -p 'test_v50_run41_commercial_scope.py' -v
           python -m unittest discover -s tests -p 'test_v50_run42_scope_retries.py' -v
+          python -m unittest discover -s tests -p 'test_v50_run43_branch_first.py' -v
       - name: Refresh REAL Google Search Console data
         env:
           GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
