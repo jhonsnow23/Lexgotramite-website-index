@@ -8,6 +8,10 @@ on:
         type: boolean
         default: false
         required: false
+      allow_editorial_fallback:
+        description: 'Explicitly allow an editorial seed when no eligible GSC demand exists'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -65,6 +69,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_v50_run55_first_article.py' -v
           python -m unittest discover -s tests -p 'test_v50_run56_budget.py' -v
           python -m unittest discover -s tests -p 'test_v50_run57_live_research.py' -v
+          python -m unittest discover -s tests -p 'test_v50_run58_editorial_seo.py' -v
       - name: Refresh REAL Google Search Console data
         env:
           GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
@@ -84,11 +89,13 @@ jobs:
           GH_HISTORY_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           MANUAL_RETRY: ${{ inputs.retry_failed_topic }}
+          EDITORIAL_FALLBACK: ${{ inputs.allow_editorial_fallback }}
         shell: bash
         run: |
           set -eu
           ARGS=()
           if [ "$MANUAL_RETRY" = 'true' ]; then ARGS+=(--retry-failed); fi
+          if [ "$EDITORIAL_FALLBACK" = 'true' ]; then ARGS+=(--allow-editorial-fallback); fi
           python scripts/seo_v50.py select --require-history "${ARGS[@]}"
       - name: Generate evidence-linked legal draft
         id: draft
