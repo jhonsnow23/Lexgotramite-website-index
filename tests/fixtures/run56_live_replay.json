@@ -1,0 +1,713 @@
+{
+  "run_summary.json": {
+    "result": "BLOCKED_INSUFFICIENT_EVIDENCE",
+    "publication_allowed": false,
+    "simulated": false,
+    "topics_attempted": [
+      {
+        "result": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "reason": "Material or unclassified gap remains: no candidate approval",
+        "topic": "Renovación de residencia temporal no lucrativa: plazo de solicitud y efectos de presentarla",
+        "candidate_count": 0,
+        "automated_review_passed": false,
+        "simulated": false,
+        "legal_accuracy_certified": false,
+        "publication_allowed": false,
+        "human_legal_review_required": true,
+        "artifact_directory": "topic_01_no_lucrativa"
+      },
+      {
+        "result": "BLOCKED_INSUFFICIENT_EVIDENCE",
+        "reason": "Material or unclassified gap remains: no candidate approval",
+        "topic": "Renovación de residencia y trabajo por cuenta propia: duración y efectos de la autorización",
+        "candidate_count": 0,
+        "automated_review_passed": false,
+        "simulated": false,
+        "legal_accuracy_certified": false,
+        "publication_allowed": false,
+        "human_legal_review_required": true,
+        "artifact_directory": "topic_02_cuenta_propia"
+      }
+    ],
+    "articles_generated": 0,
+    "candidate_articles_generated": 0,
+    "articles_independently_approved": 0,
+    "estimated_budget_usd": 0.25,
+    "max_api_calls": 6,
+    "human_legal_review_required": true,
+    "legal_accuracy_certified": false,
+    "api_calls": 4,
+    "estimated_cost_usd": 0.007215,
+    "conservative_budget_debit_usd": 0.022573
+  },
+  "topic_01_no_lucrativa/decision.json": {
+    "result": "BLOCKED_INSUFFICIENT_EVIDENCE",
+    "reason": "Material or unclassified gap remains: no candidate approval",
+    "topic": "Renovación de residencia temporal no lucrativa: plazo de solicitud y efectos de presentarla",
+    "candidate_count": 0,
+    "automated_review_passed": false,
+    "simulated": false,
+    "legal_accuracy_certified": false,
+    "publication_allowed": false,
+    "human_legal_review_required": true
+  },
+  "topic_01_no_lucrativa/evidence.json": [
+    {
+      "evidence_id": "EV_378160DAC279F52949D7",
+      "source_id": "BOE-A-2024-24099",
+      "article": "64",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a6-6",
+      "retrieved_at": "2026-11-26T14:25:55.520745+00:00",
+      "version_date": "2024-11-20",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 64. Renovación de la autorización de residencia temporal no lucrativa.\n1. La persona extranjera que desee renovar su autorización de residencia temporal deberá solicitarlo a la oficina de extranjería competente para su tramitación durante los dos meses previos a la fecha de expiración de la vigencia de su autorización. La presentación de la solicitud en este plazo prorroga la validez de la autorización anterior hasta la resolución del procedimiento. También se prorrogará hasta la resolución del procedimiento en el supuesto en que la solicitud se presentase dentro de los tres meses posteriores a la fecha en que hubiera finalizado la vigencia de la anterior autorización, sin perjuicio de la incoación del correspondiente procedimiento sancionador por la infracción prevista en el artículo 52.b) de la Ley Orgánica 4/2000, de 11 de enero.\n2. Para la renovación de una autorización de residencia temporal no lucrativa, la persona extranjera deberá cumplir los siguientes requisitos:\na) Ser titular de una autorización de residencia temporal no lucrativa en vigor o hallarse dentro del plazo de los tres meses posteriores a la caducidad de esta.\nb) Contar con medios económicos suficientes para atender sus gastos de manutención y residencia, incluyendo, en su caso, los de su familia, durante el periodo de tiempo por el que corresponda la renovación, sin necesidad de desarrollar ninguna actividad laboral o profesional, en los términos establecidos en el artículo 62.\nc) Haber mantenido durante la vigencia de la autorización que se pretende renovar y continuar con un seguro de enfermedad.\nd) Tener escolarizados a los menores a su cargo en edad de escolarización obligatoria durante la permanencia de estos en España.\ne) Haber abonado la tasa por tramitación del procedimiento.\nf) Haber residido de forma real y efectiva en España durante más de ciento ochenta y tres días durante el año natural.\n3. A la solicitud, en modelo oficial, deberá acompañar la documentación que acredite que se reúnen los requisitos señalados en el apartado anterior, entre otros:\na) Copia del pasaporte completo en vigor o título de viaje, reconocido como válido en España.\nb) Los documentos que acrediten los recursos económicos suficientes para atender sus gastos de manutención y residencia, así como el seguro de enfermedad, durante el periodo de tiempo por el que se pretenda renovar la residencia en España sin necesidad de desarrollar ninguna actividad laboral o profesional.\nc) En su caso, informe emitido por las autoridades autonómicas competentes que acredite la escolarización de los menores en edad de escolarización obligatoria que estén a su cargo.\n4. En caso de que a partir de la documentación presentada junto a la solicitud no quede acreditada la escolarización de los menores en edad de escolarización obligatoria que estén a cargo del solicitante, la Oficina de extranjería pondrá esta circunstancia en conocimiento de las autoridades educativas competentes, y advertirá expresamente y por escrito a la persona solicitante de que en caso de no producirse la escolarización y presentarse el correspondiente informe en el plazo de un mes, la autorización no será renovada.\n5. Para la renovación de la autorización se valorará, en su caso, previa solicitud de oficio de los correspondientes informes:\na) La posibilidad de renovar la autorización de residencia a las personas extranjeras que hubieren sido condenadas por la comisión de un delito y hayan cumplido la condena, las que hubieran sido indultadas o se hallasen en situación de remisión condicional de la pena o de suspensión de la pena.\nb) El incumplimiento de las obligaciones de la persona extranjera en materia tributaria y de Seguridad Social durante la vigencia de su autorización.\n6. A los efectos de la renovación de la autorización, se valorará el esfuerzo de integración de la persona extranjera. Dicha circunstancia se acreditará mediante la aportación por parte de la persona extranjera, de un informe favorable de los órganos competentes de la Comunidad Autónoma de su lugar de residencia que recomienden la renovación, principalmente en caso de que no acredite el cumplimiento de alguno de los requisitos previstos para la renovación de la autorización.\nEl informe, de ser favorable, certificará el conocimiento y respeto de los valores constitucionales de España, los valores estatutarios de la Comunidad Autónoma en que se resida, los valores de la Unión Europea, los derechos humanos, las libertades públicas, la democracia, la tolerancia, la igualdad entre mujeres y hombres y, en su caso, el aprendizaje de las lenguas oficiales del lugar de residencia.\nEn caso de que el informe no haya sido emitido en el plazo de un mes circunstancia que habrá de ser debidamente acreditada por el interesado, podrá justificarse este requisito por cualquier medio de prueba admitido en Derecho.\n7. La autorización de residencia temporal renovada tendrá una vigencia de dos años, salvo que corresponda obtener una autorización de residencia de larga duración o de larga duración-UE.\n8. La solicitud se resolverá y se notificará a la persona interesada en el plazo de tres meses desde la presentación de la solicitud. Trascurrido dicho plazo se entenderá estimada.\n9. En el plazo de un mes desde la notificación de la resolución por la que se renueva la autorización, su titular deberá solicitar personalmente, ante la Comisaría de Policía competente, la correspondiente tarjeta de identidad de extranjero.",
+      "sha256": "8347d0a14df6108eabcf4e473e5ba50d5258d0a861d781ecb6ff10051f6b0213"
+    },
+    {
+      "evidence_id": "EV_4C469007A47F3539CDE2",
+      "source_id": "BOE-A-2024-24099",
+      "article": "62",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a6-4",
+      "retrieved_at": "2026-11-26T14:25:55.901640+00:00",
+      "version_date": "2024-11-20",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 62. Medios económicos a acreditar para la obtención de una autorización de residencia temporal no lucrativa.\n1. Las personas extranjeras que deseen residir en España sin realizar una actividad laboral o lucrativa deberán contar con medios económicos suficientes para el periodo de residencia de la autorización, o acreditar una fuente de percepción periódica de ingresos, para sí mismo y, en su caso, su familia, en las siguientes cuantías, que se establecen con carácter de mínimas y referidas al momento de solicitud del visado o de renovación de la autorización:\na) Para su sostenimiento, durante su residencia en España, una cantidad que represente mensualmente en euros el 400 % del IPREM, o su equivalente legal en moneda extranjera.\nb) Para el sostenimiento de cada uno de los familiares a su cargo, durante su residencia en España, una cantidad que represente mensualmente en euros el 100 % del IPREM, o su equivalente legal en moneda extranjera, cantidad a acreditar de forma adicional a la referida en el apartado a) anterior.\n2. En los supuestos previstos en las letras a) y b) del apartado anterior, la cuantía global de medios económicos habrá de suponer la disposición de la cuantía mensual calculada con base a lo establecido en el apartado anterior, en relación con el tiempo de vigencia de la autorización solicitada.\n3. La disponibilidad se podrá acreditar por cualquier medio de prueba admitido en Derecho, incluyendo la aportación de títulos de propiedad, cheques certificados o tarjetas de crédito, que deberán ir acompañados de una certificación bancaria que acredite la cantidad disponible como crédito de la citada tarjeta.\nEn el caso de presentarse información relativa a cuentas o instrumentos financieros en el extranjero, esta deberá incluir:\na) La razón social o denominación completa de la entidad bancaria o de crédito, así como su domicilio.\nb) La identificación completa de las cuentas.\nc) La fecha de apertura o cancelación o, en su caso, las fechas de concesión y revocación de la autorización.\nd) Los saldos de las cuentas a 31 de diciembre del año anterior al de presentación de la solicitud y el saldo medio correspondiente al último año.\nSi los medios económicos proceden de acciones o participaciones en empresas españolas, mixtas o extranjeras radicadas en España, la persona interesada acreditará, mediante certificación de las mismas, que no ejerce actividad laboral alguna en dichas empresas, y presentará declaración responsable en tal sentido.",
+      "sha256": "2f2c126254bcd867debff943e4aaed3d57b09fa92ee76b6ae9dda08af6967cb4"
+    },
+    {
+      "evidence_id": "EV_6C9911D9CA108293EDAB",
+      "source_id": "migraciones",
+      "authority": "migraciones",
+      "document_title": "Hoja 7 — renovación no lucrativa",
+      "article": null,
+      "official_url": "https://www.inclusion.gob.es/web/migraciones/w/renovacion-de-la-autorizacion-de-residencia-temporal-no-lucrativa",
+      "retrieval_url": "https://www.inclusion.gob.es/web/migraciones/w/renovacion-de-la-autorizacion-de-residencia-temporal-no-lucrativa",
+      "api_url": null,
+      "retrieved_at": "2026-11-26T14:25:57.958040+00:00",
+      "version_date": null,
+      "version_status": "GUIDANCE_DATE_NOT_VERIFIED",
+      "legal_status": "PROCEDURAL_GUIDANCE_UNVERIFIED",
+      "text": "Saltar al contenido principal Selecciona tu idioma Castellano Català Euskara Galego English Français Buscar Menú Trámites Destacados mostrar submenu Trámites Destacados Trámites Destacados: Pensiones Trámites Destacados: Altas y bajas de la Seguridad Social Trámites Destacados: Ayudas Trámites Destacados: Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) Directo a Trámites Destacados: Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) Trámites Destacados: Pensiones El Ministerio mostrar submenu El Ministerio ¿Quiénes somos? La Ministra Biografía de la Ministra El Ministerio en el mundo Organización administrativa del Ministerio de Inclusión, Seguridad Social y Migraciones Secretaría de Estado de Migraciones Secretaría de Estado de la Seguridad Social y Pensiones Secretaría General de Inclusión Subsecretaría de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Atención a la ciudadanía Canal Interno Información Quejas, sugerencias y felicitaciones Sede electrónica Empleo Público Acceso a empleo público Movilidad del empleado público Biblioteca Virtual Plan estratégico de subvenciones - PES Directo a ¿Quiénes somos? Organización administrativa del Ministerio de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Sede electrónica Biblioteca Virtual Inclusión mostrar submenu Inclusión ¿Quiénes somos? Ingreso Mínimo Vital Qué es el Complemento de Ayuda para la Infancia (CAPI) Estadísticas e Informes Laboratorio de Políticas de Inclusión Fondo de Impacto Social Más Información Órganos de gobernanza del IMV Registro de Mediadores sociales del IMV Sello de Inclusión Social Directo a Laboratorio de Políticas de Inclusión Sello de Inclusión Social Seguridad Social y Pensiones mostrar submenu Seguridad Social y Pensiones ¿Quiénes somos? Pensiones Altas y bajas Vida Laboral Autónomos Otras prestaciones Directo a Seguridad Social y Pensiones Migraciones mostrar submenu Migraciones ¿Quiénes somos? Integración Prioridades de integración OBERAXE Foro para la Integración Social de los Inmigrantes Vivir en España Tipos de autorización Normativa e instrucciones Criterios de Gestión Retorno voluntario Información útil Contacto Vivir en el extranjero Portal de la Ciudadanía Española en el Exterior Carta España Sistema de Acogida de Protección Internacional Cómo funciona y datos Personas destinatarias Entidades colaboradoras Reasentamiento y otros programas CRCP 2024-2025 Iniciativas para la inserción laboral Línea Acogida Informa Ucrania Urgente Atención Humanitaria Estadísticas Brexit. Derecho de los ciudadanos Directo a Red Europea de Migraciones (REM-EMN) OBERAXE Foro para la Integración Social de los Inmigrantes Fondos Europeos Proyectos de Migración Regular Unidad de Grandes Empresas y Colectivos Estratégicos Consejo General de la Ciudadanía Española en el Exterior Comunicación mostrar submenu Comunicación Noticias Buscador Redes Sociales Multimedia Galería Revistas Contacto para periodistas Directo a Noticias Redes Sociales Multimedia Galería Revistas Estadísticas mostrar submenu Estadísticas Migraciones Estadísticas de empleo y mercado laboral Estadísticas de pensiones y prestaciones Directo a Estadísticas Selecciona tu idioma Castellano Català Euskara Galego English Français Trámites Destacados mostrar submenu Trámites Destacados Pensiones Altas y bajas de la Seguridad Social Ayudas Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) El Ministerio mostrar submenu El Ministerio ¿Quiénes somos? mostrar submenu ¿Quiénes somos? La Ministra Biografías El Ministerio en el mundo Organización administrativa mostrar submenu Organización administrativa S.E. de Migraciones S.E. de la Seguridad Social y Pensiones S.G. de Inclusión Subsecretaría de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Atención a la ciudadanía mostrar submenu Atención a la ciudadanía Canal Interno Información Quejas, sugerencias y felicitaciones Sede electrónica Empleo Público mostrar submenu Empleo Público Acceso a empleo público Movilidad del empleado público Biblioteca Virtual Plan estratégico de subvenciones - PES Inclusión mostrar submenu Inclusión ¿Quiénes somos? IMV IMV - CAPI Estadísticas e informes Laboratorio de Políticas de Inclusión Fondo de Impacto Social Más Información mostrar submenu Más Información Órganos de gobernanza del IMV Registro de Mediadores sociales del IMV Sello de Inclusión Social Seguridad Social y Pensiones mostrar submenu Seguridad Social y Pensiones ¿Quiénes somos? Pensiones Altas y bajas Vida Laboral Autónomos Otras prestaciones Migraciones mostrar submenu Migraciones ¿Quiénes somos? Integración mostrar submenu Integración Prioridades de integración OBERAXE Foro para la Integración Social de los Inmigrantes Vivir en España mostrar submenu Vivir en España Tipos de autorización Normativa e instrucciones Criterios de Gestión Retorno voluntario Información útil Contacto Vivir en el extranjero mostrar submenu Vivir en el extranjero Portal de la Ciudadanía Española en el Exterior Carta España Sistema de Acogida de Protección Internacional mostrar submenu Sistema de Acogida de Protección Internacional Cómo funciona y datos Personas destinatarias Entidades colaboradoras Reasentamiento y otros programas CRCP 2024-2025 Iniciativas para la inserción laboral Línea Acogida Informa Ucrania Urgente Atención Humanitaria Estadísticas Brexit. Derecho de los ciudadanos Comunicación mostrar submenu Comunicación Noticias mostrar submenu Noticias Buscador Redes Sociales Multimedia Galería Revistas Contacto para periodistas Estadísticas mostrar submenu Estadísticas Migraciones Estadísticas de empleo y mercado laboral Estadísticas de pensiones y prestaciones twitter twitter Instagram youtube linkedin Hoja 7 - Renovación de la autorización de residencia temporal no lucrativa - Migraciones Inicio / Migraciones Vivir en España Tipos de autorización Normativa e instrucciones mostrar submenu Normativa e instrucciones Normativa UE, normativa internacional y jurisprudencia UE Instrucciones Criterios de Gestión Retorno voluntario Información útil mostrar submenu Información útil Trámites que se pueden realizar por Internet Modelos de solicitud Información de las comunidades autónomas y entidades locales Tiempo de tramitación de procedimientos (CORA) Preguntas frecuentes Reglamento de Extranjería Otra información Subvenciones Noticias Contacto Hoja 7 - Renovación de la autorización de residencia temporal no lucrativa * El contenido de esta página es meramente orientativo. Únicamente es de aplicación lo dispuesto en la normativa vigente en el momento de presentación de la solicitud. Última actualización: mayo de 2025 Índice de contenidos Tipo de Autorización Normativa básica Requisitos Documentación exigible Procedimiento TIPO DE AUTORIZACIÓN Es la renovación de la autorización de residencia no lucrativa. NORMATIVA BÁSICA Ley Orgánica 4/2000 de 11 de enero sobre derechos y libertades de los extranjeros en España y su integración social (artículos 30 bis y 31). Real Decreto 1155/2024, de 19 de noviembre, por el que se aprueba el Reglamento de la Ley Orgánica 4/2000, de 11 de enero, sobre derechos y libertades de los extranjeros en España y su integración social (artículo 64). REQUISITOS No ser ciudadano de un Estado de la Unión Europea, del Espacio Económico Europeo o de Suiza, o familiar de ciudadanos de estos países a los que les sea de aplicación el régimen de ciudadano de la Unión. Carecer de antecedentes penales en España y en los países donde haya residido los últimos cinco años, por delitos existentes en el ordenamiento español. No figurar como rechazable en el espacio territorial de países con los que España tenga firmado un convenio en tal sentido. Ser titular de una autorización de residencia temporal no lucrativa en vigor o hallarse dentro del plazo de los tres meses posteriores a la caducidad de ésta. Contar con medios económicos suficientes para atender sus gastos de manutención y residencia, incluyendo, en su caso, los de su familia, durante el periodo de tiempo por el que corresponda la renovación, sin necesidad de desarrollar ninguna actividad laboral o profesional, Haber mantenido durante la vigencia de la autorización que se pretende renovar y continuar con un seguro de enfermedad. Tener escolarizados a los menores a su cargo en edad de escolarización obligatoria durante la permanencia de éstos en España. Abonarla tasa correspondiente por la tramitación del procedimiento. Haber residido de forma real y efectiva en España durante más de ciento ochenta y tres días durante el año natural. DOCUMENTACIÓN EXIGIBLE Nota: con carácter general se deberán aportar copias de los documentos y exhibir los originales en el momento de presentar la solicitud, cuando la solicitud sea presencial. Impreso de solicitud en modelo oficial (EX -01), debidamente cumplimentado y firmado por la persona extranjera. Copia del pasaporte completo o título de viaje en vigor, reconocido como válido en España. Los documentos que acrediten los recursos económicos suficientes para atender sus gastos de manutención y residencia, así como el seguro de enfermedad, durante el periodo de tiempo por el que se pretenda renovar la residencia en España sin necesidad de desarrollar ninguna actividad laboral o profesional. En caso de tener a su cargo menores en edad de escolarización obligatoria, informe emitido por las autoridades autonómicas competentes, que acredite su escolarización. En su caso, se valorará el esfuerzo de integración de la persona extranjera acreditado mediante el informe positivo de la Comunidad Autónoma de su lugar de residencia. Nota importante: cuando se aporten documentos de otros países deberán estar traducidos al castellano o lengua cooficial del territorio donde se presente la solicitud por un traductor jurado. Lista de traductores jurados. Por otro lado, todo documento público extranjero deberá ser previamente legalizado por la Oficina Consular de España con jurisdicción en el país en el que se ha expedido dicho documento o, en su caso, por el Ministerio de Asuntos Exteriores, Unión Europea y Cooperación salvo en el caso en que dicho documento haya sido apostillado por la Autoridad competente del país emisor según el Convenio de la Haya de 5 de octubre de 1961 y salvo que dicho documento esté exento de legalización en virtud de Convenio Internacional. Información sobre traducción y legalización de los documentos. PROCEDIMIENTO Sujeto legitimado para presentar la solicitud: la persona extranjera titular de la autorización de residencia temporal no lucrativa. Hoja informativa sobre sujetos legitimados. Lugar de presentación: Telemáticamente, a través de la sede electrónica del Ministerio de Política Territorial y Memoria Democrática (Mercurio). Información de la dirección, teléfonos y horarios de atención al público. Plazo de solicitud: durante los dos meses previos a la fecha de expiración de la vigencia de su autorización. También se puede solicitar dentro de los tres meses posteriores a la fecha en que hubiera finalizado la vigencia de la autorización, sin perjuicio de la posibilidad de que sea incoado el correspondiente procedimiento sancionador. La presentación de la solicitud en plazo prorroga la validez de la autorización anterior hasta la resolución del procedimiento. La autorización de residencia temporal renovada tendrá una vigencia de dos años, salvo que corresponda obtener una autorización de residencia de larga duración o de larga duración-UE. Tasa correspondiente: se devengará en el momento de presentación a trámite de la solicitud, y deberá abonarse en el plazo de diez días hábiles: Modelo 790 código 052, epígrafe 2.2.1. “renovación o prórroga de residencia temporal no lucrativa”. El impreso para el abono se podrá descargar desde esta página. Plazo de resolución de la solicitud: tres meses desde la presentación de la solicitud. Transcurrido dicho plazo sin que la Administración haya practicado la notificación, se podrá entender que la solicitud ha sido estimada por silencio administrativo. El órgano competente para conceder la autorización deberá expedir, previa solicitud del interesado, certificado que acredite la renovación por este motivo. (Cuando no se haya podido notificar la resolución se anunciará en el Tablón Edictal Único . Si se hubiera optado por notificación electrónica o normativamente se estuviera obligado a utilizar ese medio, la resolución se notificará mediante publicación en la sede electrónica. Si no se accediera a la resolución en diez días naturales desde su publicación, se dará por notificada). Notificación de la resolución. Cuando la notificación por medios electrónicos sea de carácter obligatorio, o haya sido expresamente elegida por el interesado, la administración la pondrá a su disposición en la dirección electrónica habilitada única y, en su caso, en forma complementaria, también en la sede electrónica correspondiente. Si el interesado no accediera a ella en diez días naturales, la notificación se entenderá rechazada. En los demás casos en los que proceda practicar la notificación en papel, esta se realizará en el domicilio del interesado y, si resultara infructuosa, se realizará por medio de un anuncio publicado en el Tablón Edictal Único (TEU). En el plazo de un mes desde la notificación de la renovación de la autorización de residencia temporal, la persona extranjera deberá solicitar la renovación de la tarjeta de identidad de extranjero en la Comisaría de Policía o servicios policiales competentes de su lugar de residencia. La documentación a aportar en la solicitud de la tarjeta de identidad de extranjero puede ser consultada en el siguiente enlace: https://sede.administracionespublicas.gob.es/procedimientos/index/categoria/34 7. Renovación de la autorización de residencia temporal no lucrativa File extension and size (pdf - 193 KB) Oculto Visualización del menú Trámites Destacados El Ministerio Inclusión Seguridad Social y Pensiones Migraciones Comunicación Estadísticas Inclusión, Seguridad Social y Migraciones Sede central del Ministerio: Calle de José Abascal, 39 - 28003 Madrid Visualización del menú Aviso legal Accesibilidad Mapa Web Privacidad Atención al usuario Subir al principio de la página.",
+      "sha256": "6c9911d9ca108293edabeb73aa853022ea875c90819ed62854e4a36b665e1ccb",
+      "research_relevance": {
+        "semantic_verification_required": true,
+        "source_type": "official_procedural_guidance"
+      }
+    }
+  ],
+  "topic_01_no_lucrativa/passage_aliases.json": {
+    "P001": "P_5171073277a6dcd7ded4509f6cc21979",
+    "P002": "P_69d24a5b50c4b0877434e6c4551980c9",
+    "P003": "P_fe8b9c9a41a55353c10bb58f35bd84c8"
+  },
+  "topic_01_no_lucrativa/research_round_01.json": {
+    "additional_articles": [
+      {
+        "article": 64,
+        "document": "BOE-A-2024-24099",
+        "reason": "Aportar el texto consolidado vigente del artículo 64 y, en su caso, las disposiciones transitorias aplicables, para verificar que la regla citada no ha sido modificada."
+      },
+      {
+        "article": 31,
+        "document": "BOE-A-2000-544",
+        "reason": "Comprobar el marco legal de la renovación y las consecuencias aplicables a solicitudes presentadas fuera del plazo expresamente descrito en el artículo 64."
+      },
+      {
+        "article": 52,
+        "document": "BOE-A-2000-544",
+        "reason": "Precisar la infracción a la que remite el artículo 64.1 cuando la solicitud se presenta tras la caducidad."
+      }
+    ],
+    "claims": [
+      {
+        "conditions": "Se refiere a quien ya es titular de una autorización de residencia temporal no lucrativa y solicita renovarla, no a una solicitud inicial.",
+        "exceptions": "",
+        "passage_ids": [
+          "P001"
+        ],
+        "section": "Plazo de solicitud",
+        "text": "La solicitud de renovación debe presentarse ante la oficina de extranjería competente durante los dos meses anteriores a la fecha de expiración de la autorización."
+      },
+      {
+        "conditions": "La solicitud se presenta dentro de los dos meses anteriores a la expiración, o dentro de los tres meses posteriores a la caducidad.",
+        "exceptions": "Si se presenta después de la caducidad, el artículo prevé que pueda incoarse un procedimiento sancionador por la infracción a la que remite el artículo 52.b) de la Ley Orgánica 4/2000.",
+        "passage_ids": [
+          "P001"
+        ],
+        "section": "Efectos de la presentación",
+        "text": "Presentar la solicitud dentro del plazo ordinario prorroga la validez de la autorización anterior hasta que se resuelva el procedimiento. El artículo 64 también atribuye ese efecto a la solicitud presentada dentro de los tres meses posteriores a la caducidad, sin perjuicio de la posible incoación del procedimiento sancionador indicado."
+      },
+      {
+        "conditions": "El plazo de resolución se cuenta desde la presentación de la solicitud.",
+        "exceptions": "",
+        "passage_ids": [
+          "P001"
+        ],
+        "section": "Resolución",
+        "text": "La Administración debe resolver y notificar la solicitud en el plazo de tres meses desde su presentación. Si transcurre ese plazo, el artículo 64 establece que la solicitud se entiende estimada."
+      }
+    ],
+    "gaps": [
+      {
+        "classification": "MATERIAL_LEGAL_GAP",
+        "passage_ids": [
+          "P001"
+        ],
+        "question": "¿Está vigente actualmente, sin modificaciones o reglas transitorias que alteren este resultado, el texto del artículo 64 citado?",
+        "reader_limitation": "Las reglas anteriores se exponen conforme al artículo 64 aportado, pero no puede certificarse con los datos suministrados que ese texto sea el vigente en la fecha de la solicitud.",
+        "reason": "La versión del BOE está fechada, pero la información suministrada no acredita por sí sola la vigencia actual ni descarta modificaciones posteriores."
+      },
+      {
+        "classification": "MATERIAL_LEGAL_GAP",
+        "passage_ids": [
+          "P001"
+        ],
+        "question": "¿Qué consecuencias y opciones corresponden si la solicitud se presenta después de los tres meses posteriores a la caducidad?",
+        "reader_limitation": "El artículo citado reconoce la prórroga hasta la resolución para solicitudes presentadas dentro de ese periodo de tres meses; no permite determinar aquí las consecuencias de una presentación posterior.",
+        "reason": "No debe inferirse que una solicitud posterior produzca la misma prórroga ni concluirse, sin más fundamento, que no existe ninguna otra opción. Se necesita contrastar el marco legal aplicable."
+      },
+      {
+        "classification": "OPTIONAL_PROCEDURAL_DETAIL",
+        "passage_ids": [
+          "P001"
+        ],
+        "question": "¿Cuál es el contenido concreto de la infracción del artículo 52.b) de la Ley Orgánica 4/2000 y qué consecuencias sancionadoras puede tener?",
+        "reader_limitation": "Puede advertirse que la presentación posterior a la caducidad dentro del periodo señalado no excluye la posible incoación de un procedimiento sancionador, pero no se detallan aquí la infracción ni sus consecuencias.",
+        "reason": "El artículo 64 remite al artículo 52.b), cuyo texto no se ha aportado; para describir la infracción y sus consecuencias habría que comprobar ese precepto."
+      }
+    ]
+  },
+  "topic_01_no_lucrativa/research_round_02.json": {
+    "additional_articles": [
+      {
+        "article": 52,
+        "document": "BOE-A-2000-544",
+        "reason": "El artículo 64.1 del Reglamento remite al artículo 52.b) de la Ley Orgánica 4/2000 al advertir de la posible incoación de un procedimiento sancionador si se presenta la renovación después de caducar la autorización. Se necesita su texto para detallar el alcance de esa posible sanción."
+      }
+    ],
+    "claims": [
+      {
+        "conditions": "La regla se refiere a quien solicita renovar una autorización de residencia temporal no lucrativa.",
+        "exceptions": "La solicitud también puede presentarse durante los tres meses posteriores a la caducidad, con los efectos y la salvedad sancionadora indicados a continuación.",
+        "passage_ids": [
+          "P001"
+        ],
+        "section": "Plazo ordinario de solicitud",
+        "text": "La solicitud de renovación debe presentarse ante la oficina de extranjería competente durante los dos meses anteriores a la fecha de expiración de la autorización. Presentarla en ese plazo prorroga la validez de la autorización anterior hasta que se resuelva el procedimiento; no equivale por sí sola a que la renovación ya haya sido concedida."
+      },
+      {
+        "conditions": "La presentación debe producirse dentro de los tres meses posteriores a la fecha en que terminó la vigencia de la autorización.",
+        "exceptions": "La presentación tardía puede dar lugar a la incoación del procedimiento sancionador previsto en el artículo 52.b) de la Ley Orgánica 4/2000; el artículo 64 no determina aquí el resultado de ese procedimiento.",
+        "passage_ids": [
+          "P001"
+        ],
+        "section": "Solicitud después de la caducidad",
+        "text": "Si no se solicitó la renovación en los dos meses previos, el artículo 64 permite presentarla dentro de los tres meses posteriores a la caducidad. También en ese caso la autorización anterior queda prorrogada hasta la resolución, pero la prórroga opera sin perjuicio de la posible incoación del procedimiento sancionador mencionado."
+      },
+      {
+        "conditions": "El plazo de tres meses se cuenta desde la presentación de la solicitud.",
+        "exceptions": "El artículo establece que, transcurrido ese plazo, la solicitud se entiende estimada.",
+        "passage_ids": [
+          "P001"
+        ],
+        "section": "Plazo de resolución",
+        "text": "La Administración debe resolver y notificar la solicitud en un plazo de tres meses desde su presentación. Si transcurre ese plazo sin resolución, el artículo 64 dispone que la solicitud se entiende estimada."
+      },
+      {
+        "conditions": "Para renovar, la persona debe ser titular de una autorización no lucrativa en vigor o encontrarse dentro de los tres meses posteriores a su caducidad, y cumplir los demás requisitos de renovación del artículo 64.2.",
+        "exceptions": "El artículo no atribuye expresamente a una solicitud presentada una vez transcurridos esos tres meses la prórroga de la autorización anterior prevista para las solicitudes presentadas en plazo.",
+        "passage_ids": [
+          "P001"
+        ],
+        "section": "Alcance del plazo",
+        "text": "Los plazos de presentación no sustituyen los requisitos para obtener la renovación. En particular, el Reglamento exige que la autorización siga en vigor o que la solicitud se presente dentro de los tres meses posteriores a su caducidad; dentro de ese periodo, la prórroga alcanza hasta la resolución, aunque la renovación dependerá de que se cumplan los requisitos aplicables."
+      }
+    ],
+    "gaps": [
+      {
+        "classification": "MATERIAL_LEGAL_GAP",
+        "passage_ids": [
+          "P001"
+        ],
+        "question": "¿Se mantiene vigente sin modificaciones posteriores el texto del artículo 64 del Real Decreto 1155/2024 que consta en la versión fechada el 20 de noviembre de 2024?",
+        "reader_limitation": "La respuesta expone la regla que figura en el texto consolidado aportado, pero no puede certificar con ese dato que no haya habido cambios posteriores.",
+        "reason": "El documento identifica una fecha de versión, pero indica que esta no constituye certificación de vigencia legal actual."
+      },
+      {
+        "classification": "MATERIAL_LEGAL_GAP",
+        "passage_ids": [
+          "P001"
+        ],
+        "question": "¿Qué infracción y consecuencias concretas regula el artículo 52.b) de la Ley Orgánica 4/2000 al que remite el artículo 64.1?",
+        "reader_limitation": "Solo puede afirmarse que presentar la solicitud dentro de los tres meses posteriores a la caducidad es compatible con la prórroga hasta la resolución, sin perjuicio de la posible incoación del procedimiento sancionador. No se detallan aquí la infracción ni sus consecuencias.",
+        "reason": "El artículo 52.b) de la Ley Orgánica 4/2000 no se ha aportado y es necesario para explicar con precisión la salvedad sancionadora."
+      }
+    ]
+  },
+  "topic_01_no_lucrativa/state.json": [
+    {
+      "state": "TOPIC_SELECTED",
+      "reason": "Renovación de residencia temporal no lucrativa: plazo de solicitud y efectos de presentarla",
+      "at": "2026-11-26T14:25:54.160319+00:00"
+    },
+    {
+      "state": "RESEARCH_IN_PROGRESS",
+      "reason": "Procedure-specific official starting points",
+      "at": "2026-11-26T14:25:54.160931+00:00"
+    },
+    {
+      "state": "RESEARCH_SOURCE_ERROR",
+      "reason": "BOE-A-2000-544:52 BOEError",
+      "at": "2026-11-26T14:25:56.586491+00:00"
+    },
+    {
+      "state": "EVIDENCE_AVAILABLE",
+      "reason": "3 complete official passages",
+      "at": "2026-11-26T14:25:57.963133+00:00"
+    },
+    {
+      "state": "REPAIR_REQUIRED",
+      "reason": "Empty or unsafe free-text field",
+      "at": "2026-11-26T14:26:28.332032+00:00"
+    },
+    {
+      "state": "EVIDENCE_AVAILABLE",
+      "reason": "3 complete official passages",
+      "at": "2026-11-26T14:26:28.336364+00:00"
+    },
+    {
+      "state": "ADDITIONAL_RESEARCH_REQUIRED",
+      "reason": "Targeted official cross-reference requests",
+      "at": "2026-11-26T14:26:48.353245+00:00"
+    },
+    {
+      "state": "BLOCKED_INSUFFICIENT_EVIDENCE",
+      "reason": "Material or unclassified gap remains: no candidate approval",
+      "at": "2026-11-26T14:26:48.353538+00:00"
+    }
+  ],
+  "topic_02_cuenta_propia/decision.json": {
+    "result": "BLOCKED_INSUFFICIENT_EVIDENCE",
+    "reason": "Material or unclassified gap remains: no candidate approval",
+    "topic": "Renovación de residencia y trabajo por cuenta propia: duración y efectos de la autorización",
+    "candidate_count": 0,
+    "automated_review_passed": false,
+    "simulated": false,
+    "legal_accuracy_certified": false,
+    "publication_allowed": false,
+    "human_legal_review_required": true
+  },
+  "topic_02_cuenta_propia/evidence.json": [
+    {
+      "evidence_id": "EV_2961392A312649CCFE87",
+      "source_id": "BOE-A-2024-24099",
+      "article": "86",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a8-8",
+      "retrieved_at": "2026-11-26T14:26:48.728084+00:00",
+      "version_date": "2024-11-20",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 86. Renovación de la autorización de residencia y trabajo por cuenta propia.\n1. La renovación de las autorizaciones de residencia temporal y trabajo por cuenta propia deberá solicitarse, en modelo oficial, durante los dos meses previos a la fecha de expiración de la vigencia de su autorización. La presentación de la solicitud en este plazo prorrogará la validez de la autorización anterior hasta la resolución del procedimiento. También se prorrogará hasta la resolución del procedimiento en el supuesto en que la solicitud se presentase dentro de los tres meses posteriores a la fecha en que hubiera finalizado la vigencia de la anterior autorización, sin perjuicio de la incoación del correspondiente procedimiento sancionador por la infracción prevista en el artículo 52.b) de la Ley Orgánica 4/2000.\n2. La autorización de residencia y trabajo por cuenta propia podrá ser renovada en los siguientes supuestos:\na) Cuando se acredite la continuidad en la actividad que dio lugar a la autorización que se renueva, previa comprobación de oficio del cumplimiento de sus obligaciones tributarias y de Seguridad Social.\nLos descubiertos en la cotización a la Seguridad Social no impedirán la renovación de la autorización, siempre que se acredite la realización habitual de la actividad. El órgano competente pondrá en conocimiento de la Inspección de Trabajo y Seguridad Social la situación de descubierto de cotización, a los efectos de que se lleven a cabo las actuaciones que procedan.\nb) Cuando un familiar, definido en los términos del artículo 66, cumpliera con los requisitos económicos para reagrupar a la persona trabajadora.\nc) Cuando por el órgano gestor competente, conforme a la normativa sobre la materia, se hubiera reconocido a la persona extranjera trabajadora autónoma la protección por cese de actividad.\nd) En el caso de trabajadores autónomos económicamente dependientes, cuando se produzca la interrupción o extinción del contrato por causas ajenas a la persona trabajadora autónoma, incluida la trabajadora autónoma económicamente dependiente que sea víctima de violencia de género o víctima de violencia sexual.\ne) Cuando la persona trabajadora se encuentre en alguna de las situaciones previstas en el artículo 38.6 b) y c) de la Ley Orgánica 4/2000, de 11 de enero.\n3. A la solicitud, en modelo oficial, deberá acompañar la documentación que acredite que sigue cumpliendo los requisitos que se exigen para la concesión inicial o, en su caso, de que concurre alguno de los supuestos previstos en los puntos b), c) y d) del apartado 2 de este artículo. En todo caso, la solicitud irá acompañada de informe emitido por las autoridades autonómicas competentes que acredite la escolarización de los menores a su cargo en edad de escolarización obligatoria.\n4. En caso de que a partir de la documentación presentada junto a la solicitud no quede acreditada la escolarización de los menores en edad de escolarización obligatoria que estén a cargo de la persona solicitante, la oficina de extranjería pondrá esta circunstancia en conocimiento de las autoridades educativas competentes, y advertirá expresamente y por escrito a la persona extranjera solicitante de que en caso de no producirse la escolarización y presentarse el correspondiente informe en el plazo de un mes, la autorización no será renovada.\n5. La oficina de extranjería para la tramitación del procedimiento comprobará de oficio la información sobre que la persona interesada está al corriente en el cumplimiento de sus obligaciones tributarias y de Seguridad Social, así como recabará el certificado de antecedentes penales y el informe policial de los servicios competentes y resolverá.\nSe valorará, en función de las circunstancias de cada supuesto, la posibilidad de renovar la autorización de residencia y trabajo a las personas extranjeras que hubieran sido condenadas por la comisión de un delito y hayan cumplido la condena, los que han sido indultadas o que se encuentren en la situación de remisión condicional de la pena o suspensión de la pena.\n6. Igualmente se valorará el esfuerzo de integración de la persona extranjera. Esta circunstancia se acreditará mediante la aportación, por parte de la persona extranjera, entre otros medios de prueba, de un informe favorable de los órganos competentes de la Comunidad Autónoma de su lugar de residencia que recomienden la renovación, principalmente en caso de que no acredite el cumplimiento de alguno de los requisitos previstos para la renovación de la autorización.\nEl informe, de ser favorable, certificará el conocimiento y respeto de los valores constitucionales de España, los valores estatutarios de la Comunidad Autónoma en que se resida, los valores de la Unión Europea, los derechos humanos, las libertades públicas, la democracia, la tolerancia y la igualdad entre mujeres y hombres, y en su caso, el aprendizaje de las lenguas oficiales del lugar de residencia.\nEn caso de que el informe no haya sido emitido en el plazo de un mes, circunstancia que habrá de ser debidamente acreditada por el interesado, podrá justificarse este requisito por cualquier medio de prueba admitido en Derecho.\nDicho esfuerzo de integración podrá ser alegado por la persona extranjera como información a valorar en caso de no acreditar el cumplimiento de alguno de los requisitos previstos para la renovación de la autorización.",
+      "sha256": "1d82feddf993af694679e130e15db298ba245ad04c1dde22c1e93ee03f69dc26"
+    },
+    {
+      "evidence_id": "EV_D3B7773BCE868F80F737",
+      "source_id": "BOE-A-2024-24099",
+      "article": "87",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a8-9",
+      "retrieved_at": "2026-11-26T14:26:49.204000+00:00",
+      "version_date": "2024-11-20",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 87. Efectos de la renovación de la autorización de residencia temporal y trabajo por cuenta propia.\n1. La autorización de residencia y trabajo por cuenta propia renovada tendrá una vigencia de cuatro años, salvo que corresponda una autorización de residencia de larga duración, y habilitará a trabajar por cuenta ajena y por cuenta propia en cualquier parte del territorio nacional y en cualquier sector de actividad. Los efectos de la autorización renovada se retrotraerán al día inmediatamente siguiente al de la caducidad de la autorización anterior.\n2. Se entenderá que la resolución es favorable en el supuesto de que la Administración no resuelva expresamente en el plazo de tres meses desde la presentación de la solicitud.",
+      "sha256": "90dd1e808d1bc714a0761b30730dc1ea41e5700de4aa54fb4f22759d7eb40250"
+    },
+    {
+      "evidence_id": "EV_0360318842AC74ED49D9",
+      "source_id": "migraciones",
+      "authority": "migraciones",
+      "document_title": "Hoja 15 — renovación por cuenta propia",
+      "article": null,
+      "official_url": "https://www.inclusion.gob.es/web/migraciones/w/15.-renovacion-de-la-autorizacion-de-residencia-temporal-y-trabajo-por-cuenta-propia",
+      "retrieval_url": "https://www.inclusion.gob.es/web/migraciones/w/15.-renovacion-de-la-autorizacion-de-residencia-temporal-y-trabajo-por-cuenta-propia",
+      "api_url": null,
+      "retrieved_at": "2026-11-26T14:26:50.633871+00:00",
+      "version_date": null,
+      "version_status": "GUIDANCE_DATE_NOT_VERIFIED",
+      "legal_status": "PROCEDURAL_GUIDANCE_UNVERIFIED",
+      "text": "Saltar al contenido principal Selecciona tu idioma Castellano Català Euskara Galego English Français Buscar Menú Trámites Destacados mostrar submenu Trámites Destacados Trámites Destacados: Pensiones Trámites Destacados: Altas y bajas de la Seguridad Social Trámites Destacados: Ayudas Trámites Destacados: Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) Directo a Trámites Destacados: Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) Trámites Destacados: Pensiones El Ministerio mostrar submenu El Ministerio ¿Quiénes somos? La Ministra Biografía de la Ministra El Ministerio en el mundo Organización administrativa del Ministerio de Inclusión, Seguridad Social y Migraciones Secretaría de Estado de Migraciones Secretaría de Estado de la Seguridad Social y Pensiones Secretaría General de Inclusión Subsecretaría de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Atención a la ciudadanía Canal Interno Información Quejas, sugerencias y felicitaciones Sede electrónica Empleo Público Acceso a empleo público Movilidad del empleado público Biblioteca Virtual Plan estratégico de subvenciones - PES Directo a ¿Quiénes somos? Organización administrativa del Ministerio de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Sede electrónica Biblioteca Virtual Inclusión mostrar submenu Inclusión ¿Quiénes somos? Ingreso Mínimo Vital Qué es el Complemento de Ayuda para la Infancia (CAPI) Estadísticas e Informes Laboratorio de Políticas de Inclusión Fondo de Impacto Social Más Información Órganos de gobernanza del IMV Registro de Mediadores sociales del IMV Sello de Inclusión Social Directo a Laboratorio de Políticas de Inclusión Sello de Inclusión Social Seguridad Social y Pensiones mostrar submenu Seguridad Social y Pensiones ¿Quiénes somos? Pensiones Altas y bajas Vida Laboral Autónomos Otras prestaciones Directo a Seguridad Social y Pensiones Migraciones mostrar submenu Migraciones ¿Quiénes somos? Integración Prioridades de integración OBERAXE Foro para la Integración Social de los Inmigrantes Vivir en España Tipos de autorización Normativa e instrucciones Criterios de Gestión Retorno voluntario Información útil Contacto Vivir en el extranjero Portal de la Ciudadanía Española en el Exterior Carta España Sistema de Acogida de Protección Internacional Cómo funciona y datos Personas destinatarias Entidades colaboradoras Reasentamiento y otros programas CRCP 2024-2025 Iniciativas para la inserción laboral Línea Acogida Informa Ucrania Urgente Atención Humanitaria Estadísticas Brexit. Derecho de los ciudadanos Directo a Red Europea de Migraciones (REM-EMN) OBERAXE Foro para la Integración Social de los Inmigrantes Fondos Europeos Proyectos de Migración Regular Unidad de Grandes Empresas y Colectivos Estratégicos Consejo General de la Ciudadanía Española en el Exterior Comunicación mostrar submenu Comunicación Noticias Buscador Redes Sociales Multimedia Galería Revistas Contacto para periodistas Directo a Noticias Redes Sociales Multimedia Galería Revistas Estadísticas mostrar submenu Estadísticas Migraciones Estadísticas de empleo y mercado laboral Estadísticas de pensiones y prestaciones Directo a Estadísticas Selecciona tu idioma Castellano Català Euskara Galego English Français Trámites Destacados mostrar submenu Trámites Destacados Pensiones Altas y bajas de la Seguridad Social Ayudas Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) El Ministerio mostrar submenu El Ministerio ¿Quiénes somos? mostrar submenu ¿Quiénes somos? La Ministra Biografías El Ministerio en el mundo Organización administrativa mostrar submenu Organización administrativa S.E. de Migraciones S.E. de la Seguridad Social y Pensiones S.G. de Inclusión Subsecretaría de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Atención a la ciudadanía mostrar submenu Atención a la ciudadanía Canal Interno Información Quejas, sugerencias y felicitaciones Sede electrónica Empleo Público mostrar submenu Empleo Público Acceso a empleo público Movilidad del empleado público Biblioteca Virtual Plan estratégico de subvenciones - PES Inclusión mostrar submenu Inclusión ¿Quiénes somos? IMV IMV - CAPI Estadísticas e informes Laboratorio de Políticas de Inclusión Fondo de Impacto Social Más Información mostrar submenu Más Información Órganos de gobernanza del IMV Registro de Mediadores sociales del IMV Sello de Inclusión Social Seguridad Social y Pensiones mostrar submenu Seguridad Social y Pensiones ¿Quiénes somos? Pensiones Altas y bajas Vida Laboral Autónomos Otras prestaciones Migraciones mostrar submenu Migraciones ¿Quiénes somos? Integración mostrar submenu Integración Prioridades de integración OBERAXE Foro para la Integración Social de los Inmigrantes Vivir en España mostrar submenu Vivir en España Tipos de autorización Normativa e instrucciones Criterios de Gestión Retorno voluntario Información útil Contacto Vivir en el extranjero mostrar submenu Vivir en el extranjero Portal de la Ciudadanía Española en el Exterior Carta España Sistema de Acogida de Protección Internacional mostrar submenu Sistema de Acogida de Protección Internacional Cómo funciona y datos Personas destinatarias Entidades colaboradoras Reasentamiento y otros programas CRCP 2024-2025 Iniciativas para la inserción laboral Línea Acogida Informa Ucrania Urgente Atención Humanitaria Estadísticas Brexit. Derecho de los ciudadanos Comunicación mostrar submenu Comunicación Noticias mostrar submenu Noticias Buscador Redes Sociales Multimedia Galería Revistas Contacto para periodistas Estadísticas mostrar submenu Estadísticas Migraciones Estadísticas de empleo y mercado laboral Estadísticas de pensiones y prestaciones twitter twitter Instagram youtube linkedin Hoja 15 - Renovación de la autorización de residencia temporal y trabajo por cuenta propia - Migraciones Inicio / Migraciones Vivir en España Tipos de autorización Normativa e instrucciones mostrar submenu Normativa e instrucciones Normativa UE, normativa internacional y jurisprudencia UE Instrucciones Criterios de Gestión Retorno voluntario Información útil mostrar submenu Información útil Trámites que se pueden realizar por Internet Modelos de solicitud Información de las comunidades autónomas y entidades locales Tiempo de tramitación de procedimientos (CORA) Preguntas frecuentes Reglamento de Extranjería Otra información Subvenciones Noticias Contacto Hoja 15 - Renovación de la autorización de residencia temporal y trabajo por cuenta propia * El contenido de esta página es meramente orientativo. Únicamente es de aplicación lo dispuesto en la normativa vigente en el momento de presentación de la solicitud. Última actualización: mayo de 2025 Índice de contenidos Tipo de Autorización Normativa básica Requisitos Documentación exigible Procedimiento TIPO DE AUTORIZACIÓN Es la renovación de la autorización de residencia temporal y trabajo por cuenta propia. NORMATIVA BÁSICA Ley Orgánica 4/2000, de 11 de enero, sobre derechos y libertades de los extranjeros en España y su integración social (artículos 25 bis, 36 y 37). Real Decreto 1155/2024, de 19 de noviembre, por el que se aprueba el Reglamento de la Ley Orgánica 4/2000, de 11 de enero, sobre derechos y libertades de los extranjeros en España y su integración social (artículos 86 y 87). REQUISITOS No ser ciudadano de un Estado de la Unión Europea, del Espacio Económico Europeo o de Suiza, o familiar de ciudadanos de estos países a los que les sea de aplicación el régimen de ciudadano de la Unión. Carecer de antecedentes penales en España y en los países donde haya residido los últimos cinco años, por delitos existentes en el ordenamiento español. No representar una amenaza para el orden público, la seguridad o salud pública No figurar como rechazable en el espacio territorial de países con los que España tenga firmado un convenio en tal sentido. En su caso, acreditar la escolarización de los menores a su cargo en edad de escolarización obligatoria. Poder acreditar uno de los siguientes supuestos: Continuar con la actividad que dio lugar a la autorización que se va a renovar, siempre que se hayan cumplido las obligaciones tributarias y de Seguridad Social. Cuando un familiar, definido en los términos del artículo 66 del Reglamento (familiares reagrupables), cumpliera con los requisitos económicos para reagrupar a la persona trabajadora. Ser beneficiario de la protección por cese de actividad. En el caso de trabajadores autónomos económicamente dependientes, cuando se produzca la interrupción o extinción del contrato por causas ajenas a la persona trabajadora autónoma, incluida la trabajadora autónoma económicamente dependiente que sea víctima de violencia de género o víctima de violencia sexual. Cuando la persona trabajadora se encuentre en alguna de las situaciones previstas en el artículo 38.6 b) y c) de la Ley Orgánica 4/2000, de 11 de enero: Cuando por la autoridad competente, conforme a la normativa de la Seguridad Social, se hubiera otorgado una prestación contributiva por desempleo. Cuando la persona extranjera sea beneficiaria de una prestación económica asistencial de carácter público destinada a lograr su inserción social o laboral. Abonar la tasa correspondiente por la tramitación del procedimiento. DOCUMENTACIÓN EXIGIBLE Nota: con carácter general se deberán aportar copias de los documentos y exhibir los originales en el momento de presentar la solicitud. Impreso de solicitud en modelo oficial (EX – 07), debidamente cumplimentado y firmado por el trabajador. Copia completa del pasaporte o título de viaje en vigor. En su caso, informe emitido por las autoridades autonómicas, o las competentes en cada caso, o del centro educativo que acredite la escolarización de los menores a su cargo que estén en edad de escolarización obligatoria. Documentación según el supuesto por el que se solicita la renovación: Si el familiar dispone de los requisitos económicos suficientes para reagrupar al trabajador. Documentación a aportar: Documentación acreditativa actualizada del vínculo familiar. Acreditación de los medios económicos. Si tiene otorgada protección por cese de actividad. Documentación a aportar: Acreditación de la concesión de la protección. Si se produce la interrupción o extinción del contrato por causas ajenas a la persona trabajadora autónoma: Documentación a aportar: Documentación acreditativa de la interrupción o extinción del contrato por causa ajena a su voluntad. En el supuesto de no poder acreditar alguno de los requisitos exigidos, se podrá aportar, para valoración por la Oficina de Extranjería, de un informe positivo de esfuerzo de integración de la Comunidad Autónoma de su lugar de residencia en el que conste la participación en acciones formativas y el conocimiento de las lenguas oficiales. Nota importante: cuando se aporten documentos de otros países deberán estar traducidos al castellano o lengua cooficial del territorio donde se presente la solicitud por un traductor jurado. Lista de traductores jurados. Por otro lado, todo documento público extranjero deberá ser previamente legalizado por la Oficina Consular de España con jurisdicción en el país en el que se ha expedido dicho documento o, en su caso, por el Ministerio de Asuntos Exteriores, Unión Europea y Cooperación salvo en el caso en que dicho documento haya sido apostillado por la Autoridad competente del país emisor según el Convenio de la Haya de 5 de octubre de 1961 y salvo que dicho documento esté exento de legalización en virtud de Convenio Internacional. Información sobre traducción y legalización de los documentos. PROCEDIMIENTO Sujeto legitimado para presentar la solicitud: el trabajador personalmente o mediante representación. Hoja informativa sobre sujetos legitimados Lugar de presentación: Telemáticamente, a través de la sede electrónica del Ministerio de Política Territorial y Memoria Democrática (Mercurio). Información de la dirección, teléfonos y horarios de atención al público. Plazo de solicitud: durante los dos meses previos a la fecha de expiración de la vigencia de la autorización. También se puede solicitar dentro de los tres meses posteriores a la fecha en que hubiera finalizado la vigencia de la autorización, sin perjuicio de la posibilidad de que sea incoado el correspondiente procedimiento sancionador. La presentación de la solicitud en plazo prorroga la validez de la autorización anterior hasta la resolución del procedimiento. Tasas correspondientes de residencia y trabajo: se devengarán en el momento depresentación de la solicitud, y deberán abonarse en el plazo de diez días hábiles: Modelo 790 código 052, epígrafe 2.2.3. “renovación de residencia temporal y trabajo por cuenta ajena y propia”. Modelo 790 cógido 062, epígrafe 3.3.2 “autorización de trabajo para autorizaciones renovadas de residencia temporal de trabajo por cuenta propia”. El impreso para el abono se podrá descargar desde esta página. Plazo de resolución de la solicitud: tres meses contados a partir del día siguiente a la fecha en que haya tenido entrada en el registro del órgano competente para su tramitación. Transcurrido dicho plazo sin que la Administración haya practicado la notificación, se podrá entender que la solicitud ha sido estimada por silencio administrativo. (Cuando no se haya podido notificar la resolución se anunciará en el Tablón Edictal Único (TEU) Si se hubiera optado por notificación electrónica o normativamente estuviera obligado a utilizar ese medio, la resolución se notificará mediante publicación en la sede electrónica. Si no se accediera a la resolución en diez días naturales desde su publicación, se dará por notificada). La vigencia de la renovación de la autorización de residencia y trabajo por cuenta propia es de cuatro años, salvo que corresponda una autorización de residencia de larga duración, y habilitará a trabajar por cuenta ajena y por cuenta propia en cualquier parte del territorio nacional y en cualquier sector de actividad. En el plazo de un mes desde la notificación de la renovación, el trabajador deberá solicitar personalmente la tarjeta de identidad de extranjero en la Comisaría de Policía o servicios policiales competentes de su lugar de residencia. La documentación a aportar en la solicitud de la tarjeta de identidad de extranjero puede ser consultada en el siguiente enlace: https://sede.administracionespublicas.gob.es/procedimientos/index/categoria/34 15. Renovación de la autorización de residencia temporal y trabajo por cuenta propia File extension and size (pdf - 187 KB) Oculto Visualización del menú Trámites Destacados El Ministerio Inclusión Seguridad Social y Pensiones Migraciones Comunicación Estadísticas Inclusión, Seguridad Social y Migraciones Sede central del Ministerio: Calle de José Abascal, 39 - 28003 Madrid Visualización del menú Aviso legal Accesibilidad Mapa Web Privacidad Atención al usuario Subir al principio de la página.",
+      "sha256": "0360318842ac74ed49d9dfa831bc886ad26090d51ccf5a1e734ddb77da9bf25f",
+      "research_relevance": {
+        "semantic_verification_required": true,
+        "source_type": "official_procedural_guidance"
+      }
+    }
+  ],
+  "topic_02_cuenta_propia/passage_aliases.json": {
+    "P001": "P_df4487df8a96325233ac5bf0e65e5037",
+    "P002": "P_40613617afc99fdd0d209227a5561b7f",
+    "P003": "P_9fe0a7e730a9d0f3a5e8703f2305f3cb"
+  },
+  "topic_02_cuenta_propia/research_round_01.json": {
+    "additional_articles": [
+      {
+        "article": 87,
+        "document": "BOE-A-2024-24099",
+        "reason": "Para comprobar si el texto del artículo 87 continúa vigente en la fecha de respuesta, ya que la versión aportada está fechada el 20 de noviembre de 2024 y no certifica por sí sola su vigencia actual."
+      },
+      {
+        "article": 32,
+        "document": "BOE-A-2000-544",
+        "reason": "Para precisar el supuesto de excepción de residencia de larga duración al que remite el artículo 87 y sus condiciones."
+      }
+    ],
+    "claims": [
+      {
+        "conditions": "Se refiere a la autorización de residencia temporal y trabajo por cuenta propia ya renovada.",
+        "exceptions": "La duración será distinta si corresponde una autorización de residencia de larga duración.",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "Duración de la renovación",
+        "text": "La autorización renovada tiene una vigencia de cuatro años, salvo que corresponda una autorización de residencia de larga duración."
+      },
+      {
+        "conditions": "El efecto indicado se aplica a la autorización renovada respecto de la autorización anterior que caducó.",
+        "exceptions": "",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "Efectos de la renovación",
+        "text": "Los efectos de la autorización renovada se retrotraen al día inmediatamente siguiente al de la caducidad de la autorización anterior."
+      },
+      {
+        "conditions": "El alcance habilitante corresponde a la autorización renovada.",
+        "exceptions": "",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "Efectos de la renovación",
+        "text": "La renovación habilita para trabajar por cuenta ajena y por cuenta propia, en cualquier parte del territorio nacional y en cualquier sector de actividad."
+      },
+      {
+        "conditions": "El plazo de tres meses se cuenta desde la presentación de la solicitud.",
+        "exceptions": "La regla se refiere a que la Administración no resuelva expresamente dentro de ese plazo.",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "Resolución por silencio",
+        "text": "Si la Administración no resuelve expresamente en los tres meses siguientes a la presentación de la solicitud, la resolución se entiende favorable."
+      }
+    ],
+    "gaps": [
+      {
+        "classification": "MATERIAL_LEGAL_GAP",
+        "passage_ids": [
+          "P002"
+        ],
+        "question": "¿Continúa vigente actualmente este texto del artículo 87?",
+        "reader_limitation": "La información permite exponer la regla según la versión fechada el 20 de noviembre de 2024, pero no confirmar que siga siendo el texto vigente en la fecha de respuesta.",
+        "reason": "La versión aportada indica que la fecha fue localizada, pero no certifica la vigencia legal actual."
+      },
+      {
+        "classification": "MATERIAL_LEGAL_GAP",
+        "passage_ids": [
+          "P002"
+        ],
+        "question": "¿Cuándo corresponde, en lugar de la renovación de cuatro años, una autorización de residencia de larga duración?",
+        "reader_limitation": "Puede explicarse que la duración de cuatro años tiene esa excepción, pero no determinar sus requisitos con el pasaje aportado.",
+        "reason": "El artículo 87 menciona la excepción, pero no contiene las condiciones para acceder a la residencia de larga duración."
+      }
+    ]
+  },
+  "topic_02_cuenta_propia/research_round_02.json": {
+    "additional_articles": [
+      {
+        "article": 32,
+        "document": "BOE-A-2000-544",
+        "reason": "Para explicar cuándo corresponde la excepción de residencia de larga duración a la vigencia de cuatro años, hace falta consultar la regulación de esa autorización."
+      },
+      {
+        "article": 87,
+        "document": "BOE-A-2024-24099",
+        "reason": "Para confirmar que la regla sobre duración y efectos coincide con el texto consolidado vigente en la fecha de la consulta."
+      }
+    ],
+    "claims": [
+      {
+        "conditions": "Se refiere a la autorización de residencia temporal y trabajo por cuenta propia una vez renovada.",
+        "exceptions": "La duración de cuatro años no se aplica cuando corresponda una autorización de residencia de larga duración.",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "Duración de la renovación",
+        "text": "Según el artículo 87 del Reglamento de Extranjería, la autorización renovada tiene una vigencia de cuatro años, salvo que corresponda una autorización de residencia de larga duración."
+      },
+      {
+        "conditions": "Los efectos indicados corresponden a la autorización renovada.",
+        "exceptions": "La habilitación para trabajar se limita a los efectos de la autorización renovada; el artículo citado no detalla aquí los requisitos para obtener la residencia de larga duración.",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "Efectos de la renovación",
+        "text": "La renovación habilita para trabajar tanto por cuenta ajena como por cuenta propia, en cualquier parte del territorio nacional y en cualquier sector de actividad. Sus efectos se retrotraen al día inmediatamente siguiente al de la caducidad de la autorización anterior."
+      },
+      {
+        "conditions": "El plazo se cuenta desde la presentación de la solicitud de renovación.",
+        "exceptions": "La regla se refiere al supuesto en que la Administración no resuelva expresamente dentro de esos tres meses.",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "Resolución por silencio",
+        "text": "Si la Administración no resuelve expresamente en el plazo de tres meses desde la presentación de la solicitud, el artículo 87 establece que se entenderá favorable la resolución."
+      },
+      {
+        "conditions": "La solicitud se presenta dentro de los dos meses anteriores al vencimiento o dentro de los tres meses posteriores a la finalización de la autorización.",
+        "exceptions": "Si se presenta después del vencimiento, puede incoarse el procedimiento sancionador previsto en el artículo 52.b) de la Ley Orgánica 4/2000.",
+        "passage_ids": [
+          "P001"
+        ],
+        "section": "Continuidad mientras se tramita",
+        "text": "La solicitud presentada durante los dos meses anteriores al vencimiento prorroga la validez de la autorización anterior hasta que se resuelva el procedimiento. También la prorroga si se presenta dentro de los tres meses posteriores a la finalización de su vigencia, sin perjuicio de la posible incoación del procedimiento sancionador indicado por la norma."
+      }
+    ],
+    "gaps": [
+      {
+        "classification": "MATERIAL_LEGAL_GAP",
+        "passage_ids": [
+          "P002"
+        ],
+        "question": "¿En qué condiciones corresponde una autorización de residencia de larga duración en lugar de la renovación de cuatro años?",
+        "reader_limitation": "Con la información disponible puede explicarse que la autorización renovada dura cuatro años salvo esa excepción, pero no determinar cuándo se cumple la excepción.",
+        "reason": "El artículo 87 aportado menciona la residencia de larga duración, pero no establece sus requisitos. Para precisar ese extremo se necesita la regulación de la residencia de larga duración, en particular el artículo 32 de la Ley Orgánica 4/2000."
+      },
+      {
+        "classification": "MATERIAL_LEGAL_GAP",
+        "passage_ids": [
+          "P002"
+        ],
+        "question": "¿Sigue vigente sin cambios, en la fecha de consulta, la regla del artículo 87 reproducida en la versión fechada el 20 de noviembre de 2024?",
+        "reader_limitation": "La respuesta expone lo que establece el texto oficial suministrado, pero no permite certificar por sí sola que no haya modificaciones posteriores.",
+        "reason": "La fecha de la versión consolidada está identificada, pero los datos aportados no certifican su vigencia actual ni descartan reformas posteriores."
+      }
+    ]
+  },
+  "topic_02_cuenta_propia/state.json": [
+    {
+      "state": "TOPIC_SELECTED",
+      "reason": "Renovación de residencia y trabajo por cuenta propia: duración y efectos de la autorización",
+      "at": "2026-11-26T14:26:48.354483+00:00"
+    },
+    {
+      "state": "RESEARCH_IN_PROGRESS",
+      "reason": "Procedure-specific official starting points",
+      "at": "2026-11-26T14:26:48.355029+00:00"
+    },
+    {
+      "state": "RESEARCH_SOURCE_ERROR",
+      "reason": "BOE-A-2000-544:52 BOEError",
+      "at": "2026-11-26T14:26:49.535709+00:00"
+    },
+    {
+      "state": "EVIDENCE_AVAILABLE",
+      "reason": "3 complete official passages",
+      "at": "2026-11-26T14:26:50.638547+00:00"
+    },
+    {
+      "state": "REPAIR_REQUIRED",
+      "reason": "Empty or unsafe free-text field",
+      "at": "2026-11-26T14:27:06.621482+00:00"
+    },
+    {
+      "state": "EVIDENCE_AVAILABLE",
+      "reason": "3 complete official passages",
+      "at": "2026-11-26T14:27:06.625522+00:00"
+    },
+    {
+      "state": "ADDITIONAL_RESEARCH_REQUIRED",
+      "reason": "Targeted official cross-reference requests",
+      "at": "2026-11-26T14:27:25.635128+00:00"
+    },
+    {
+      "state": "RESEARCH_SOURCE_ERROR",
+      "reason": "BOE-A-2000-544:32 BOEError",
+      "at": "2026-11-26T14:27:25.971259+00:00"
+    },
+    {
+      "state": "BLOCKED_INSUFFICIENT_EVIDENCE",
+      "reason": "Material or unclassified gap remains: no candidate approval",
+      "at": "2026-11-26T14:27:25.971649+00:00"
+    }
+  ],
+  "usage.json": {
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "status": "COMPLETED",
+        "reserved_usd": 0.0057018,
+        "input_token_upper_estimate": 32018,
+        "max_output_tokens": 5000,
+        "stage": "research",
+        "usage": {
+          "input_tokens": 5668,
+          "input_tokens_details": {
+            "cache_write_tokens": 5665,
+            "cache_write_tokens_details": {
+              "ttl_12h_tokens": 0,
+              "ttl_30m_tokens": 5665
+            },
+            "cached_tokens": 0
+          },
+          "output_tokens": 3272,
+          "output_tokens_details": {
+            "reasoning_tokens": 2389
+          },
+          "total_tokens": 8940
+        },
+        "response_id": "resp_05650d094ed7d5ea016b0841769f6887d2831d11a03d92adc5",
+        "response_model": "gpt-6-luna"
+      },
+      {
+        "model": "gpt-6-luna",
+        "status": "COMPLETED",
+        "reserved_usd": 0.005707200000000001,
+        "input_token_upper_estimate": 32072,
+        "max_output_tokens": 5000,
+        "stage": "research",
+        "usage": {
+          "input_tokens": 5679,
+          "input_tokens_details": {
+            "cache_write_tokens": 5676,
+            "cache_write_tokens_details": {
+              "ttl_12h_tokens": 0,
+              "ttl_30m_tokens": 5676
+            },
+            "cached_tokens": 0
+          },
+          "output_tokens": 2461,
+          "output_tokens_details": {
+            "reasoning_tokens": 1497
+          },
+          "total_tokens": 8140
+        },
+        "response_id": "resp_076d9a6ac567b588016b084194821487d2950a283b13c9b504",
+        "response_model": "gpt-6-luna"
+      },
+      {
+        "model": "gpt-6-luna",
+        "status": "COMPLETED",
+        "reserved_usd": 0.0055795,
+        "input_token_upper_estimate": 30795,
+        "max_output_tokens": 5000,
+        "stage": "research",
+        "usage": {
+          "input_tokens": 5450,
+          "input_tokens_details": {
+            "cache_write_tokens": 5447,
+            "cache_write_tokens_details": {
+              "ttl_12h_tokens": 0,
+              "ttl_30m_tokens": 5447
+            },
+            "cached_tokens": 0
+          },
+          "output_tokens": 1964,
+          "output_tokens_details": {
+            "reasoning_tokens": 1347
+          },
+          "total_tokens": 7414
+        },
+        "response_id": "resp_074c4bd1ed63f83b016b0841aac39087d2a5a7b893cc2b2bd3",
+        "response_model": "gpt-6-luna"
+      },
+      {
+        "model": "gpt-6-luna",
+        "status": "COMPLETED",
+        "reserved_usd": 0.005584899999999999,
+        "input_token_upper_estimate": 30849,
+        "max_output_tokens": 5000,
+        "stage": "research",
+        "usage": {
+          "input_tokens": 5461,
+          "input_tokens_details": {
+            "cache_write_tokens": 5458,
+            "cache_write_tokens_details": {
+              "ttl_12h_tokens": 0,
+              "ttl_30m_tokens": 5458
+            },
+            "cached_tokens": 0
+          },
+          "output_tokens": 2282,
+          "output_tokens_details": {
+            "reasoning_tokens": 1302
+          },
+          "total_tokens": 7743
+        },
+        "response_id": "resp_0c02b1ad5bc5c208016b0841bac0d487d2a484b8d56c3c0896",
+        "response_model": "gpt-6-luna"
+      }
+    ],
+    "documents": [
+      {
+        "key": "BOE-A-2024-24099:index",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "BOE-A-2024-24099:64",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "BOE-A-2024-24099:62",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "BOE-A-2000-544:index",
+        "status": "ERROR",
+        "error": "AMBIGUOUS_INDEX"
+      },
+      {
+        "key": "https://www.inclusion.gob.es/web/migraciones/w/renovacion-de-la-autorizacion-de-residencia-temporal-no-lucrativa",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "BOE-A-2024-24099:86",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "BOE-A-2024-24099:87",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "BOE-A-2000-544:index",
+        "status": "ERROR",
+        "error": "AMBIGUOUS_INDEX"
+      },
+      {
+        "key": "https://www.inclusion.gob.es/web/migraciones/w/15.-renovacion-de-la-autorizacion-de-residencia-temporal-y-trabajo-por-cuenta-propia",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "BOE-A-2000-544:index",
+        "status": "ERROR",
+        "error": "AMBIGUOUS_INDEX"
+      }
+    ],
+    "estimated_usd": 0.007215,
+    "conservative_budget_debit_usd": 0.022573,
+    "elapsed_seconds": 91.82,
+    "publication_allowed": false
+  }
+}

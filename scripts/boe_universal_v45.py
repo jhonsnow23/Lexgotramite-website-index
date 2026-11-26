@@ -80,12 +80,13 @@ def _number_of(s):
     if w and w.group(1).lower() in SPELLED:return (SPELLED[w.group(1).lower()],'')
     return None
 
-def index_map(root):
+def index_map(root, *, requested_articles=None):
     """Extract article=>block IDs from leaf-like index records.
 
     Never derive the number from a generic aNN ID alone: it may be an unrelated
     structure and earlier attempts trusted that guess. Header must identify it.
     """
+    wanted=None if requested_articles is None else {(int(n),'') for n in requested_articles}
     result={}; candidates=[]; index_ids={}
     for n in root.iter():
         if tag(n) not in ('bloque','item','elemento','entrada','registro','precepto','articulo','artículo'):
@@ -102,6 +103,7 @@ def index_map(root):
                     header=_number_of(txt(c))
                     if header:break
         if header:
+            if wanted is not None and header not in wanted: continue
             # A caption identifies an article more strongly than its opaque block ID.
             # Old BOE indices may reuse aNN identifiers for different structures.
             candidates.append((header,bid,title))
@@ -109,6 +111,7 @@ def index_map(root):
             # Use the actual observed index identifier only as an unconfirmed
             # fallback. The fetched provision heading must still match.
             key=(int(bm.group(1)),(bm.group(2) or '').lower())
+            if wanted is not None and key not in wanted: continue
             if key in index_ids and index_ids[key]!=bid:
                 # Ambiguous weak candidates must not block unrelated articles.
                 index_ids[key]=None
@@ -142,13 +145,21 @@ def version_nodes(root):
     return matches if matches else [root]
 
 
+def version_date_basis(node):
+    # BOE publication of a version is not the date of entry into force.
+    for key in ('fecha_vigencia','fecha_inicio','fecha_publicacion'):
+        raw=_attr(node,key) or _direct(node,key)
+        if raw: return parse_date(raw),key
+    return None,None
+
+
 def version_choice(root, *, as_of=None):
     target=as_of or dt.datetime.now(dt.timezone.utc).date()
     versions=version_nodes(root)
     dates=[]
     for node in versions:
         # Both attributes and direct child nodes occur in real/fixture formats.
-        start=parse_date(_attr(node,'fecha_vigencia','fecha_inicio','fecha_publicacion') or _direct(node,'fecha_vigencia','fecha_inicio','fecha_publicacion'))
+        start,_=version_date_basis(node)
         dates.append((start,node))
     if len(dates)>1 and any(d is None for d,_ in dates):
         raise BOEError('VERSION_UNCERTAIN','Multiple versions and one or more lack applicable dates')
@@ -196,7 +207,7 @@ def retrieve(doc_id, articles, *, opener=urllib.request.urlopen, as_of=None, max
     selected=list(dict.fromkeys(int(a) for a in articles)); index_url=f'{BASE}{doc_id}/texto/indice'
     if verified_index_mapping is None:
         root,index_sha=api_get(index_url,opener=opener)
-        mapping=index_map(root)
+        mapping=index_map(root,requested_articles=selected)
     else:
         # Optimization for legal-relevance discovery: it already fetched the
         # official index and extracted real observed IDs. Never infer IDs.
@@ -227,7 +238,12 @@ def retrieve(doc_id, articles, *, opener=urllib.request.urlopen, as_of=None, max
         if len(body)<45:raise BOEError('INSUFFICIENT_TEXT',f'Article {number} too short',url=u)
         total+=len(body)
         if total>max_context:raise BOEError('CONTEXT_LIMIT','Selected legal provisions exceed AI evidence budget')
-        output.append({'source_id':doc_id,'article':str(number),'block_id':blockid,'api_url':u,'text':body,'sha256':sha,'version_date':version_date,'version_status':version_status,'retrieved_at':dt.datetime.now(dt.timezone.utc).isoformat(),'legal_status':'UNVERIFIED'})
+        dates=[version_date_basis(v)[0] for v in version_nodes(item)]
+        _,date_basis=version_date_basis(node)
+        selection_date=as_of or dt.datetime.now(dt.timezone.utc).date()
+        output.append({'version_date_basis':date_basis,'selected_as_of':selection_date.isoformat(),
+                       'available_version_dates':sorted(d.isoformat() for d in dates if d is not None),
+                       'version_count':len(dates),'source_id':doc_id,'article':str(number),'block_id':blockid,'api_url':u,'text':body,'sha256':sha,'version_date':version_date,'version_status':version_status,'retrieved_at':dt.datetime.now(dt.timezone.utc).isoformat(),'legal_status':'UNVERIFIED'})
     return {'source_id':doc_id,'official_url':f'https://www.boe.es/buscar/act.php?id={doc_id}', 'provisions':output,'index_sha256':index_sha,'evidence_text':'\n\n'.join(f'Artículo {r["article"]}.\n{r["text"]}' for r in output),'informative_consolidation':True}
 
 
