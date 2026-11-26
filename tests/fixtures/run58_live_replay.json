@@ -1,0 +1,1263 @@
+{
+  "evidence.json": [
+    {
+      "evidence_id": "EV_26E757A26A4E3EA50EE0",
+      "source_id": "BOE-A-2024-24099",
+      "article": "132",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a1-44",
+      "retrieved_at": "2026-11-26T14:50:18.039862+00:00",
+      "version_date": "2026-04-16",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 132. Prórroga de la autorización de residencia temporal por circunstancias excepcionales.\n1. En virtud de su carácter excepcional, las autorizaciones previstas en este capítulo, así como sus prórrogas, tendrán una vigencia de un año salvo la autorización por circunstancias excepcionales por arraigo familiar que tendrá una duración de cinco años, sin perjuicio de las especificidades establecidas en este artículo y en la normativa sobre protección internacional.\nEn los supuestos de autorización de residencia temporal por razones humanitarias derivadas de enfermedad grave, la autorización de residencia tendrá la vigencia de un año y se podrá prorrogar por periodos sucesivos de un año siempre que sea necesario para completar el tratamiento.\n2. Requisitos específicos para la prórroga:\na) La prórroga de la autorización concedida por arraigo de segunda oportunidad, sociolaboral o social, estará condicionada a la acreditación de encontrarse en situación de búsqueda activa de empleo y debidamente inscrito en el servicio público de empleo. No obstante, se podrá prorrogar sin necesidad de acreditar los anteriores requisitos si concurren circunstancias que impidan el acceso al empleo por razones debidamente justificadas, tales como, enfermedad o discapacidad o haber alcanzado la edad legal de jubilación.\nb) La prórroga de la autorización concedida por arraigo socioformativo estará condicionada al informe del centro correspondiente que certifique la promoción al segundo curso, en el caso de los ciclos formativos de grado básico o grado medio. En el supuesto de que se hubiera terminado la formación antes de finalizar el año, la prórroga se condicionará a la prueba del título o certificado obtenido y a encontrase en situación de búsqueda activa de empleo y debidamente inscrito en el servicio público de empleo.\nc) Las personas titulares de una autorización concedida por la persona titular de la Secretaría de Estado de Seguridad, o autoridad en quien delegue, podrán prorrogar la autorización por periodos sucesivos de un año siempre que se aprecie por las autoridades competentes que persisten las razones que motivaron su concesión. Solamente en el caso de que las autoridades concluyesen que han cesado las razones que motivaron su concesión, podrán solicitar una autorización de residencia o una autorización de residencia y trabajo de acuerdo con lo previsto en el artículo 191 de este Reglamento.\n3. Las personas extranjeras podrán solicitar la prórroga de la autorización por circunstancias excepcionales, durante los dos meses previos a la fecha de expiración de su autorización. La presentación de la solicitud en este plazo prorroga la validez de la autorización anterior hasta la resolución del procedimiento. También se prorrogará hasta la resolución del procedimiento en el supuesto en que la solicitud se presentase dentro de los tres meses posteriores a la fecha en que hubiera finalizado la vigencia de la anterior autorización, sin perjuicio de la incoación del correspondiente procedimiento sancionador por la infracción prevista en el artículo 52.b) de la Ley Orgánica 4/2000.",
+      "sha256": "ffdf31d810efbdcfe0dcc74e8b12dac36356a47b34b678300287b4ef805fe762",
+      "version_date_basis": "fecha_vigencia",
+      "selected_as_of": "2026-11-26",
+      "available_version_dates": [
+        "2025-05-20",
+        "2026-04-16"
+      ],
+      "version_count": 2,
+      "document_metadata": {
+        "status": "RETRIEVED",
+        "retrieved_at": "2026-11-26T14:50:18.444612+00:00",
+        "sha256": "01391d2c574161707f9dca1d01bbdaa823f22551c54ce15c9e73aac34b0456d6",
+        "fecha_actualizacion": "20260922T125401Z",
+        "fecha_publicacion": "20241120",
+        "fecha_vigencia": "20250520",
+        "estado_consolidacion": "Finalizado"
+      }
+    },
+    {
+      "evidence_id": "EV_655663435409FE17E5A4",
+      "source_id": "BOE-A-2024-24099",
+      "article": "127",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a1-39",
+      "retrieved_at": "2026-11-26T14:50:18.771761+00:00",
+      "version_date": "2026-04-16",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 127. Requisitos específicos.\nLa persona extranjera solicitante deberá cumplir, además de los requisitos generales del artículo anterior, los siguientes requisitos específicos en función de la razón del arraigo:\na) Para el arraigo de segunda oportunidad, haber sido titular de una autorización de residencia, que no hubiera sido otorgada por circunstancias excepcionales, en los dos años inmediatamente anteriores a la fecha de presentación de la solicitud, y cuya renovación no se hubiera producido por motivos distintos a razones de orden público, seguridad y salud pública. No obstante, será posible solicitarlo si existe sentencia denegatoria, sobreseimiento o absolución de la pena.\nb) Para el arraigo sociolaboral, la aportación de uno o varios contratos de trabajo que garantice al menos el salario mínimo interprofesional o el salario establecido, en su caso, en el convenio colectivo aplicable, en el momento de la solicitud, en proporción a la jornada trabajada, y cuya suma represente una jornada semanal no inferior a veinte horas en cómputo global. Podrá aportarse más de un contrato de trabajo en los siguientes supuestos:\n1.º En el caso de la realización de trabajos de naturaleza estacional o vinculados a actividades productivas de temporada se podrán presentar dos o más contratos, con distintos empleadores y concatenados.\n2.º En el caso de desarrollo de actividades en una misma o distinta ocupación, trabajando parcialmente y de manera simultánea para más de un empleador, se admitirá la presentación de varios contratos.\nEl empleador o empleadores deberá cumplir los requisitos del artículo 74 excepto lo establecido en el apartado 1.a).\nc) Para el arraigo social, siempre que existan vínculos familiares con otras personas extranjeras titulares de una autorización de residencia y que se justifique disponer de medios económicos suficientes para su mantenimiento que, en todo caso, deberán alcanzar, al menos, el 100 % del IPREM. Estos vínculos familiares se referirán al cónyuge o pareja registrada y a los familiares en primer grado en línea directa. En caso de que no se acredite la existencia de ese tipo de vínculos familiares se valorará el esfuerzo de integración de la persona extranjera. Los medios económicos deberán estar disponibles en España y podrán proceder de los familiares mencionados en este párrafo. Si se cumplen los requisitos del artículo 84, se podrá alegar que los medios proceden de una actividad por cuenta propia.\nEl esfuerzo de integración se acreditará mediante la aportación de un informe sobre la integración social favorable emitido por los órganos competentes de la Comunidad Autónoma de su lugar de residencia. Dicho informe podrá ser emitido por la Corporación local en la que el extranjero tenga su domicilio habitual, cuando así haya sido establecido por la Comunidad Autónoma competente, siempre que ello haya sido previamente puesto en conocimiento de la Secretaría de Estado de Migraciones. En ambos casos el informe deberá ser emitido en el plazo de un mes desde su solicitud.\nEl informe sobre la integración social hará constar, entre otros factores de arraigo que puedan acreditarse por las diferentes Administraciones competentes, el tiempo de permanencia de la persona interesada en su domicilio habitual, los medios económicos con los que cuente, y los esfuerzos de integración a través del seguimiento de programas de inserción sociolaborales y culturales. Simultáneamente y por medios electrónicos, la Comunidad Autónoma o la Corporación local deberá dar traslado del informe a la Oficina de Extranjería competente.\nPara la emisión del informe, el órgano autonómico competente, en su caso, podrá realizar consulta al Ayuntamiento donde el extranjero tenga su domicilio habitual sobre la información que pueda incorporar al mismo.\nEn caso de que el informe no haya sido emitido en plazo, circunstancia que habrá de ser debidamente acreditada por el interesado, podrá justificarse este requisito por cualquier medio de prueba.\nd) Para el arraigo socioformativo estar matriculado o estar cursando alguna de las formaciones referidas en los artículos 52.1.b) y 52.1.e) 5.º, en este último caso incluido también el nivel uno, así como la oferta presencial correspondiente a las enseñanzas obligatorias dentro de la educación de personas adultas.\nSi la matrícula tuviera un plazo oficial para su formalización, la solicitud de la autorización de arraigo socioformativo deberá presentarse en los dos meses anteriores al inicio de ese plazo. La prueba de la matriculación se deberá acreditar ante la oficina de extranjería en un plazo de tres meses desde la notificación de la resolución de concesión de la autorización. En casos debidamente justificados, se podrá presentar la matrícula para una formación distinta de la prevista inicialmente, siempre y cuando, se cumpla los requisitos de la formación referida en el párrafo anterior. La falta de acreditación de la prueba de la matrícula en plazo será causa de extinción de la autorización concedida.\nAsimismo, podrán solicitar una autorización de residencia temporal por arraigo socioformativo, las personas extranjeras que se comprometan a realizar una formación promovida por los Servicios Públicos de Empleo en España y orientada al desempeño de ocupaciones incluidas en el Catálogo al que se refiere el artículo 75.1. La falta de acreditación de la realización de dicha formación será causa de extinción de la autorización concedida.\nJunto a los anteriores requisitos se exigirá un informe de integración social en España en los términos previstos en el apartado c) de este artículo.\ne) Para el de arraigo familiar:\n1.º Ser padre, madre o tutor de un menor, nacional de otro Estado miembro de la Unión Europea, del Espacio Económico Europeo o de Suiza, siempre que al solicitar acredite residir en territorio nacional, tener a cargo al menor y convivir con éste o esté al corriente de sus obligaciones paternofiliales.\n2.º Ser quien preste apoyo a una persona con discapacidad, que sea nacional de otro Estado miembro de la Unión Europea, del Espacio Económico Europeo o de Suiza, para el ejercicio de su capacidad jurídica, siempre que la persona solicitante sea su familiar, tenga a cargo a la persona con discapacidad y conviva con ella.",
+      "sha256": "1cba63b3a5977e67a6c394170db28e0d7c836f5b9b7b0089819abc64649cd771",
+      "version_date_basis": "fecha_vigencia",
+      "selected_as_of": "2026-11-26",
+      "available_version_dates": [
+        "2025-05-20",
+        "2026-04-16"
+      ],
+      "version_count": 2,
+      "document_metadata": {
+        "status": "RETRIEVED",
+        "retrieved_at": "2026-11-26T14:50:18.444612+00:00",
+        "sha256": "01391d2c574161707f9dca1d01bbdaa823f22551c54ce15c9e73aac34b0456d6",
+        "fecha_actualizacion": "20260922T125401Z",
+        "fecha_publicacion": "20241120",
+        "fecha_vigencia": "20250520",
+        "estado_consolidacion": "Finalizado"
+      }
+    },
+    {
+      "evidence_id": "EV_F1A3FFA3210642C2B924",
+      "source_id": "BOE-A-2024-24099",
+      "article": "131",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a1-43",
+      "retrieved_at": "2026-11-26T14:50:19.405353+00:00",
+      "version_date": "2025-05-20",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 131. Autorización de trabajo del titular de una autorización de residencia temporal por circunstancias excepcionales.\nLa concesión de una autorización de residencia temporal por circunstancias excepcionales prevista en este capítulo llevará aparejada una autorización de trabajo por cuenta propia o ajena en España sin limitación de ámbito geográfico y ocupación durante la vigencia de aquélla, con las siguientes excepciones:\na) La que se conceda a las personas que no hayan cumplido la edad mínima de admisión al trabajo.\nb) La que se conceda por arraigo socioformativo que habilitará para trabajar por cuenta ajena un máximo de treinta horas a la semana en cómputo global, remuneradas como mínimo con el salario mínimo interprofesional o el salario establecido, en su caso, en el convenio colectivo aplicable, en el momento de la solicitud en proporción a la jornada trabajada.",
+      "sha256": "5350b4089bd161f60af4bfc65cbb8acef34e9c3b1b6d7b56bf48155d7867c078",
+      "version_date_basis": "fecha_vigencia",
+      "selected_as_of": "2026-11-26",
+      "available_version_dates": [
+        "2025-05-20"
+      ],
+      "version_count": 1,
+      "document_metadata": {
+        "status": "RETRIEVED",
+        "retrieved_at": "2026-11-26T14:50:18.444612+00:00",
+        "sha256": "01391d2c574161707f9dca1d01bbdaa823f22551c54ce15c9e73aac34b0456d6",
+        "fecha_actualizacion": "20260922T125401Z",
+        "fecha_publicacion": "20241120",
+        "fecha_vigencia": "20250520",
+        "estado_consolidacion": "Finalizado"
+      }
+    },
+    {
+      "evidence_id": "EV_0125F125C6F6C3D0ADB8",
+      "source_id": "BOE-A-2024-24099",
+      "article": "191",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a1-103",
+      "retrieved_at": "2026-11-26T14:50:19.919599+00:00",
+      "version_date": "2026-04-16",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 191. De la autorización de residencia temporal a autorización de residencia y trabajo.\n1. Las personas extranjeras que se encuentren en España en situación de residencia temporal podrán solicitar otra autorización de residencia temporal y trabajo y acceder a ella, sin necesidad de visado, si cumplen los requisitos exigidos para la autorización solicitada con las especialidades que se establecen en los apartados siguientes.\n2. Cuando la persona extranjera que solicita una autorización de residencia y trabajo por cuenta ajena no lleve residiendo al menos un año como titular de una autorización de residencia deberá acreditar el cumplimiento de todos los requisitos establecidos en el artículo 74.\nLa autorización tendrá una vigencia de un año y tendrá consideración de autorización de residencia y trabajo inicial.\n3. Cuando la persona extranjera lleva en España al menos un año en situación de residencia y la autorización que se pretende modificar ya habilitaba a trabajar por cuenta ajena o propia, se deberán acreditar los requisitos previstos en el artículo 80 o, en su caso, con los requisitos previstos en el artículo 86.\nEn este caso, la vigencia de la nueva autorización tendrá una duración de cuatro años.\nLa eficacia de la nueva autorización se retrotraerá al día inmediatamente siguiente al de la caducidad de la autorización anterior si ésta ya se ha producido o, en caso contrario, producirá efectos a partir de la fecha de su concesión.\n4. Cuando la persona extranjera lleva en España al menos un año en situación de residencia y la autorización que se pretende modificar no habilitaba a trabajar se deberá cumplir con los requisitos establecidos en el artículo 74 excepto el apartado 1.a) y en su caso, el artículo 84.\nEn este caso, la vigencia de la nueva autorización tendrá una duración de un año y la eficacia de la nueva autorización estará condicionada al alta de la persona trabajadora en el régimen correspondiente de la Seguridad Social. Esta alta deberá efectuarse en el plazo de un mes desde la notificación de su concesión. Cumplida la condición, la vigencia de la autorización se retrotraerá al día inmediatamente siguiente al de la caducidad de la autorización anterior. No obstante, si en el momento de adquirir eficacia la nueva autorización aún no se ha producido la caducidad de la autorización anterior, la vigencia de la nueva autorización producirá efectos a partir del alta de la persona trabajadora en el régimen correspondiente de la Seguridad Social.\n5. Las solicitudes de esta modificación podrán ser presentado por el empleador o por la persona extranjera residente en España.\n6. En los supuestos de autorizaciones de residencia para actividades de temporada:\na) Si la nueva autorización fue concedida con posterioridad a la finalización del periodo de actividad del año en curso, y la persona trabajadora ha regresado a su país de procedencia, en cumplimiento de su obligación de retorno, el titular deberá solicitar el visado del artículo 40.\nb) Las personas titulares de autorizaciones de residencia y trabajo para actividades de temporada a su finalización, tras los cuatro años, si hubiesen respetado todos los requisitos durante su vigencia, incluido el compromiso de retorno, podrán acceder a una autorización de residencia y trabajo de dos años de duración. Para ello deben cumplir los siguientes requisitos:\n1.º Para obtener una autorización de residencia y trabajo por cuenta ajena, acreditar el cumplimiento de los establecidos en el artículo 74, excepto el previsto en el apartado 1.a);\n2.º Para obtener una autorización de residencia y trabajo por cuenta propia, acreditar el cumplimiento de los establecidos en el artículo 84, excepto el apartado c).\nLa solicitud podrá realizarse en los tres meses anteriores a la finalización del periodo de vigencia de la autorización para actividades de temporada, sin necesidad de visado, o, una vez retornado al país de origen o procedencia tras haber finalizado dicho periodo, dentro de los seis meses posteriores a su finalización.\nEsta autorización de residencia y trabajo tendrá la consideración de inicial.\n7. No se podrá solicitar la modificación desde las siguientes autorizaciones de residencia temporal:\na) Las autorizaciones de trabajo para personas trabajadoras transfronterizas.\nb) Las autorizaciones de residencia por circunstancias excepcionales establecidas en los apartados b) y c) del artículo 128.1 y las reguladas en los capítulos II, III, IV y V del título VII.\nc) Las autorizaciones de reagrupación familiar, que se regirán por lo establecido por su normativa específica.\n8. Las personas extranjeras titulares de una tarjeta de residencia de familiar de un ciudadano de la Unión o de una autorización de residencia de familiar de persona de nacionalidad española, cuando hayan cesado en tal condición, podrán obtener, si cumplen los requisitos establecidos al efecto, a excepción del visado, una autorización de residencia no lucrativa o de residencia y trabajo por cuenta ajena, por cuenta propia o de residencia con excepción de la autorización de trabajo del tiempo que corresponda, en función de la duración de la documentación de la que fuera titular.",
+      "sha256": "3555f4c522cf21cdd3d6ecf2714060338db60eedf40ff83d859260fdbfb9dfd2",
+      "version_date_basis": "fecha_vigencia",
+      "selected_as_of": "2026-11-26",
+      "available_version_dates": [
+        "2025-05-20",
+        "2026-04-16"
+      ],
+      "version_count": 2,
+      "document_metadata": {
+        "status": "RETRIEVED",
+        "retrieved_at": "2026-11-26T14:50:18.444612+00:00",
+        "sha256": "01391d2c574161707f9dca1d01bbdaa823f22551c54ce15c9e73aac34b0456d6",
+        "fecha_actualizacion": "20260922T125401Z",
+        "fecha_publicacion": "20241120",
+        "fecha_vigencia": "20250520",
+        "estado_consolidacion": "Finalizado"
+      }
+    },
+    {
+      "evidence_id": "EV_113BD144969093B6528C",
+      "source_id": "migraciones",
+      "authority": "migraciones",
+      "document_title": "Hoja 29 — arraigo sociolaboral",
+      "article": null,
+      "official_url": "https://www.inclusion.gob.es/es/web/migraciones/w/29.-autorizacion-de-residencia-temporal-por-circunstancias-excepcionales.-arraigo-sociolaboral.",
+      "retrieval_url": "https://www.inclusion.gob.es/es/web/migraciones/w/29.-autorizacion-de-residencia-temporal-por-circunstancias-excepcionales.-arraigo-sociolaboral.",
+      "api_url": null,
+      "retrieved_at": "2026-11-26T14:50:20.570999+00:00",
+      "version_date": null,
+      "version_status": "GUIDANCE_DATE_NOT_VERIFIED",
+      "legal_status": "PROCEDURAL_GUIDANCE_UNVERIFIED",
+      "text": "Saltar al contenido principal Selecciona tu idioma Castellano Català Euskara Galego English Français Buscar Menú Trámites Destacados mostrar submenu Trámites Destacados Trámites Destacados: Pensiones Trámites Destacados: Altas y bajas de la Seguridad Social Trámites Destacados: Ayudas Trámites Destacados: Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) Directo a Trámites Destacados: Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) Trámites Destacados: Pensiones El Ministerio mostrar submenu El Ministerio ¿Quiénes somos? La Ministra Biografía de la Ministra El Ministerio en el mundo Organización administrativa del Ministerio de Inclusión, Seguridad Social y Migraciones Secretaría de Estado de Migraciones Secretaría de Estado de la Seguridad Social y Pensiones Secretaría General de Inclusión Subsecretaría de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Atención a la ciudadanía Canal Interno Información Quejas, sugerencias y felicitaciones Sede electrónica Empleo Público Acceso a empleo público Movilidad del empleado público Biblioteca Virtual Plan estratégico de subvenciones - PES Directo a ¿Quiénes somos? Organización administrativa del Ministerio de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Sede electrónica Biblioteca Virtual Inclusión mostrar submenu Inclusión ¿Quiénes somos? Ingreso Mínimo Vital Qué es el Complemento de Ayuda para la Infancia (CAPI) Estadísticas e Informes Laboratorio de Políticas de Inclusión Fondo de Impacto Social Más Información Órganos de gobernanza del IMV Registro de Mediadores sociales del IMV Sello de Inclusión Social Directo a Laboratorio de Políticas de Inclusión Sello de Inclusión Social Seguridad Social y Pensiones mostrar submenu Seguridad Social y Pensiones ¿Quiénes somos? Pensiones Altas y bajas Vida Laboral Autónomos Otras prestaciones Directo a Seguridad Social y Pensiones Migraciones mostrar submenu Migraciones ¿Quiénes somos? Integración Prioridades de integración OBERAXE Foro para la Integración Social de los Inmigrantes Vivir en España Tipos de autorización Normativa e instrucciones Criterios de Gestión Retorno voluntario Información útil Contacto Vivir en el extranjero Portal de la Ciudadanía Española en el Exterior Carta España Sistema de Acogida de Protección Internacional Cómo funciona y datos Personas destinatarias Entidades colaboradoras Reasentamiento y otros programas CRCP 2024-2025 Iniciativas para la inserción laboral Línea Acogida Informa Ucrania Urgente Atención Humanitaria Estadísticas Brexit. Derecho de los ciudadanos Directo a Red Europea de Migraciones (REM-EMN) OBERAXE Foro para la Integración Social de los Inmigrantes Fondos Europeos Proyectos de Migración Regular Unidad de Grandes Empresas y Colectivos Estratégicos Consejo General de la Ciudadanía Española en el Exterior Comunicación mostrar submenu Comunicación Noticias Buscador Redes Sociales Multimedia Galería Revistas Contacto para periodistas Directo a Noticias Redes Sociales Multimedia Galería Revistas Estadísticas mostrar submenu Estadísticas Migraciones Estadísticas de empleo y mercado laboral Estadísticas de pensiones y prestaciones Directo a Estadísticas Selecciona tu idioma Castellano Català Euskara Galego English Français Trámites Destacados mostrar submenu Trámites Destacados Pensiones Altas y bajas de la Seguridad Social Ayudas Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) El Ministerio mostrar submenu El Ministerio ¿Quiénes somos? mostrar submenu ¿Quiénes somos? La Ministra Biografías El Ministerio en el mundo Organización administrativa mostrar submenu Organización administrativa S.E. de Migraciones S.E. de la Seguridad Social y Pensiones S.G. de Inclusión Subsecretaría de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Atención a la ciudadanía mostrar submenu Atención a la ciudadanía Canal Interno Información Quejas, sugerencias y felicitaciones Sede electrónica Empleo Público mostrar submenu Empleo Público Acceso a empleo público Movilidad del empleado público Biblioteca Virtual Plan estratégico de subvenciones - PES Inclusión mostrar submenu Inclusión ¿Quiénes somos? IMV IMV - CAPI Estadísticas e informes Laboratorio de Políticas de Inclusión Fondo de Impacto Social Más Información mostrar submenu Más Información Órganos de gobernanza del IMV Registro de Mediadores sociales del IMV Sello de Inclusión Social Seguridad Social y Pensiones mostrar submenu Seguridad Social y Pensiones ¿Quiénes somos? Pensiones Altas y bajas Vida Laboral Autónomos Otras prestaciones Migraciones mostrar submenu Migraciones ¿Quiénes somos? Integración mostrar submenu Integración Prioridades de integración OBERAXE Foro para la Integración Social de los Inmigrantes Vivir en España mostrar submenu Vivir en España Tipos de autorización Normativa e instrucciones Criterios de Gestión Retorno voluntario Información útil Contacto Vivir en el extranjero mostrar submenu Vivir en el extranjero Portal de la Ciudadanía Española en el Exterior Carta España Sistema de Acogida de Protección Internacional mostrar submenu Sistema de Acogida de Protección Internacional Cómo funciona y datos Personas destinatarias Entidades colaboradoras Reasentamiento y otros programas CRCP 2024-2025 Iniciativas para la inserción laboral Línea Acogida Informa Ucrania Urgente Atención Humanitaria Estadísticas Brexit. Derecho de los ciudadanos Comunicación mostrar submenu Comunicación Noticias mostrar submenu Noticias Buscador Redes Sociales Multimedia Galería Revistas Contacto para periodistas Estadísticas mostrar submenu Estadísticas Migraciones Estadísticas de empleo y mercado laboral Estadísticas de pensiones y prestaciones twitter twitter Instagram youtube linkedin Hoja 29 - Autorización de residencia temporal por circunstancias excepcionales. Arraigo sociolaboral. - Migraciones Inicio / Migraciones Vivir en España Tipos de autorización Normativa e instrucciones mostrar submenu Normativa e instrucciones Normativa UE, normativa internacional y jurisprudencia UE Instrucciones Criterios de Gestión Retorno voluntario Información útil mostrar submenu Información útil Trámites que se pueden realizar por Internet Modelos de solicitud Información de las comunidades autónomas y entidades locales Tiempo de tramitación de procedimientos (CORA) Preguntas frecuentes Reglamento de Extranjería Otra información Subvenciones Noticias Contacto Hoja 29 - Autorización de residencia temporal por circunstancias excepcionales. Arraigo sociolaboral. * El contenido de esta página es meramente orientativo. Únicamente es de aplicación lo dispuesto en la normativa vigente en el momento de presentación de la solicitud. Última actualización: abril de 2026 Índice de contenidos Tipo de Autorización Normativa básica Requisitos Documentación exigible Procedimiento TIPO DE AUTORIZACIÓN Es una autorización de residencia temporal por circunstancias excepcionales que se podrá conceder a ciudadanos extranjeros que se hallen en España durante un periodo mínimo de dos años y cuenten con uno o varios contratos de trabajo. NORMATIVA BÁSICA Ley Orgánica 4/2000, de 11 de enero, sobre derechos y libertades de los extranjeros en España y su integración social (art. 31.3). Real Decreto 1155/2024, de 19 de noviembre, por el que se aprueba el Reglamento de la Ley Orgánica 4/2000, de 11 de enero, sobre derechos y libertades de los extranjeros en España y su integración social (artículos 124 a 127). REQUISITOS No ser ciudadano de un Estado de la Unión Europea, del Espacio Económico Europeo o de Suiza, o familiar de ciudadanos de estos países a los que les sea de aplicación el régimen de ciudadano de la Unión. Encontrarse en España y no tener la condición de solicitante de protección internacional en el momento de la presentación de la solicitud ni durante su tramitación. Haber permanecido en territorio nacional de forma continuada durante, al menos, los dos años anteriores a la presentación de dicha solicitud. A estos efectos, cuando la persona extranjera haya sido solicitante de protección internacional, no será computable el tiempo de permanencia en España durante la tramitación de la solicitud de protección internacional hasta su resolución firme en vía administrativa y, en su caso, judicial. No representar una amenaza para el orden público, seguridad o salud pública. Carecer de antecedentes penales en España y en los países donde haya residido los últimos cinco años, por delitos existentes en el ordenamiento español. No figurar como rechazable en el espacio territorial de países con los que España tenga firmado un convenio en tal sentido. No encontrarse, en su caso, dentro del plazo de compromiso de no retorno a España Abonar la tasa correspondiente por la tramitación del procedimiento. No ser titular de una autorización de estancia o residencia ni ostentar la condición de persona interesada en procedimientos que tengan por objeto la concesión, prórroga, renovación o modificación de autorizaciones de estancia o residencia. Contar con uno o varios contratos de trabajo que garanticen al menos el salario mínimo interprofesional o el salario establecido, en su caso, en el convenio colectivo aplicable, en el momento de la solicitud, en proporción a la jornada trabajada, y cuya suma represente una jornada semanal no inferior a veinte horas en cómputo global. Podrá aportarse más de un contrato de trabajo en los siguientes supuestos: - En el caso de la realización de trabajos de naturaleza estacional o vinculados a actividades productivas de temporada se podrán presentar dos o más contratos, con distintos empleadores y concatenados. -En el caso de desarrollo de actividades en una misma o distinta ocupación, trabajando parcialmente y de manera simultánea para más de un empleador. El empleador o empleadores deberán cumplir los siguientes requisitos: Encontrarse al corriente del cumplimiento de sus obligaciones tributarias y frente a la Seguridad Social. Contar con medios económicos, materiales o personales, suficientes para su proyecto empresarial y para hacer frente a las obligaciones asumidas en el contrato frente al trabajador. DOCUMENTACIÓN EXIGIBLE Nota: con carácter general se deberán aportar copias de los documentos y exhibir los originales en el momento de presentar la solicitud. Impreso de solicitud en modelo oficial (EX–10) , debidamente cumplimentado y firmado por la persona extranjera. Copia completa del pasaporte, título de viaje o cédula de inscripción. Documentación acreditativa de la permanencia continuada en España durante un periodo mínimo de dos años. Certificado de antecedentes penales expedido por las Autoridades del país o países en los que haya residido durante los cinco últimos años anteriores a la entrada en España. Contrato o contratos de trabajo con las características exigidas, firmado/s por el empleador/es y trabajador. También deben acompañarse los siguientes documentos: Copia del N.I.F. y, en su caso, los estatutos de la sociedad para determinar si la persona que firma el contrato está habilitada para ello, de las escrituras de la empresa. Acreditación de que la empresa garantiza la solvencia necesaria, a través de: la declaración del IRPF, o del IVA, o del Impuesto de Sociedades o del informe de la vida laboral de la empresa (VILE). Copia de la documentación que acredite la capacitación y, en su caso, la cualificación profesional legalmente exigida para el ejercicio de la profesión, así como la homologación y/o reconocimiento para el ejercicio de la profesión en el caso de profesiones reguladas en España. Nota importante: cuando se aporten documentos de otros países deberán estar traducidos al castellano o lengua cooficial del territorio donde se presente la solicitud por un traductor jurado. Lista de traductores jurados. Por otro lado, todo documento público extranjero deberá ser previamente legalizado por la Oficina Consular de España con jurisdicción en el país en el que se ha expedido dicho documento o, en su caso, por el Ministerio de Asuntos Exteriores, Unión Europea y Cooperación salvo en el caso en que dicho documento haya sido apostillado por la Autoridad competente del país emisor según el Convenio de la Haya de 5 de octubre de 1961 y salvo que dicho documento esté exento de legalización en virtud de Convenio Internacional. Información sobre traducción y legalización de los documentos. PROCEDIMIENTO Sujeto legitimado para presentar la solicitud: la persona extranjera personalmente, o su representante legal o persona que presta apoyo en el supuesto de ser menor o persona con discapacidad. Hoja informativa sobre sujetos legitimados. Lugar de presentación: Presencialmente, en la Oficina de Extranjería de la provincia en la que la persona extranjera tenga fijado el domicilio. Telemáticamente, a través de la sede electrónica del Ministerio de Política Territorial y Memoria Democrática (Mercurio). Información de la dirección, teléfonos y horarios de atención al público. Una vez admitida a trámite la solicitud de la autorización por circunstancias excepcionales por arraigo prevista en el artículo 127.b) y hasta que se resuelva el procedimiento, se habilitará, de forma provisional, a las personas solicitantes a residir y a trabajar por cuenta ajena. En la comunicación de inicio de la tramitación de la solicitud se hará constar que la persona solicitante está habilitada provisionalmente a trabajar. Resuelto el procedimiento y, en su caso, concedida dicha autorización, su eficacia estará condicionada a que la persona extranjera esté dada de alta en el régimen correspondiente de la Seguridad Social en el plazo de un mes desde la notificación realizada al solicitante. Tasa correspondiente: se devengará en el momento de presentación de la solicitud, y deberá abonarse en el plazo de diez días hábiles: Modelo 790 código 052, epígrafe 2.3.1. “autorización de residencia temporal por circunstancias excepcionales por arraigo”: a abonar por la persona extranjera El impreso para el abono se podrá descargar desde esta página. Plazo de resolución de la solicitud: tres meses contados a partir del día siguiente a la fecha en que haya tenido entrada en el registro del órgano competente para su tramitación. Transcurrido dicho plazo sin que la Administración haya practicado la notificación se podrá entender que la solicitud ha sido desestimada por silencio administrativo. (Cuando no se haya podido notificar la resolución se anunciará en el Tablón Edictal Único (TEU). Si se hubiera optado por notificación electrónica o normativamente estuviera obligado a utilizar ese medio, la resolución se notificará mediante publicación en la sede electrónica. Si no se accediera a la resolución en diez días naturales desde su publicación, se dará por notificada). La eficacia de la autorización concedida estará condicionada a la posterior afiliación y alta del trabajador en la Seguridad Social en el plazo de un mes desde la notificación realizada al solicitante. En el plazo de un mes desde la notificación de la concesión de la autorización de residencia por circunstancias excepcionales, la persona extranjera deberá solicitar personalmente la tarjeta de identidad de extranjero, en la Comisaría de Policía o servicios policiales competentes de su lugar de residencia. La documentación a aportar en la solicitud de la tarjeta de identidad de extranjero puede ser consultada en el siguiente enlace: https://sede.administracionespublicas.gob.es/procedimientos/index/categoria/34 La autorización concedida tendrá una vigencia de un año. A su finalización podrá modificar a una autorización de residencia y trabajo inicial a través del artículo 191 del Reglamento o podrá prorrogarse por periodos anuales, estando condicionada al cumplimiento de sus requisitos y a la prueba de encontrarse en situación de búsqueda activa de empleo y debidamente inscrito en el servicio público de empleo. No obstante, se podrá prorrogar sin necesidad de acreditar los anteriores requisitos si concurren circunstancias que impidan el acceso al empleo por razones debidamente justificadas, tales como, enfermedad o discapacidad o haber alcanzado la edad legal de jubilación. 29. Autorización de residencia temporal por circunstancias excepcionales. Arraigo sociolaboral. File extension and size (pdf - 258 KB) Oculto Visualización del menú Trámites Destacados El Ministerio Inclusión Seguridad Social y Pensiones Migraciones Comunicación Estadísticas Inclusión, Seguridad Social y Migraciones Sede central del Ministerio: Calle de José Abascal, 39 - 28003 Madrid Visualización del menú Aviso legal Accesibilidad Mapa Web Privacidad Atención al usuario Subir al principio de la página.",
+      "sha256": "113bd144969093b6528c3a17f7d4bcbc64e1c2894db653ef665d304e05fc0541",
+      "research_relevance": {
+        "semantic_verification_required": true,
+        "source_type": "official_procedural_guidance"
+      }
+    },
+    {
+      "evidence_id": "EV_6F64CE33AB7F11F69F53",
+      "source_id": "migraciones",
+      "authority": "migraciones",
+      "document_title": "Hoja 28 — arraigo social",
+      "article": null,
+      "official_url": "https://www.inclusion.gob.es/es/web/migraciones/w/autorizacion-residencia-temporal-por-circunstancias-excepcionales.-arraigo-social",
+      "retrieval_url": "https://www.inclusion.gob.es/es/web/migraciones/w/autorizacion-residencia-temporal-por-circunstancias-excepcionales.-arraigo-social",
+      "api_url": null,
+      "retrieved_at": "2026-11-26T14:50:21.089991+00:00",
+      "version_date": null,
+      "version_status": "GUIDANCE_DATE_NOT_VERIFIED",
+      "legal_status": "PROCEDURAL_GUIDANCE_UNVERIFIED",
+      "text": "Saltar al contenido principal Selecciona tu idioma Castellano Català Euskara Galego English Français Buscar Menú Trámites Destacados mostrar submenu Trámites Destacados Trámites Destacados: Pensiones Trámites Destacados: Altas y bajas de la Seguridad Social Trámites Destacados: Ayudas Trámites Destacados: Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) Directo a Trámites Destacados: Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) Trámites Destacados: Pensiones El Ministerio mostrar submenu El Ministerio ¿Quiénes somos? La Ministra Biografía de la Ministra El Ministerio en el mundo Organización administrativa del Ministerio de Inclusión, Seguridad Social y Migraciones Secretaría de Estado de Migraciones Secretaría de Estado de la Seguridad Social y Pensiones Secretaría General de Inclusión Subsecretaría de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Atención a la ciudadanía Canal Interno Información Quejas, sugerencias y felicitaciones Sede electrónica Empleo Público Acceso a empleo público Movilidad del empleado público Biblioteca Virtual Plan estratégico de subvenciones - PES Directo a ¿Quiénes somos? Organización administrativa del Ministerio de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Sede electrónica Biblioteca Virtual Inclusión mostrar submenu Inclusión ¿Quiénes somos? Ingreso Mínimo Vital Qué es el Complemento de Ayuda para la Infancia (CAPI) Estadísticas e Informes Laboratorio de Políticas de Inclusión Fondo de Impacto Social Más Información Órganos de gobernanza del IMV Registro de Mediadores sociales del IMV Sello de Inclusión Social Directo a Laboratorio de Políticas de Inclusión Sello de Inclusión Social Seguridad Social y Pensiones mostrar submenu Seguridad Social y Pensiones ¿Quiénes somos? Pensiones Altas y bajas Vida Laboral Autónomos Otras prestaciones Directo a Seguridad Social y Pensiones Migraciones mostrar submenu Migraciones ¿Quiénes somos? Integración Prioridades de integración OBERAXE Foro para la Integración Social de los Inmigrantes Vivir en España Tipos de autorización Normativa e instrucciones Criterios de Gestión Retorno voluntario Información útil Contacto Vivir en el extranjero Portal de la Ciudadanía Española en el Exterior Carta España Sistema de Acogida de Protección Internacional Cómo funciona y datos Personas destinatarias Entidades colaboradoras Reasentamiento y otros programas CRCP 2024-2025 Iniciativas para la inserción laboral Línea Acogida Informa Ucrania Urgente Atención Humanitaria Estadísticas Brexit. Derecho de los ciudadanos Directo a Red Europea de Migraciones (REM-EMN) OBERAXE Foro para la Integración Social de los Inmigrantes Fondos Europeos Proyectos de Migración Regular Unidad de Grandes Empresas y Colectivos Estratégicos Consejo General de la Ciudadanía Española en el Exterior Comunicación mostrar submenu Comunicación Noticias Buscador Redes Sociales Multimedia Galería Revistas Contacto para periodistas Directo a Noticias Redes Sociales Multimedia Galería Revistas Estadísticas mostrar submenu Estadísticas Migraciones Estadísticas de empleo y mercado laboral Estadísticas de pensiones y prestaciones Directo a Estadísticas Selecciona tu idioma Castellano Català Euskara Galego English Français Trámites Destacados mostrar submenu Trámites Destacados Pensiones Altas y bajas de la Seguridad Social Ayudas Ingreso Mínimo Vital / Complemento de Ayuda a la Infancia (CAPI) El Ministerio mostrar submenu El Ministerio ¿Quiénes somos? mostrar submenu ¿Quiénes somos? La Ministra Biografías El Ministerio en el mundo Organización administrativa mostrar submenu Organización administrativa S.E. de Migraciones S.E. de la Seguridad Social y Pensiones S.G. de Inclusión Subsecretaría de Inclusión, Seguridad Social y Migraciones Espacio de Igualdad Atención a la ciudadanía mostrar submenu Atención a la ciudadanía Canal Interno Información Quejas, sugerencias y felicitaciones Sede electrónica Empleo Público mostrar submenu Empleo Público Acceso a empleo público Movilidad del empleado público Biblioteca Virtual Plan estratégico de subvenciones - PES Inclusión mostrar submenu Inclusión ¿Quiénes somos? IMV IMV - CAPI Estadísticas e informes Laboratorio de Políticas de Inclusión Fondo de Impacto Social Más Información mostrar submenu Más Información Órganos de gobernanza del IMV Registro de Mediadores sociales del IMV Sello de Inclusión Social Seguridad Social y Pensiones mostrar submenu Seguridad Social y Pensiones ¿Quiénes somos? Pensiones Altas y bajas Vida Laboral Autónomos Otras prestaciones Migraciones mostrar submenu Migraciones ¿Quiénes somos? Integración mostrar submenu Integración Prioridades de integración OBERAXE Foro para la Integración Social de los Inmigrantes Vivir en España mostrar submenu Vivir en España Tipos de autorización Normativa e instrucciones Criterios de Gestión Retorno voluntario Información útil Contacto Vivir en el extranjero mostrar submenu Vivir en el extranjero Portal de la Ciudadanía Española en el Exterior Carta España Sistema de Acogida de Protección Internacional mostrar submenu Sistema de Acogida de Protección Internacional Cómo funciona y datos Personas destinatarias Entidades colaboradoras Reasentamiento y otros programas CRCP 2024-2025 Iniciativas para la inserción laboral Línea Acogida Informa Ucrania Urgente Atención Humanitaria Estadísticas Brexit. Derecho de los ciudadanos Comunicación mostrar submenu Comunicación Noticias mostrar submenu Noticias Buscador Redes Sociales Multimedia Galería Revistas Contacto para periodistas Estadísticas mostrar submenu Estadísticas Migraciones Estadísticas de empleo y mercado laboral Estadísticas de pensiones y prestaciones twitter twitter Instagram youtube linkedin Hoja 28 - Autorización de residencia temporal por circunstancias excepcionales. Arraigo social - Migraciones Inicio / Migraciones Vivir en España Tipos de autorización Normativa e instrucciones mostrar submenu Normativa e instrucciones Normativa UE, normativa internacional y jurisprudencia UE Instrucciones Criterios de Gestión Retorno voluntario Información útil mostrar submenu Información útil Trámites que se pueden realizar por Internet Modelos de solicitud Información de las comunidades autónomas y entidades locales Tiempo de tramitación de procedimientos (CORA) Preguntas frecuentes Reglamento de Extranjería Otra información Subvenciones Noticias Contacto Hoja 28 - Autorización de residencia temporal por circunstancias excepcionales. Arraigo social * El contenido de esta página es meramente orientativo. Únicamente es de aplicación lo dispuesto en la normativa vigente en el momento de presentación de la solicitud. Última actualización: abril de 2026 Índice de contenidos Tipo de Autorización Normativa básica Requisitos Documentación exigible Procedimiento TIPO DE AUTORIZACIÓN Es una autorización de residencia temporal por circunstancias excepcionales que se podrá conceder a aquellos ciudadanos extranjeros que se hallen en España durante un periodo mínimo de dos años y tengan vínculos familiares en España o puedan justificar que están integrados en la sociedad española a través de un informe de integración social que podrá emitir la Comunidad Autónoma o, en su caso, el Ayuntamiento, en cuyo territorio tenga su domicilio habitual la persona extranjera. *Nota. Podrá obtener más información acerca del informe de integración social en el siguiente enlace: https://www.inclusion.gob.es/documents/d/migraciones/report_250709-instrucciones-informe-arraigo-v-10-tras-cli NORMATIVA BÁSICA Ley Orgánica 4/2000, de 11 de enero, sobre derechos y libertades de los extranjeros en España y su integración social (art. 31.3) Real Decreto 1155/2024, de 19 de noviembre, por el que se aprueba el Reglamento de la Ley Orgánica 4/2000, de 11 de enero, sobre derechos y libertades de los extranjeros en España y su integración social (artículos del 124 al 127 y del 130 al 132). Instrucciones SEM 1/2025 sobre las autorizaciones de residencia temporal por circunstancias excepcionales por razón de arraigo previstas en el Reglamento de Extranjería, aprobado por el Real Decreto 1155/2024, de 19 de noviembre. REQUISITOS No ser ciudadano de un Estado de la Unión Europea, del Espacio Económico Europeo o de Suiza, o familiar de ciudadanos de estos países a los que les sea de aplicación el régimen de ciudadano de la Unión. Carecer de antecedentes penales en España y en los países donde haya residido los últimos cinco años, por delitos existentes en el ordenamiento español. No figurar como rechazable en el espacio territorial de países con los que España tenga firmado un convenio en tal sentido. No encontrarse, en su caso, dentro del plazo de compromiso de no retorno a España que la persona extranjera haya asumido al retornar voluntariamente a su país de origen. No representar una amenaza para el orden público, la seguridad o salud pública. Encontrarse en España y no tener la condición de solicitante de protección internacional en el momento de la presentación de la solicitud ni durante su tramitación. Se entenderá por solicitante de protección internacional a aquella persona extranjera que haya formulado una solicitud de protección internacional sobre la que no se haya adoptado una resolución firme en sede administrativa, y, en su caso, judicial. Haber permanecido con carácter continuado en España durante, al menos, los dos años anteriores a la presentación de dicha solicitud. Para que este requisito se cumpla, las ausencias de España durante este período no pueden superar los 90 días. Cuando la persona extranjera haya sido solicitante de protección internacional, no será computable el tiempo de permanencia en España durante la tramitación de la solicitud de protección internacional hasta su resolución firme en sede administrativa, y, en su caso, judicial. Tener vínculos familiares con otras personas extranjeras titulares de una autorización de residencia (cónyuge o pareja de hecho registrada y familiares en primer grado en línea directa) y que se justifique disponer de medios económicos suficientes para su mantenimiento. En todo caso, se deberá alcanzar, al menos, el 100 % del IPREM para el mantenimiento del familiar que vaya a solicitar el arraigo. Por tanto, deberá acreditarse 100% por el familiar con residencia legal, respecto al que se acredite el vínculo y 100% para el solicitante del arraigo, en total un 200% del IPREM, con independencia de los miembros que conformen la unidad de convivencia. Los medios económicos deberán estar disponibles en España y procederán de los familiares mencionados. Si se cumplen los requisitos del artículo 84, se podrá alegar que los medios proceden de una actividad por cuenta propia. En caso de que no se acredite la existencia de ese tipo de vínculos familiares se valorará el esfuerzo de integración social de la persona extranjera, avalado mediante la aportación de un informe favorable que podrá emitirse por las Comunidades Autónomas o, en su caso, por los Ayuntamientos, en cuyo territorio tenga su domicilio habitual la persona extranjera. El informe debe ser emitido en un plazo máximo de un mes desde su solicitud. Nota: Dicho informe podrá ser emitido por la Corporación local en la que el extranjero tenga su domicilio habitual, cuando así haya sido establecido por la Comunidad Autónoma competente, siempre que ello haya sido previamente puesto en conocimiento de la Secretaría de Estado de Migraciones. En ambos casos el informe deberá ser emitido en el plazo de un mes desde su solicitud. El informe sobre la integración social hará constar, entre otros factores de arraigo que puedan acreditarse por las diferentes Administraciones competentes, el tiempo de permanencia de la persona interesada en su domicilio habitual, los medios económicos con los que cuente, y los esfuerzos de integración a través del seguimiento de programas de inserción sociolaborales y culturales. Simultáneamente y por medios electrónicos, la Comunidad Autónoma o la Corporación local deberá dar traslado del informe a la Oficina de Extranjería competente. Para la emisión del informe, el órgano autonómico competente, en su caso, podrá realizar consulta al Ayuntamiento donde el extranjero tenga su domicilio habitual sobre la información que pueda incorporar al mismo. En caso de que el informe no haya sido emitido en plazo, circunstancia que habrá de ser debidamente acreditada por el interesado, podrá justificarse este requisito por cualquier medio de prueba. Abonar la tasa correspondiente por la tramitación del procedimiento. No ser titular de una autorización de estancia o residencia ni ostentar la condición de persona interesada en procedimientos que tengan por objeto la concesión, prórroga, renovación o modificación de autorizaciones de estancia o residencia. DOCUMENTACIÓN EXIGIBLE Nota: con carácter general se deberán aportar copias de los documentos y exhibir los originales en el momento de presentar la solicitud. Impreso de solicitud en modelo oficial (EX -10) , debidamente cumplimentado y firmado por la persona extranjera. Copia completa del pasaporte cédula de inscripción o título de viaje en vigor, reconocido como válido en España. Documentación acreditativa de la permanencia continuada en España durante un periodo mínimo de dos años. La documentación que se aporte deberá contener los datos de identificación del solicitante, preferentemente debe haber sido emitida y/o registrada por una Administración Pública española. A título de ejemplo, se tomarán en consideración documentos relativos al empadronamiento, a una hospitalización, a una consulta médica en la sanidad pública, así como cualquier documentación municipal, autonómica o estatal que justifique la presencia en España. Certificado de antecedentes penales expedido por las Autoridades del país o países en los que haya residido durante los cinco últimos años anteriores a la entrada en España. Documentación acreditativa de los vínculos familiares exigidos (certificado de matrimonio o del registro de parejas, actualizados, certificado de nacimiento u otros documentos), o bien, informe de integración social emitido por la Comunidad Autónoma o, en su caso, por el Ayuntamiento, en cuyo territorio tenga su domicilio habitual el solicitante. Documentación acreditativa de los medios de vida: Acreditación de los medios económicos. Deberá acreditarse el 100% del IPREM por el familiar con residencia legal, respecto al que se acredita el vínculo y el 100% para el solicitante del arraigo, en total un 200% del IPREM. Estos medios económicos deberán estar disponibles en España. En los casos en los que los medios económicos procedan de una actividad por cuenta propia, será necesario cumplir los requisitos del artículo 84 del Real Decreto 1155/2024, y se deberán presentar los siguientes documentos: En actividades comerciales minoristas y prestación de los servicios enumerados en el Anexo de la Ley 12/2012, de 26 de diciembre, que se realicen en establecimientos permanentes, cuya superficie útil sea igual o inferior a 750 metros cuadrados, declaración responsable o comunicación previa (en los términos el artículo 69 de la Ley 39/2015, de 1 de octubre) y, en su caso, justificante de pago del tributo correspondiente. En el resto de actividades y prestaciones de servicios profesionales, relación de las autorizaciones o licencias que se exijan para la instalación, apertura o funcionamiento de la actividad proyectada o para el ejercicio profesional, indicando, la situación en la que se encuentre los trámites para su consecución, incluyendo, en su caso, las certificaciones de solicitud ante los organismos correspondientes. Copia de la documentación que acredite la capacitación y, en su caso, la cualificación profesional legalmente exigida para el ejercicio de la profesión, así como la homologación y/o reconocimiento, y en su caso colegiación, para el ejercicio de la profesión en el caso de profesiones reguladas en España. Copia de la documentación que acredite la suficiencia de la inversión prevista para la implantación del proyecto y sobre la incidencia, en su caso, en la creación de empleo, incluyendo como tal el autoempleo. A título de ejemplo y con independencia de su justificación mediante otros medios admisibles en Derecho, los dos últimos apartados pueden ser acreditados por el informe de valoración emitido por una de las siguientes organizaciones: Federación Nacional de Asociaciones de Empresarios y Trabajadores Autónomos (ATA) Unión de Profesionales y Trabajadores Autónomos (UPTA) Confederación Intersectorial de Autónomos del Estado Español (CIAE) Organización de Profesionales y Autónomos (OPA) Unión de Asociaciones de Trabajadores Autónomos y Emprendedores (UATAE) Nota importante: cuando se aporten documentos de otros países deberán estar traducidos al castellano o lengua cooficial del territorio donde se presente la solicitud por un traductor jurado. Lista de traductores jurados. Por otro lado, todo documento público extranjero deberá ser previamente legalizado por la Oficina Consular de España con jurisdicción en el país en el que se ha expedido dicho documento o, en su caso, por el Ministerio de Asuntos Exteriores, Unión Europea y Cooperación salvo en el caso en que dicho documento haya sido apostillado por la Autoridad competente del país emisor según el Convenio de la Haya de 5 de octubre de 1961 y salvo que dicho documento esté exento de legalización en virtud de Convenio Internacional. Información sobre traducción y legalización de los documentos. PROCEDIMIENTO Sujeto legitimado para presentar la solicitud: la persona extranjera personalmente, o su representante legal en el supuesto de ser menor o incapaz. Hoja informativa sobre sujetos legitimados. Lugar de presentación: Presencialmente, en la Oficina de Extranjería de la provincia en la que la persona extranjera tenga fijado el domicilio. Telemáticamente, a través de la sede electrónica del Ministerio de Política Territorial y Memoria Democrática (Mer",
+      "sha256": "6f64ce33ab7f11f69f538310da3ca237be392839773880af2d5c0e8c1328dc00",
+      "research_relevance": {
+        "semantic_verification_required": true,
+        "source_type": "official_procedural_guidance"
+      }
+    },
+    {
+      "evidence_id": "EV_A4C44119EDF90B6E04D3",
+      "source_id": "BOE-A-2024-24099",
+      "article": "126",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a1-38",
+      "retrieved_at": "2026-11-26T14:50:38.275580+00:00",
+      "version_date": "2026-04-16",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 126. Requisitos generales.\nSe podrá conceder una autorización de residencia temporal por las razones de arraigo establecidas en el artículo anterior cuando la persona extranjera cumpla de forma acumulativa los siguientes requisitos generales:\na) Encontrarse en España y no tener la condición de solicitante de protección internacional en el momento de la presentación de la solicitud ni durante su tramitación. A tal efecto, se entenderá por solicitante de protección internacional a aquella persona extranjera que haya formulado una solicitud de protección internacional sobre la que no se haya adoptado una resolución firme en sede administrativa, y, en su caso, judicial.\nb) Haber permanecido en territorio nacional de forma continuada durante, al menos, los dos años anteriores a la presentación de dicha solicitud. A estos efectos, cuando la persona extranjera haya sido solicitante de protección internacional, no será computable el tiempo de permanencia en España durante la tramitación de la solicitud de protección internacional hasta su resolución firme en sede administrativa, y, en su caso, judicial.\nEl arraigo familiar no requerirá ninguna permanencia mínima.\nc) No representar una amenaza para el orden público, seguridad o salud pública.\nd) Carecer de antecedentes penales en España y en los países donde haya residido durante los cinco últimos años anteriores a la fecha de entrada en España, por delitos previstos en el ordenamiento jurídico español.\ne) No figurar como rechazable en el espacio territorial de países con los que España tenga firmado un convenio en tal sentido.\nf) En su caso, no encontrarse dentro del plazo de compromiso de no retorno a España.\ng) Haber abonado la tasa por la tramitación del procedimiento.\nh) No ser titular de una autorización de estancia o residencia ni ostentar la condición de persona interesada en procedimientos que tengan por objeto la concesión, prórroga, renovación o modificación de autorizaciones de estancia o residencia.",
+      "sha256": "de66d7e8ab728b27933d1f96f5334e7836a8a4b0f29a163c5ef984b42d63f340",
+      "version_date_basis": "fecha_vigencia",
+      "selected_as_of": "2026-11-26",
+      "available_version_dates": [
+        "2025-05-20",
+        "2026-04-16"
+      ],
+      "version_count": 2,
+      "document_metadata": {
+        "status": "RETRIEVED",
+        "retrieved_at": "2026-11-26T14:50:18.444612+00:00",
+        "sha256": "01391d2c574161707f9dca1d01bbdaa823f22551c54ce15c9e73aac34b0456d6",
+        "fecha_actualizacion": "20260922T125401Z",
+        "fecha_publicacion": "20241120",
+        "fecha_vigencia": "20250520",
+        "estado_consolidacion": "Finalizado"
+      }
+    },
+    {
+      "evidence_id": "EV_52CCE1AA3DF507B57D90",
+      "source_id": "BOE-A-2024-24099",
+      "article": "124",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a1-36",
+      "retrieved_at": "2026-11-26T14:50:38.778525+00:00",
+      "version_date": "2025-05-20",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 124. Definición.\n1. De conformidad con lo previsto en el artículo 31.3 de la Ley Orgánica 4/2000, de 11 de enero, en atención a las circunstancias excepcionales que concurran, la Administración podrá conceder una autorización de residencia temporal de carácter excepcional, a las personas extranjeras que se hallen en España en los supuestos de arraigo, razones humanitarias, colaboración con las autoridades públicas o razones de seguridad nacional o interés público, previstos en los artículos siguientes.\n2. El contenido de este capítulo debe interpretarse sin perjuicio de la concesión de autorizaciones de residencia temporal por circunstancias excepcionales previstas en los artículos 31bis, 59 y 59bis de la Ley Orgánica 4/2000, de 11 de enero. Igualmente, podrán concederse otras autorizaciones de residencia temporal por circunstancias excepcionales en los términos establecidos en la disposición adicional segunda.",
+      "sha256": "58976eb696b7fed8ad13af95462e1ca77ff52e79d9beaed10a09e6a40db4c7da",
+      "version_date_basis": "fecha_vigencia",
+      "selected_as_of": "2026-11-26",
+      "available_version_dates": [
+        "2025-05-20"
+      ],
+      "version_count": 1,
+      "document_metadata": {
+        "status": "RETRIEVED",
+        "retrieved_at": "2026-11-26T14:50:18.444612+00:00",
+        "sha256": "01391d2c574161707f9dca1d01bbdaa823f22551c54ce15c9e73aac34b0456d6",
+        "fecha_actualizacion": "20260922T125401Z",
+        "fecha_publicacion": "20241120",
+        "fecha_vigencia": "20250520",
+        "estado_consolidacion": "Finalizado"
+      }
+    },
+    {
+      "evidence_id": "EV_19FDE6AE5533C805D24E",
+      "source_id": "BOE-A-2024-24099",
+      "article": "84",
+      "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+      "api_url": "https://www.boe.es/datosabiertos/api/legislacion-consolidada/id/BOE-A-2024-24099/texto/bloque/a8-6",
+      "retrieved_at": "2026-11-26T14:51:39.629404+00:00",
+      "version_date": "2025-05-20",
+      "version_status": "VERSION_DATE_FOUND_NOT_LEGAL_CERTIFICATION",
+      "legal_status": "UNVERIFIED",
+      "authority": "boe",
+      "document_title": "BOE-A-2024-24099",
+      "text": "Artículo 84. Requisitos.\nPara la concesión de una autorización inicial de residencia temporal y trabajo por cuenta propia será necesario acreditar, los siguientes requisitos específicos:\na) Cumplir los requisitos que la legislación vigente exige a los nacionales para la apertura y funcionamiento de la actividad proyectada.\nb) Poseer la cualificación profesional legalmente exigida o experiencia acreditada suficiente en el ejercicio de la actividad profesional, cuando esta lo requiera, así como en su caso la colegiación cuando así se requiera.\nc) Acreditar la suficiencia de la inversión prevista para la implantación del proyecto y sobre la incidencia, en su caso, en la creación de empleo, incluyendo como tal el auto empleo.\nd) No encontrarse, en su caso, dentro del plazo de compromiso de no retorno a España que la persona extranjera haya asumido al retornar voluntariamente a su país de origen.\ne) No representar una amenaza para el orden público, la seguridad pública o la salud pública, circunstancia que se acreditará mediante la comprobación de la inexistencia de antecedentes penales en España y la valoración del informe policial correspondiente.\nf) Haber abonado la tasa por tramitación del procedimiento.",
+      "sha256": "4fd8c9e20225a4bcf7bfe267f55ec7cdf566d1ef8f89aa0797661a93242ccd10",
+      "version_date_basis": "fecha_vigencia",
+      "selected_as_of": "2026-11-26",
+      "available_version_dates": [
+        "2025-05-20"
+      ],
+      "version_count": 1,
+      "document_metadata": {
+        "status": "RETRIEVED",
+        "retrieved_at": "2026-11-26T14:50:18.444612+00:00",
+        "sha256": "01391d2c574161707f9dca1d01bbdaa823f22551c54ce15c9e73aac34b0456d6",
+        "fecha_actualizacion": "20260922T125401Z",
+        "fecha_publicacion": "20241120",
+        "fecha_vigencia": "20250520",
+        "estado_consolidacion": "Finalizado"
+      }
+    }
+  ],
+  "research_round_01.json": {
+    "additional_articles": [
+      {
+        "article": 126,
+        "document": "BOE-A-2024-24099",
+        "reason": "El artículo 127, aportado, exige cumplir además los requisitos generales del artículo 126. Hace falta su texto consolidado para informar con seguridad de todos los requisitos del arraigo social."
+      },
+      {
+        "article": 124,
+        "document": "BOE-A-2024-24099",
+        "reason": "Se solicita para contrastar los requisitos y el marco específico del arraigo social con el texto consolidado, y no depender de la guía administrativa aportada."
+      }
+    ],
+    "claims": [
+      {
+        "conditions": "",
+        "exceptions": "",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "Introducción",
+        "text": "Para el arraigo social, la normativa contempla dos alternativas: acreditar determinados vínculos familiares y medios económicos, o, si no tienes esos vínculos, que se valore tu integración mediante un informe favorable. Estos son los requisitos específicos de esta modalidad; además, debes cumplir los requisitos generales del artículo 126 del Reglamento."
+      },
+      {
+        "conditions": "Los vínculos deben ser con personas extranjeras titulares de una autorización de residencia.",
+        "exceptions": "Si no puedes acreditar estos vínculos familiares, se aplica la alternativa del informe de integración social, no la exigencia de acreditar esos vínculos.",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "¿Qué vínculos familiares y medios económicos se exigen?",
+        "text": "La alternativa familiar requiere vínculos con tu cónyuge, pareja registrada o familiares en primer grado en línea directa. También debes justificar que dispones de medios económicos suficientes para tu mantenimiento: deben alcanzar, como mínimo, el 100 % del IPREM y estar disponibles en España. Los medios pueden proceder de los familiares mencionados."
+      },
+      {
+        "conditions": "",
+        "exceptions": "",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "¿Qué ocurre si no tienes esos vínculos?",
+        "text": "Si no acreditas los vínculos familiares indicados, se valorará tu esfuerzo de integración mediante un informe favorable de integración social. Lo emite el órgano competente de la comunidad autónoma de tu domicilio habitual. El ayuntamiento solo puede emitirlo cuando la comunidad autónoma haya previsto esa posibilidad y lo haya puesto previamente en conocimiento de la Secretaría de Estado de Migraciones."
+      },
+      {
+        "conditions": "Si el informe no se ha emitido dentro del plazo, debes acreditar debidamente esa circunstancia.",
+        "exceptions": "",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "¿Qué debe incluir el informe y cuándo se emite?",
+        "text": "El informe debe emitirse en el plazo de un mes desde que se solicita. Entre otros factores, hará constar el tiempo que llevas en tu domicilio habitual, tus medios económicos y los esfuerzos de integración realizados mediante programas de inserción sociolaboral y cultural. Si no se emite en plazo y acreditas debidamente ese retraso, puedes justificar el requisito por cualquier medio de prueba."
+      },
+      {
+        "conditions": "",
+        "exceptions": "",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "¿Estos son todos los requisitos?",
+        "text": "No necesariamente: el artículo 127 establece que los requisitos específicos del arraigo social se suman a los requisitos generales del artículo 126. El texto de ese artículo general no está entre las fuentes aportadas, así que aquí no se puede confirmar ni enumerar el conjunto completo de condiciones."
+      }
+    ],
+    "gaps": [
+      {
+        "classification": "MATERIAL_LEGAL_GAP",
+        "passage_ids": [
+          "P002"
+        ],
+        "question": "¿Cuáles son los requisitos generales que también debes cumplir para solicitar el arraigo social?",
+        "reader_limitation": "La información anterior solo detalla los requisitos específicos del artículo 127. No permite saber si cumples todos los requisitos generales ni ofrece una lista completa de condiciones para solicitar el arraigo social.",
+        "reason": "El artículo 127 remite expresamente a los requisitos generales del artículo 126, cuyo texto no se ha aportado. Se necesita el artículo 126 consolidado del RD 1155/2024; el artículo 124 permitiría además contrastar el marco específico de arraigo social."
+      },
+      {
+        "classification": "MATERIAL_PROCEDURAL_GAP",
+        "passage_ids": [
+          "P002"
+        ],
+        "question": "¿Qué órgano concreto de Cataluña tramita o emite el informe de integración social y cómo se solicita allí?",
+        "reader_limitation": "La fuente legal identifica al órgano competente de la comunidad autónoma y permite que intervenga el ayuntamiento solo bajo las condiciones indicadas, pero no identifica el organismo catalán ni su trámite concreto.",
+        "reason": "No se ha aportado una fuente oficial que detalle la organización y el procedimiento aplicables en Cataluña. La regla general del Reglamento no permite determinar por sí sola qué oficina debes contactar ni cómo pedir allí el informe."
+      }
+    ]
+  },
+  "research_round_02.json": {
+    "additional_articles": [],
+    "claims": [
+      {
+        "conditions": "",
+        "exceptions": "",
+        "passage_ids": [
+          "P007",
+          "P002"
+        ],
+        "section": "Introducción",
+        "text": "Para pedir el arraigo social en Cataluña, como regla general debes acreditar al menos dos años de permanencia continuada en España y cumplir los requisitos comunes. Además, tendrás que acreditar vínculos familiares y medios económicos suficientes o, si no tienes esos vínculos, un informe favorable de integración social."
+      },
+      {
+        "conditions": "",
+        "exceptions": "El arraigo familiar no exige permanencia mínima, pero es una modalidad distinta del arraigo social.",
+        "passage_ids": [
+          "P007"
+        ],
+        "section": "¿Qué requisitos generales debes cumplir?",
+        "text": "Debes encontrarte en España y no ser solicitante de protección internacional cuando presentes la solicitud ni durante su tramitación. También debes haber permanecido en España de forma continuada durante los dos años anteriores. Si solicitaste protección internacional, no cuenta el tiempo transcurrido mientras esa solicitud no tuviera una resolución firme en vía administrativa y, en su caso, judicial."
+      },
+      {
+        "conditions": "",
+        "exceptions": "",
+        "passage_ids": [
+          "P007"
+        ],
+        "section": "¿Qué requisitos generales debes cumplir?",
+        "text": "Además, no debes representar una amenaza para el orden público, la seguridad o la salud pública; debes carecer de antecedentes penales en España y en los países donde hayas residido durante los cinco años anteriores a tu entrada en España por delitos previstos en la legislación española; y no debes figurar como rechazable en países con los que España tenga un convenio a ese efecto. Si asumiste un compromiso de no retorno a España, no debes encontrarte dentro de su plazo."
+      },
+      {
+        "conditions": "",
+        "exceptions": "",
+        "passage_ids": [
+          "P007"
+        ],
+        "section": "¿Qué requisitos generales debes cumplir?",
+        "text": "También debes haber pagado la tasa y no ser titular de una autorización de estancia o residencia ni tener la condición de persona interesada en un procedimiento para conceder, prorrogar, renovar o modificar una autorización de estancia o residencia."
+      },
+      {
+        "conditions": "La norma contempla que los medios procedan de una actividad por cuenta propia si se cumplen los requisitos del artículo 84.",
+        "exceptions": "",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "¿Necesitas vínculos familiares y medios económicos?",
+        "text": "Si tienes vínculos familiares en España con personas extranjeras titulares de una autorización de residencia, debes acreditar medios económicos suficientes para el mantenimiento y, en todo caso, al menos el 100 % del IPREM. Los vínculos que sirven para esta vía son con tu cónyuge, pareja registrada o familiares en primer grado en línea directa. Los medios deben estar disponibles en España y pueden proceder de esos familiares."
+      },
+      {
+        "conditions": "",
+        "exceptions": "",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "¿Y si no tienes esos vínculos familiares?",
+        "text": "Si no acreditas los vínculos familiares indicados, puedes acreditar el esfuerzo de integración mediante un informe favorable de integración social. El informe debe valorar, entre otros factores, el tiempo que llevas en tu domicilio habitual, tus medios económicos y tu participación en programas de inserción sociolaboral y cultural."
+      },
+      {
+        "conditions": "El informe lo emite el órgano competente de la comunidad autónoma. Un ayuntamiento puede emitirlo solo si la comunidad autónoma ha establecido esa posibilidad y la ha comunicado previamente a la Secretaría de Estado de Migraciones.",
+        "exceptions": "Si el informe no se emite dentro del plazo de un mes desde que lo solicitas, y acreditas debidamente esa circunstancia, puedes justificar el requisito por cualquier medio de prueba.",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "¿Cuándo debe emitirse el informe de integración?",
+        "text": "El informe debe emitirse en el plazo de un mes desde que lo solicitas. La comunidad autónoma o, cuando proceda, el ayuntamiento debe trasladarlo electrónicamente a la Oficina de Extranjería competente."
+      }
+    ],
+    "gaps": [
+      {
+        "classification": "MATERIAL_LEGAL_GAP",
+        "passage_ids": [
+          "P002"
+        ],
+        "question": "¿Qué requisitos concretos establece el artículo 84 para alegar que los medios económicos proceden de una actividad por cuenta propia?",
+        "reader_limitation": "La norma permite esa posibilidad si se cumplen los requisitos del artículo 84, pero el texto de ese artículo no se ha aportado; por ello no se pueden precisar aquí sus condiciones.",
+        "reason": "El artículo 127 remite expresamente al artículo 84 para esta vía económica. Hace falta consultar el artículo 84 del RD 1155/2024 antes de explicar sus requisitos."
+      },
+      {
+        "classification": "OPTIONAL_PROCEDURAL_DETAIL",
+        "passage_ids": [
+          "P002"
+        ],
+        "question": "¿Qué órgano concreto de Cataluña emite el informe de integración social y en qué oficina o canal se solicita?",
+        "reader_limitation": "El texto legal identifica al órgano autonómico competente y fija el plazo, pero no identifica el órgano catalán ni el canal de solicitud.",
+        "reason": "La información aportada no incluye una fuente oficial catalana que concrete quién tramita el informe. Ese dato ayudaría a realizar el trámite, pero no modifica los requisitos legales expuestos."
+      }
+    ]
+  },
+  "research_round_03.json": {
+    "additional_articles": [],
+    "claims": [
+      {
+        "conditions": "",
+        "exceptions": "",
+        "passage_ids": [
+          "P007",
+          "P002",
+          "P006"
+        ],
+        "section": "Introducción",
+        "text": "Para solicitar el arraigo social en Cataluña, en general debes acreditar dos años de permanencia continuada en España y cumplir los requisitos comunes. Además, necesitas acreditar vínculos familiares con una persona extranjera residente y medios económicos suficientes, o, si no acreditas esos vínculos, el esfuerzo de integración mediante un informe favorable. Si el informe no se emite en el plazo previsto y acreditas debidamente esa circunstancia, puedes justificar ese requisito por otros medios de prueba."
+      },
+      {
+        "conditions": "",
+        "exceptions": "El arraigo familiar no exige una permanencia mínima, pero es una modalidad distinta del arraigo social.",
+        "passage_ids": [
+          "P007"
+        ],
+        "section": "¿Qué requisitos generales debes cumplir?",
+        "text": "Debes encontrarte en España y no tener la condición de solicitante de protección internacional cuando presentes la solicitud ni mientras se tramita. También debes haber permanecido en España de forma continuada durante los dos años anteriores. Si solicitaste protección internacional, no se cuenta el tiempo transcurrido mientras esa solicitud no tuviera una resolución firme en vía administrativa y, cuando corresponda, judicial."
+      },
+      {
+        "conditions": "",
+        "exceptions": "",
+        "passage_ids": [
+          "P007",
+          "P006"
+        ],
+        "section": "¿Qué requisitos generales debes cumplir?",
+        "text": "El reglamento exige que la permanencia sea continuada, pero el artículo aplicable no fija en el texto aportado un número máximo de días de ausencia. La hoja informativa oficial sobre arraigo social indica, de forma orientativa, que las ausencias no pueden superar los 90 días durante esos dos años. Por tanto, ese límite consta en la guía, pero no debe presentarse como una cifra expresamente establecida en el artículo del reglamento."
+      },
+      {
+        "conditions": "",
+        "exceptions": "",
+        "passage_ids": [
+          "P007"
+        ],
+        "section": "¿Qué requisitos generales debes cumplir?",
+        "text": "No debes representar una amenaza para el orden público, la seguridad o la salud pública. También debes carecer de antecedentes penales en España y en los países donde residiste durante los cinco años anteriores a tu entrada en España, por delitos previstos en la legislación española; no figurar como rechazable en países con los que España tenga un convenio a ese efecto; y no estar dentro de un compromiso de no retorno a España, si lo asumiste."
+      },
+      {
+        "conditions": "",
+        "exceptions": "",
+        "passage_ids": [
+          "P007"
+        ],
+        "section": "¿Qué requisitos generales debes cumplir?",
+        "text": "Debes haber pagado la tasa correspondiente. Además, no puedes ser titular de una autorización de estancia o residencia ni tener la condición de persona interesada en un procedimiento para conceder, prorrogar, renovar o modificar una autorización de estancia o residencia."
+      },
+      {
+        "conditions": "",
+        "exceptions": "",
+        "passage_ids": [
+          "P002",
+          "P006"
+        ],
+        "section": "¿Qué vínculos familiares y medios económicos se exigen?",
+        "text": "La vía familiar requiere vínculos con una persona extranjera titular de una autorización de residencia: puede ser tu cónyuge, pareja registrada o familiar de primer grado en línea directa. El reglamento exige medios suficientes para tu mantenimiento y establece un mínimo del 100 % del IPREM, disponibles en España; pueden proceder de esos familiares. La hoja informativa oficial concreta orientativamente un 100 % del IPREM para el familiar residente y otro 100 % para quien solicita el arraigo, es decir, un total del 200 %. Como el artículo del reglamento no desglosa expresamente el mínimo entre ambas personas, no des por hecho que el 100 % total sea suficiente."
+      },
+      {
+        "conditions": "Esta posibilidad está condicionada a que se cumplan los requisitos del artículo 84 del Reglamento.",
+        "exceptions": "",
+        "passage_ids": [
+          "P002",
+          "P009"
+        ],
+        "section": "¿Pueden proceder los medios de una actividad por cuenta propia?",
+        "text": "Sí. El artículo 127 permite alegar que los medios proceden de una actividad por cuenta propia si se cumplen los requisitos del artículo 84. En concreto, debes cumplir las condiciones exigidas para abrir y desarrollar la actividad; acreditar la cualificación profesional o experiencia suficiente y, cuando sea necesaria, la colegiación; y justificar la suficiencia de la inversión prevista y su incidencia en la creación de empleo, incluido el autoempleo. También se exige no estar dentro de un compromiso de no retorno, no representar una amenaza para el orden público, la seguridad o la salud pública y haber pagado la tasa."
+      },
+      {
+        "conditions": "",
+        "exceptions": "Si el informe no se emite dentro del mes siguiente a la solicitud y acreditas debidamente esa circunstancia, puedes justificar el requisito por cualquier medio de prueba.",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "¿Y si no acreditas esos vínculos familiares?",
+        "text": "En ese caso se valora tu esfuerzo de integración mediante un informe favorable de integración social. Lo emite el órgano competente de la comunidad autónoma donde resides; un ayuntamiento puede emitirlo si la comunidad autónoma ha establecido esa posibilidad y lo ha comunicado previamente a la Secretaría de Estado de Migraciones. El informe debe valorar, entre otros factores, el tiempo que llevas en tu domicilio habitual, tus medios económicos y tu participación en programas de inserción sociolaboral y cultural. La comunidad autónoma o, cuando proceda, el ayuntamiento debe trasladarlo electrónicamente a la Oficina de Extranjería competente."
+      },
+      {
+        "conditions": "",
+        "exceptions": "",
+        "passage_ids": [
+          "P002"
+        ],
+        "section": "Base consultada",
+        "text": "La respuesta se basa en el texto consolidado del Reglamento de Extranjería consultado en el BOE el 26 de noviembre de 2026; la versión más reciente disponible figura con fecha de vigencia de 16 de abril de 2026. La consolidación del BOE tiene carácter informativo y este contenido requiere revisión jurídica humana."
+      }
+    ],
+    "gaps": [
+      {
+        "classification": "MATERIAL_LEGAL_GAP",
+        "passage_ids": [
+          "P007",
+          "P006"
+        ],
+        "question": "¿Qué fundamento normativo vigente concreta el límite de ausencias aplicable al requisito de permanencia continuada de dos años?",
+        "reader_limitation": "El artículo 126 exige permanencia continuada, pero no indica en el texto aportado un máximo de días de ausencia; el límite de 90 días aparece en la hoja informativa oficial orientativa. No puede afirmarse aquí que esa cifra esté expresamente fijada por el reglamento.",
+        "reason": "La diferencia entre el requisito legal general y el cómputo numérico de la guía puede afectar a la valoración de la permanencia. La guía no sustituye al precepto legal."
+      },
+      {
+        "classification": "MATERIAL_LEGAL_GAP",
+        "passage_ids": [
+          "P002",
+          "P006"
+        ],
+        "question": "¿Qué fundamento jurídico vigente establece cómo se distribuye entre el solicitante y el familiar residente el mínimo de medios económicos exigido para el arraigo social?",
+        "reader_limitation": "El artículo 127 señala un mínimo de al menos el 100 % del IPREM, pero no precisa en su texto cómo se reparte. La guía oficial orientativa indica un 100 % para cada persona, lo que suma un 200 %; no se puede tratar esa distribución como una regla expresamente escrita en el artículo.",
+        "reason": "La diferencia entre el mínimo formulado por el reglamento y el desglose de la guía es material para saber qué cuantía acreditar."
+      },
+      {
+        "classification": "OPTIONAL_PROCEDURAL_DETAIL",
+        "passage_ids": [
+          "P002"
+        ],
+        "question": "¿Qué órgano concreto de Cataluña gestiona el informe de integración social y por qué canal se solicita?",
+        "reader_limitation": "El artículo identifica a la comunidad autónoma competente y regula la emisión y traslado del informe, pero el material aportado no identifica la unidad catalana ni el canal de solicitud.",
+        "reason": "Es un detalle práctico de tramitación que puede ser útil en Cataluña, pero no altera los requisitos legales expuestos."
+      }
+    ]
+  },
+  "candidates/01/legal_review.json": {
+    "article_hash": "1b8d826480161b10052ed0b0f1384bdb125026a1cd83b28876cbd6a8e6b11844",
+    "verdict": {
+      "approved": false,
+      "blocking_gap_checks": [
+        {
+          "gap_id": "G001",
+          "passage_ids": [
+            "P002",
+            "P006"
+          ],
+          "reason": "P002 remite expresamente al artículo 84 para acreditar medios procedentes de una actividad por cuenta propia. P006 ofrece orientación parcial, pero no aporta el texto vigente de ese artículo. Como el título promete los requisitos y el candidato incluye esta vía, la limitación no subsana la falta de sus condiciones materiales.",
+          "resolution": "STILL_BLOCKING"
+        }
+      ],
+      "claim_checks": [
+        {
+          "claim_id": "C_c982fc4f3783004340c1",
+          "reason": "P007 y P002 sustentan el resumen, pero este presenta el informe favorable como indispensable sin mencionar que, si no se emite en plazo y se acredita esa circunstancia, el requisito puede justificarse por otros medios. Además, falta concretar el límite de ausencias señalado en P006.",
+          "supported": false
+        },
+        {
+          "claim_id": "C_ee9582b620e889b863df",
+          "reason": "P007 sustenta los requisitos enunciados, pero la explicación de la permanencia continuada omite el límite de ausencias indicado en P006, relevante para determinar si se cumple el requisito.",
+          "supported": false
+        },
+        {
+          "claim_id": "C_aec9706a9c75d70dd3ad",
+          "reason": "Los requisitos expuestos corresponden al artículo 126.c) a f), según P007.",
+          "supported": true
+        },
+        {
+          "claim_id": "C_560aeb55544b23a80b8f",
+          "reason": "P007 recoge el pago de la tasa y las limitaciones relativas a autorizaciones y procedimientos en curso.",
+          "supported": true
+        },
+        {
+          "claim_id": "C_023238f826ff097e3f47",
+          "reason": "P002 establece un mínimo del 100 % del IPREM, pero P006 precisa orientativamente un 100 % para el familiar residente y otro 100 % para el solicitante. El texto no advierte de esa diferencia y puede inducir a considerar suficiente el 100 % total. Además, no se ha aportado el artículo 84 para comprobar la vía por cuenta propia.",
+          "supported": false
+        },
+        {
+          "claim_id": "C_4299a44ad5b5a04163b5",
+          "reason": "P002 sustenta el recurso al informe y los factores indicados. La excepción por falta de emisión en plazo se recoge en la sección siguiente.",
+          "supported": true
+        },
+        {
+          "claim_id": "C_ac240b840fcd44ab5fce",
+          "reason": "P002 sustenta el plazo, los órganos competentes, el traslado electrónico y la prueba alternativa cuando el informe no se emite en plazo.",
+          "supported": true
+        }
+      ],
+      "conditions_and_exceptions_complete": false,
+      "current_legal_basis_supported": false,
+      "defects": [
+        {
+          "additional_articles": [
+            {
+              "article": 84,
+              "document": "BOE-A-2024-24099",
+              "reason": "Es el precepto al que remite el artículo 127.c) para los medios procedentes de una actividad por cuenta propia."
+            }
+          ],
+          "correction": "Consultar la versión aplicable del artículo 84 y explicar las condiciones materiales de esa vía, con cita del artículo 84 y del 127.c).",
+          "location": "¿Necesitas vínculos familiares y medios económicos? y Qué debes comprobar en tu caso",
+          "problem": "Se menciona una vía económica relevante sin aportar ni comprobar los requisitos legales a los que está condicionada. La advertencia de que falta el precepto no completa la respuesta prometida."
+        },
+        {
+          "additional_articles": [],
+          "correction": "Contrastar la cuantía exigible y su fundamento normativo e interpretativo vigente; distinguir claramente el importe correspondiente al solicitante y el correspondiente al familiar residente, sin presentar la guía orientativa como norma.",
+          "location": "¿Necesitas vínculos familiares y medios económicos?",
+          "problem": "El 100 % del IPREM se presenta sin aclarar para quién se calcula. P006 indica orientativamente un total del 200 % en la vía de vínculos familiares, mientras que P002 menciona al menos el 100 %. La diferencia es material y requiere verificación."
+        },
+        {
+          "additional_articles": [],
+          "correction": "Verificar en la fuente jurídica aplicable el cómputo de ausencias e incorporar el límite pertinente; P006 indica que las ausencias no pueden superar 90 días durante los dos años.",
+          "location": "Introducción y ¿Qué requisitos generales debes cumplir?",
+          "problem": "Se exige permanencia continuada durante dos años sin explicar el límite de ausencias señalado por la guía oficial, dato decisivo para valorar ese requisito."
+        },
+        {
+          "additional_articles": [],
+          "correction": "Matizar en la introducción que, si el informe no se emite en plazo y se acredita esa circunstancia, el requisito puede justificarse por otros medios de prueba.",
+          "location": "Introducción",
+          "problem": "La introducción presenta el informe favorable como una exigencia absoluta para quien no acredita vínculos, aunque el artículo 127 prevé una alternativa probatoria que solo aparece después."
+        }
+      ],
+      "explanation": "El candidato responde a la intención general, pero no debe aprobarse mientras falten las condiciones de la vía por cuenta propia y no se aclaren las cuantías y el cómputo de permanencia. P002 y P007 son versiones del BOE consolidado seleccionadas para el 26 de noviembre de 2026; su consolidación es informativa. P006 es una guía orientativa, no una certificación de vigencia ni sustituto de la norma. Identificar el órgano y canal concretos de Cataluña sería útil, pero no resulta indispensable para esta respuesta sobre requisitos. Se mantiene la revisión jurídica humana.",
+      "gap_assessments_sound": true,
+      "intent_preserved": true,
+      "no_misleading_omissions": false,
+      "no_unsupported_statements": false,
+      "prior_defect_checks": [],
+      "scope_complete": false,
+      "source_applicability_verified": false
+    },
+    "blocking_gap_ids": [
+      "G001"
+    ],
+    "passed": false,
+    "simulated": false,
+    "publication_allowed": false
+  },
+  "candidates/02/candidate.json": {
+    "title": "Requisitos arraigo social cataluña",
+    "article_type": "information",
+    "introduction": "",
+    "intro_claim": true,
+    "sections": [
+      {
+        "heading": "Introducción",
+        "paragraphs": [
+          {
+            "claim_id": "C_00c45ed4af3602ae3f49",
+            "text": "Para solicitar el arraigo social en Cataluña, en general debes acreditar dos años de permanencia continuada en España y cumplir los requisitos comunes. Además, necesitas acreditar vínculos familiares con una persona extranjera residente y medios económicos suficientes, o, si no acreditas esos vínculos, el esfuerzo de integración mediante un informe favorable. Si el informe no se emite en el plazo previsto y acreditas debidamente esa circunstancia, puedes justificar ese requisito por otros medios de prueba.",
+            "conditions": "",
+            "exceptions": "",
+            "citations": [
+              {
+                "label": "Artículo 126 del Reglamento de Extranjería (RD 1155/2024)",
+                "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a1-38",
+                "passage_id": "P_79658cf437f532bb0a07cff566bd6b8b"
+              },
+              {
+                "label": "Artículo 127 del Reglamento de Extranjería (RD 1155/2024)",
+                "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a1-39",
+                "passage_id": "P_ba93824d4c0e649243a4cb970908f6a6"
+              },
+              {
+                "label": "Hoja 28 — arraigo social",
+                "url": "https://www.inclusion.gob.es/es/web/migraciones/w/autorizacion-residencia-temporal-por-circunstancias-excepcionales.-arraigo-social",
+                "passage_id": "P_17089dcf6ce54b0fa16557a7f52646eb"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "¿Qué requisitos generales debes cumplir?",
+        "paragraphs": [
+          {
+            "claim_id": "C_5ac01910de4dcc83932f",
+            "text": "Debes encontrarte en España y no tener la condición de solicitante de protección internacional cuando presentes la solicitud ni mientras se tramita. También debes haber permanecido en España de forma continuada durante los dos años anteriores. Si solicitaste protección internacional, no se cuenta el tiempo transcurrido mientras esa solicitud no tuviera una resolución firme en vía administrativa y, cuando corresponda, judicial.",
+            "conditions": "",
+            "exceptions": "El arraigo familiar no exige una permanencia mínima, pero es una modalidad distinta del arraigo social.",
+            "citations": [
+              {
+                "label": "Artículo 126 del Reglamento de Extranjería (RD 1155/2024)",
+                "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a1-38",
+                "passage_id": "P_79658cf437f532bb0a07cff566bd6b8b"
+              }
+            ]
+          },
+          {
+            "claim_id": "C_2637345fc95189d5f0fc",
+            "text": "El reglamento exige que la permanencia sea continuada, pero el artículo aplicable no fija en el texto aportado un número máximo de días de ausencia. La hoja informativa oficial sobre arraigo social indica, de forma orientativa, que las ausencias no pueden superar los 90 días durante esos dos años. Por tanto, ese límite consta en la guía, pero no debe presentarse como una cifra expresamente establecida en el artículo del reglamento.",
+            "conditions": "",
+            "exceptions": "",
+            "citations": [
+              {
+                "label": "Artículo 126 del Reglamento de Extranjería (RD 1155/2024)",
+                "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a1-38",
+                "passage_id": "P_79658cf437f532bb0a07cff566bd6b8b"
+              },
+              {
+                "label": "Hoja 28 — arraigo social",
+                "url": "https://www.inclusion.gob.es/es/web/migraciones/w/autorizacion-residencia-temporal-por-circunstancias-excepcionales.-arraigo-social",
+                "passage_id": "P_17089dcf6ce54b0fa16557a7f52646eb"
+              }
+            ]
+          },
+          {
+            "claim_id": "C_28f19d972ff3c7273a0d",
+            "text": "No debes representar una amenaza para el orden público, la seguridad o la salud pública. También debes carecer de antecedentes penales en España y en los países donde residiste durante los cinco años anteriores a tu entrada en España, por delitos previstos en la legislación española; no figurar como rechazable en países con los que España tenga un convenio a ese efecto; y no estar dentro de un compromiso de no retorno a España, si lo asumiste.",
+            "conditions": "",
+            "exceptions": "",
+            "citations": [
+              {
+                "label": "Artículo 126 del Reglamento de Extranjería (RD 1155/2024)",
+                "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a1-38",
+                "passage_id": "P_79658cf437f532bb0a07cff566bd6b8b"
+              }
+            ]
+          },
+          {
+            "claim_id": "C_b87e3cbb8cfea14b5a6b",
+            "text": "Debes haber pagado la tasa correspondiente. Además, no puedes ser titular de una autorización de estancia o residencia ni tener la condición de persona interesada en un procedimiento para conceder, prorrogar, renovar o modificar una autorización de estancia o residencia.",
+            "conditions": "",
+            "exceptions": "",
+            "citations": [
+              {
+                "label": "Artículo 126 del Reglamento de Extranjería (RD 1155/2024)",
+                "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a1-38",
+                "passage_id": "P_79658cf437f532bb0a07cff566bd6b8b"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "¿Qué vínculos familiares y medios económicos se exigen?",
+        "paragraphs": [
+          {
+            "claim_id": "C_fbf270ddb27a294a17c4",
+            "text": "La vía familiar requiere vínculos con una persona extranjera titular de una autorización de residencia: puede ser tu cónyuge, pareja registrada o familiar de primer grado en línea directa. El reglamento exige medios suficientes para tu mantenimiento y establece un mínimo del 100 % del IPREM, disponibles en España; pueden proceder de esos familiares. La hoja informativa oficial concreta orientativamente un 100 % del IPREM para el familiar residente y otro 100 % para quien solicita el arraigo, es decir, un total del 200 %. Como el artículo del reglamento no desglosa expresamente el mínimo entre ambas personas, no des por hecho que el 100 % total sea suficiente.",
+            "conditions": "",
+            "exceptions": "",
+            "citations": [
+              {
+                "label": "Artículo 127 del Reglamento de Extranjería (RD 1155/2024)",
+                "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a1-39",
+                "passage_id": "P_ba93824d4c0e649243a4cb970908f6a6"
+              },
+              {
+                "label": "Hoja 28 — arraigo social",
+                "url": "https://www.inclusion.gob.es/es/web/migraciones/w/autorizacion-residencia-temporal-por-circunstancias-excepcionales.-arraigo-social",
+                "passage_id": "P_17089dcf6ce54b0fa16557a7f52646eb"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "¿Pueden proceder los medios de una actividad por cuenta propia?",
+        "paragraphs": [
+          {
+            "claim_id": "C_c44bf864dd2ade176e4a",
+            "text": "Sí. El artículo 127 permite alegar que los medios proceden de una actividad por cuenta propia si se cumplen los requisitos del artículo 84. En concreto, debes cumplir las condiciones exigidas para abrir y desarrollar la actividad; acreditar la cualificación profesional o experiencia suficiente y, cuando sea necesaria, la colegiación; y justificar la suficiencia de la inversión prevista y su incidencia en la creación de empleo, incluido el autoempleo. También se exige no estar dentro de un compromiso de no retorno, no representar una amenaza para el orden público, la seguridad o la salud pública y haber pagado la tasa.",
+            "conditions": "Esta posibilidad está condicionada a que se cumplan los requisitos del artículo 84 del Reglamento.",
+            "exceptions": "",
+            "citations": [
+              {
+                "label": "Artículo 127 del Reglamento de Extranjería (RD 1155/2024)",
+                "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a1-39",
+                "passage_id": "P_ba93824d4c0e649243a4cb970908f6a6"
+              },
+              {
+                "label": "Artículo 84 del Reglamento de Extranjería (RD 1155/2024)",
+                "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a8-6",
+                "passage_id": "P_0c12a5faf1ee44557c6f9c1716010712"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "¿Y si no acreditas esos vínculos familiares?",
+        "paragraphs": [
+          {
+            "claim_id": "C_1f953b4d65ccc8a3d71d",
+            "text": "En ese caso se valora tu esfuerzo de integración mediante un informe favorable de integración social. Lo emite el órgano competente de la comunidad autónoma donde resides; un ayuntamiento puede emitirlo si la comunidad autónoma ha establecido esa posibilidad y lo ha comunicado previamente a la Secretaría de Estado de Migraciones. El informe debe valorar, entre otros factores, el tiempo que llevas en tu domicilio habitual, tus medios económicos y tu participación en programas de inserción sociolaboral y cultural. La comunidad autónoma o, cuando proceda, el ayuntamiento debe trasladarlo electrónicamente a la Oficina de Extranjería competente.",
+            "conditions": "",
+            "exceptions": "Si el informe no se emite dentro del mes siguiente a la solicitud y acreditas debidamente esa circunstancia, puedes justificar el requisito por cualquier medio de prueba.",
+            "citations": [
+              {
+                "label": "Artículo 127 del Reglamento de Extranjería (RD 1155/2024)",
+                "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a1-39",
+                "passage_id": "P_ba93824d4c0e649243a4cb970908f6a6"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Base consultada",
+        "paragraphs": [
+          {
+            "claim_id": "C_2af4e6454fbb253c198b",
+            "text": "La respuesta se basa en el texto consolidado del Reglamento de Extranjería consultado en el BOE el 26 de noviembre de 2026; la versión más reciente disponible figura con fecha de vigencia de 16 de abril de 2026. La consolidación del BOE tiene carácter informativo y este contenido requiere revisión jurídica humana.",
+            "conditions": "",
+            "exceptions": "",
+            "citations": [
+              {
+                "label": "Artículo 127 del Reglamento de Extranjería (RD 1155/2024)",
+                "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a1-39",
+                "passage_id": "P_ba93824d4c0e649243a4cb970908f6a6"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "limitations": [
+      {
+        "question": "¿Qué fundamento normativo vigente concreta el límite de ausencias aplicable al requisito de permanencia continuada de dos años?",
+        "text": "El artículo 126 exige permanencia continuada, pero no indica en el texto aportado un máximo de días de ausencia; el límite de 90 días aparece en la hoja informativa oficial orientativa. No puede afirmarse aquí que esa cifra esté expresamente fijada por el reglamento.",
+        "classification": "MATERIAL_LEGAL_GAP",
+        "citations": [
+          {
+            "label": "Artículo 126 del Reglamento de Extranjería (RD 1155/2024)",
+            "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a1-38",
+            "passage_id": "P_79658cf437f532bb0a07cff566bd6b8b"
+          },
+          {
+            "label": "Hoja 28 — arraigo social",
+            "url": "https://www.inclusion.gob.es/es/web/migraciones/w/autorizacion-residencia-temporal-por-circunstancias-excepcionales.-arraigo-social",
+            "passage_id": "P_17089dcf6ce54b0fa16557a7f52646eb"
+          }
+        ]
+      },
+      {
+        "question": "¿Qué fundamento jurídico vigente establece cómo se distribuye entre el solicitante y el familiar residente el mínimo de medios económicos exigido para el arraigo social?",
+        "text": "El artículo 127 señala un mínimo de al menos el 100 % del IPREM, pero no precisa en su texto cómo se reparte. La guía oficial orientativa indica un 100 % para cada persona, lo que suma un 200 %; no se puede tratar esa distribución como una regla expresamente escrita en el artículo.",
+        "classification": "MATERIAL_LEGAL_GAP",
+        "citations": [
+          {
+            "label": "Artículo 127 del Reglamento de Extranjería (RD 1155/2024)",
+            "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a1-39",
+            "passage_id": "P_ba93824d4c0e649243a4cb970908f6a6"
+          },
+          {
+            "label": "Hoja 28 — arraigo social",
+            "url": "https://www.inclusion.gob.es/es/web/migraciones/w/autorizacion-residencia-temporal-por-circunstancias-excepcionales.-arraigo-social",
+            "passage_id": "P_17089dcf6ce54b0fa16557a7f52646eb"
+          }
+        ]
+      },
+      {
+        "question": "¿Qué órgano concreto de Cataluña gestiona el informe de integración social y por qué canal se solicita?",
+        "text": "El artículo identifica a la comunidad autónoma competente y regula la emisión y traslado del informe, pero el material aportado no identifica la unidad catalana ni el canal de solicitud.",
+        "classification": "OPTIONAL_PROCEDURAL_DETAIL",
+        "citations": [
+          {
+            "label": "Artículo 127 del Reglamento de Extranjería (RD 1155/2024)",
+            "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a1-39",
+            "passage_id": "P_ba93824d4c0e649243a4cb970908f6a6"
+          }
+        ]
+      }
+    ],
+    "disclaimer": "Información general basada en los textos consolidados del BOE, de carácter informativo. No determina por sí sola la elegibilidad de una persona concreta. No constituye una guía exhaustiva de presentación de solicitudes.",
+    "contact_url": "https://lexgotramite.com/#contacto",
+    "publication_allowed": false,
+    "human_legal_review_required": true,
+    "approved": false,
+    "content_hash": "11573c9b1e87260dd0dc032186cbb4b58b4eff15a7662bb00c4dc7710c4ea068"
+  },
+  "decision.json": {
+    "result": "BUDGET_EXHAUSTED",
+    "reason": "estimated API budget",
+    "topic": "Requisitos arraigo social cataluña",
+    "candidate_count": 2,
+    "automated_review_passed": false,
+    "simulated": false,
+    "legal_accuracy_certified": false,
+    "publication_allowed": false,
+    "human_legal_review_required": true
+  },
+  "api_usage.json": {
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "status": "COMPLETED",
+        "reserved_usd": 0.0092873,
+        "input_token_upper_estimate": 67873,
+        "max_output_tokens": 5000,
+        "stage": "research",
+        "usage": {
+          "input_tokens": 13293,
+          "input_tokens_details": {
+            "cache_write_tokens": 13290,
+            "cache_write_tokens_details": {
+              "ttl_12h_tokens": 0,
+              "ttl_30m_tokens": 13290
+            },
+            "cached_tokens": 0
+          },
+          "output_tokens": 2215,
+          "output_tokens_details": {
+            "reasoning_tokens": 1271
+          },
+          "total_tokens": 15508
+        },
+        "response_id": "resp_03e8339222bc426f016b08472de5c487d2b47746b198a3f168",
+        "response_model": "gpt-6-luna"
+      },
+      {
+        "model": "gpt-6-luna",
+        "status": "COMPLETED",
+        "reserved_usd": 0.00978,
+        "input_token_upper_estimate": 72800,
+        "max_output_tokens": 5000,
+        "stage": "research",
+        "usage": {
+          "input_tokens": 14542,
+          "input_tokens_details": {
+            "cache_write_tokens": 14539,
+            "cache_write_tokens_details": {
+              "ttl_12h_tokens": 0,
+              "ttl_30m_tokens": 14539
+            },
+            "cached_tokens": 0
+          },
+          "output_tokens": 2633,
+          "output_tokens_details": {
+            "reasoning_tokens": 1404
+          },
+          "total_tokens": 17175
+        },
+        "response_id": "resp_034be7659fc64b0c016b08473eee9887d2a75ee3edfdf3c254",
+        "response_model": "gpt-6-luna"
+      },
+      {
+        "model": "gpt-6.1-terra",
+        "status": "COMPLETED",
+        "reserved_usd": 0.120621,
+        "input_token_upper_estimate": 95621,
+        "max_output_tokens": 5000,
+        "stage": "legal_review",
+        "usage": {
+          "input_tokens": 20346,
+          "input_tokens_details": {
+            "cache_write_tokens": 20343,
+            "cache_write_tokens_details": {
+              "ttl_12h_tokens": 0,
+              "ttl_30m_tokens": 20343
+            },
+            "cached_tokens": 0
+          },
+          "output_tokens": 2195,
+          "output_tokens_details": {
+            "reasoning_tokens": 797
+          },
+          "total_tokens": 22541
+        },
+        "response_id": "resp_0da134ff7cb1be2e016b08475289b887d2b03e696d9d1905c0",
+        "response_model": "gpt-6.1-terra"
+      },
+      {
+        "model": "gpt-6-luna",
+        "status": "COMPLETED",
+        "reserved_usd": 0.011493399999999999,
+        "input_token_upper_estimate": 89934,
+        "max_output_tokens": 5000,
+        "stage": "research",
+        "usage": {
+          "input_tokens": 18760,
+          "input_tokens_details": {
+            "cache_write_tokens": 18757,
+            "cache_write_tokens_details": {
+              "ttl_12h_tokens": 0,
+              "ttl_30m_tokens": 18757
+            },
+            "cached_tokens": 0
+          },
+          "output_tokens": 3127,
+          "output_tokens_details": {
+            "reasoning_tokens": 1243
+          },
+          "total_tokens": 21887
+        },
+        "response_id": "resp_0ee6f03f335bfe9f016b08477bde1087d28c68abc3d07daa33",
+        "response_model": "gpt-6-luna"
+      }
+    ],
+    "documents": [
+      {
+        "key": "BOE-A-2024-24099:index",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "BOE-A-2024-24099:132",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "BOE-A-2024-24099:metadata",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "BOE-A-2024-24099:127",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "BOE-A-2024-24099:131",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "BOE-A-2024-24099:191",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "https://www.inclusion.gob.es/es/web/migraciones/w/29.-autorizacion-de-residencia-temporal-por-circunstancias-excepcionales.-arraigo-sociolaboral.",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "https://www.inclusion.gob.es/es/web/migraciones/w/autorizacion-residencia-temporal-por-circunstancias-excepcionales.-arraigo-social",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "BOE-A-2024-24099:126",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "BOE-A-2024-24099:124",
+        "status": "RETRIEVED"
+      },
+      {
+        "key": "BOE-A-2024-24099:84",
+        "status": "RETRIEVED"
+      }
+    ],
+    "estimated_usd": 0.039968,
+    "conservative_budget_debit_usd": 0.151182,
+    "elapsed_seconds": 104.43,
+    "publication_allowed": false
+  },
+  "selected_proposal.json": {
+    "proposals": [
+      {
+        "cluster_id": "gsc_4f83b62e8c82aa69a09a",
+        "origin_cluster_id": "gsc_4f83b62e8c82aa69a09a",
+        "proposed_title": "Requisitos arraigo social cataluña",
+        "action": "create_article",
+        "queries": [
+          "requisitos arraigo social cataluña"
+        ],
+        "search_demand_evidence": {
+          "impressions_28d": 20,
+          "impressions_90d": 43,
+          "observed_windows": {
+            "7": null,
+            "28": {
+              "id": "gsc_4f83b62e8c82aa69a09a",
+              "category": "arraigo",
+              "queries": [
+                {
+                  "query": "requisitos arraigo social cataluña",
+                  "impressions": 20,
+                  "clicks": 0,
+                  "average_position": 48.1,
+                  "ctr": 0.0,
+                  "landing_pages": [
+                    "https://lexgotramite.com/arraigo-social-espana",
+                    "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+                  ]
+                }
+              ],
+              "impressions": 20,
+              "clicks": 0,
+              "average_position": 48.1,
+              "ctr": 0.0,
+              "landing_pages": [
+                "https://lexgotramite.com/arraigo-social-espana",
+                "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+              ]
+            },
+            "90": {
+              "id": "gsc_4f83b62e8c82aa69a09a",
+              "category": "arraigo",
+              "queries": [
+                {
+                  "query": "requisitos arraigo social cataluña",
+                  "impressions": 43,
+                  "clicks": 0,
+                  "average_position": 46.28,
+                  "ctr": 0.0,
+                  "landing_pages": [
+                    "https://lexgotramite.com/arraigo-social-espana",
+                    "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+                  ]
+                }
+              ],
+              "impressions": 43,
+              "clicks": 0,
+              "average_position": 46.28,
+              "ctr": 0.0,
+              "landing_pages": [
+                "https://lexgotramite.com/arraigo-social-espana",
+                "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+              ]
+            }
+          },
+          "source_metadata": {
+            "source": "google_search_console_api",
+            "site": "sc-domain:lexgotramite.com",
+            "data_end_date": "2026-11-23",
+            "retrieved_at": "2026-11-26",
+            "limitations": "Property search impressions, not overall Google keyword volumes; query rows may be withheld or truncated.",
+            "verified_google_data": true
+          }
+        },
+        "proposed_path": "blog/requisitos-arraigo-social-cataluna.html",
+        "commercial_classification": {
+          "business_category": "arraigo",
+          "search_intent": "Requisitos arraigo social cataluña",
+          "legal_procedure": "PENDING_OFFICIAL_CLASSIFICATION",
+          "procedure_type": null,
+          "applicable_regulation": [
+            "RD 1155/2024 (texto consolidado)",
+            "RD 316/2026 (verificar aplicabilidad)"
+          ],
+          "target_audience": "Titulares de autorización temporal por arraigo",
+          "priority": 2,
+          "excluded": false,
+          "exclusion_reason": null
+        },
+        "topic_origin": "GSC_VERIFIED_OPPORTUNITY",
+        "search_demand_verified": true,
+        "primary_query": "requisitos arraigo social cataluña",
+        "selection_reason": "Distinct intent, measured GSC demand; official-source research still required",
+        "observed_pages": [
+          "arraigo-social-espana.html",
+          "blog/requisitos-arraigo-social-espana.html"
+        ]
+      }
+    ]
+  },
+  "selection.json": {
+    "version": "5.0.0",
+    "selected": {
+      "cluster_id": "gsc_4f83b62e8c82aa69a09a",
+      "proposed_title": "Requisitos arraigo social cataluña",
+      "primary_query": "requisitos arraigo social cataluña",
+      "supporting_queries": [
+        "requisitos arraigo social cataluña"
+      ],
+      "impressions_28d": 20,
+      "impressions_90d": 43,
+      "clicks_28d": 0,
+      "average_position_28d": 48.1,
+      "existing_pages": [
+        "arraigo-social-espana.html",
+        "blog/requisitos-arraigo-social-espana.html"
+      ],
+      "observed_metrics": {
+        "7": null,
+        "28": {
+          "id": "gsc_4f83b62e8c82aa69a09a",
+          "category": "arraigo",
+          "queries": [
+            {
+              "query": "requisitos arraigo social cataluña",
+              "impressions": 20,
+              "clicks": 0,
+              "average_position": 48.1,
+              "ctr": 0.0,
+              "landing_pages": [
+                "https://lexgotramite.com/arraigo-social-espana",
+                "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+              ]
+            }
+          ],
+          "impressions": 20,
+          "clicks": 0,
+          "average_position": 48.1,
+          "ctr": 0.0,
+          "landing_pages": [
+            "https://lexgotramite.com/arraigo-social-espana",
+            "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+          ]
+        },
+        "90": {
+          "id": "gsc_4f83b62e8c82aa69a09a",
+          "category": "arraigo",
+          "queries": [
+            {
+              "query": "requisitos arraigo social cataluña",
+              "impressions": 43,
+              "clicks": 0,
+              "average_position": 46.28,
+              "ctr": 0.0,
+              "landing_pages": [
+                "https://lexgotramite.com/arraigo-social-espana",
+                "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+              ]
+            }
+          ],
+          "impressions": 43,
+          "clicks": 0,
+          "average_position": 46.28,
+          "ctr": 0.0,
+          "landing_pages": [
+            "https://lexgotramite.com/arraigo-social-espana",
+            "https://lexgotramite.com/blog/requisitos-arraigo-social-espana"
+          ]
+        }
+      },
+      "score_breakdown": {
+        "observed_demand": 26.49,
+        "ranking_opportunity": 10,
+        "low_ctr_signal": 0,
+        "recent_demand_signal": 5,
+        "cooldown_penalty": 0
+      },
+      "score": 41.489999999999995,
+      "cooldown_active": false,
+      "topic_origin": "GSC_VERIFIED_OPPORTUNITY",
+      "search_demand_verified": true,
+      "title_adjusted_to_query": false,
+      "commercial_classification": {
+        "business_category": "arraigo",
+        "search_intent": "Requisitos arraigo social cataluña",
+        "legal_procedure": "PENDING_OFFICIAL_CLASSIFICATION",
+        "procedure_type": null,
+        "applicable_regulation": [
+          "RD 1155/2024 (texto consolidado)",
+          "RD 316/2026 (verificar aplicabilidad)"
+        ],
+        "target_audience": "Titulares de autorización temporal por arraigo",
+        "priority": 2,
+        "excluded": false,
+        "exclusion_reason": null
+      },
+      "research_registry_available": true,
+      "duplicate_metadata_detected": false,
+      "duplicate_metadata_reason": "Distinct informational intent; Google associated URL is not a duplicate",
+      "proposed_new_path": "blog/requisitos-arraigo-social-cataluna.html",
+      "recommended_action": "CREATE_NEW_ARTICLE",
+      "selection_reason": "Distinct intent, measured GSC demand; official-source research still required"
+    },
+    "history_origin": "Restored lexgo-v50-results history",
+    "retry_failed": false,
+    "publication_allowed": false
+  }
+}

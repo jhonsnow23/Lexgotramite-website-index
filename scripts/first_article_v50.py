@@ -59,6 +59,9 @@ REVIEW_MODEL = 'gpt-6.1-terra'
 DEFAULT_USD = 0.25
 MAX_USD = 0.50
 RATES = {'gpt-6-luna': (0.1, 0.5), 'gpt-6.1-terra': (1., 5.), 'gpt-6.2-sol': (2., 10.), 'gpt-6.2-astra': (8., 40.), 'gpt-4.1': (2., 8.), 'gpt-5': (1.25, 10.)}
+# Completed requests are settled with a 2x usage-rate allowance. Unknown or
+# failed requests retain their full reservation; this is not a billing guarantee.
+SETTLEMENT_MULTIPLIER = 2.0
 GAP_TYPES = ['MATERIAL_LEGAL_GAP', 'APPLICANT_DEPENDENT_CONDITION', 'MATERIAL_PROCEDURAL_GAP',
              'OPTIONAL_PROCEDURAL_DETAIL', 'RESOLVED_BY_EVIDENCE', 'EDITORIAL_SCOPE_EXCLUSION',
              'INVALID_OR_UNRESOLVED_ASSESSMENT']
@@ -196,6 +199,25 @@ class Ledger:
         self.calls.append(row); self.checkpoint()
         return row
 
+    def settle(self, row):
+        # Only a successfully parsed response with matching model and reliable
+        # token counts can release unused reservation. No release on errors.
+        usage = row.get('usage') or {}
+        i, o = usage.get('input_tokens'), usage.get('output_tokens')
+        if (row.get('status') != 'COMPLETED' or row.get('response_model') != row.get('model')
+                or type(i) is not int or type(o) is not int or i <= 0 or o <= 0
+                or i > row['input_token_upper_estimate'] or o > row['max_output_tokens']
+                or ('total_tokens' in usage and usage['total_tokens'] != i+o)
+                or 'settled_debit_usd' in row):
+            return
+        a, b = RATES[row['model']]
+        debit = SETTLEMENT_MULTIPLIER * (i*a + o*b)/1e6
+        # Debit actual reported usage plus contingency, even if it exceeds
+        # the initial reservation. Future calls must fit the remaining budget.
+        row['settled_debit_usd'] = debit
+        row['settlement_multiplier'] = SETTLEMENT_MULTIPLIER
+        self.reserved = max(0., self.reserved - row['reserved_usd'] + debit)
+
 
 class Model:
     def __init__(self, ledger, transport=None):
@@ -243,7 +265,7 @@ class Model:
             texts=[p['text'] for p in parts if p.get('type')=='output_text']
             if len(texts)!=1: raise ModelError('Expected exactly one structured response')
             output=json.loads(texts[0]); Draft202012Validator(schema).validate(output)
-            row['status']='COMPLETED'; return output
+            row['status']='COMPLETED'; self.ledger.settle(row); return output
         except BudgetExhausted: raise
         except Exception as exc:
             row['status']='ERROR'; row['error_type']=type(exc).__name__
@@ -576,6 +598,16 @@ def select_topics(category='',topic='',bootstrap=True, website_root=None, propos
     return out
 
 
+def priority_articles(category, topic):
+    # Social arraigo is an initial-eligibility procedure, not sociolaboral
+    # extension. Article 127(c) expressly refers to Article 84.
+    normalized = policy.norm(topic)
+    if (category == 'arraigo' and re.search(r'\barraigo social\b', normalized)
+            and not re.search(r'\b(?:renov\w*|prorrog\w*|modific\w*|continu\w*)\b', normalized)):
+        return (127, 126, 84, 124)
+    return PROFILES[category][1]
+
+
 def run_topic(target, article_type, root, model, researcher, research_model, review_model, limits, contact_url=None):
     topic,category=target['topic'],target['category']; root.mkdir(parents=True,exist_ok=True)
     state=[]; evidence=[]; requests=set(); reviews=[]; candidates=[]; coverage=[]; repair_feedback=None; prior_defects=[]
@@ -609,12 +641,13 @@ def run_topic(target, article_type, root, model, researcher, research_model, rev
         plan=legacy.plan({'proposals':[{'proposed_title':topic,'cluster_id':target.get('cluster_id') or 'bootstrap_'+category,'queries':target.get('queries') or [topic]}]})
         save(root/'research_plan.json',{**plan,'article_type':article_type,'scope_requirement':TYPES[article_type]})
         mark('RESEARCH_IN_PROGRESS','Procedure-specific official starting points')
-        fetch([{'document':RD,'article':n} for n in PROFILES[category][1]])
+        priorities=priority_articles(category,topic)
+        fetch([{'document':RD,'article':n} for n in priorities])
         if category in ('no_lucrativa','cuenta_ajena','cuenta_propia'):
             # Filing after expiry may refer to this separate statutory rule.
             fetch([{'document':LO,'article':52,'reason':'Relevant cross-reference for late applications'}])
         add(researcher.guidance(category,topic))
-        if not any(r.get('source_id')==RD and str(r.get('article'))==str(PROFILES[category][1][0]) for r in evidence):
+        if not any(r.get('source_id')==RD and str(r.get('article'))==str(priorities[0]) for r in evidence):
             return decision('BLOCKED_INSUFFICIENT_EVIDENCE','Primary consolidated provision unavailable')
         for round_number in range(1,limits.research_rounds+limits.draft_repairs+1):
             catalog,dossier,aliases,source_rows=source_context(evidence,plan)
@@ -624,7 +657,14 @@ def run_topic(target, article_type, root, model, researcher, research_model, rev
             data={'topic':topic,'category':category,'reader_intent':target['search_intent'],'article_type':article_type,
                   'scope_requirement':TYPES[article_type],'original_queries':target.get('queries',[]),'official_passages':source_rows,
                   'historical_review_feedback':repair_feedback}
-            raw=model.call('research',research_model,RESEARCH_PROMPT,data,research_schema(aliases))
+            focus = ''
+            if category == 'arraigo' and priorities == (127,126,84,124):
+                focus = ('\nPara arraigo social, comprueba los requisitos generales y específicos, las remisiones, '
+                         'las vías familiares y de integración y la prueba alternativa si el informe no se emite en plazo. '
+                         'Contrasta literalmente los importes IPREM y las ausencias con la guía y la norma; '
+                         'distingue su autoridad y no resuelvas discrepancias por suposición. Si la consulta es territorial, '
+                         'distingue requisitos estatales de trámites autonómicos y no inventes órganos ni canales locales.')
+            raw=model.call('research',research_model,RESEARCH_PROMPT+focus,data,research_schema(aliases))
             save(root/f'research_round_{round_number:02}.json',raw)
             try: claims,gaps=validate_research(raw,aliases,catalog,evidence,dossier)
             except IntegrityError as exc:
