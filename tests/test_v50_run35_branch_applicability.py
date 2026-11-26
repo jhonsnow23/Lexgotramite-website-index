@@ -112,7 +112,15 @@ class Run35BranchTests(unittest.TestCase):
                                'Official channels or exclusive procedures for filing modification or prórroga requests beyond the EX-26 form']},
         ]
         model_result = {'questions': questions}
-        with patch.object(legal, 'call_model', return_value=model_result):
+        def assessment(kinds):
+            return {'assessments': [{'index': i, 'classification': kind,
+                    'reason': 'Fixture: separability reviewed', 'retained_answer': 'Conditional route',
+                    'limitation': 'No individual conclusion', 'evidence_ids': ['R001']}
+                    for i, kind in enumerate(kinds)]}
+        with patch.object(legal, 'call_model', side_effect=[model_result,
+                assessment(['INDIVIDUAL','VERIFIED_BY_MATRIX']),
+                assessment(['INDIVIDUAL','INDIVIDUAL']),
+                assessment(['OPTIONAL_DETAIL','OPTIONAL_DETAIL'])]):
             covered, ready = legal.research_readiness(plan | {'research_questions': [
                 {'id': 'scope', 'question': 'scope'}, {'id': 'requirements', 'question': 'requirements'},
                 {'id': 'steps', 'question': 'steps'}]}, rows, dossier=dossier)

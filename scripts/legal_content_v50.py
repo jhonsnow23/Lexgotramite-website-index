@@ -86,8 +86,8 @@ ambas ramas, ni presentes una guía general como instrucciones personalizadas. D
 Para titulares de las autorizaciones de las disposiciones adicionales vigésima y vigesimoprimera:
 ambas autorizaciones habilitan a trabajar por cuenta ajena y propia según su apartado 10.
 En el artículo 191: (i) el apartado 2 remite al artículo 74 para la modificación por cuenta ajena
-cuando todavía no se lleva al menos un año como titular; (ii) el apartado 3, si se lleva al menos
-un año y la autorización de origen habilitaba a trabajar, remite al artículo 80 para cuenta ajena
+cuando todavía no se lleva residiendo al menos un año como titular de una autorización de residencia;
+(ii) el apartado 3, si se lleva en España al menos un año en situación de residencia y la autorización de origen habilitaba a trabajar, remite al artículo 80 para cuenta ajena
 o al artículo 86 para cuenta propia; (iii) el apartado 4 y su remisión al artículo 84 corresponden
 a autorizaciones de origen que NO habilitaban a trabajar y no deben trasladarse automáticamente
 a titulares DA20/DA21. No infieras una vía de cuenta propia antes de un año si la norma y la evidencia
@@ -122,6 +122,10 @@ claims (lista {claim,evidence_ids}), unresolved_questions (lista de textos).
 Cada afirmación legal material, incluso en FAQ o introducción, debe estar en claims con IDs
 válidos de la evidencia. No copies largos textos normativos. Al menos tres secciones sustantivas.
 Separa dudas materiales que impiden explicar el trámite de temas hipotéticos fuera de alcance.
+Respeta las limitaciones de research_coverage.gap_assessments: conserva el alcance original,
+explica las vías acreditadas y expresa las exclusiones editoriales en el texto sin decidirlas.
+No conviertas una vía no verificada en imposibilidad de modificación ni en acceso a prórroga excepcional.
+Las exclusiones separables no pertenecen a unresolved_questions, que sigue reservado a dudas materiales.
 Nunca ocultes una duda material para alcanzar REVIEW_READY. El resultado siempre es BORRADOR
 pendiente de revisión jurídica humana; no autorices publicar.'''
 
@@ -137,10 +141,17 @@ regímenes transitorios y requisitos de concesión inicial frente a continuidad.
 Una fuente recuperada sin vigencia verificada o un enlace de un trámite distinto no certifica
 la afirmación. No marques SUPPORTED si faltan excepciones necesarias. Respeta las remisiones normativas expresas: el artículo 74 solo entra en la rama 191.2 de cuenta ajena; los artículos 80 y 86 aportan requisitos a la modificación 191.3, no convierten el trámite en una renovación autónoma. Para titulares DA20/DA21,
 comprueba la matriz de ramas del artículo 191: art. 74 solo en la rama 191.2 de cuenta ajena
-antes de un año; art. 80 en 191.3 cuenta ajena con al menos un año y autorización de origen
+antes de un año residiendo como titular de una autorización de residencia; art. 80 en 191.3
+cuenta ajena con al menos un año en España en situación de residencia y autorización de origen
 habilitante; art. 86 en 191.3 cuenta propia bajo esas mismas condiciones; art. 84 pertenece a
-191.4 cuando el origen no habilitaba a trabajar y no debe imponerse a DA20/DA21. Distingue la
+191.4 cuando se lleva al menos un año en España en situación de residencia y el origen no habilitaba a trabajar y no debe imponerse a DA20/DA21. Distingue la
 prolongación de validez durante una modificación de la prórroga excepcional de la autorización.
+Comprueba las limitaciones de research_coverage y el alcance original de la guía.
+Si research_coverage contiene exclusiones editoriales, devuelve además scope_limitations_status: SUPPORTED o BLOCKED.
+Solo SUPPORTED si todas las exclusiones son separables, explícitas y compatibles con el alcance original.
+Una exclusión editorial solo es válida si es separable y se declara expresamente en el texto;
+si impide explicar una condición material, contradice el alcance original o se usa para concluir
+que una vía no existe o que procede una prórroga excepcional, informa un gap bloqueante.
 No inventes preguntas sobre escenarios que el artículo no afirma cubrir.
 Gaps se limita a fallos jurídicos materiales; recomendaciones de estilo van en editorial_notes.
 No relajes los criterios para alcanzar REVIEW_READY y nunca autorices publicación.'''
@@ -463,7 +474,7 @@ def verify_integrity(article,evidence,plan_obj):
     return errors
 
 
-def semantic_review(article,evidence,model='gpt-4.1-mini',client=None,dossier=None):
+def semantic_review(article,evidence,model='gpt-4.1-mini',client=None,dossier=None,research_coverage=None,research_plan=None):
     claims=article.get('claims',[])
     ids={r['evidence_id']:r for r in evidence}
     annotated=[]
@@ -471,7 +482,7 @@ def semantic_review(article,evidence,model='gpt-4.1-mini',client=None,dossier=No
         annotated.append({'claim_index':i,'claim':c.get('claim',''),
             'evidence':[ids[x] for x in c.get('evidence_ids',[]) if x in ids]})
     resp=call_model([{'role':'system','content':SYSTEM_REVIEW},
-                     {'role':'user','content':json.dumps({'claims':annotated,'article':article,'all_official_evidence':evidence,'legal_applicability_dossier':dossier},ensure_ascii=False)}],model=model,client=client)
+                     {'role':'user','content':json.dumps({'claims':annotated,'article':article,'all_official_evidence':evidence,'legal_applicability_dossier':dossier,'research_coverage':research_coverage,'research_plan':research_plan},ensure_ascii=False)}],model=model,client=client)
     assessments=resp.get('assessment',[])
     problems=[]
     if not isinstance(assessments,list) or len(assessments)!=len(claims):
@@ -487,6 +498,9 @@ def semantic_review(article,evidence,model='gpt-4.1-mini',client=None,dossier=No
                 problems.append(f'Claim {idx+1}: {entry.get("status","UNKNOWN")}')
         if len(seen)!=len(claims):problems.append('Reviewer omitted claim indices')
     if resp.get('gaps'):problems.append('Reviewer identified coverage gaps')
+    if any(q.get('editorial_exclusions') for q in (research_coverage or [])):
+        if resp.get('scope_limitations_status') != 'SUPPORTED':
+            problems.append('Reviewer did not approve editorial scope limitations')
     return resp,problems
 
 
@@ -580,55 +594,69 @@ def focused_evidence_for_topic(research_plan, evidence):
     return selected, excluded
 
 
-def _general_guidance_missing_fact_classification(question, missing_facts, branch_coverage):
-    """Separate applicant-specific variables and deliberately unasserted details.
-
-    These are not treated as solved legal facts. They are non-blocking only for
-    a GENERAL_GUIDANCE draft that explicitly presents conditional branches and
-    does not claim to decide an individual case or a complete filing checklist.
-    """
-    import unicodedata
-    def norm(value):
-        value = unicodedata.normalize('NFKD', str(value or '').lower())
-        return ''.join(c for c in value if not unicodedata.combining(c))
-    individual_tokens = (
-        'individual applicant', 'applicant prior authorization', 'prior authorization type',
-        'residence duration', 'duration of residence', 'which route applies to the applicant',
-        'whether the conditions apply to the applicant', 'conditions apply to applicant', 'apply to applicant', 'applicant meets the conditions',
-        'individual eligibility criteria', 'circumstances of the applicant',
-        'tipo de autorizacion de origen', 'duracion de residencia', 'circunstancias individuales',
-        'si se cumplen las condiciones en el caso concreto',
-    )
-    nonblocking_tokens = (
-        'complete list of required documents', 'complete list of documents',
-        'official channels', 'exclusive filing channel', 'exclusive procedures',
-        'complete checklist', 'all required documents', 'canal exclusivo',
-        'lista completa de documentos', 'canales oficiales',
-    )
-    resolved_tokens = (
-        'exact conditions triggering the exceptional',
-        'condiciones exactas de la prorroga excepcional',
-        'conditions for the exceptional prorroga',
-    )
-    individual, nonblocking, resolved, blocking = [], [], [], []
-    for fact in missing_facts:
-        value = norm(fact)
-        if (any(token in value for token in individual_tokens) or
-                ('condition' in value and 'apply to the applicant' in value) or
-                ('condiciones' in value and 'solicitante' in value)):
-            individual.append(fact)
-        elif any(token in value for token in nonblocking_tokens):
-            nonblocking.append(fact)
-        elif any(token in value for token in resolved_tokens) and branch_coverage.get('exceptional_extension_conditions_verified'):
-            resolved.append(fact)
-        else:
-            blocking.append(fact)
-    return {
-        'individual_case_variables': individual,
-        'non_blocking_unverified_details': nonblocking,
-        'resolved_by_official_branch_matrix': resolved,
-        'blocking_missing_facts': blocking,
-    }
+def _general_guidance_missing_fact_classification(question, branch_coverage, *,
+                                                  plan, evidence, dossier, model, client):
+    """Second semantic assessment; missing facts remain unresolved, never erased."""
+    facts = question.get('missing_facts') or []
+    result = {'individual_case_variables': [], 'non_blocking_unverified_details': [],
+              'resolved_by_official_branch_matrix': [], 'editorial_exclusions': [],
+              'blocking_missing_facts': list(facts), 'gap_assessments': []}
+    if not facts or not branch_coverage.get('ready') or question.get('status') != 'PARTIALLY_ANSWERED':
+        return result
+    # Ask a separate assessment to test separability against the ORIGINAL intent,
+    # not a rewritten research question or lexical match in the missing fact.
+    aliases = {f'R{i:03d}': r['evidence_id'] for i, r in enumerate(evidence, 1)}
+    compact = [{**r, 'evidence_id': alias} for alias, r in zip(aliases, evidence)]
+    prompt = (
+        'Independently assess whether each missing fact is essential to the original article intent. '
+        'Return JSON assessments: [{index, classification, reason, retained_answer, evidence_ids, limitation}]. '
+        'Classifications: MATERIAL, INDIVIDUAL, OPTIONAL_DETAIL, EDITORIAL_EXCLUSION, VERIFIED_BY_MATRIX. '
+        'Default MATERIAL. Assess the entire gap, not keywords. If any part is material, classify MATERIAL. '
+        'EDITORIAL_EXCLUSION only if a general guide can still answer its original intent accurately, '
+        'including the conditions and interaction of verified routes, without deciding this separable legal question. '
+        'A gap that affects whether exceptional extension is available must not be replaced by a finding that modification '
+        'is impossible. If excluding an unresolved route, explicitly require individual verification of that route and '
+        'do not assert availability, nonexistence, or eligibility for exceptional extension on that basis. '
+        'Consider Article 191.1 as well as specific paragraphs. A focused guide expressly promising the omitted '
+        'route, a material deadline, exception, or essential filing step must remain blocked. '
+        'INDIVIDUAL means only facts of a real applicant; OPTIONAL_DETAIL means a separable procedural detail, '
+        'not an indispensable filing requirement. VERIFIED_BY_MATRIX requires actual official text resolving the gap. '
+        'For each non-material classification provide a concrete retained_answer supported by exact supplied '
+        'short evidence_ids and a limitation stating what must not be concluded. Never invent citations. '
+        'Do not rewrite questions or change their coverage status.')
+    payload = {'topic': plan['topic'], 'original_questions': plan['research_questions'],
+               'question': question, 'missing_facts': list(enumerate(facts)),
+               'evidence': compact, 'legal_applicability_dossier': dossier,
+               'branch_coverage': branch_coverage}
+    response = call_model([{'role':'system','content':prompt},
+                           {'role':'user','content':json.dumps(payload,ensure_ascii=False)}], model=model,client=client)
+    assessments = response.get('assessments') if isinstance(response, dict) else None
+    if not isinstance(assessments, list) or len(assessments) != len(facts):
+        return result
+    if any(not isinstance(x, dict) or type(x.get('index')) is not int for x in assessments):
+        return result
+    if {x['index'] for x in assessments} != set(range(len(facts))):
+        return result
+    categories = {'INDIVIDUAL':'individual_case_variables', 'OPTIONAL_DETAIL':'non_blocking_unverified_details',
+                  'EDITORIAL_EXCLUSION':'editorial_exclusions', 'VERIFIED_BY_MATRIX':'resolved_by_official_branch_matrix'}
+    result['blocking_missing_facts'] = []
+    for entry in assessments:
+        fact = facts[entry['index']]
+        refs = entry.get('evidence_ids')
+        category = categories.get(entry.get('classification')) if isinstance(entry.get('classification'), str) else None
+        valid = (category and isinstance(refs,list) and bool(refs) and
+                 all(isinstance(r,str) and r in aliases for r in refs) and
+                 all(isinstance(entry.get(k),str) and entry[k].strip() for k in ('reason','retained_answer','limitation')))
+        if not valid:
+            result['blocking_missing_facts'].append(fact)
+            continue
+        if category == 'resolved_by_official_branch_matrix' and not branch_coverage.get('exceptional_extension_conditions_verified'):
+            result['blocking_missing_facts'].append(fact)
+            continue
+        result[category].append(fact)
+        result['gap_assessments'].append({**entry, 'missing_fact':fact,
+                                          'evidence_ids':[aliases[r] for r in refs]})
+    return result
 
 
 def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None,dossier=None):
@@ -639,13 +667,13 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
        'For PARTIALLY_ANSWERED, NOT_ANSWERED or REQUIRES_LEGAL_INTERPRETATION, '
        'identify specific missing legal rules or conflicts, not facts about a hypothetical applicant. '
        'Start reason with the missing legal rule, then distinguish supporting evidence from the material detail not established. '
-       'Only ANSWERED_WITH_EVIDENCE if evidence fully answers the legal question with its conditions and exceptions; '
+       'Only ANSWERED_WITH_EVIDENCE if specific evidence fully answers the legal question with its conditions and exceptions; '
        'otherwise use PARTIALLY_ANSWERED, NOT_ANSWERED, or REQUIRES_LEGAL_INTERPRETATION. '
        'For a GENERAL_GUIDANCE article, applicant-specific variables such as residence duration, origin authorisation, '
        'and work modality are decision branches to explain, not missing research facts. Do not ask for a fictional applicant. '
        'For regularisation 2026, DA20.10 and DA21.10 are separate origins and both expressly enable work by cuenta ajena and propia. '
-       'Map Article 191 precisely: 191.2 -> Article 74 for cuenta ajena when the person has not yet been resident for at least one year; '
-       '191.3 -> Article 80 for cuenta ajena or Article 86 for cuenta propia when at least one year has elapsed and the origin authorisation enabled work; '
+       'Map Article 191 precisely: 191.2 -> Article 74 for cuenta ajena when the person has not yet resided for at least one year as holder of a residence authorization; '
+       '191.3 -> Article 80 for cuenta ajena or Article 86 for cuenta propia when the person has spent at least one year in Spain in a situation of residence and the origin authorisation enabled work; '
        '191.4 -> Article 74 except 1.a and, where applicable, Article 84 only when the origin authorisation did NOT enable work. '
        'Do not treat Articles 74, 80, 84 and 86 as a universal cumulative checklist. For DA20/DA21, Article 84 is not the normal branch because their paragraph 10 enables work. '
        'Do not infer an Article 191 route for cuenta propia before one year if the supplied law does not establish it. '
@@ -684,7 +712,8 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
     if general_guide:
         for question in covered:
             classified = _general_guidance_missing_fact_classification(
-                question, question.get('missing_facts') or [], branch_coverage)
+                question, branch_coverage, plan=research_plan, evidence=evidence,
+                dossier=dossier, model=model, client=client)
             question.update(classified)
             if question.get('status') == 'ANSWERED_WITH_EVIDENCE' and not question.get('evidence_ids'):
                 question['status'] = 'NOT_ANSWERED'
@@ -692,14 +721,17 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
             has_citations = bool(question.get('evidence_ids'))
             if question.get('status') == 'ANSWERED_WITH_EVIDENCE' and has_citations and not blocking:
                 question['draft_readiness'] = 'READY'
-            elif question.get('status') == 'PARTIALLY_ANSWERED' and has_citations and not blocking and branch_coverage.get('ready'):
+            elif question.get('status') == 'PARTIALLY_ANSWERED' and has_citations and not blocking and question.get('missing_facts') and branch_coverage.get('ready'):
                 question['draft_readiness'] = 'READY_WITH_DECLARED_LIMITATIONS'
             else:
                 question['draft_readiness'] = 'BLOCKED'
+                if not question.get('missing_facts') and question.get('status') == 'PARTIALLY_ANSWERED':
+                    blocking.append('Partial research without explicit missing facts')
+                    question['blocking_missing_facts'] = blocking
                 if not has_citations and 'No valid evidence citations for this question' not in blocking:
                     blocking.append('No valid evidence citations for this question')
                     question['blocking_missing_facts'] = blocking
-        ready = bool(branch_coverage.get('ready')) and all(
+        ready = bool(branch_coverage.get('ready')) and bool(covered) and all(
             q.get('draft_readiness') in ('READY','READY_WITH_DECLARED_LIMITATIONS') for q in covered)
     else:
         for question in covered:
@@ -794,7 +826,7 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
             claim_matrix,claim_errors=audit_declared_claims(draft,dossier)
             integrity.extend(claim_errors)
             save('article_claim_applicability.json',claim_matrix)
-            review,review_errors=semantic_review(draft,evidence,model=model,client=client,dossier=dossier) if not any('unknown evidence ID' in x for x in integrity) else ({'assessment':[]},['Invalid citations'])
+            review,review_errors=semantic_review(draft,evidence,model=model,client=client,dossier=dossier,research_coverage=covered,research_plan=research_plan) if not any('unknown evidence ID' in x for x in integrity) else ({'assessment':[]},['Invalid citations'])
             issues=integrity+review_errors
             audit.append({'attempt':attempt+1,'integrity_errors':integrity,'review':review,'blocking_errors':issues})
             if not issues:break

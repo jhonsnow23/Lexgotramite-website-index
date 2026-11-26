@@ -34,7 +34,7 @@ ARTICLE_191_BRANCHES = (
         'origin_authorization_must_enable_work': None,
         'requirements_reference': '74',
         'applicability': 'CONDITIONALLY_APPLICABLE',
-        'condition': 'La persona solicita residencia y trabajo por cuenta ajena y aún no lleva al menos un año como titular de residencia.',
+        'condition': 'La persona solicita residencia y trabajo por cuenta ajena y aún no lleva residiendo al menos un año como titular de una autorización de residencia.',
     },
     {
         'route_id': 'MOD_ART191_3_AJENA_GE_1Y',
@@ -54,7 +54,7 @@ ARTICLE_191_BRANCHES = (
         'origin_authorization_must_enable_work': True,
         'requirements_reference': '86',
         'applicability': 'CONDITIONALLY_APPLICABLE',
-        'condition': 'La persona lleva al menos un año en España en situación de residencia y la autorización de origen ya habilitaba a trabajar por cuenta propia.',
+        'condition': 'La persona lleva al menos un año en España en situación de residencia y la autorización de origen ya habilitaba a trabajar por cuenta ajena o propia.',
     },
 )
 
@@ -144,7 +144,7 @@ def procedure_context(plan):
         routes = _regularisation_routes()
         decision_variables = [
             'Disposición de origen: DA20 o DA21.',
-            'Tiempo como titular de residencia: menos de un año o al menos un año.',
+            '191.2: tiempo residiendo como titular de una autorización de residencia; 191.3 y 191.4: tiempo en España en situación de residencia. No equiparar ambos criterios.',
             'Modalidad de destino: cuenta ajena o cuenta propia.',
             'Si la autorización de origen habilitaba a trabajar (DA20.10 y DA21.10 sí lo hacen).',
             'Si se puede solicitar modificación o concurre el supuesto excepcional de prórroga.',
