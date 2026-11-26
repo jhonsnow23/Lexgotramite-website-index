@@ -220,6 +220,33 @@ def _topic_priority_articles(group, topic):
     normalized = normalize(topic)
     if group == 'renewal' and ('permanente' in normalized or 'larga duracion' in normalized):
         return ('185', '209')
+    # Ordinary self-employed renewal: controlling renewal and effects provisions.
+    # Only observed BOE index entries are candidates; relevance and applicability
+    # must still be verified, and other modalities must not inherit these rules.
+    if (group == 'renewal' and 'renov' in normalized and
+            ('cuenta propia' in normalized or 'autonom' in normalized) and
+            'cuenta ajena' not in normalized and 'arraigo' not in normalized and
+            'regularizacion' not in normalized and 'extraordinari' not in normalized and
+            'no lucrativa' not in normalized and 'empleador' not in normalized and
+            not (any(w in normalized for w in ('menor', 'hijo', 'hija')) and
+                 any(w in normalized for w in ('no nacido', 'no nacida', 'fuera de espana')))):
+        return ('86', '87', '84', '66')
+    # Other ordinary renewal entry points, scoped to a single modality.
+    # Article 160 is an origin provision, not proof of a renewal route.
+    if group == 'renewal' and 'renov' in normalized and not any(
+            word in normalized for word in ('arraigo', 'regularizacion', 'extraordinari')):
+        own = 'cuenta propia' in normalized or 'autonom' in normalized
+        employed = any(word in normalized for word in ('cuenta ajena', 'empleador'))
+        nonlucrative = 'no lucrativa' in normalized
+        minor = (any(word in normalized for word in ('menor', 'hijo', 'hija')) and
+                 any(word in normalized for word in ('no nacido', 'no nacida', 'fuera de espana')))
+        if sum((own, employed, nonlucrative, minor)) == 1:
+            if employed:
+                return ('80', '81', '78', '74')
+            if nonlucrative:
+                return ('64', '61', '62', '63')
+            if minor:
+                return ('160', '69', '71')
     # Post-grant continuity after the 2026 extraordinary regularisation explicitly
     # depends on Article 191. The BOE consolidated index sometimes supplies only
     # generic labels ("Artículo N"): stratified sampling can miss Article 191.
@@ -298,6 +325,10 @@ def discover(group,topic,*,index_fetch=api_get,max_per_source=12,full_text_probe
             if not rows:
                 report['failure_code']='BOE_INDEX_PARSING_FAILURE'
                 diagnostics.append(report);continue
+            priorities = _topic_priority_articles(group, topic) if doc == 'BOE-A-2024-24099' else ()
+            observed_articles = {row[0] for row in rows}
+            report['priority_articles'] = list(priorities)
+            report['priority_articles_missing_from_index'] = [n for n in priorities if n not in observed_articles]
             candidates=[]
             for number,bid,title,context in rows:
                 value,scores,hints=_candidate_score(group,topic,title,context,qs)
@@ -317,7 +348,7 @@ def discover(group,topic,*,index_fetch=api_get,max_per_source=12,full_text_probe
                 # a bounded, document-wide sample for *full-text* filtering.
                 # Do not claim exhaustive discovery or automatic sufficiency.
                 probes=_stratified_full_text_probes(rows,full_text_probe_limit,
-                    _topic_priority_articles(group,topic))
+                    priorities)
                 candidates=[{'source_id':doc,'article':num,'block_id':bid,
                      'title':title,'section_context':context,'score':0.0,
                      'question_scores':{},'concept_scores':{},
@@ -333,7 +364,6 @@ def discover(group,topic,*,index_fetch=api_get,max_per_source=12,full_text_probe
             # Lexical ranking must not silently displace a known research entry
             # point either. Use the exact block mapping observed in this index.
             if report['discovery_mode'] != 'BOUNDED_FULL_TEXT_PROBE':
-                priorities = _topic_priority_articles(group, topic)
                 if priorities:
                     by_number = {c['article']: c for c in candidates}
                     prioritized = []
@@ -349,7 +379,11 @@ def discover(group,topic,*,index_fetch=api_get,max_per_source=12,full_text_probe
                     report['candidates_selected'] = min(max_per_source,len(candidates))
                     if prioritized and report['failure_code']=='NO_RELEVANT_CANDIDATES':
                         report['failure_code']=None
-            found.extend(candidates if report['discovery_mode']=='BOUNDED_FULL_TEXT_PROBE' else candidates[:max_per_source]);diagnostics.append(report)
+            selected = candidates if report['discovery_mode']=='BOUNDED_FULL_TEXT_PROBE' else candidates[:max_per_source]
+            selected_articles = {c['article'] for c in selected}
+            report['priority_articles_selected'] = [n for n in priorities if n in selected_articles]
+            report['priority_articles_not_selected'] = [n for n in priorities if n in observed_articles and n not in selected_articles]
+            found.extend(selected);diagnostics.append(report)
         except Exception as e:
             report['failure_code']='BOE_INDEX_ERROR'
             report['error']=type(e).__name__
@@ -371,13 +405,16 @@ def coverage(questions_list,evidence,*,semantic_judgments=None):
         if status not in ('ANSWERED_WITH_EVIDENCE','PARTIALLY_ANSWERED','NOT_ANSWERED','REQUIRES_LEGAL_INTERPRETATION','SOURCE_UNAVAILABLE'):
             status='NOT_ANSWERED'
         if status=='ANSWERED_WITH_EVIDENCE' and not ids:status='NOT_ANSWERED'
-        # Diagnostics do not change whether a question is supported.
+        # A positive label cannot erase explicit unresolved facts.
         missing = j.get('missing_facts', [])
         if not isinstance(missing, list):
             missing = []
         missing = [str(item)[:600] for item in missing
                    if isinstance(item, str) and item.strip()][:12]
-        result.append({**q, 'status':status, 'evidence_ids':ids,
+        raw_status=status
+        if status=='ANSWERED_WITH_EVIDENCE' and missing:
+            status='PARTIALLY_ANSWERED'
+        result.append({**q, 'status':status, **({'model_status':raw_status, 'coverage_status_conflict':'ANSWERED_WITH_MISSING_FACTS'} if raw_status != status else {}), 'evidence_ids':ids,
                        'reason':str(j.get('reason',''))[:4000],
                        'missing_facts': missing})
     return result,all(x['status']=='ANSWERED_WITH_EVIDENCE' for x in result) and bool(result)
