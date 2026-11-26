@@ -26,6 +26,6 @@ class Run41Tests(unittest.TestCase):
         result=alternative_scope(plan,F['coverage'],e,legal.build_dossier(plan,e),call=call,model='test',client=None,report=report,max_proposals=1)
         self.assertIsNone(result); self.assertFalse(report['publication_allowed']); self.assertEqual(report['commercial_scope_check']['title_classification']['business_category'],'regularizacion_2026')
         self.assertNotEqual(report['reason'],'COMMERCIAL_SCOPE_CHANGED')
-        self.assertEqual(call.call_count,2)
-        self.assertEqual(report['reason'],'INDEPENDENT_SCOPE_REJECTED')
+        self.assertEqual(call.call_count,1)
+        self.assertEqual(report['reason'],'SCOPE_ROUTE_MISMATCH')
         self.assertEqual(report['original_coverage'],F['coverage'])

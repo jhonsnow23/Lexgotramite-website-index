@@ -55,7 +55,8 @@ class Run42Tests(unittest.TestCase):
         self.assertTrue(self.report['commercial_scope_check']['accepted'])
         props=m.call_args.kwargs['response_format']['json_schema']['schema']['properties']
         enums=props['questions']['items']['properties']['route_ids']['items']['enum']
-        self.assertEqual(set(enums),selectable_routes(self.d))
+        self.assertEqual(set(enums),{'MOD_ART191_2_AJENA_LT_1Y'})
+        self.assertTrue(set(enums)<=selectable_routes(self.d))
         self.assertNotIn('MOD_CUENTA_PROPIA_LT_1Y_UNRESOLVED',enums)
         self.assertNotIn('MOD_ART191_4_ORIGIN_NO_WORK',enums)
         self.assertFalse(self.report['publication_allowed'])
@@ -70,7 +71,11 @@ class Run42Tests(unittest.TestCase):
         self.assertEqual(self.covered,original); self.assertFalse(self.report['publication_allowed'])
     def test_review_veto_then_retry_and_bounded_exhaustion(self):
         p,v=self.narrow(); veto={**v,'approved':False}
-        p2={**p,'title':p['title']+' — condiciones específicas','scope':p['scope']+' (second)'}
+        p2=copy.deepcopy(p); p2['title']=p['title'].replace('antes del año','a partir de un año'); p2['scope']='Exclusively employed work after one year'
+        cat=build_catalog(self.e); selected,_=select_context(cat,self.e,self.d); aliases,_=short_passage_context(selected); reverse={v:k for k,v in aliases.items()}
+        for q,article in zip(p2['questions'],('191','80')):
+            q['route_ids']=['MOD_ART191_3_AJENA_GE_1Y']
+            q['passage_ids']=[reverse[next(x['passage_id'] for x in selected if x['article_reference']==article and not x['parent_passage_id'])]]
         result,m=self.run_scope([p,veto,p2,v])
         self.assertIsNotNone(result);self.assertEqual(m.call_count,4)
         self.assertEqual(self.report['attempts'][0]['reason'],'INDEPENDENT_SCOPE_REJECTED')
