@@ -21,9 +21,9 @@ except ImportError:
     from scripts.legal_relevance_v50 import group_of, questions, discover, coverage, metadata_duplicate, provision_relevance
 
 try:
-    from temporary_residence_policy_v50 import classify as classify_temporary, research_questions as temporary_questions
+    from temporary_residence_policy_v50 import classify as classify_temporary, research_questions as temporary_questions, employer_change_focus, employer_change_questions
 except ImportError:
-    from scripts.temporary_residence_policy_v50 import classify as classify_temporary, research_questions as temporary_questions
+    from scripts.temporary_residence_policy_v50 import classify as classify_temporary, research_questions as temporary_questions, employer_change_focus, employer_change_questions
 
 try:
     from official_sources_v50 import retrieve_for_topic as retrieve_official
@@ -201,12 +201,16 @@ def plan(proposal):
     if classification['business_category']=='arraigo' and 'arraigo sociolaboral' in topic.lower():
         research_questions=[{**q, 'question':q['question'].replace('modalidad específica de arraigo','arraigo sociolaboral'),
             'query':q['query'].replace('modalidad específica de arraigo','arraigo sociolaboral')} for q in research_questions]
+    employer_focus=employer_change_focus(classification['business_category'],topic)
+    if employer_focus:
+        research_questions=employer_change_questions()
     return {'topic':topic,'cluster_id':cid,'group':group,'commercial_classification':classification,
             'legal_regime':('REGULARIZACION_EXTRAORDINARIA_2026' if classification['business_category']=='regularizacion_2026' else classification['business_category'].upper()),
             'discovery_group_legacy':group,
             'queries':p.get('queries',[])[:12],
             'search_demand':p.get('search_demand_evidence',{}),
             'research_questions':research_questions,
+            **({'material_search_focus':'EMPLOYER_CHANGE_RENEWAL'} if employer_focus else {}),
             'source_registry_complete':bool(research_questions),
             'existing_page_action':p.get('action'),
             'duplicate_metadata':metadata_duplicate(p),
@@ -841,6 +845,7 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
        'Return JSON object with `questions` array of objects id,status,evidence_ids,reason,missing_facts. '
        'For PARTIALLY_ANSWERED, NOT_ANSWERED or REQUIRES_LEGAL_INTERPRETATION, '
        'identify specific missing legal rules or conflicts, not facts about a hypothetical applicant. '
+       'For ANSWERED_WITH_EVIDENCE, missing_facts must be empty. '
        'For every incomplete question, missing_facts must be a nonempty list of specific unresolved points; do not leave them only in reason. '
        'Start reason with the missing legal rule, then distinguish supporting evidence from the material detail not established. '
        'Only ANSWERED_WITH_EVIDENCE if specific evidence fully answers the legal question with its conditions and exceptions; '
@@ -865,6 +870,8 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
                  'Check transitional rules only for the origin regime where they actually apply. Do not import exceptional rules for DA20/DA21 or requirements for another arraigo modality. '
                  'Do not treat initial-grant procedure instructions as continuity instructions unless a verified provision expressly incorporates them. '
                  'For a partial answer, select the exact supplied aliases supporting the verified part and explicitly list what remains unresolved.')
+    if research_plan.get('material_search_focus')=='EMPLOYER_CHANGE_RENEWAL':
+        prompt+=(' The employer-change qualifier is essential, not optional. Read Article 80.2.b in the supplied text, especially its distinct subparagraphs 1 and 2, the introductory activity threshold, Article 74 where expressly referenced, and the documentation and filing rules. Check each condition and exception against the actual evidence; do not merge alternatives, invent a special filing procedure, or require facts about an imaginary applicant. Distinguish rules of renewal from changes during an initial permit and from conditions on an already renewed permit. If material information is missing keep the question blocked.')
     aliases = {f'R{i:03d}': row['evidence_id'] for i, row in enumerate(evidence, 1)}
     prompt_evidence = []
     for alias, row in zip(aliases, evidence):
@@ -920,8 +927,11 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
                 question, branch_coverage, plan=research_plan, evidence=evidence,
                 dossier=dossier, model=model, client=client)
             question.update(classified)
+            if question.get('coverage_status_conflict'):
+                question['gap_diagnostics']['coverage_status_conflict']=question['coverage_status_conflict']
+                question['gap_diagnostics']['model_status']=question['model_status']
             if (question.get('id')=='requirements' and branch_coverage.get('unresolved_legal_branches')
-                    and (question.get('status')=='ANSWERED_WITH_EVIDENCE'
+                    and (question.get('model_status',question.get('status'))=='ANSWERED_WITH_EVIDENCE'
                          or (question.get('status')=='PARTIALLY_ANSWERED' and not question.get('missing_facts')
                              and question.get('evidence_ids') and branch_coverage.get('ready')))):
                 # A coverage judgment cannot silently erase a known unresolved branch.
@@ -1036,7 +1046,7 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
         save('research_coverage.json',{'questions':covered,'ready':ready,
              'ready_for_draft':ready,
              'coverage_fully_answered':all(q.get('status') == 'ANSWERED_WITH_EVIDENCE' and not q.get('blocking_missing_facts') for q in covered),
-             'model_coverage_fully_answered':all(q.get('status') == 'ANSWERED_WITH_EVIDENCE' for q in covered),
+             'model_coverage_fully_answered':all(q.get('model_status',q.get('status')) == 'ANSWERED_WITH_EVIDENCE' for q in covered),
              'draft_readiness_mode':('GENERAL_GUIDANCE_WITH_DECLARED_LIMITATIONS' if general_guide and ready else 'FULL_EVIDENCE_REQUIRED'),
              'human_legal_review_required':True,
              'legal_accuracy_certified':False,

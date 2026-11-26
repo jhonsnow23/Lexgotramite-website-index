@@ -133,3 +133,17 @@ def research_questions(category):
       {'id':'requirements','question':f'Qué requisitos, documentos y excepciones se aplican específicamente a {name}','query':name+' requisitos documentos excepciones'},
       {'id':'steps','question':f'Qué plazos, vías de solicitud y efectos jurídicos están acreditados para {name}','query':name+' plazos presentación efectos'},
     ]
+
+
+def employer_change_focus(category, topic):
+    """Recognise the material search-intent qualifier, not a legal conclusion."""
+    text = norm(topic)
+    return category == 'cuenta_ajena' and bool(re.search(
+        r"(?:cambi\w*|nuev\w*|otr[oa])\s+(?:de\s+)?(?:empleador|empresa)", text))
+
+def employer_change_questions():
+    return [
+        {'id':'scope','question':'Qué supuestos de renovación por cuenta ajena al cambiar de empleador están acreditados, distinguiendo artículo 80.2.b.1.º y 2.º, su ámbito y las condiciones de cada uno, sin confundir renovación con un cambio durante la vigencia de la autorización inicial', 'query':'renovación residencia trabajo cuenta ajena cambio de empleador artículo 80 apartado 2 b nuevo contrato'},
+        {'id':'requirements','question':'Qué requisitos, excepciones y documentos acreditativos se aplican al cambio de empleador en la renovación: periodo de actividad, nuevo contrato, alta o situación asimilada, inicio condicionado y remisión al artículo 74 cuando proceda; distinguir otros supuestos del artículo 80 de estos dos', 'query':'renovación cuenta ajena nuevo empleador artículo 80 74 requisitos documentación alta contrato condicionado'},
+        {'id':'steps','question':'Qué plazos, presentación, efectos y consecuencias de la solicitud de renovación al cambiar de empleador están acreditados; distinguir los efectos generales y las condiciones específicas del nuevo contrato, y señalar cualquier detalle material no verificado', 'query':'renovación cuenta ajena cambio empleador artículo 80 plazo presentación efectos nuevo contrato documentación'},
+    ]

@@ -4,10 +4,10 @@ Does not modify the original research or certify legal correctness.
 import json
 try:
     from evidence_passages_v50 import build_catalog, resolve_passage, select_context, short_passage_context
-    from temporary_residence_policy_v50 import classify, norm, SEEDS
+    from temporary_residence_policy_v50 import classify, norm, SEEDS, employer_change_focus
 except ImportError:
     from scripts.evidence_passages_v50 import build_catalog, resolve_passage, select_context, short_passage_context
-    from scripts.temporary_residence_policy_v50 import classify, norm, SEEDS
+    from scripts.temporary_residence_policy_v50 import classify, norm, SEEDS, employer_change_focus
 
 
 def schema(name, fields):
@@ -117,7 +117,7 @@ def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, 
         report.update(max_proposals=max_proposals,attempts=attempts,scope_candidates=candidates)
         if result is not None: return result
         reason=current.get('reason')
-        if reason not in ('COMMERCIAL_SCOPE_CHANGED','FORBIDDEN_ROUTE_IDS','INDEPENDENT_SCOPE_REJECTED','TITLE_NOT_NARROWED','ORIGINAL_BLOCKING_GAPS_NOT_ACCOUNTED_FOR','MISSING_TITLE','REPEATED_PROPOSAL','INVALID_QUESTION_COUNT','SCOPE_ROUTE_MISMATCH','INVALID_QUESTION','DUPLICATE_QUESTION','INCOMPLETE_INDEPENDENT_REVIEW','MISSING_REVIEW_REASON','INVALID_ROUTE_IDS','PASSAGE_WRONG_ROUTE'):
+        if reason not in ('COMMERCIAL_SCOPE_CHANGED','FORBIDDEN_ROUTE_IDS','INDEPENDENT_SCOPE_REJECTED','TITLE_NOT_NARROWED','ORIGINAL_BLOCKING_GAPS_NOT_ACCOUNTED_FOR','MISSING_TITLE','REPEATED_PROPOSAL','INVALID_QUESTION_COUNT','SCOPE_ROUTE_MISMATCH','INVALID_QUESTION','DUPLICATE_QUESTION','INCOMPLETE_INDEPENDENT_REVIEW','MISSING_REVIEW_REASON','INVALID_ROUTE_IDS','PASSAGE_WRONG_ROUTE','MATERIAL_SEARCH_FOCUS_LOST'):
             break
         feedback.append({'reason':reason,'title':(current.get('proposal') or {}).get('title') if isinstance(current.get('proposal'),dict) else None,
                          'scope':(current.get('proposal') or {}).get('scope') if isinstance(current.get('proposal'),dict) else None,
@@ -175,6 +175,9 @@ def _one_scope(plan, covered, evidence, dossier, *, call, model, client, report,
         proposal_fields['excluded_gap_ids'].update(minItems=len(required_gap_ids),maxItems=len(required_gap_ids))
         proposal_fields['questions'].update(minItems=2,maxItems=8)
         proposal_fields['questions']['items']['properties']['route_ids'].update(minItems=1,maxItems=1)
+    employer_focus=employer_change_focus(plan.get('commercial_classification',{}).get('business_category'),plan.get('topic',''))
+    focus_instruction=(' The original search intent specifically concerns renewal when changing employer. Do not remove that topic or treat it as a disclaimer. Narrow to a verified employer-change scenario if appropriate; distinguish the two new-contract alternatives in Article 80.2.b and their conditions when relevant. If the essential rules remain unverified, return no proposal.' if employer_focus else '')
+    report['material_search_focus']='EMPLOYER_CHANGE_RENEWAL' if employer_focus else None
     data={'original_plan':plan,'original_coverage':covered,'blocking_gaps':gaps,'official_passages':short_selected,'dossier':dossier,'selectable_route_ids':sorted(route_set),'previous_rejections':feedback,'primary_route':primary_route,'required_question_count':{'min':2,'max':8},'eligible_passage_aliases':eligible_aliases,'required_excluded_gap_ids':required_gap_ids}
     def ask(name, fields, prompt, payload):
         trace={}; report[name+'_transport']=trace
@@ -189,7 +192,7 @@ def _one_scope(plan, covered, evidence, dossier, *, call, model, client, report,
             'Select only eligible_passage_aliases for the primary route. Shared DA20.10/DA21.10 provisions may support common filing and validity rules, not unrelated prórroga claims. Select only the passages necessary for each answer, including controlling exceptions; do not cite ranges of aliases in prose or select the whole catalog. '
             'Do not solve or erase original gaps. Every essential question needs an explicit supported answer with exact short passage aliases (P001 etc.) and applicable route IDs. '
             'Use only selectable route IDs; never include an unresolved or excluded branch even if you list it as a limitation. Do not infer unavailable routes or exceptional eligibility from uncertainty. Include all material conditions, exceptions, deadlines and effects needed for the specific article. '
-            'Copy each required_excluded_gap_ids identifier exactly once if the gap is genuinely outside the new scope; if a gap remains a dependency do not present the article as sufficient. Explicitly list each original blocking gap ID outside the new scope, and limitations and individual conditions. Limitations must be reader-facing statements for publication in the draft: identify the single route covered, explicitly state that other routes are not evaluated, and distinguish unverified procedural details from verified requirements. Do not assert that an unresolved route is legally unavailable or that no official guidance exists. No exhaustive title for a partial guide.',data)
+            'Copy each required_excluded_gap_ids identifier exactly once if the gap is genuinely outside the new scope; if a gap remains a dependency do not present the article as sufficient. Explicitly list each original blocking gap ID outside the new scope, and limitations and individual conditions. Limitations must be reader-facing statements for publication in the draft: identify the single route covered, explicitly state that other routes are not evaluated, and distinguish unverified procedural details from verified requirements. Do not assert that an unresolved route is legally unavailable or that no official guidance exists. No exhaustive title for a partial guide.'+focus_instruction,data)
         if not isinstance(proposal,dict): raise ValueError('INVALID_PROPOSAL')
         for key in ('title','search_intent','scope','utility','seo_rationale','omission_rationale','business_category'):
             if not isinstance(proposal.get(key),str) or not proposal[key].strip(): raise ValueError('MISSING_'+key.upper())
@@ -212,6 +215,8 @@ def _one_scope(plan, covered, evidence, dossier, *, call, model, client, report,
         report['commercial_scope_check']=commercial_scope_check(plan,proposal)
         if not report['commercial_scope_check']['accepted']:
             raise ValueError('COMMERCIAL_SCOPE_CHANGED')
+        if employer_focus and not employer_change_focus('cuenta_ajena',proposal['title']):
+            raise ValueError('MATERIAL_SEARCH_FOCUS_LOST')
         if proposal['title'].strip().casefold()==plan['topic'].strip().casefold(): raise ValueError('TITLE_NOT_NARROWED')
         questions=proposal.get('questions'); sent=set(report['passages_sent']); records={p['passage_id']:p for p in selected}
         report['question_count']=len(questions) if isinstance(questions,list) else None
@@ -251,13 +256,27 @@ def _one_scope(plan, covered, evidence, dossier, *, call, model, client, report,
             eid=list(dict.fromkeys(p['evidence_id'] for p in resolved))
             alt_questions.append({'id':f'alt_{i+1}','question':q['question'],'query':q['question']})
             resolved_questions.append({'question_id':f'alt_{i+1}','answer':q['answer'],'evidence_ids':eid,'supporting_passages':resolved,'route_ids':routes})
+        # Explicitly disclose deterministic matrix uncertainties as scope limitations.
+        # This is a statement of what this guide does not establish, not a legal
+        # conclusion or an override of any independent review.
+        disclosures=[]
+        for row in covered:
+            for assessment in row.get('gap_assessments',[]):
+                fact=assessment.get('missing_fact')
+                if (assessment.get('origin')=='APPLICABILITY_MATRIX' and assessment.get('classification')=='MATERIAL'
+                        and isinstance(fact,str) and fact in row.get('blocking_missing_facts',[])):
+                    notice='Esta guía no resuelve la siguiente cuestión, que requiere una comprobación jurídica específica: '+fact
+                    if notice not in disclosures: disclosures.append(notice)
+        if disclosures:
+            proposal={**proposal,'limitations':list(dict.fromkeys(proposal['limitations']+disclosures))}
+            report['matrix_gap_disclosures']=disclosures
         review_prompt=(
             'Independently audit the proposed NEW scope, not the old guide. The review_target is the article actually proposed; historical_research_context is background, not a checklist of mandatory coverage. all_essential_questions_covered means essential questions of review_target only. Verify each answer against literal official text and applicable routes, all conditions, exceptions, filing rules and timing. '
             'Verify the title and all answers concern only primary_route, not other routes; reject any omitted material dependency of that route. Compare original and proposed substantive scope, not just titles. Reject a broad guide that still depends on the unresolved branch, even if a limitation is stated. '
             'Check each historical gap against the actual primary route, title, answers and reader-facing limitations in review_target. A gap outside that route is not itself grounds for rejection if the limitation makes the boundary clear; do not assume the article claims comprehensive coverage. Read the supplied limitations as part of the proposed article, not as internal notes. Reject if a gap is a genuine dependency, if the limitation is insufficient or misleading, or if any procedural requirement essential to the proposed route is unverified. Explain the specific dependency or missing disclosure in reasons. '
             'Never approve an assertion that an unresolved route does not exist, nor infer exceptional-extension eligibility. '
             'Reject trivial or SEO-irrelevant content, broad titles, incomplete answers, wrong branches and unsupported claims. '
-            'Return all supported zero-based question indices, reasons, and explicit booleans. Approve only if every check passes. If rejecting, identify the failed criterion and specific material defect; do not contradict your own findings.')
+            'Return all supported zero-based question indices, reasons, and explicit booleans. Approve only if every check passes. If rejecting, identify the failed criterion and specific material defect; do not contradict your own findings.'+focus_instruction)
         review_payload={'review_target':{'primary_route':primary_route,'proposal':{**proposal,'questions':[{**q,'route_ids':r['route_ids']} for q,r in zip(questions,resolved_questions)]},'resolved_questions':resolved_questions,'reader_facing_limitations':proposal['limitations']},'historical_research_context':{'original_plan':plan,'original_coverage':covered,'blocking_gaps':gaps},'official_passages':short_selected,'dossier':dossier}
         verdict=ask('independent_scope_review',REVIEW_FIELDS,review_prompt,review_payload)
         # A negative verdict with every individual check passing and complete
