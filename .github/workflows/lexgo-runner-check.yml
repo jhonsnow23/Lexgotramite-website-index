@@ -1,0 +1,27 @@
+name: LexGo - Runner diagnostic (NO PUBLICATION)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  runner-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Runner heartbeat
+        run: |
+          echo 'Runner initialized'
+          date -u
+          python3 --version
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Python environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify Run 43 files exist
+        run: |
+          test -f scripts/editorial_scope_v50.py
+          test -f tests/test_v50_run43_branch_first.py
+          test -f tests/fixtures/run42_replay.json
+          echo 'Required Run 43 files present'
