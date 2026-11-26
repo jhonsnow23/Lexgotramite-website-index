@@ -1,0 +1,112 @@
+name: 'Lex Go Trámite v5.0 — First Article Integration (NO PUBLICATION)'
+
+on:
+  workflow_dispatch:
+    inputs:
+      bootstrap_first_article:
+        description: 'Try several authorized editorial seeds until one passes review'
+        type: boolean
+        default: true
+      target_category:
+        description: 'Optional: test one commercial category only'
+        type: choice
+        options:
+          - auto
+          - no_lucrativa
+          - cuenta_propia
+          - cuenta_ajena
+          - arraigo
+          - menores_no_nacidos
+          - regularizacion_2026
+        default: auto
+      target_topic:
+        description: 'Optional: exact reader question (must be in commercial scope)'
+        type: string
+        default: ''
+      article_type:
+        description: 'Evidence requirements for the declared article type'
+        type: choice
+        options: [specific_question, information, eligibility, procedure, comparison, legislative_update]
+        default: specific_question
+      max_topics:
+        type: number
+        default: 2
+      max_research_rounds:
+        type: number
+        default: 2
+      max_draft_repairs:
+        type: number
+        default: 1
+      max_execution_minutes:
+        type: number
+        default: 25
+      max_api_cost_usd:
+        description: 'Conservative estimated API budget (USD, maximum 0.50)'
+        type: number
+        default: 0.25
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: lexgo-seo-engine-v50
+  cancel-in-progress: false
+
+jobs:
+  first-article:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install official-source and structured validation dependencies
+        run: python -m pip install 'pypdf==5.9.0' 'jsonschema==4.26.0'
+      - name: Offline candidate-first integration and safety tests
+        run: |
+          python -m unittest discover -s tests -p 'test_v50_run55_first_article.py' -v
+          python -m unittest discover -s tests -p 'test_v50_run56_budget.py' -v
+      - name: Real research, candidate generation, review and repair
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          RESEARCH_MODEL: 'gpt-6-luna'
+          REVIEW_MODEL: 'gpt-6.1-terra'
+          BOOTSTRAP: ${{ inputs.bootstrap_first_article }}
+          CATEGORY: ${{ inputs.target_category }}
+          TOPIC: ${{ inputs.target_topic }}
+          ARTICLE_TYPE: ${{ inputs.article_type }}
+          MAX_TOPICS: ${{ inputs.max_topics }}
+          RESEARCH_ROUNDS: ${{ inputs.max_research_rounds }}
+          REPAIRS: ${{ inputs.max_draft_repairs }}
+          MINUTES: ${{ inputs.max_execution_minutes }}
+          USD: ${{ inputs.max_api_cost_usd }}
+        shell: bash
+        run: |
+          set -eu
+          if [ "$CATEGORY" = auto ]; then CATEGORY=''; fi
+          python scripts/first_article_v50.py \
+            --output reports/seo_v50_first_article \
+            --bootstrap-first-article "$BOOTSTRAP" --target-category "$CATEGORY" \
+            --target-topic "$TOPIC" --article-type "$ARTICLE_TYPE" \
+            --max-topics "$MAX_TOPICS" --max-research-rounds "$RESEARCH_ROUNDS" \
+            --max-draft-repairs "$REPAIRS" --max-execution-minutes "$MINUTES" \
+            --max-api-cost-usd "$USD" --research-model "$RESEARCH_MODEL" --review-model "$REVIEW_MODEL"
+      - name: Preserve diagnostics and unpublished drafts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexgo-v50-first-article-results
+          path: reports/seo_v50_first_article/**
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Show actual outcome
+        if: always()
+        shell: bash
+        run: |
+          test -s reports/seo_v50_first_article/run_summary.json
+          cat reports/seo_v50_first_article/run_summary.json
+          python -c "import json; d=json.load(open('reports/seo_v50_first_article/run_summary.json')); assert d['publication_allowed'] is False; assert d['result']=='REVIEW_READY' and d['articles_independently_approved']==1 and not d['simulated']"
