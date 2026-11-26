@@ -48,7 +48,7 @@ def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, 
         report['status']='INSUFFICIENT_CONTEXT'; return None
     alias_map, short_selected=short_passage_context(selected)
     report['passage_alias_map']=alias_map
-    proposal_fields={**PROPOSAL_FIELDS,'questions':{**PROPOSAL_FIELDS['questions'],'items':{**PROPOSAL_FIELDS['questions']['items'],'properties':{**CLAIM_FIELDS,'passage_ids':{'type':'array','items':{'type':'string','enum':list(alias_map)}}}}}}
+    proposal_fields={**PROPOSAL_FIELDS,'business_category':{'type':'string','enum':[plan['commercial_classification']['business_category']]},'questions':{**PROPOSAL_FIELDS['questions'],'items':{**PROPOSAL_FIELDS['questions']['items'],'properties':{**CLAIM_FIELDS,'passage_ids':{'type':'array','items':{'type':'string','enum':list(alias_map)}}}}}}
     data={'original_plan':plan,'original_coverage':covered,'blocking_gaps':gaps,'official_passages':short_selected,'dossier':dossier}
     def ask(name, fields, prompt, payload):
         trace={}; report[name+'_transport']=trace
@@ -59,6 +59,8 @@ def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, 
     try:
         proposal=ask('proposal',proposal_fields,
             'Propose ONE narrower Spanish article, or empty title if none. Same commercial category and genuine search intent. '
+            'Prefer a single verified route or a clearly bounded subtopic; do not repeat the original broad modification-and-extension guide under a new title. '
+            'Select only the passages necessary for each answer, including controlling exceptions; do not cite ranges of aliases in prose or select the whole catalog. '
             'Do not solve or erase original gaps. Every essential question needs an explicit supported answer with exact short passage aliases (P001 etc.) and applicable route IDs. '
             'Do not infer unavailable routes or exceptional eligibility from uncertainty. Include all material conditions, exceptions, deadlines and effects needed for the specific article. '
             'Explicitly list each original blocking gap ID outside the new scope, and limitations and individual conditions. No exhaustive title for a partial guide.',data)
@@ -71,6 +73,7 @@ def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, 
         if set(proposal['excluded_gap_ids'])!={g['gap_id'] for g in gaps}: raise ValueError('ORIGINAL_BLOCKING_GAPS_NOT_ACCOUNTED_FOR')
         cat=plan['commercial_classification']['business_category']
         classification=classify(proposal['title'])
+        report['commercial_scope_check']={'original_category':cat,'original_search_intent':plan['commercial_classification'].get('search_intent'),'proposed_category':proposal['business_category'],'proposed_search_intent':proposal['search_intent'],'title_classification':classification}
         if classification['excluded'] or classification['business_category']!=cat or proposal['business_category']!=cat:
             raise ValueError('COMMERCIAL_SCOPE_CHANGED')
         if proposal['title'].strip().casefold()==plan['topic'].strip().casefold(): raise ValueError('TITLE_NOT_NARROWED')
@@ -99,6 +102,7 @@ def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, 
             resolved_questions.append({'question_id':f'alt_{i+1}','answer':q['answer'],'evidence_ids':eid,'supporting_passages':resolved,'route_ids':routes})
         verdict=ask('independent_scope_review',REVIEW_FIELDS,
             'Independently audit the proposed NEW scope, not the old guide. Verify each answer against literal official text and applicable routes, all conditions, exceptions, filing rules and timing. '
+            'Compare original and proposed substantive scope, not just titles. Reject a broad guide that still depends on the unresolved branch, even if a limitation is stated. '
             'Check every original blocking gap and reject if it remains material to the new article, or if omitting it misleads the reader. '
             'Never approve an assertion that an unresolved route does not exist, nor infer exceptional-extension eligibility. '
             'Reject trivial or SEO-irrelevant content, broad titles, incomplete answers, wrong branches and unsupported claims. '

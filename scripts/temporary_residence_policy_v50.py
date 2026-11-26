@@ -22,6 +22,18 @@ def norm(s):
 def classify(topic, queries=(), cluster=''):
     """Fail closed for ambiguity. Queries provide hints, not proof of a legal route."""
     title=norm(topic)
+    # Recognize the granted authorization as a synonym only in an explicit
+    # post-grant continuity title, not in initial application or card topics.
+    synonym = bool(re.search(r'\bautorizacion extraordinaria (?:de )?2026\b', title))
+    continuation = bool(re.search(r'\b(continuidad|continuar|modificacion|modificar|prorroga|prorrogar|renovacion|renovar)\b', title))
+    post_grant = bool(re.search(r'\b(tras|despues de|titulares de|concedida|obtenida)\b', title))
+    initial_or_card = bool(re.search(r'\b(como solicitar|solicitud inicial|requisitos para solicitar|estado expediente|estado de solicitud|cuanto tarda|tiempo de tramitacion|tie|nie|tarjeta|huellas)\b', title))
+    if synonym and continuation and post_grant and not initial_or_card:
+        title = re.sub(r'\bautorizacion extraordinaria (?:de )?2026\b', 'regularizacion extraordinaria de 2026', title)
+    elif synonym and initial_or_card:
+        return {'business_category':None,'search_intent':topic,'legal_procedure':None,
+                'procedure_type':None,'applicable_regulation':[], 'target_audience':None,
+                'priority':None,'excluded':True,'exclusion_reason':'INITIAL_OR_CARD_EXTRAORDINARY_AUTHORIZATION'}
     qs=' '.join(norm(q) for q in queries if q)
     cluster=norm(cluster)
     text=' '.join((title,qs,cluster))
