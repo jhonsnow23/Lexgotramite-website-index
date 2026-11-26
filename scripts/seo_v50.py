@@ -49,6 +49,7 @@ def recent_event(e,today):
 
 
 def topic_blocker(item,history,today,*,ignore_attempt_backoff=False):
+    legal_failures=0
     for e in events(history):
         age=recent_event(e,today)
         if age is None:continue
@@ -60,8 +61,12 @@ def topic_blocker(item,history,today,*,ignore_attempt_backoff=False):
         status=e.get('status') or 'DRAFT_ATTEMPTED' # migrate v4.2 ambiguous selection-only history safely
         if status in PUBLISHED and age<60 and not e.get('material_legal_change_verified',False):
             return 'Published-page cooldown (60 days)'
+        if status in ('BLOCKED_INSUFFICIENT_EVIDENCE','BLOCKED_APPLICABILITY','BLOCKED_LEGAL_VALIDATION') and age<7:
+            legal_failures+=1
         if status in ATTEMPTED and age<1 and not ignore_attempt_backoff:
             return 'Draft attempt already made today; retry tomorrow or use manual retry'
+    if legal_failures>=2 and not ignore_attempt_backoff:
+        return 'Repeated legal blockage: rotate to other eligible topics for 7 days (manual retry available)'
     return None
 
 

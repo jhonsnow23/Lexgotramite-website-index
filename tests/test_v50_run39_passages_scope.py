@@ -72,7 +72,7 @@ class Run39Tests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             p=Path(tmp);(p/'proposal.json').write_text('{}')
             with patch.object(legal,'plan',return_value=self.plan),patch.object(legal,'retrieve_evidence',return_value=(self.e,[],{})),patch.object(legal,'focused_evidence_for_topic',side_effect=lambda p,e:(e,[])),patch.object(legal,'call_model',side_effect=responses) as m:
-                rc=legal.execute(p/'proposal.json',p/'out',max_revisions=0)
+                rc=legal.execute(p/'proposal.json',p/'out',max_revisions=0,max_scope_proposals=1)
             reports={x.name:json.loads(x.read_text()) for x in (p/'out').glob('*.json')}
         return rc,reports,m.call_count
     def test_real_replay_material_remains_blocked_when_alt_vetoed(self):

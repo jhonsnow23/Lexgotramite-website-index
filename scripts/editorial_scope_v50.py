@@ -1,13 +1,13 @@
-"""One bounded alternative editorial proposal, independently reviewed.
+"""Up to three bounded alternative editorial proposals, independently reviewed.
 Does not modify the original research or certify legal correctness.
 """
 import json
 try:
     from evidence_passages_v50 import build_catalog, resolve_passage, select_context, short_passage_context
-    from temporary_residence_policy_v50 import classify
+    from temporary_residence_policy_v50 import classify, norm, SEEDS
 except ImportError:
     from scripts.evidence_passages_v50 import build_catalog, resolve_passage, select_context, short_passage_context
-    from scripts.temporary_residence_policy_v50 import classify
+    from scripts.temporary_residence_policy_v50 import classify, norm, SEEDS
 
 
 def schema(name, fields):
@@ -25,7 +25,68 @@ REVIEW_FIELDS={'approved':{'type':'boolean'},'all_essential_questions_covered':{
     'title_matches_scope':{'type':'boolean'},'supported_question_indices':{'type':'array','items':{'type':'integer'}},'reasons':STRS}
 
 
-def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, report):
+def commercial_scope_check(plan, proposal):
+    """Context may clarify an ambiguous title, never override explicit exclusions."""
+    original=plan.get('commercial_classification', {})
+    cat=original.get('business_category')
+    title=classify(proposal['title'])
+    intent=classify(proposal['search_intent'])
+    context=classify(proposal['title']+' — '+proposal['search_intent'])
+    hard=lambda c: c['excluded'] and c['exclusion_reason']!='AMBIGUOUS_OR_OUT_OF_SCOPE'
+    conflict=lambda c: not c['excluded'] and c['business_category']!=cat
+    # Do not use original queries to inject a category into an unrelated title.
+    # Ambiguous titles need a same-category intent and a continuity procedure.
+    procedure=any(w in norm(proposal['title']).split() for w in
+                  ('modificacion','modificar','prorroga','prorrogar','renovacion','renovar','continuidad','continuar'))
+    # In the regularisation category, cuenta ajena/propia can describe the
+    # destination rather than the origin. Require an explicit matching title
+    # and a matching combined classification to distinguish those roles.
+    destination_intent=(cat=='regularizacion_2026' and title['business_category']==cat
+                        and intent['business_category'] in ('cuenta_ajena','cuenta_propia')
+                        and context['business_category']==cat)
+    subject=any(w in norm(proposal['title']).split() for w in
+                ('residencia','autorizacion','191','arraigo'))
+    accepted=(cat in SEEDS and not original.get('excluded') and proposal['business_category']==cat
+              and not any(hard(c) for c in (title,intent,context))
+              and not conflict(title) and not conflict(context)
+              and (not conflict(intent) or destination_intent)
+              and (title['business_category']==cat or
+                   (procedure and subject and intent['business_category']==cat and context['business_category']==cat)))
+    return {'original_category':cat,'original_search_intent':original.get('search_intent'),
+            'proposed_category':proposal['business_category'],'proposed_search_intent':proposal['search_intent'],
+            'title_classification':title,'intent_classification':intent,'context_classification':context,
+            'accepted':accepted}
+
+
+def selectable_routes(dossier):
+    return {r['route_id'] for r in dossier.get('procedure_context',{}).get('routes',[])
+            if not str(r.get('verification_status','')).startswith(('UNRESOLVED','EXCLUDED'))
+            and not str(r.get('applicability_to_DA20_DA21','')).startswith('NOT_APPLICABLE')}
+
+
+def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, report, max_proposals=3):
+    """Retry substantive rejections only; never retry transport/integrity failures blindly."""
+    max_proposals=max(1,min(3,max_proposals))
+    attempts=[]; feedback=[]
+    for _ in range(max_proposals):
+        current={}
+        result=_one_scope(plan,covered,evidence,dossier,call=call,model=model,client=client,report=current,feedback=feedback)
+        attempts.append(current)
+        report.clear()
+        report.update(current)
+        report.update(max_proposals=max_proposals,attempts=attempts)
+        if result is not None: return result
+        reason=current.get('reason')
+        if reason not in ('COMMERCIAL_SCOPE_CHANGED','FORBIDDEN_ROUTE_IDS','INDEPENDENT_SCOPE_REJECTED','TITLE_NOT_NARROWED','ORIGINAL_BLOCKING_GAPS_NOT_ACCOUNTED_FOR','MISSING_TITLE','REPEATED_PROPOSAL'):
+            break
+        feedback.append({'reason':reason,'title':(current.get('proposal') or {}).get('title') if isinstance(current.get('proposal'),dict) else None,
+                         'scope':(current.get('proposal') or {}).get('scope') if isinstance(current.get('proposal'),dict) else None,
+                         'forbidden_route_ids':current.get('forbidden_route_ids',[]),
+                         'review':current.get('independent_scope_review')})
+    return None
+
+
+def _one_scope(plan, covered, evidence, dossier, *, call, model, client, report, feedback):
     report.update({'status':'NOT_APPROVED','original_scope':plan,'original_coverage':covered,'publication_allowed':False,'max_proposals':1})
     gaps=[]
     for q in covered:
@@ -48,8 +109,12 @@ def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, 
         report['status']='INSUFFICIENT_CONTEXT'; return None
     alias_map, short_selected=short_passage_context(selected)
     report['passage_alias_map']=alias_map
-    proposal_fields={**PROPOSAL_FIELDS,'business_category':{'type':'string','enum':[plan['commercial_classification']['business_category']]},'questions':{**PROPOSAL_FIELDS['questions'],'items':{**PROPOSAL_FIELDS['questions']['items'],'properties':{**CLAIM_FIELDS,'passage_ids':{'type':'array','items':{'type':'string','enum':list(alias_map)}}}}}}
-    data={'original_plan':plan,'original_coverage':covered,'blocking_gaps':gaps,'official_passages':short_selected,'dossier':dossier}
+    route_set=selectable_routes(dossier)
+    report['selectable_route_ids']=sorted(route_set)
+    if not route_set:
+        report['status']='NO_SELECTABLE_ROUTES'; return None
+    proposal_fields={**PROPOSAL_FIELDS,'business_category':{'type':'string','enum':[plan['commercial_classification']['business_category']]},'questions':{**PROPOSAL_FIELDS['questions'],'items':{**PROPOSAL_FIELDS['questions']['items'],'properties':{**CLAIM_FIELDS,'passage_ids':{'type':'array','items':{'type':'string','enum':list(alias_map)}},'route_ids':{'type':'array','items':{'type':'string','enum':sorted(route_set)}}}}}}
+    data={'original_plan':plan,'original_coverage':covered,'blocking_gaps':gaps,'official_passages':short_selected,'dossier':dossier,'selectable_route_ids':sorted(route_set),'previous_rejections':feedback}
     def ask(name, fields, prompt, payload):
         trace={}; report[name+'_transport']=trace
         result=call([{'role':'system','content':prompt},{'role':'user','content':json.dumps(payload,ensure_ascii=False)}],
@@ -59,35 +124,39 @@ def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, 
     try:
         proposal=ask('proposal',proposal_fields,
             'Propose ONE narrower Spanish article, or empty title if none. Same commercial category and genuine search intent. '
-            'Prefer a single verified route or a clearly bounded subtopic; do not repeat the original broad modification-and-extension guide under a new title. '
+            'If previous_rejections is nonempty, propose a genuinely different, narrower scope that addresses the recorded rejection. Prefer a single verified route or a clearly bounded subtopic; do not repeat the original broad modification-and-extension guide under a new title. '
             'Select only the passages necessary for each answer, including controlling exceptions; do not cite ranges of aliases in prose or select the whole catalog. '
             'Do not solve or erase original gaps. Every essential question needs an explicit supported answer with exact short passage aliases (P001 etc.) and applicable route IDs. '
-            'Do not infer unavailable routes or exceptional eligibility from uncertainty. Include all material conditions, exceptions, deadlines and effects needed for the specific article. '
+            'Use only selectable route IDs; never include an unresolved or excluded branch even if you list it as a limitation. Do not infer unavailable routes or exceptional eligibility from uncertainty. Include all material conditions, exceptions, deadlines and effects needed for the specific article. '
             'Explicitly list each original blocking gap ID outside the new scope, and limitations and individual conditions. No exhaustive title for a partial guide.',data)
         if not isinstance(proposal,dict): raise ValueError('INVALID_PROPOSAL')
         for key in ('title','search_intent','scope','utility','seo_rationale','omission_rationale','business_category'):
             if not isinstance(proposal.get(key),str) or not proposal[key].strip(): raise ValueError('MISSING_'+key.upper())
+        if any(norm(f.get('title') or '')==norm(proposal['title']) and norm(f.get('scope') or '')==norm(proposal['scope']) for f in feedback):
+            raise ValueError('REPEATED_PROPOSAL')
         for key in ('limitations','individual_conditions','excluded_gap_ids'):
             if not isinstance(proposal.get(key),list) or any(not isinstance(v,str) or not v.strip() for v in proposal[key]): raise ValueError('INVALID_'+key.upper())
         if not proposal['limitations']: raise ValueError('MISSING_LIMITATIONS')
         if set(proposal['excluded_gap_ids'])!={g['gap_id'] for g in gaps}: raise ValueError('ORIGINAL_BLOCKING_GAPS_NOT_ACCOUNTED_FOR')
-        cat=plan['commercial_classification']['business_category']
-        classification=classify(proposal['title'])
-        report['commercial_scope_check']={'original_category':cat,'original_search_intent':plan['commercial_classification'].get('search_intent'),'proposed_category':proposal['business_category'],'proposed_search_intent':proposal['search_intent'],'title_classification':classification}
-        if classification['excluded'] or classification['business_category']!=cat or proposal['business_category']!=cat:
+        report['commercial_scope_check']=commercial_scope_check(plan,proposal)
+        if not report['commercial_scope_check']['accepted']:
             raise ValueError('COMMERCIAL_SCOPE_CHANGED')
         if proposal['title'].strip().casefold()==plan['topic'].strip().casefold(): raise ValueError('TITLE_NOT_NARROWED')
         questions=proposal.get('questions'); sent=set(report['passages_sent']); records={p['passage_id']:p for p in selected}
         if not isinstance(questions,list) or not 2<=len(questions)<=8: raise ValueError('INVALID_QUESTION_COUNT')
         alt_questions=[]; seen=set(); resolved_questions=[]
-        route_set={r['route_id'] for r in dossier.get('procedure_context',{}).get('routes',[])}
         for i,q in enumerate(questions):
             if not isinstance(q,dict) or any(not isinstance(q.get(k),str) or not q[k].strip() for k in ('question','answer')): raise ValueError('INVALID_QUESTION')
             if q['question'].strip().casefold() in seen: raise ValueError('DUPLICATE_QUESTION')
             seen.add(q['question'].strip().casefold())
             refs=q.get('passage_ids'); routes=q.get('route_ids')
             if not isinstance(refs,list) or not refs or any(not isinstance(p,str) for p in refs) or len(set(refs))!=len(refs): raise ValueError('INVALID_PASSAGE_IDS')
-            if not isinstance(routes,list) or not routes or any(not isinstance(r,str) or r not in route_set for r in routes): raise ValueError('INVALID_ROUTE_IDS')
+            if not isinstance(routes,list) or not routes or any(not isinstance(r,str) for r in routes) or len(set(routes))!=len(routes): raise ValueError('INVALID_ROUTE_IDS')
+            forbidden=sorted(set(routes)-route_set)
+            if forbidden:
+                report['forbidden_route_ids']=forbidden
+                report['forbidden_route_question_index']=i
+                raise ValueError('FORBIDDEN_ROUTE_IDS')
             resolved=[]
             canonical_refs=[alias_map.get(pid,pid) for pid in refs]
             if len(set(canonical_refs))!=len(canonical_refs): raise ValueError('DUPLICATE_PASSAGE_IDS')

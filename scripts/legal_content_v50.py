@@ -932,7 +932,7 @@ def partition_retrieval_errors(errors):
     return blocking, warnings
 
 
-def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve,client=None,max_revisions=2):
+def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve,client=None,max_revisions=2,max_scope_proposals=3):
     out=Path(output_path);out.mkdir(parents=True,exist_ok=True)
     status={'version':'5.0','publication_allowed':False,'result':'BLOCKED','errors':[],
             'independent_legal_accuracy_verified':False,'live_release_enabled':False}
@@ -1005,7 +1005,7 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
         if not ready:
             alternative=None
             if not scope_conflicts(matrix):
-                alternative=alternative_scope(research_plan,covered,evidence,dossier,call=call_model,model=model,client=client,report=scope_report)
+                alternative=alternative_scope(research_plan,covered,evidence,dossier,call=call_model,model=model,client=client,report=scope_report,max_proposals=max_scope_proposals)
             else:
                 scope_report['status']='BLOCKED_ORIGINAL_APPLICABILITY'
             if alternative:

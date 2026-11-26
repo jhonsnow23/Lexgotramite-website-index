@@ -23,7 +23,7 @@ class Run41Tests(unittest.TestCase):
         e=F['evidence']; plan=F['plan']; report={}
         verdict={**{k:False for k in REVIEW_FIELDS if k not in ('supported_question_indices','reasons')},'supported_question_indices':[],'reasons':['Simulated veto: broad scope remains unverified']}
         call=Mock(side_effect=[F['proposal'],verdict])
-        result=alternative_scope(plan,F['coverage'],e,legal.build_dossier(plan,e),call=call,model='test',client=None,report=report)
+        result=alternative_scope(plan,F['coverage'],e,legal.build_dossier(plan,e),call=call,model='test',client=None,report=report,max_proposals=1)
         self.assertIsNone(result); self.assertFalse(report['publication_allowed']); self.assertEqual(report['commercial_scope_check']['title_classification']['business_category'],'regularizacion_2026')
         self.assertNotEqual(report['reason'],'COMMERCIAL_SCOPE_CHANGED')
         self.assertEqual(call.call_count,2)

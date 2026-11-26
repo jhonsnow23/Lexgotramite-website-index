@@ -24,12 +24,16 @@ def classify(topic, queries=(), cluster=''):
     title=norm(topic)
     # Recognize the granted authorization as a synonym only in an explicit
     # post-grant continuity title, not in initial application or card topics.
-    synonym = bool(re.search(r'\bautorizacion extraordinaria (?:de )?2026\b', title))
+    synonym_pattern = r'\bautorizacion extraordinaria(?: de residencia(?: y trabajo)?)?(?: concedida| obtenida)? (?:de |en )?2026\b'
+    synonym = bool(re.search(synonym_pattern, title))
     continuation = bool(re.search(r'\b(continuidad|continuar|modificacion|modificar|prorroga|prorrogar|renovacion|renovar)\b', title))
     post_grant = bool(re.search(r'\b(tras|despues de|titulares de|concedida|obtenida)\b', title))
-    initial_or_card = bool(re.search(r'\b(como solicitar|solicitud inicial|requisitos para solicitar|estado expediente|estado de solicitud|cuanto tarda|tiempo de tramitacion|tie|nie|tarjeta|huellas)\b', title))
-    if synonym and continuation and post_grant and not initial_or_card:
-        title = re.sub(r'\bautorizacion extraordinaria (?:de )?2026\b', 'regularizacion extraordinaria de 2026', title)
+    initial_or_card = bool(re.search(r'\b(como solicitar|solicitud inicial|solicitar (?:la )?autorizacion extraordinaria|solicitud de (?:la )?autorizacion extraordinaria|requisitos para solicitar|estado expediente|estado de solicitud|cuanto tarda|tiempo de tramitacion|tie|nie|tarjeta|huellas)\b', title))
+    # Modification and extension operate on an existing authorization; unlike
+    # generic renewal wording, they do not need a separate post-grant marker.
+    explicit_existing_procedure = bool(re.search(r'\b(modificacion|modificar|prorroga|prorrogar)\b', title))
+    if synonym and continuation and (post_grant or explicit_existing_procedure) and not initial_or_card:
+        title = re.sub(synonym_pattern, 'regularizacion extraordinaria de 2026', title)
     elif synonym and initial_or_card:
         return {'business_category':None,'search_intent':topic,'legal_procedure':None,
                 'procedure_type':None,'applicable_regulation':[], 'target_audience':None,
