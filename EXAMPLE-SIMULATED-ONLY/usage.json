@@ -1,0 +1,50 @@
+{
+  "calls": [
+    {
+      "model": "gpt-6-luna",
+      "status": "COMPLETED",
+      "reserved_usd": 0.0064241,
+      "input_token_upper_estimate": 39241,
+      "max_output_tokens": 5000,
+      "stage": "research",
+      "usage": {
+        "input_tokens": 100,
+        "output_tokens": 100
+      },
+      "response_id": "simulated_fixture",
+      "response_model": "gpt-6-luna"
+    },
+    {
+      "model": "gpt-6.1-terra",
+      "status": "COMPLETED",
+      "reserved_usd": 0.074133,
+      "input_token_upper_estimate": 49133,
+      "max_output_tokens": 5000,
+      "stage": "legal_review",
+      "usage": {
+        "input_tokens": 100,
+        "output_tokens": 100
+      },
+      "response_id": "simulated_fixture",
+      "response_model": "gpt-6.1-terra"
+    }
+  ],
+  "documents": [
+    {
+      "key": "BOE-A-2024-24099:64",
+      "status": "ATTEMPTED"
+    },
+    {
+      "key": "BOE-A-2024-24099:62",
+      "status": "ATTEMPTED"
+    },
+    {
+      "key": "BOE-A-2000-544:52",
+      "status": "ATTEMPTED"
+    }
+  ],
+  "estimated_usd": 0.00066,
+  "conservative_budget_debit_usd": 0.080557,
+  "elapsed_seconds": 0.03,
+  "publication_allowed": false
+}

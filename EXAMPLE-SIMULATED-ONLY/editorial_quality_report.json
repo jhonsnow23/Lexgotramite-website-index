@@ -1,0 +1,12 @@
+{
+  "advisory_only": true,
+  "word_count_legal_paragraphs": 153,
+  "long_sentence_count": 0,
+  "repetition_signals": [],
+  "intro_mode": "EVIDENCE_LINKED",
+  "note": "Heuristic only; no legal content deleted. Minor style does not block legal approval.",
+  "independent_review_passed": true,
+  "review_explanation": "Simulated reviewer, not legal certification.",
+  "article_hash": "27b1f02ef9c9caa02eac4a3b065f4356b5f97958aed9038ac2ccda55097f20a7",
+  "simulated": true
+}

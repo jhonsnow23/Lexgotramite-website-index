@@ -20,9 +20,11 @@ import zipfile
 try:
     import seo_v42 as baseline
     import legal_content_v50 as generator
+    import gsc_opportunities_v50 as gsc_v50
 except ImportError:
     from scripts import seo_v42 as baseline
     from scripts import legal_content_v50 as generator
+    from scripts import gsc_opportunities_v50 as gsc_v50
 
 try:
     from temporary_residence_policy_v50 import classify, SEEDS
@@ -63,6 +65,8 @@ def topic_blocker(item,history,today,*,ignore_attempt_backoff=False):
             return 'Published-page cooldown (60 days)'
         if status in ('BLOCKED_INSUFFICIENT_EVIDENCE','BLOCKED_APPLICABILITY','BLOCKED_LEGAL_VALIDATION') and age<7:
             legal_failures+=1
+        if status=='REVIEW_READY' and age<30 and not e.get('material_legal_change_verified',False):
+            return 'Review-ready draft already exists (30-day draft cooldown)'
         if status in ATTEMPTED and age<1 and not ignore_attempt_backoff:
             return 'Draft attempt already made today; retry tomorrow or use manual retry'
     if legal_failures>=2 and not ignore_attempt_backoff:
@@ -149,7 +153,12 @@ def supports_research(item):
 def choose(report,catalog,website,history,today,*,retry_failed=False):
     # Reuse factual GSC metrics / service filtering, but never reuse the obsolete
     # v4.1 coverage gate or the selection-only 60-day history logic.
-    ranked=baseline.rank(report,catalog,website,[],today)
+    precise='v50_commercial_query_clusters' in report
+    if precise:
+        baseline.validate_report(report)
+        ranked=gsc_v50.rank(report['v50_commercial_query_clusters'])
+    else:
+        ranked=baseline.rank(report,catalog,website,[],today)
     result=[];winner=None;proposal=None
     inventory=metadata_inventory(website)
     for item in ranked:
@@ -159,6 +168,11 @@ def choose(report,catalog,website,history,today,*,retry_failed=False):
         row['score_breakdown']['cooldown_penalty']=0
         row['score']=sum(v for k,v in row['score_breakdown'].items() if k!='cooldown_penalty')
         row['cooldown_active']=False
+        if precise:
+            row['topic_origin']='GSC_QUERY_CLUSTER' if len(row['supporting_queries'])>1 else 'GSC_VERIFIED_OPPORTUNITY'
+            row['search_demand_verified']=True
+            # Keep only verified site paths for duplicate analysis; observed external URLs remain in metrics.
+            row['existing_pages']=[p for q in row['existing_pages'] for p in (q,q+'.html',q+'/index.html') if p in inventory]
         # Align the draft question with observed demand. A prewritten generic
         # title must not silently change the question that Google users asked.
         demand_words=slug_words(row.get('primary_query',''))
@@ -172,6 +186,14 @@ def choose(report,catalog,website,history,today,*,retry_failed=False):
         row['commercial_classification']=classify(row['proposed_title'], [row.get('primary_query','')]+row.get('supporting_queries',[]), row['cluster_id'])
         row['research_registry_available'],candidate=(supports_research(row) if not row['commercial_classification']['excluded'] else (False,None))
         duplicate,dup_reason,proposed_path=classify_duplicate(row,inventory)
+        # Existing service pages are metadata-only hints. Strong exact intent is a recommendation, not a rewrite.
+        if precise and not duplicate:
+            qwords=slug_words(row['primary_query'])
+            for path in inventory:
+                if path.startswith('blog/') or not path.endswith('.html'):continue
+                words=slug_words(Path(path).stem)
+                if len(qwords)>=2 and qwords==words:
+                    duplicate,dup_reason,proposed_path=True,'Existing service page metadata matches the query intent',path;break
         row['duplicate_metadata_detected']=duplicate
         row['duplicate_metadata_reason']=dup_reason
         row['proposed_new_path']=proposed_path
@@ -181,7 +203,7 @@ def choose(report,catalog,website,history,today,*,retry_failed=False):
         elif block:
             row['recommended_action']='MONITOR';row['selection_reason']=block
         elif duplicate:
-            row['recommended_action']='SKIP';row['selection_reason']=dup_reason+' (metadata-only; no blog body read)'
+            row['recommended_action']='RECOMMEND_EXISTING_CONTENT_IMPROVEMENT' if precise else 'SKIP';row['selection_reason']=dup_reason+' (metadata-only; no blog body read)'
         elif not row['research_registry_available']:
             row['recommended_action']='MONITOR';row['selection_reason']='Source registry needs expansion; no unsupported legal guesswork'
         elif row['impressions_28d']<3 and row['impressions_90d']<30:
@@ -200,10 +222,20 @@ def choose(report,catalog,website,history,today,*,retry_failed=False):
     eligible=[x for x in result if x['recommended_action']=='CREATE_NEW_ARTICLE']
     eligible.sort(key=lambda x:(x['commercial_classification']['priority'],-x['score']))
     if eligible:
+        # Business scope is already enforced. Prefer measured opportunity score in the precise GSC pipeline.
+        if precise:eligible.sort(key=lambda x:(-x['score'],x['commercial_classification']['priority'],x['cluster_id']))
         winner=eligible[0]
         _,proposal=supports_research(winner)
         proposal['proposals'][0]['proposed_path']=winner['proposed_new_path']
         proposal['proposals'][0]['commercial_classification']=winner['commercial_classification']
+        p=proposal['proposals'][0]
+        p.update(topic_origin=winner.get('topic_origin','LEGACY_AGGREGATE_UNVERIFIED'),
+                 search_demand_verified=precise,primary_query=winner['primary_query'],selection_reason=winner['selection_reason'],
+                 observed_pages=winner.get('existing_pages',[]))
+        if precise:
+            p['search_demand_evidence']['observed_windows']=winner['observed_metrics']
+            p['search_demand_evidence']['source_metadata']=report['metadata']
+        else:p['search_demand_evidence']['aggregation_limit']='Legacy broad-cluster data; not a precise per-query measurement.'
     else:
         winner=None;proposal=None
     return result,winner,proposal
@@ -256,6 +288,8 @@ def save(path,value):
 def select(args):
     out=Path(args.output);out.mkdir(parents=True,exist_ok=True)
     report=baseline.validate_report(json.loads(Path(args.report).read_text(encoding='utf-8')))
+    if 'v50_commercial_query_clusters' not in report:
+        raise ValueError('Refresh Search Console with Run 58: precise query metrics required for production selection')
     catalog=json.loads(Path(args.catalog).read_text(encoding='utf-8'))
     today=date.fromisoformat(args.today) if args.today else date.today()
     if args.history:
@@ -267,7 +301,7 @@ def select(args):
     rows,chosen,proposal=choose(report,catalog,args.website_root,history,today,retry_failed=args.retry_failed)
     # A source-backed editorial seed may be tested without claiming GSC demand.
     # It remains a draft, and all evidence/validation gates still apply.
-    if chosen is None:
+    if chosen is None and getattr(args,'allow_editorial_fallback',False):
         inventory=metadata_inventory(args.website_root)
         for key,seed in SEEDS.items():
             item={'cluster_id':'seed_'+key,'proposed_title':seed['proposed_title'],
@@ -282,15 +316,21 @@ def select(args):
             item.update(commercial_classification=policy,recommended_action='CREATE_NEW_ARTICLE',
                 selection_reason='Editorial seed; NO verified Search Console demand',
                 proposed_new_path=path,research_registry_available=True)
-            candidate['proposals'][0].update(commercial_classification=policy,proposed_path=path)
+            candidate['proposals'][0].update(commercial_classification=policy,proposed_path=path,topic_origin='EDITORIAL_SEED',search_demand_verified=False,search_demand_evidence=None,selection_reason=item['selection_reason'],primary_query=item['primary_query'])
+            item['impressions_28d']=None;item['impressions_90d']=None;item['topic_origin']='EDITORIAL_SEED'
             rows.append(item);chosen=item;proposal=candidate;break
 
     save(out/'ranked_opportunities.json',{'version':VERSION,'metadata':report['metadata'],'opportunities':rows})
+    save(out/'seo_opportunity_report.json',{'metadata':report['metadata'],'score_method':'Measured impressions (overlapping periods not summed), position opportunity, low CTR signal and recent demand; heuristic, not forecast','opportunities':rows})
+    save(out/'gsc_query_clusters.json',{'metadata':report['metadata'],'windows':report.get('v50_commercial_query_clusters',{}),'aggregation':'Observed query/page rows; property-wide search volume not inferred.'})
+    save(out/'cannibalization_report.json',{'method':'URL/slug metadata only; not a full semantic body comparison','rows':[{'cluster_id':r['cluster_id'],'action':r['recommended_action'],'reason':r['selection_reason'],'observed_pages':r.get('existing_pages',[]),'duplicate_path':r.get('proposed_new_path') if r.get('duplicate_metadata_detected') else None} for r in rows]})
+    save(out/'topic_selection_report.json',{'selected':chosen,'editorial_fallback_enabled':getattr(args,'allow_editorial_fallback',False),'publication_allowed':False})
     # Keep history unchanged until the candidate finishes: a selection is not an outcome.
     save(out/'history.json',{'version':VERSION,'events':history[-200:]})
     save(out/'selection.json',{'version':VERSION,'selected':chosen,'history_origin':origin,
          'retry_failed':args.retry_failed,'publication_allowed':False})
     if proposal:save(out/'selected_proposal.json',proposal)
+    else:(out/'selected_proposal.json').unlink(missing_ok=True)
     entries=[];used=set()
     for x in rows:
         if x['recommended_action'] not in ('CREATE_NEW_ARTICLE','IMPROVE_EXISTING_ARTICLE'):continue
@@ -331,6 +371,8 @@ def finalize(args):
     save(out/'history.json',{'version':VERSION,'events':history[-200:]})
     save(out/'run_summary.json',{'version':VERSION,'selected_cluster':selected['cluster_id'] if selected else None,
         'result':history[-1]['status'] if selected else 'NO_ELIGIBLE_TOPIC',
+        'topic_origin':selected.get('topic_origin') if selected else None,
+        'search_demand_verified':selected.get('search_demand_verified',False) if selected else False,
         'publication_allowed':False,'note':'Review-ready does not mean legally certified'})
     print((out/'run_summary.json').read_text(encoding='utf-8'))
     return 0
@@ -348,6 +390,7 @@ def main(argv=None):
     p.add_argument('--today',default='')
     p.add_argument('--require-history',action='store_true')
     p.add_argument('--retry-failed',action='store_true')
+    p.add_argument('--allow-editorial-fallback',action='store_true',help='Explicitly permit a seed if no qualified GSC opportunity exists')
     args=p.parse_args(argv)
     return select(args) if args.action=='select' else finalize(args)
 

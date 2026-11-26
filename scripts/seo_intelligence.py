@@ -16,6 +16,11 @@ import urllib.parse
 import urllib.request
 import unicodedata
 
+try:
+    from . import gsc_opportunities_v50 as gsc_v50
+except ImportError:
+    import gsc_opportunities_v50 as gsc_v50
+
 ROOT = Path(__file__).resolve().parents[1]
 TOPICS = {
     'post_regularization': ['regularizacion', 'renovar', 'renovacion', 'modificar', 'modificacion', 'autorizacion', 'residencia', 'tarjeta', 't ie', 'extranjeria'],
@@ -391,7 +396,7 @@ def main(argv=None):
     selected=reports.get(period,[])
     calendar=make_calendar(selected)
     result={'version':2,'metadata':metadata,'windows':reports,'excluded_queries':exclusions,
-            'editorial_calendar':calendar,'safety':'READ ONLY: no drafts, HTML, publishing state or sitemap are edited.'}
+            'editorial_calendar':calendar, 'v50_commercial_query_clusters':gsc_v50.cluster_windows(windows,discard_reason) if metadata.get('verified_google_data') is True else {}, 'safety':'READ ONLY: no drafts, HTML, publishing state or sitemap are edited.'}
     args.out.parent.mkdir(parents=True,exist_ok=True)
     args.out.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     args.out.with_suffix('.md').write_text(editorial_text(selected,calendar,metadata,period),encoding='utf8')
