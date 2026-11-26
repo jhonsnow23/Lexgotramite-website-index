@@ -54,6 +54,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_v50_run45_missing_gap.py' -v
           python -m unittest discover -s tests -p 'test_v50_run46_shared_passages.py' -v
           python -m unittest discover -s tests -p 'test_v50_run47_review_target.py' -v
+          python -m unittest discover -s tests -p 'test_v50_run48_review_consistency.py' -v
       - name: Refresh REAL Google Search Console data
         env:
           GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
