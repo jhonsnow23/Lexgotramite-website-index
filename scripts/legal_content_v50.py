@@ -836,6 +836,7 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
        'Return JSON object with `questions` array of objects id,status,evidence_ids,reason,missing_facts. '
        'For PARTIALLY_ANSWERED, NOT_ANSWERED or REQUIRES_LEGAL_INTERPRETATION, '
        'identify specific missing legal rules or conflicts, not facts about a hypothetical applicant. '
+       'For every incomplete question, missing_facts must be a nonempty list of specific unresolved points; do not leave them only in reason. '
        'Start reason with the missing legal rule, then distinguish supporting evidence from the material detail not established. '
        'Only ANSWERED_WITH_EVIDENCE if specific evidence fully answers the legal question with its conditions and exceptions; '
        'otherwise use PARTIALLY_ANSWERED, NOT_ANSWERED, or REQUIRES_LEGAL_INTERPRETATION. '
@@ -885,13 +886,16 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
                 question, branch_coverage, plan=research_plan, evidence=evidence,
                 dossier=dossier, model=model, client=client)
             question.update(classified)
-            if question.get('id')=='requirements' and question.get('status')=='ANSWERED_WITH_EVIDENCE' and branch_coverage.get('unresolved_legal_branches'):
+            if (question.get('id')=='requirements' and branch_coverage.get('unresolved_legal_branches')
+                    and (question.get('status')=='ANSWERED_WITH_EVIDENCE'
+                         or (question.get('status')=='PARTIALLY_ANSWERED' and not question.get('missing_facts')
+                             and question.get('evidence_ids') and branch_coverage.get('ready')))):
                 # A coverage judgment cannot silently erase a known unresolved branch.
                 # Preserve the original judgment and require independent scope review.
                 for fact in branch_coverage['unresolved_legal_branches']:
                     if fact not in question['blocking_missing_facts']:
                         question['blocking_missing_facts'].append(fact)
-                    question['gap_assessments'].append({'classification':'MATERIAL','missing_fact':fact,'reason':'Unresolved legal branch in applicability matrix conflicts with full requirements coverage; requires verification or independently narrowed scope.','evidence_ids':[],'origin':'APPLICABILITY_MATRIX'})
+                    question['gap_assessments'].append({'classification':'MATERIAL','missing_fact':fact,'reason':'Unresolved legal branch in applicability matrix requires verification or independently narrowed scope, regardless of omitted model gap details.','evidence_ids':[],'origin':'APPLICABILITY_MATRIX'})
                 question['gap_diagnostics']['coverage_discrepancy']=list(branch_coverage['unresolved_legal_branches'])
             if question.get('status') == 'ANSWERED_WITH_EVIDENCE' and not question.get('evidence_ids'):
                 question['status'] = 'NOT_ANSWERED'
@@ -904,6 +908,8 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
             else:
                 question['draft_readiness'] = 'BLOCKED'
                 if not question.get('missing_facts') and question.get('status') == 'PARTIALLY_ANSWERED':
+                    question['gap_diagnostics']['skip_reason'] = 'INCOMPLETE_JUDGMENT_WITHOUT_MISSING_FACTS'
+                    question['gap_diagnostics']['original_reason'] = question.get('reason', '')
                     blocking.append('Partial research without explicit missing facts')
                     question['blocking_missing_facts'] = blocking
                 if not has_citations and 'No valid evidence citations for this question' not in blocking:
