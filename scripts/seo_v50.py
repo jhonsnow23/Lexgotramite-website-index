@@ -321,6 +321,7 @@ def finalize(args):
             status='BLOCKED_INSUFFICIENT_EVIDENCE'
         elif result=='BLOCKED_APPLICABILITY':status='BLOCKED_APPLICABILITY'
         elif result=='BLOCKED_LEGAL_VALIDATION':status='BLOCKED_LEGAL_VALIDATION'
+        elif result in ('BUDGET_EXHAUSTED','INFRASTRUCTURE_ERROR'):status='ERROR'
         elif result=='SKIPPED_DUPLICATE_TOPIC':status='DRAFT_FAILED'
         elif result=='BLOCKED_VALIDATION':status='BLOCKED_VALIDATION'
         else:status='DRAFT_FAILED'

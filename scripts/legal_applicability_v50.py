@@ -384,6 +384,14 @@ def audit_declared_claims(article, dossier):
         roles = [by_id[eid]['applicability'] for eid in ids if eid in by_id]
         valid = (len(roles) == len(ids) and bool(roles) and
                  any(r in ('DIRECTLY_APPLICABLE', 'CONDITIONALLY_APPLICABLE', 'PROCEDURAL_GUIDANCE') for r in roles))
+        # A requirement reached via Article 191 cannot stand on the referred
+        # provision alone in an extraordinary-regularisation continuity claim.
+        # Its governing route must be cited, not merely assumed by the writer.
+        if dossier.get('procedure_context', {}).get('business_category') == 'regularizacion_2026':
+            refs=[by_id[eid].get('legal_reference') or {} for eid in ids if eid in by_id]
+            nums={str(x.get('article')) for x in refs if x.get('document')==RD1155}
+            if nums & {'74','80','86'} and '191' not in nums:
+                valid=False
         rows.append({'claim_index': i - 1, 'claim': claim.get('claim'),
                      'evidence_ids': ids, 'applicability_roles': roles,
                      'requires_independent_review': True, 'context_only_or_unknown': not valid})
