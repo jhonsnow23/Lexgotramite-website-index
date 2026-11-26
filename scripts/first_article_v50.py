@@ -673,6 +673,11 @@ def run_topic(target, article_type, root, model, researcher, research_model, rev
                          'solo para el informe, no para modificar los requisitos estatales. Contrasta la ficha con los Criteris Ref. 1/2025, su Annex 1 y el régimen transitorio; explica las exenciones y no traslades las condiciones de renovación a la primera solicitud. Si falta el texto aplicable, registra una brecha material. Contrasta cualquier discrepancia y no '
                          'repitas disposiciones transitorias expiradas sin comprobar su aplicación. No atribuyas la fecha de versión '
                          'de un artículo al reglamento entero. No inventes órganos ni canales locales.')
+            if article_type == 'specific_question':
+                focus += ('\nResponde directamente a la pregunta concreta. Un solo párrafo con su regla, condiciones y excepciones '
+                          'puede ser suficiente si responde por completo; no inventes ni repitas información para alcanzar una longitud. '
+                          'Si hay varias cuestiones materiales necesarias, explícalas todas; declara las lagunas reales. '
+                          'La revisión independiente comprobará el alcance completo.')
             raw=model.call('research',research_model,RESEARCH_PROMPT+focus,data,research_schema(aliases))
             save(root/f'research_round_{round_number:02}.json',raw)
             try: claims,gaps=validate_research(raw,aliases,catalog,evidence,dossier)
@@ -696,8 +701,16 @@ def run_topic(target, article_type, root, model, researcher, research_model, rev
                 return decision('BLOCKED_INSUFFICIENT_EVIDENCE','Uncited material or unclassified gap remains: no candidate approval')
             if blocking_gaps:
                 mark('RESEARCH_GAPS_PENDING_INDEPENDENT_REVIEW','Cited objections preserved; final approval requires explicit resolution of each gap')
-            if len(claims)<2 or sum(len(c['claim']) for c in claims)<180:
+            # Paragraph count is not legal sufficiency. A specific question can
+            # have one complete, evidence-linked answer (including its material
+            # conditions and exceptions). The independent reviewer still checks
+            # completeness, applicability, and all omissions against the full
+            # official context; passing this gate only permits a private draft.
+            if not claims or (article_type != 'specific_question' and
+                              (len(claims)<2 or sum(len(c['claim']) for c in claims)<180)):
                 return decision('BLOCKED_INSUFFICIENT_EVIDENCE','Insufficient substantive supported paragraphs')
+            if article_type == 'specific_question' and len(claims) == 1:
+                mark('NARROW_ANSWER_CANDIDATE','One evidence-linked answer; independent review must establish scope completeness')
             # No proposal-level legal approval gate. Claims are still proposed
             # until independent review of the exact draft; all citations checked.
             mark('CLAIMS_LINKED_NOT_APPROVED','Every proposed legal paragraph has official evidence IDs')
