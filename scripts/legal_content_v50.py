@@ -46,9 +46,9 @@ except ImportError:
     from scripts.boe_universal_v45 import retrieve, BOEError
 
 try:
-    from evidence_passages_v50 import build_catalog, resolve_passage, select_context
+    from evidence_passages_v50 import build_catalog, resolve_passage, select_context, short_passage_context
 except ImportError:
-    from scripts.evidence_passages_v50 import build_catalog, resolve_passage, select_context
+    from scripts.evidence_passages_v50 import build_catalog, resolve_passage, select_context, short_passage_context
 
 try:
     from editorial_scope_v50 import alternative_scope
@@ -647,12 +647,17 @@ def _safe_raw_response(content):
         return re.sub(r'(?i)("(?:api[_-]?key|authorization|password|secret|token)"\s*:\s*)"(?:[^"\\]|\\.)*"',r'\1"[REDACTED]"',safe)
 
 
-def _gap_schema():
+def _gap_schema(passage_aliases=None, indices=None):
     fields = {'index':{'type':'integer'},
               'classification':{'type':'string','enum':['MATERIAL','INDIVIDUAL','OPTIONAL_DETAIL','EDITORIAL_EXCLUSION','VERIFIED_BY_MATRIX']},
               'reason':{'type':'string'},'retained_answer':{'type':'string'},
               'limitation':{'type':'string'},'evidence_ids':{'type':'array','items':{'type':'string'}},
               'supporting_passage_ids':{'type':'array','items':{'type':'string'}}}
+    if passage_aliases is not None:
+        fields.pop('evidence_ids')
+        fields['supporting_passage_ids']['items']['enum']=list(passage_aliases)
+    if indices is not None:
+        fields['index']['enum']=list(indices)
     return {'type':'json_schema','json_schema':{'name':'gap_assessments','strict':True,'schema':{
         'type':'object','additionalProperties':False,'required':['assessments'], 'properties':{
         'assessments':{'type':'array','items':{'type':'object','additionalProperties':False,
@@ -675,6 +680,11 @@ def _general_guidance_missing_fact_classification(question, branch_coverage, *,
     catalog = build_catalog(evidence)
     selected, omitted = select_context(catalog, evidence, dossier)
     sent = {p['passage_id'] for p in selected}
+    passage_aliases, short_selected = short_passage_context(selected)
+    diagnostic['passage_alias_map'] = passage_aliases
+    if not passage_aliases:
+        diagnostic['skip_reason']='NO_SELECTABLE_PASSAGES'
+        return result
     diagnostic['passages_sent'] = sorted(sent)
     diagnostic['passages_omitted_for_budget'] = omitted
     if any(not catalog['passages'][pid]['parent_passage_id'] for pid in omitted):
@@ -684,7 +694,7 @@ def _general_guidance_missing_fact_classification(question, branch_coverage, *,
     diagnostic['expected_evidence_aliases']=aliases
     prompt = (
         'Independently assess whether each missing fact is essential to the original article intent. '
-        'Return a JSON object with assessments array: [{index, classification, reason, retained_answer, evidence_ids, limitation, supporting_passage_ids}]. '
+        'Return a JSON object with assessments array: [{index, classification, reason, retained_answer, limitation, supporting_passage_ids}]. '
         'Classifications: MATERIAL, INDIVIDUAL, OPTIONAL_DETAIL, EDITORIAL_EXCLUSION, VERIFIED_BY_MATRIX. '
         'For MATERIAL identify the specific missing rule, affected assertion and why it cannot be omitted in reason; use limitation for the evidence needed. Do not demand hypothetical additional requirements without a concrete missing rule. Default MATERIAL. Assess the entire gap, not keywords. If any part is material, classify MATERIAL. '
         'EDITORIAL_EXCLUSION only if a general guide can still answer its original intent accurately, '
@@ -696,28 +706,39 @@ def _general_guidance_missing_fact_classification(question, branch_coverage, *,
         'route, a material deadline, exception, or essential filing step must remain blocked. '
         'INDIVIDUAL means only facts of a real applicant; OPTIONAL_DETAIL means a separable procedural detail, '
         'not an indispensable filing requirement. VERIFIED_BY_MATRIX requires actual official text resolving the gap. '
-        'For each non-material classification select supporting_passage_ids from official_passages, at least one from every cited record that supports the retained answer. Never transcribe quotations. Read parent passages for conditions and exceptions. Match legal branch and distinguish procedural guidance from eligibility. For MATERIAL use an empty array if no supporting passage is available. '
-        'For each non-material classification provide a concrete retained_answer supported by exact supplied '
-        'short evidence_ids and a limitation stating what must not be concluded. The dossier uses canonical IDs; map them to short aliases via evidence_id_aliases. Never invent citations. '
+        'For each non-material classification select supporting_passage_ids from official_passages, using only the exact short passage_id options (P001 etc.) that support the retained answer. Never transcribe quotations. Read parent passages for conditions and exceptions. Match legal branch and distinguish procedural guidance from eligibility. For MATERIAL use an empty array if no supporting passage is available. '
+        'For each non-material classification provide a concrete retained_answer supported by the selected passage aliases and a limitation stating what must not be concluded. Python derives evidence IDs; do not return them. Never derive passage IDs from evidence IDs. '
         'Do not rewrite questions or change their coverage status.')
     payload = {'topic': plan['topic'], 'original_questions': plan['research_questions'],
                'question': question, 'missing_facts': list(enumerate(facts)),
-               'evidence': compact, 'official_passages':selected, 'evidence_id_aliases': aliases, 'legal_applicability_dossier': dossier,
+               'evidence': compact, 'official_passages':short_selected, 'evidence_id_aliases': aliases, 'legal_applicability_dossier': dossier,
                'branch_coverage': branch_coverage}
     diagnostic['attempted']=True
     messages=[{'role':'system','content':prompt},{'role':'user','content':json.dumps(payload,ensure_ascii=False)}]
     response=None
+    fallback=None
     for attempt in range(2):
         trace={'attempt':attempt+1,'format':'json_schema'}
         diagnostic['attempts'].append(trace)
         try:
-            response=call_model(messages,model=model,client=client,response_format=_gap_schema(),diagnostics=trace)
+            response=call_model(messages,model=model,client=client,response_format=_gap_schema(passage_aliases,range(len(facts))),diagnostics=trace)
             trace['parsed_response']=_safe_diagnostic(response)
             if not isinstance(response,dict) or not isinstance(response.get('assessments'),list):
                 trace['status']='INVALID_RESPONSE'; trace['error_type']='MISSING_ASSESSMENTS_ARRAY'
                 response=None
                 continue
             trace['status']='PARSED'
+            # Retry once if all non-material selections are technically unusable.
+            # Keep the first response as fallback; never discard a material finding.
+            rows=response['assessments']
+            candidates=[r for r in rows if isinstance(r,dict) and r.get('classification')!='MATERIAL']
+            bad=[r for r in candidates if not isinstance(r.get('supporting_passage_ids'),list) or
+                 not r['supporting_passage_ids'] or any(not isinstance(p,str) or p not in passage_aliases and p not in sent for p in r['supporting_passage_ids'])]
+            if attempt==0 and candidates and len(bad)==len(candidates) and len(candidates)==len(rows):
+                fallback=response
+                trace['selection_retry']='ALL_NONMATERIAL_SELECTIONS_INVALID'
+                messages=messages+[{'role':'user','content':'Previous passage selections were invalid. Reassess using only the supplied P001-style aliases from official_passages. Do not invent IDs or change legal findings merely to pass validation.'}]
+                continue
             break
         except (json.JSONDecodeError, ValueError) as exc:
             trace['status']='INVALID_RESPONSE'; trace['error_type']=type(exc).__name__; trace['error_message']=_safe_diagnostic(str(exc)[:300])
@@ -726,6 +747,8 @@ def _general_guidance_missing_fact_classification(question, branch_coverage, *,
             trace['http_status']=getattr(exc,'code',None)
             trace['error_message']=_safe_diagnostic(str(exc)[:300])
             break
+    if response is None and fallback is not None:
+        response=fallback
     assessments=response.get('assessments') if isinstance(response,dict) else None
     if not isinstance(assessments,list):
         diagnostic['response_status']='MISSING_ASSESSMENTS_ARRAY'
@@ -750,7 +773,17 @@ def _general_guidance_missing_fact_classification(question, branch_coverage, *,
         if len(entries)!=1:
             reason='DUPLICATE_INDEX' if entries else 'MISSING_INDEX'
         else:
-            entry=entries[0]; kind=entry.get('classification'); refs=entry.get('evidence_ids')
+            entry=dict(entries[0]); kind=entry.get('classification'); refs=entry.get('evidence_ids')
+            raw_ids=entry.get('supporting_passage_ids')
+            if isinstance(raw_ids,list):
+                entry['supporting_passage_ids']=[passage_aliases.get(x,x) if isinstance(x,str) else x for x in raw_ids]
+            if 'evidence_ids' not in entry:
+                resolved_ids=[resolve_passage(x,catalog,evidence,allowed_ids=sent) for x in entry.get('supporting_passage_ids',[]) ] if isinstance(raw_ids,list) else []
+                refs=list(dict.fromkeys(p['evidence_id'] for p in resolved_ids if p))
+                if kind!='MATERIAL' and (not resolved_ids or any(p is None for p in resolved_ids)):
+                    diagnostic['rejected'].append({'index':idx,'reason':'INVALID_SUPPORTING_PASSAGE'})
+                    result['blocking_missing_facts'].append(fact)
+                    continue
             # The dossier includes canonical IDs. Accept only exact known canonical IDs or short aliases.
             if isinstance(refs,list):
                 refs=[canonical_to_alias.get(r,r) if isinstance(r,str) else r for r in refs]
@@ -852,6 +885,14 @@ def research_readiness(research_plan,evidence,*,model='gpt-4.1-mini',client=None
                 question, branch_coverage, plan=research_plan, evidence=evidence,
                 dossier=dossier, model=model, client=client)
             question.update(classified)
+            if question.get('id')=='requirements' and question.get('status')=='ANSWERED_WITH_EVIDENCE' and branch_coverage.get('unresolved_legal_branches'):
+                # A coverage judgment cannot silently erase a known unresolved branch.
+                # Preserve the original judgment and require independent scope review.
+                for fact in branch_coverage['unresolved_legal_branches']:
+                    if fact not in question['blocking_missing_facts']:
+                        question['blocking_missing_facts'].append(fact)
+                    question['gap_assessments'].append({'classification':'MATERIAL','missing_fact':fact,'reason':'Unresolved legal branch in applicability matrix conflicts with full requirements coverage; requires verification or independently narrowed scope.','evidence_ids':[],'origin':'APPLICABILITY_MATRIX'})
+                question['gap_diagnostics']['coverage_discrepancy']=list(branch_coverage['unresolved_legal_branches'])
             if question.get('status') == 'ANSWERED_WITH_EVIDENCE' and not question.get('evidence_ids'):
                 question['status'] = 'NOT_ANSWERED'
             blocking = question.get('blocking_missing_facts') or []
@@ -953,7 +994,8 @@ def execute(proposals_path,output_path,*,model='gpt-4.1-mini',retrieval=retrieve
         general_guide = dossier.get('procedure_context', {}).get('editorial_scope') == 'GENERAL_GUIDANCE'
         save('research_coverage.json',{'questions':covered,'ready':ready,
              'ready_for_draft':ready,
-             'coverage_fully_answered':all(q.get('status') == 'ANSWERED_WITH_EVIDENCE' for q in covered),
+             'coverage_fully_answered':all(q.get('status') == 'ANSWERED_WITH_EVIDENCE' and not q.get('blocking_missing_facts') for q in covered),
+             'model_coverage_fully_answered':all(q.get('status') == 'ANSWERED_WITH_EVIDENCE' for q in covered),
              'draft_readiness_mode':('GENERAL_GUIDANCE_WITH_DECLARED_LIMITATIONS' if general_guide and ready else 'FULL_EVIDENCE_REQUIRED'),
              'human_legal_review_required':True,
              'legal_accuracy_certified':False,

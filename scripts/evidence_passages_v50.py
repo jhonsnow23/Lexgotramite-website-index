@@ -77,10 +77,20 @@ def select_context(catalog, evidence, dossier, limit=120000):
         role=roles.get(p['evidence_id'],{})
         if role.get('applicability') not in ('DIRECTLY_APPLICABLE','CONDITIONALLY_APPLICABLE','PROCEDURAL_GUIDANCE'):
             continue
-        compact={k:p[k] for k in ('passage_id','evidence_id','verbatim_text','parent_passage_id','article_reference')}
+        compact={k:p[k] for k in ('passage_id','evidence_id','verbatim_text','parent_passage_id','article_reference','source_title','document_reference')}
         compact['applicability']=role.get('applicability'); compact['route_ids']=role.get('destination_authorization',[])
         cost=len(p['verbatim_text'])+400
         if size+cost>limit:
             omitted.append(p['passage_id']); continue
         selected.append(compact); size+=cost
     return selected,omitted
+
+
+def short_passage_context(selected):
+    """Per-call aliases; canonical hashes never leave the selection boundary."""
+    aliases = {f'P{i:03d}': p['passage_id'] for i, p in enumerate(selected, 1)}
+    reverse = {v:k for k,v in aliases.items()}
+    rows = [{k:v for k,v in p.items() if k not in ('evidence_id','passage_id','parent_passage_id')} |
+            {'passage_id': alias, 'parent_passage_id': reverse.get(p['parent_passage_id'])}
+            for alias,p in zip(aliases,selected)]
+    return aliases, rows

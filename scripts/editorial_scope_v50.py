@@ -3,10 +3,10 @@ Does not modify the original research or certify legal correctness.
 """
 import json
 try:
-    from evidence_passages_v50 import build_catalog, resolve_passage, select_context
+    from evidence_passages_v50 import build_catalog, resolve_passage, select_context, short_passage_context
     from temporary_residence_policy_v50 import classify
 except ImportError:
-    from scripts.evidence_passages_v50 import build_catalog, resolve_passage, select_context
+    from scripts.evidence_passages_v50 import build_catalog, resolve_passage, select_context, short_passage_context
     from scripts.temporary_residence_policy_v50 import classify
 
 
@@ -46,7 +46,10 @@ def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, 
     report['passages_sent']=[p['passage_id'] for p in selected]; report['passages_omitted_for_budget']=omitted
     if not selected or any(not catalog['passages'][p]['parent_passage_id'] for p in omitted):
         report['status']='INSUFFICIENT_CONTEXT'; return None
-    data={'original_plan':plan,'original_coverage':covered,'blocking_gaps':gaps,'official_passages':selected,'dossier':dossier}
+    alias_map, short_selected=short_passage_context(selected)
+    report['passage_alias_map']=alias_map
+    proposal_fields={**PROPOSAL_FIELDS,'questions':{**PROPOSAL_FIELDS['questions'],'items':{**PROPOSAL_FIELDS['questions']['items'],'properties':{**CLAIM_FIELDS,'passage_ids':{'type':'array','items':{'type':'string','enum':list(alias_map)}}}}}}
+    data={'original_plan':plan,'original_coverage':covered,'blocking_gaps':gaps,'official_passages':short_selected,'dossier':dossier}
     def ask(name, fields, prompt, payload):
         trace={}; report[name+'_transport']=trace
         result=call([{'role':'system','content':prompt},{'role':'user','content':json.dumps(payload,ensure_ascii=False)}],
@@ -54,9 +57,9 @@ def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, 
         report[name]=result
         return result
     try:
-        proposal=ask('proposal',PROPOSAL_FIELDS,
+        proposal=ask('proposal',proposal_fields,
             'Propose ONE narrower Spanish article, or empty title if none. Same commercial category and genuine search intent. '
-            'Do not solve or erase original gaps. Every essential question needs an explicit supported answer with official passage IDs and applicable route IDs. '
+            'Do not solve or erase original gaps. Every essential question needs an explicit supported answer with exact short passage aliases (P001 etc.) and applicable route IDs. '
             'Do not infer unavailable routes or exceptional eligibility from uncertainty. Include all material conditions, exceptions, deadlines and effects needed for the specific article. '
             'Explicitly list each original blocking gap ID outside the new scope, and limitations and individual conditions. No exhaustive title for a partial guide.',data)
         if not isinstance(proposal,dict): raise ValueError('INVALID_PROPOSAL')
@@ -83,7 +86,9 @@ def alternative_scope(plan, covered, evidence, dossier, *, call, model, client, 
             if not isinstance(refs,list) or not refs or any(not isinstance(p,str) for p in refs) or len(set(refs))!=len(refs): raise ValueError('INVALID_PASSAGE_IDS')
             if not isinstance(routes,list) or not routes or any(not isinstance(r,str) or r not in route_set for r in routes): raise ValueError('INVALID_ROUTE_IDS')
             resolved=[]
-            for pid in refs:
+            canonical_refs=[alias_map.get(pid,pid) for pid in refs]
+            if len(set(canonical_refs))!=len(canonical_refs): raise ValueError('DUPLICATE_PASSAGE_IDS')
+            for pid in canonical_refs:
                 p=resolve_passage(pid,catalog,evidence,allowed_ids=sent)
                 if not p: raise ValueError('INVALID_PASSAGE_ID')
                 known_routes=set(records[pid]['route_ids'])
