@@ -106,5 +106,53 @@
     "human_approved": false,
     "url": "/guias/renovacion-cuenta-ajena/#primera-renovacion-de-residencia-y-trabajo-por-cuenta-ajena-cuanto-dura-la-autorizacion-renovada",
     "inline_html": "<div data-lexgo-content-hash=\"0a2e35541775bc09275758591350ee8150488908ab8ee0712c22ee3f8ab47b83\"><section>\n<p>La primera renovación de la autorización de residencia y trabajo por cuenta ajena dura, como regla general, cuatro años. Si al renovarla corresponde una autorización de residencia de larga duración, se aplica esa excepción. Además, si tu autorización inicial tenía una vigencia inferior a un año y cumples alguno de los supuestos de renovación del artículo 80, la renovación dura lo que dure la actividad que vayas a realizar, con un máximo de un año.</p><p class=\"lg-guide-source\">Fuente: <a href=\"https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a8-2\">Artículo 80 del Reglamento de Extranjería (RD 1155/2024)</a>; <a href=\"https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a8-3\">Artículo 81 del Reglamento de Extranjería (RD 1155/2024)</a></p>\n</section>\n<p class=\"lg-guide-source\">Información general basada en los textos consolidados del BOE, de carácter informativo. No determina por sí sola la elegibilidad de una persona concreta. No constituye una guía exhaustiva de presentación de solicitudes.</p><p class=\"lg-guide-source\">Información general elaborada con fuentes oficiales y comprobaciones automatizadas. No sustituye una valoración profesional de tu caso.</p></div>"
+  },
+  {
+    "content_type": "KNOWLEDGE_ARTICLE",
+    "category": "no_lucrativa",
+    "title": "Renovación de residencia no lucrativa: cuánto dura la autorización renovada",
+    "slug": "renovacion-de-residencia-no-lucrativa-cuanto-dura-la-autorizacion-renovada",
+    "description": "Información sobre Renovación de residencia no lucrativa: cuánto dura la autorización renovada.",
+    "content_hash": "af0200ffe12f3f9a088c2c07946535022fe906676d446dd23e6a17d1f495b770",
+    "approval_hash": "2553f77af0259b3123aaf613827235538fc5ed0aa1728090dbf51cc0e240c4e0",
+    "status": "PUBLISHED",
+    "published_at": "2026-11-26",
+    "word_count": 37,
+    "origin": "EDITORIAL_SEED",
+    "primary_search_query": "Renovación de residencia no lucrativa: cuánto dura la autorización renovada",
+    "publication_authorization": {
+      "policy": "v66-autonomous-1",
+      "state": "AUTOMATED_PUBLICATION_AUTHORIZED",
+      "article_hash": "af0200ffe12f3f9a088c2c07946535022fe906676d446dd23e6a17d1f495b770",
+      "approval_hash": "2553f77af0259b3123aaf613827235538fc5ed0aa1728090dbf51cc0e240c4e0",
+      "review_hash": "a50eb83b18609526f3912155a536b8c983eb74af4efb985bb0f854ea86841a3c",
+      "evidence_hash": "2e6fa2cfe854377e1e7b01643f8ac15d89b5e4ffbb83149fa6e895809d0fad8e",
+      "source_run_id": "45850375302",
+      "source_slot": "historical:45850375302",
+      "publication_slot": "2026-11-26",
+      "content_type": "KNOWLEDGE_ARTICLE",
+      "source_refs": [
+        {
+          "source_id": "BOE-A-2024-24099",
+          "article": "64",
+          "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+          "authority": "boe",
+          "document_title": "BOE-A-2024-24099",
+          "text_hash": "8347d0a14df6108eabcf4e473e5ba50d5258d0a861d781ecb6ff10051f6b0213",
+          "retrieved_at": "2026-11-26T15:34:27.678898+00:00",
+          "citation_urls": [
+            "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a6-6"
+          ]
+        }
+      ],
+      "human_approved": false,
+      "mode": "BACKLOG_MIGRATION",
+      "budget_authorization": "OWNER_AUTHORIZED_HISTORICAL_NO_NEW_API_SPEND"
+    },
+    "source_run_id": "45850375302",
+    "publication_policy": "v66-autonomous-1",
+    "human_approved": false,
+    "url": "/guias/renovacion-residencia-no-lucrativa/#renovacion-de-residencia-no-lucrativa-cuanto-dura-la-autorizacion-renovada",
+    "inline_html": "<div data-lexgo-content-hash=\"af0200ffe12f3f9a088c2c07946535022fe906676d446dd23e6a17d1f495b770\"><section>\n<p>Si te renuevan la autorización de residencia temporal no lucrativa, la autorización renovada tiene una vigencia de dos años. La excepción es que te corresponda obtener una autorización de residencia de larga duración o de larga duración-UE.</p><p class=\"lg-guide-source\">Fuente: <a href=\"https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a6-6\">Artículo 64 del Reglamento de Extranjería (RD 1155/2024)</a></p>\n</section>\n<p class=\"lg-guide-source\">Información general basada en los textos consolidados del BOE, de carácter informativo. No determina por sí sola la elegibilidad de una persona concreta. No constituye una guía exhaustiva de presentación de solicitudes.</p><p class=\"lg-guide-source\">Información general elaborada con fuentes oficiales y comprobaciones automatizadas. No sustituye una valoración profesional de tu caso.</p></div>"
   }
 ]
