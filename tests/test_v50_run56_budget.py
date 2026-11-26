@@ -62,7 +62,7 @@ class BudgetTests(unittest.TestCase):
     def test_both_workflows_use_economy_and_read_only(self):
         integration=(ROOT/'.github/workflows/lexgo-first-article-v50.yml').read_text()
         normal=(ROOT/'.github/workflows/lexgo-seo-v50.yml').read_text()
-        self.assertIn('default: 0.25',integration);self.assertIn('--max-api-cost-usd 0.25',normal)
+        self.assertIn('default: 0.25',integration);self.assertIn('--max-api-cost-usd "$DAILY_USD"',normal);self.assertIn('Persist reservation before generation',normal)
         for workflow in (integration,normal):
             self.assertIn("'gpt-6-luna'",workflow);self.assertIn("'gpt-6.1-terra'",workflow)
             self.assertIn('contents: read',workflow);self.assertNotIn('contents: write',workflow)

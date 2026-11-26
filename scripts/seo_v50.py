@@ -67,8 +67,8 @@ def topic_blocker(item,history,today,*,ignore_attempt_backoff=False):
             return 'Published-page cooldown (60 days)'
         if status in ('BLOCKED_INSUFFICIENT_EVIDENCE','BLOCKED_APPLICABILITY','BLOCKED_LEGAL_VALIDATION') and age<7:
             legal_failures+=1
-        if status=='REVIEW_READY' and age<30 and not e.get('material_legal_change_verified',False):
-            return 'Review-ready draft already exists (30-day draft cooldown)'
+        if status=='REVIEW_READY' and not e.get('material_legal_change_verified',False):
+            return 'Review-ready draft already exists (draft cooldown in retained history)'
         if status in ATTEMPTED and age<1 and not ignore_attempt_backoff:
             return 'Draft attempt already made today; retry tomorrow or use manual retry'
     if legal_failures>=2 and not ignore_attempt_backoff:
@@ -100,8 +100,17 @@ def proposed_slug(title):
 def metadata_inventory(root):
     """Enumerate paths only; never load a current or old blog's content."""
     base=Path(root)
-    candidates=list(base.glob('blog/*.html'))+list(base.glob('*.html'))
-    return sorted({p.relative_to(base).as_posix() for p in candidates if p.is_file()})
+    candidates=list(base.glob('blog/*.html'))+list(base.glob('*.html'))+[p for p in base.glob('guias/**/*.html') if p.name!='index.html']
+    paths={p.relative_to(base).as_posix() for p in candidates if p.is_file()}
+    # Published FAQ fragments also represent existing search intent. These are
+    # internal comparison keys, not proposed URLs or crawlable pages.
+    public=base/'guias/published-inventory.json'
+    if public.exists():
+        for item in json.loads(public.read_text(encoding='utf-8')):
+            if item.get('status')=='PUBLISHED' and item.get('content_type')=='KNOWLEDGE_ARTICLE' and '#' in item.get('url',''):
+                url,slug=item['url'].split('#',1)
+                if url.startswith('/guias/') and re.fullmatch(r'[a-z0-9-]+',slug):paths.add(url.strip('/')+'/'+slug+'.html')
+    return sorted(paths)
 
 
 def classify_duplicate(item,existing_urls):
@@ -120,7 +129,7 @@ def classify_duplicate(item,existing_urls):
     # All site blog slugs can signal duplicate intents, not only the URL that
     # Search Console happened to associate with a query.
     for path in existing_urls:
-        if not path.startswith('blog/') or not path.endswith('.html'):
+        if not path.startswith(('blog/','guias/')) or not path.endswith('.html'):
             continue
         other=slug_words(Path(path).stem)
         if not other:continue
@@ -327,7 +336,7 @@ def select(args):
             item,candidate=unverified_candidate(entry['query'],key,'KEYWORD_PLANNER_IMPORT',entry['query'],entry)
             if item:rows.append(item);chosen=item;proposal=candidate;break
     if chosen is None and getattr(args,'allow_editorial_fallback',False):
-        for key,title in renewal.FALLBACKS:
+        for key,title in renewal.FALLBACKS+renewal.EXTRA_FALLBACKS:
             item,candidate=unverified_candidate(title,'renewal_seed_'+key,'EDITORIAL_SEED',title)
             if item:rows.append(item);chosen=item;proposal=candidate;break
     by_category={}
@@ -352,10 +361,21 @@ def select(args):
         if x['recommended_action'] not in ('CREATE_NEW_ARTICLE','IMPROVE_EXISTING_ARTICLE'):continue
         if set(x.get('existing_pages',[])) & used:continue
         entries.append(x);used.update(x.get('existing_pages',[]))
-    dates=[today+timedelta(days=i) for i in range(30) if (today+timedelta(days=i)).weekday() in (0,2,4)]
-    save(out/'editorial_calendar.json',{'version':VERSION,'generated_on':today.isoformat(),'days':30,
-         'entries':[{'date':dt.isoformat(),'cluster':x['cluster_id'],'topic':x['proposed_title'],
-                     'action':x['recommended_action'],'status':'DRAFT_ONLY'} for dt,x in zip(dates,entries[:12])]})
+    dates=[today+timedelta(days=i) for i in range(14)]
+    # Keep a rolling, provisional calendar even when no measured keywords exist.
+    # Never imply that unresearched seed questions have verified demand.
+    planned=[{'cluster':x['cluster_id'],'topic':x['proposed_title'],'action':x['recommended_action'],
+              'origin':x.get('topic_origin','GSC_OPPORTUNITY'),'status':'DRAFT_ONLY'} for x in entries]
+    seen={renewal.policy.norm(x['topic']) for x in planned}
+    if getattr(args,'allow_editorial_fallback',False):
+        for key,title in renewal.FALLBACKS+renewal.EXTRA_FALLBACKS:
+            if renewal.policy.norm(title) in seen or renewal.assess(title)['excluded']:continue
+            item={'cluster_id':'renewal_seed_'+key,'proposed_title':title,'primary_query':title}
+            if topic_blocker(item,history,today) or classify_duplicate(item,inventory)[0]:continue
+            planned.append({'cluster':item['cluster_id'],'topic':title,'action':'RESEARCH_CANDIDATE','origin':'EDITORIAL_SEED','status':'PROVISIONAL_NOT_RESEARCHED'})
+            seen.add(renewal.policy.norm(title))
+    save(out/'editorial_calendar.json',{'version':VERSION,'generated_on':today.isoformat(),'days':14,
+         'entries':[{'date':dt.isoformat(),**x} for dt,x in zip(dates,planned[:14])],'publication_allowed':False})
     print(json.dumps({'version':VERSION,'selected':chosen['cluster_id'] if chosen else None,
         'candidate_count':len(entries),'history':origin,'publication_allowed':False}))
     return 0

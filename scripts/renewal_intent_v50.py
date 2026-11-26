@@ -24,6 +24,25 @@ FALLBACKS = (
 )
 
 
+# Further distinct editorial research questions, never claimed search demand.
+EXTRA_FALLBACKS = (
+ ('cuenta_propia_plazos','Renovación de residencia y trabajo por cuenta propia: plazo de solicitud y efectos'),
+ ('arraigo_social_continuidad','Modificación de residencia por arraigo social a residencia y trabajo: condiciones'),
+ ('menores_no_nacidos_plazos','Renovación de residencia de hijos menores no nacidos en España: plazo y documentación'),
+ ('regularizacion_2026_plazos','Modificación tras la regularización extraordinaria de 2026: cuándo estudiar la continuidad'),
+ ('no_lucrativa_medios','Renovación de residencia no lucrativa: medios económicos que debes acreditar'),
+ ('cuenta_ajena_desempleo','Primera renovación de residencia y trabajo por cuenta ajena si has perdido el empleo'),
+ ('cuenta_propia_actividad','Renovación de residencia y trabajo por cuenta propia: continuidad de la actividad'),
+ ('arraigo_socioformativo','Prórroga del arraigo socioformativo: condiciones de continuidad'),
+ ('menores_no_nacidos_requisitos','Renovación de residencia de hijos menores no nacidos en España: requisitos de continuidad'),
+ ('no_lucrativa_seguro','Renovación de residencia no lucrativa: seguro médico'),
+ ('cuenta_ajena_plazos','Primera renovación de residencia y trabajo por cuenta ajena: cuándo presentar la solicitud'),
+ ('cuenta_propia_documentos','Renovación de residencia por cuenta propia: documentación de la actividad'),
+ ('arraigo_sociolaboral_modificacion','Modificación de residencia por arraigo sociolaboral a residencia y trabajo'),
+ ('cuenta_ajena_actividad','Primera renovación de residencia y trabajo por cuenta ajena: continuidad de la relación laboral'),
+)
+
+
 def assess(query):
     text=policy.norm(query); c=policy.classify(query)
     if c['excluded']:return {**c,'renewal_intent_verified':False}

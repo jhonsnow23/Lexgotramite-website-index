@@ -647,6 +647,11 @@ def run_topic(target, article_type, root, model, researcher, research_model, rev
         if policy.initial_social_focus(category,topic) and priorities==(127,126,84,124):
             fetch([{'document':LO,'article':1,'reason':'Ámbito personal de la Ley Orgánica'}])
         add(researcher.guidance(category,topic))
+        weekly=target.get('weekly_context')
+        if weekly is not None:
+            # Prior research is a lead only: fetch fresh official articles.
+            refs=[x for r in weekly if r.get('category')==category for x in r.get('article_refs',[]) if x.get('document') in (RD,LO) and type(x.get('article')) is int]
+            fetch(list({(x['document'],x['article']):x for x in refs}.values())[:5])
         if not any(r.get('source_id')==RD and str(r.get('article'))==str(priorities[0]) for r in evidence):
             return decision('BLOCKED_INSUFFICIENT_EVIDENCE','Primary consolidated provision unavailable')
         for round_number in range(1,limits.research_rounds+limits.draft_repairs+1):
@@ -658,8 +663,14 @@ def run_topic(target, article_type, root, model, researcher, research_model, rev
                   'scope_requirement':TYPES[article_type],'original_queries':target.get('queries',[]),'official_passages':source_rows,
                   'historical_review_feedback':repair_feedback}
             focus = ''
+            if weekly is not None:
+                data['weekly_research_questions']=[r['topic'] for r in weekly if r.get('category')==category][:7]
+                focus += ('\nBLOG SEMANAL: desarrolla un artículo de conjunto útil y original, de aproximadamente 1000–2000 palabras si la evidencia lo permite. '
+                          'Explica condiciones, plazos, efectos, excepciones y dudas prácticas pertinentes en secciones diferenciadas. '
+                          'No concatenes artículos previos ni inventes contenido por longitud. Las preguntas históricas son pistas, no pruebas. '
+                          'Usa únicamente evidencia recuperada en esta ejecución; registra brechas materiales. No prometas una guía exhaustiva si no puedes acreditarla.')
             if category == 'arraigo' and priorities == (127,126,84,124):
-                focus = ('\nPara arraigo social, comprueba los requisitos generales y específicos, las remisiones, '
+                focus += ('\nPara arraigo social, comprueba los requisitos generales y específicos, las remisiones, '
                          'las vías familiares y de integración y la prueba alternativa si el informe no se emite en plazo. '
                          'Contrasta literalmente los importes IPREM y las ausencias con la guía y la norma; '
                          'distingue su autoridad y no resuelvas discrepancias por suposición. Investiga el fundamento en SEM 1/2025 '
@@ -675,7 +686,7 @@ def run_topic(target, article_type, root, model, researcher, research_model, rev
                          'de un artículo al reglamento entero. No inventes órganos ni canales locales.')
             if article_type == 'specific_question':
                 focus += ('\nResponde directamente a la pregunta concreta. Un solo párrafo con su regla, condiciones y excepciones '
-                          'puede ser suficiente si responde por completo; no inventes ni repitas información para alcanzar una longitud. '
+                          'puede ser suficiente si responde por completo; si aporta valor y hay evidencia, desarrolla 200–600 palabras. No inventes ni repitas información para alcanzar una longitud. '
                           'Si hay varias cuestiones materiales necesarias, explícalas todas; declara las lagunas reales. '
                           'La revisión independiente comprobará el alcance completo.')
             raw=model.call('research',research_model,RESEARCH_PROMPT+focus,data,research_schema(aliases))
@@ -790,7 +801,7 @@ def run_topic(target, article_type, root, model, researcher, research_model, rev
 
 
 def run(output, *, category='', topic='', article_type='specific_question', bootstrap=True, limits=Limits(),
-        research_model=RESEARCH_MODEL, review_model=REVIEW_MODEL, transport=None, researcher_factory=None, website_root=None, proposal=None):
+        research_model=RESEARCH_MODEL, review_model=REVIEW_MODEL, transport=None, researcher_factory=None, website_root=None, proposal=None, weekly_context=None):
     root=Path(output); root.mkdir(parents=True,exist_ok=True)
     # A fresh execution directory prevents stale approvals/candidates from being reused.
     if (root/'run_summary.json').exists() or any(root.glob('topic_*')):
@@ -808,6 +819,10 @@ def run(output, *, category='', topic='', article_type='specific_question', boot
                 gate=seo.renewal.assess_group(target['topic'],target.get('queries',[])+([target['primary_query']] if target.get('primary_query') else []))
                 if gate['excluded'] or gate['business_category']!=target['category']:
                     raise ValueError('RENEWAL_ONLY_SCOPE: '+str(gate['exclusion_reason']))
+        if weekly_context is not None:
+            if proposal is not None or len(targets)!=1 or article_type!='information':raise ValueError('Invalid weekly synthesis mode')
+            targets[0].update(content_type='WEEKLY_BLOG',weekly_context=weekly_context,origin='EDITORIAL_SYNTHESIS',selection_reason='Weekly synthesis from daily research, not verified demand for this title')
+        for target in targets:target.setdefault('content_type','KNOWLEDGE_ARTICLE')
         save(root/'topic_selection_report.json',{'targets':targets,'publication_allowed':False})
         # Inspect only the existing homepage contact anchor; no old article bodies are read.
         contact_url=None
