@@ -213,5 +213,52 @@
     "publication_policy": "v66-autonomous-1",
     "human_approved": false,
     "url": "/guias/renovacion-residencia-no-lucrativa/renovacion-de-residencia-temporal-no-lucrativa-plazo-de-solicitud-y-efectos-de-presentarla"
+  },
+  {
+    "content_type": "KNOWLEDGE_ARTICLE",
+    "category": "arraigo",
+    "title": "Prórroga del arraigo sociolaboral: condiciones y límites",
+    "slug": "prorroga-del-arraigo-sociolaboral-condiciones-y-limites",
+    "description": "Información sobre Prórroga del arraigo sociolaboral: condiciones y límites.",
+    "content_hash": "9e93a8eeffa8605583d8275eef3aafa7bf0c591c256a153a1c9ace10c8cd872f",
+    "approval_hash": "d8547f084c4e51450f12f9b39e318374810c4214955cef97f81e96f3e382b552",
+    "status": "PUBLISHED",
+    "published_at": "2026-11-28",
+    "word_count": 156,
+    "origin": "EDITORIAL_SEED",
+    "primary_search_query": "Prórroga del arraigo sociolaboral: condiciones y límites",
+    "publication_authorization": {
+      "policy": "v66-autonomous-1",
+      "state": "AUTOMATED_PUBLICATION_AUTHORIZED",
+      "article_hash": "9e93a8eeffa8605583d8275eef3aafa7bf0c591c256a153a1c9ace10c8cd872f",
+      "approval_hash": "d8547f084c4e51450f12f9b39e318374810c4214955cef97f81e96f3e382b552",
+      "review_hash": "d3d2eb96677b18564d5188225508df321f81ba1e4c2e9df4c6c5a5acd1bf7beb",
+      "evidence_hash": "3d3e8f7d5e3b42a545b6b11a10c3a926ee687e4f9fa93b706e6cbd0fc0acb652",
+      "source_run_id": "46161111384",
+      "source_slot": "2026-11-28",
+      "publication_slot": "2026-11-28",
+      "content_type": "KNOWLEDGE_ARTICLE",
+      "source_refs": [
+        {
+          "source_id": "BOE-A-2024-24099",
+          "article": "132",
+          "official_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099",
+          "authority": "boe",
+          "document_title": "BOE-A-2024-24099",
+          "text_hash": "ffdf31d810efbdcfe0dcc74e8b12dac36356a47b34b678300287b4ef805fe762",
+          "retrieved_at": "2026-11-28T15:41:01.618315+00:00",
+          "citation_urls": [
+            "https://www.boe.es/buscar/act.php?id=BOE-A-2024-24099#a1-44"
+          ]
+        }
+      ],
+      "human_approved": false,
+      "mode": "SCHEDULED",
+      "budget_authorization": "SETTLED_RESERVATION"
+    },
+    "source_run_id": "46161111384",
+    "publication_policy": "v66-autonomous-1",
+    "human_approved": false,
+    "url": "/guias/renovacion-arraigo/prorroga-del-arraigo-sociolaboral-condiciones-y-limites"
   }
 ]
