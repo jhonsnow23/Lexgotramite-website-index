@@ -25,6 +25,10 @@ class ContentSystem(unittest.TestCase):
         for f in ('index.html','sitemap.xml','publish_state.json'):shutil.copy(ROOT/f,self.root/f)
         shutil.copytree(ROOT/'blog',self.root/'blog');(self.root/'guias').mkdir();shutil.copy(ROOT/'guias/knowledge.css',self.root/'guias/knowledge.css')
         hub.save(self.root/hub.INVENTORY,[])
+        # Empty inventory must have a matching empty guide sitemap fixture.
+        import re
+        sitemap=self.root/'sitemap.xml'
+        sitemap.write_text(re.sub(r'<url>\s*<loc>https://lexgotramite\.com/guias/[^<]*</loc>.*?</url>', '', sitemap.read_text(), flags=re.S))
         self.folder=Path(self.tmp.name)/'draft'
     def tearDown(self):self.tmp.cleanup()
     def test_exact_placement_empty_and_idempotent(self):

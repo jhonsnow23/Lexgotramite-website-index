@@ -36,7 +36,7 @@ class NarrowAnswer(unittest.TestCase):
             return response(review,payload['model'])
         with tempfile.TemporaryDirectory() as t:
             root=Path(t)
-            result=engine.run(root,proposal=F['proposal'],bootstrap=False,article_type=article_type,transport=transport,researcher_factory=Run62Research,website_root=ROOT,limits=engine.Limits(topics=1,research_rounds=1,draft_repairs=0))
+            result=engine.run(root,proposal=F['proposal'],bootstrap=False,article_type=article_type,transport=transport,researcher_factory=Run62Research,website_root=root/'empty-website',limits=engine.Limits(topics=1,research_rounds=1,draft_repairs=0))
             files={str(p.relative_to(root)):p.read_text() for p in root.rglob('*') if p.is_file()}
         self.assertFalse(result['publication_allowed']);self.assertEqual(result['articles_independently_approved'],0)
         self.assertNotIn('topic_01_no_lucrativa/article.md',files)

@@ -11,8 +11,8 @@ import renewal_intent_v50 as renewal
 F=json.loads((Path(__file__).parent/'fixtures/run61_renewal_demand_replay.json').read_text())
 ROOT=Path(__file__).resolve().parents[1]
 
-def prepare(root, data=F, fallback=True, website=ROOT):
-    p=Path(root); (p/'report.json').write_text(json.dumps(data));(p/'history.json').write_text(json.dumps(F['history']));(p/'catalog.json').write_text('{}')
+def prepare(root, data=F, fallback=True, website=None):
+    p=Path(root); website=website or (p/'empty-website'); Path(website).mkdir(parents=True,exist_ok=True); (p/'report.json').write_text(json.dumps(data));(p/'history.json').write_text(json.dumps(F['history']));(p/'catalog.json').write_text('{}')
     args=SimpleNamespace(output=str(p/'selection'),report=str(p/'report.json'),history=str(p/'history.json'),catalog=str(p/'catalog.json'),website_root=str(website),today='2026-11-26',retry_failed=False,require_history=False,allow_editorial_fallback=fallback)
     seo.select(args)
     return p/'selection'
@@ -71,7 +71,7 @@ class Run62(unittest.TestCase):
     def test_actual_evidence_candidate_from_selected_fallback(self):
         with patch.dict(os.environ,{'LEXGO_KEYWORD_PLANNER_CSV':''}),tempfile.TemporaryDirectory() as t:
             folder=prepare(t);proposal=json.loads((folder/'selected_proposal.json').read_text());output=Path(t,'article')
-            summary=engine.run(output,proposal=proposal,bootstrap=False,article_type='specific_question',transport=duration_transport,researcher_factory=ActualResearch,website_root=ROOT,limits=engine.Limits(topics=1,research_rounds=1,draft_repairs=0))
+            summary=engine.run(output,proposal=proposal,bootstrap=False,article_type='specific_question',transport=duration_transport,researcher_factory=ActualResearch,website_root=Path(t,'empty-website'),limits=engine.Limits(topics=1,research_rounds=1,draft_repairs=0))
             self.assertEqual(summary['result'],'SIMULATED_REVIEW_PASS',summary);self.assertEqual(summary['api_calls'],2);self.assertFalse(summary['publication_allowed']);self.assertEqual(summary['articles_independently_approved'],0)
             self.assertIn('dos años',(output/summary['simulated_article']).read_text())
 
